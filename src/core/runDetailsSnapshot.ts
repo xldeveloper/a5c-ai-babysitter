@@ -332,9 +332,11 @@ function discoverKeyFiles(params: { run: Run; maxRunFiles: number }): {
     params.run.paths.journalJsonl,
     params.run.paths.mainJs,
     path.join(runRoot, 'process.md'),
+    path.join(runRoot, 'artifacts', 'process.md'),
     path.join(runRoot, 'artifacts', 'process.mermaid.md'),
     path.join(runRoot, 'code', 'main.js'),
     path.join(runRoot, 'run', 'process.md'),
+    path.join(runRoot, 'run', 'artifacts', 'process.md'),
     path.join(runRoot, 'run', 'artifacts', 'process.mermaid.md'),
     path.join(runRoot, 'run', 'code', 'main.js'),
   ]
@@ -385,11 +387,40 @@ export function readRunDetailsSnapshot(params: {
     maxFiles: params.maxWorkSummaries,
   });
 
-  const prompts = listFilesSortedByMtimeDesc({
-    dir: params.run.paths.promptsDir,
-    rootForRel: params.run.paths.promptsDir,
-    maxFiles: params.maxPrompts,
-  });
+  const prompts = (() => {
+    const runRoot = params.run.paths.runRoot;
+    const candidates = [
+      params.run.paths.promptsDir,
+      path.join(runRoot, 'run', 'prompts'),
+    ];
+
+    const merged: RunFileItem[] = [];
+    const seen = new Set<string>();
+
+    for (const dir of candidates) {
+      const items = listFilesRecursiveFilesOnly({
+        dir,
+        rootForRel: runRoot,
+        maxFiles: Math.max(0, params.maxPrompts) + 1,
+      });
+      for (const item of items) {
+        if (!item || typeof item.fsPath !== 'string') continue;
+        const key = path.resolve(item.fsPath);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        merged.push(item);
+      }
+    }
+
+    merged.sort((a, b) => {
+      const aTime = a.mtimeMs ?? -1;
+      const bTime = b.mtimeMs ?? -1;
+      if (aTime !== bTime) return bTime - aTime;
+      return a.relPath.localeCompare(b.relPath);
+    });
+
+    return merged.slice(0, Math.max(0, params.maxPrompts));
+  })();
 
   const artifacts = listFilesRecursive({
     dir: params.run.paths.artifactsDir,

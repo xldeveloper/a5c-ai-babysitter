@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as vscode from 'vscode';
 
 import type { OProcessInteractionTracker } from '../core/oProcessInteraction';
@@ -6,7 +7,7 @@ import type { Run } from '../core/run';
 import type { RunChangeBatch } from '../core/runFileChanges';
 import { TextFileTailer } from '../core/textTailer';
 
-type LogSourceId = 'process' | 'journal';
+type LogSourceId = 'process' | 'journal' | 'workSummaryLatest';
 
 type WebviewInboundMessage =
   | { type: 'ready' }
@@ -417,14 +418,46 @@ function seedTextTailerFromEnd(params: {
   return `${seeded.lines.join('\n')}\n`;
 }
 
+function findLatestRegularFile(candidates: string[]): string | undefined {
+  type Candidate = { fsPath: string; mtimeMs: number };
+  const found: Candidate[] = [];
+  for (const dirPath of candidates) {
+    let dirents: fs.Dirent[];
+    try {
+      dirents = fs.readdirSync(dirPath, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+    for (const d of dirents) {
+      if (!d.isFile()) continue;
+      const fsPath = path.join(dirPath, d.name);
+      try {
+        const stat = fs.statSync(fsPath);
+        if (!stat.isFile()) continue;
+        found.push({ fsPath, mtimeMs: stat.mtimeMs });
+      } catch {
+        // ignore
+      }
+    }
+  }
+  found.sort((a, b) => {
+    if (a.mtimeMs !== b.mtimeMs) return b.mtimeMs - a.mtimeMs;
+    return a.fsPath.localeCompare(b.fsPath);
+  });
+  return found[0]?.fsPath;
+}
+
 class RunLogsPanel {
   private readonly panel: vscode.WebviewPanel;
   private readonly disposables: vscode.Disposable[] = [];
   private readonly journalTailer = new TextFileTailer();
+  private readonly workSummaryTailer = new TextFileTailer();
   private ready = false;
 
   private processText = '';
   private journalText = '';
+  private workSummaryText = '';
+  private workSummaryFsPath: string | undefined;
 
   private readonly maxChars: number;
 
@@ -484,6 +517,7 @@ class RunLogsPanel {
     const sources: Array<{ id: LogSourceId; label: string }> = [
       { id: 'process', label: 'o output' },
       { id: 'journal', label: 'journal.jsonl' },
+      { id: 'workSummaryLatest', label: 'latest work summary (tail)' },
     ];
 
     this.processText = this.deps.interactions.getOutputTailForRunId(this.run.id) ?? '';
@@ -492,12 +526,24 @@ class RunLogsPanel {
       filePath: this.run.paths.journalJsonl,
       maxBytes: 64 * 1024,
     });
+    this.workSummaryFsPath = findLatestRegularFile([
+      this.run.paths.workSummariesDir,
+      path.join(this.run.paths.runRoot, 'run', 'work_summaries'),
+    ]);
+    this.workSummaryText = this.workSummaryFsPath
+      ? seedTextTailerFromEnd({
+          tailer: this.workSummaryTailer,
+          filePath: this.workSummaryFsPath,
+          maxBytes: 64 * 1024,
+        })
+      : '';
 
     this.ready = true;
 
     await this.post({ type: 'init', runId: this.run.id, sources, activeSourceId: 'process' });
     await this.post({ type: 'set', sourceId: 'process', text: this.processText });
     await this.post({ type: 'set', sourceId: 'journal', text: this.journalText });
+    await this.post({ type: 'set', sourceId: 'workSummaryLatest', text: this.workSummaryText });
   }
 
   private async onMessage(msg: WebviewInboundMessage): Promise<void> {
@@ -525,6 +571,18 @@ class RunLogsPanel {
         } catch {
           this.journalTailer.reset();
         }
+      } else if (msg.sourceId === 'workSummaryLatest') {
+        this.workSummaryText = '';
+        if (this.workSummaryFsPath) {
+          try {
+            const stat = fs.statSync(this.workSummaryFsPath);
+            this.workSummaryTailer.seek(stat.size);
+          } catch {
+            this.workSummaryTailer.reset();
+          }
+        } else {
+          this.workSummaryTailer.reset();
+        }
       }
       await this.post({ type: 'status', text: 'Cleared.' });
       return;
@@ -536,6 +594,8 @@ class RunLogsPanel {
       this.processText = trimToMaxChars(`${this.processText}${text}`, this.maxChars);
     } else if (sourceId === 'journal') {
       this.journalText = trimToMaxChars(`${this.journalText}${text}`, this.maxChars);
+    } else if (sourceId === 'workSummaryLatest') {
+      this.workSummaryText = trimToMaxChars(`${this.workSummaryText}${text}`, this.maxChars);
     }
     void this.post({ type: 'append', sourceId, text });
   }
@@ -543,11 +603,34 @@ class RunLogsPanel {
   onRunChangeBatch(batch: RunChangeBatch): void {
     if (!batch.runIds.includes(this.run.id)) return;
     const areas = batch.areasByRunId.get(this.run.id);
-    if (!areas?.has('journal')) return;
+    if (!areas) return;
 
-    const tail = this.journalTailer.tail(this.run.paths.journalJsonl);
-    if (tail.lines.length === 0) return;
-    this.append('journal', `${tail.lines.join('\n')}\n`);
+    if (areas.has('journal')) {
+      const tail = this.journalTailer.tail(this.run.paths.journalJsonl);
+      if (tail.lines.length > 0) this.append('journal', `${tail.lines.join('\n')}\n`);
+    }
+
+    if (areas.has('workSummaries')) {
+      const latest = findLatestRegularFile([
+        this.run.paths.workSummariesDir,
+        path.join(this.run.paths.runRoot, 'run', 'work_summaries'),
+      ]);
+      if (latest && latest !== this.workSummaryFsPath) {
+        this.workSummaryFsPath = latest;
+        this.workSummaryText = seedTextTailerFromEnd({
+          tailer: this.workSummaryTailer,
+          filePath: latest,
+          maxBytes: 64 * 1024,
+        });
+        void this.post({ type: 'set', sourceId: 'workSummaryLatest', text: this.workSummaryText });
+        return;
+      }
+
+      if (this.workSummaryFsPath) {
+        const tail = this.workSummaryTailer.tail(this.workSummaryFsPath);
+        if (tail.lines.length > 0) this.append('workSummaryLatest', `${tail.lines.join('\n')}\n`);
+      }
+    }
   }
 
   reveal(): void {

@@ -1,8 +1,3 @@
-# --- a5c-ai/o install.sh managed ---
-.a5c/creds.env
-.a5c/creds.env.tmp.*
-.a5c/runs/
-# --- end a5c-ai/o install.sh managed ---
 
 # Node / VS Code extension
 node_modules/
@@ -12,3 +7,9 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# --- a5c-ai/o install.sh managed ---
+.a5c/creds.env
+.a5c/creds.env.tmp.*
+.a5c/runs/
+# --- end a5c-ai/o install.sh managed ---

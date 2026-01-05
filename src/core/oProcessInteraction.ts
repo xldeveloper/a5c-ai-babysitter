@@ -187,6 +187,16 @@ export class OProcessInteractionTracker {
     return this.processesByPid.get(pid)?.outputTail;
   }
 
+  getPidForRunId(runId: string): number | undefined {
+    return this.pidByRunId.get(runId);
+  }
+
+  getLabelForRunId(runId: string): string | undefined {
+    const pid = this.pidByRunId.get(runId);
+    if (!pid) return undefined;
+    return this.processesByPid.get(pid)?.label;
+  }
+
   private sendToPid(pid: number, data: string): { pid: number; label: string } | undefined {
     const entry = this.processesByPid.get(pid);
     if (!entry) return undefined;

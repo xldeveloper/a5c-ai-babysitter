@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as vscode from 'vscode';
 
 import type { Run } from '../core/run';
@@ -121,6 +122,84 @@ async function openStateJson(run: Run): Promise<void> {
   }
 }
 
+function getRunsArchiveRootFromRun(run: Run): string {
+  const runsRoot = path.dirname(run.paths.runRoot);
+  return path.join(path.dirname(runsRoot), 'runs_archive');
+}
+
+async function archiveRun(run: Run): Promise<void> {
+  const choice = await vscode.window.showWarningMessage(
+    `Archive run ${run.id}? It will be moved to runs_archive and hidden from the runs list.`,
+    { modal: true },
+    'Archive',
+  );
+  if (choice !== 'Archive') return;
+
+  const archiveRoot = getRunsArchiveRootFromRun(run);
+  const dest = path.join(archiveRoot, run.id);
+  try {
+    fs.mkdirSync(archiveRoot, { recursive: true });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await vscode.window.showWarningMessage(`Babysitter: could not create runs_archive (${message})`);
+    return;
+  }
+
+  if (fs.existsSync(dest)) {
+    await vscode.window.showWarningMessage(`Babysitter: archive destination already exists: ${dest}`);
+    return;
+  }
+
+  try {
+    fs.renameSync(run.paths.runRoot, dest);
+    await vscode.window.setStatusBarMessage(`Babysitter: archived ${run.id}`, 2500);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await vscode.window.showWarningMessage(`Babysitter: could not archive run (${message})`);
+  }
+}
+
+async function markRunComplete(run: Run): Promise<void> {
+  const choice = await vscode.window.showWarningMessage(
+    `Mark run ${run.id} as completed? This edits state.json.`,
+    { modal: true },
+    'Mark Completed',
+  );
+  if (choice !== 'Mark Completed') return;
+
+  let raw = '';
+  try {
+    raw = fs.readFileSync(run.paths.stateJson, 'utf8');
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await vscode.window.showWarningMessage(`Babysitter: could not read state.json (${message})`);
+    return;
+  }
+
+  let parsed: any;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await vscode.window.showWarningMessage(`Babysitter: state.json is not valid JSON (${message})`);
+    return;
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    await vscode.window.showWarningMessage('Babysitter: state.json must be a JSON object.');
+    return;
+  }
+
+  parsed.status = 'completed';
+  try {
+    fs.writeFileSync(run.paths.stateJson, `${JSON.stringify(parsed, null, 2)}\n`, 'utf8');
+    await vscode.window.setStatusBarMessage(`Babysitter: marked ${run.id} completed`, 2500);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await vscode.window.showWarningMessage(`Babysitter: could not write state.json (${message})`);
+  }
+}
+
 export function registerRunsTreeView(context: vscode.ExtensionContext): {
   setRunsRootPath: (runsRootPath: string | undefined) => void;
   refresh: () => void;
@@ -191,11 +270,35 @@ export function registerRunsTreeView(context: vscode.ExtensionContext): {
     },
   );
 
+  const archiveRunDisposable = vscode.commands.registerCommand(
+    'babysitter.archiveRun',
+    async (target?: RunTreeItemOrRun) => {
+      const fromArg = toRun(target);
+      const run = fromArg ?? (await pickRun(provider.getRunsSnapshot()));
+      if (!run) return;
+      await archiveRun(run);
+      provider.refresh();
+    },
+  );
+
+  const markCompleteDisposable = vscode.commands.registerCommand(
+    'babysitter.markRunComplete',
+    async (target?: RunTreeItemOrRun) => {
+      const fromArg = toRun(target);
+      const run = fromArg ?? (await pickRun(provider.getRunsSnapshot()));
+      if (!run) return;
+      await markRunComplete(run);
+      provider.refresh();
+    },
+  );
+
   context.subscriptions.push(
     refreshDisposable,
     openRunDetailsDisposable,
     openRunLogsDisposable,
     revealRunFolderDisposable,
+    archiveRunDisposable,
+    markCompleteDisposable,
   );
 
   return {

@@ -38,6 +38,8 @@
     "onCommand:babysitter.openRunDetails",
     "onCommand:babysitter.openRunLogs",
     "onCommand:babysitter.revealRunFolder",
+    "onCommand:babysitter.archiveRun",
+    "onCommand:babysitter.markRunComplete",
     "onCommand:babysitter.runs.refresh"
   ],
   "contributes": {
@@ -93,6 +95,14 @@
       {
         "command": "babysitter.runs.refresh",
         "title": "Babysitter: Refresh Runs"
+      },
+      {
+        "command": "babysitter.archiveRun",
+        "title": "Babysitter: Archive Run"
+      },
+      {
+        "command": "babysitter.markRunComplete",
+        "title": "Babysitter: Mark Run Completed"
       }
     ],
     "views": {
@@ -104,7 +114,7 @@
       ]
     },
     "menus": {
-      "view/item/context": [
+        "view/item/context": [
         {
           "command": "babysitter.openRunDetails",
           "when": "view == babysitter.runs && viewItem == babysitterRun",
@@ -120,12 +130,22 @@
           "when": "view == babysitter.runs && viewItem == babysitterRun",
           "group": "navigation"
         },
-        {
-          "command": "babysitter.revealRunFolder",
-          "when": "view == babysitter.runs && viewItem == babysitterRun",
-          "group": "navigation"
-        }
-      ],
+          {
+            "command": "babysitter.revealRunFolder",
+            "when": "view == babysitter.runs && viewItem == babysitterRun",
+            "group": "navigation"
+          },
+          {
+            "command": "babysitter.markRunComplete",
+            "when": "view == babysitter.runs && viewItem == babysitterRun",
+            "group": "management"
+          },
+          {
+            "command": "babysitter.archiveRun",
+            "when": "view == babysitter.runs && viewItem == babysitterRun",
+            "group": "management"
+          }
+        ],
       "view/title": [
         {
           "command": "babysitter.runs.refresh",
@@ -238,6 +258,7 @@
     "prettier": "^3.3.3"
   },
   "dependencies": {
+    "mermaid": "^10.9.1",
     "node-pty": "^1.1.0",
     "typescript": "^5.5.4"
   }

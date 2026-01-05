@@ -70,6 +70,9 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
   const interactions = new OProcessInteractionTracker();
   const interactionController: RunInteractionController = {
     getAwaitingInput: (runId) => interactions.getAwaitingInputForRunId(runId),
+    getPidForRunId: (runId) => interactions.getPidForRunId(runId),
+    getLabelForRunId: (runId) => interactions.getLabelForRunId(runId),
+    getOutputTailForRunId: (runId) => interactions.getOutputTailForRunId(runId),
     sendUserInput: (runId, text) => {
       const toRun = interactions.sendUserInputToRunId(runId, text);
       return Boolean(toRun);
@@ -86,6 +89,13 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
       new vscode.Disposable(
         interactions.onDidChange((change) => {
           if (change.runId) handler(change.runId);
+        }),
+      ),
+    onDidOutput: (handler) =>
+      new vscode.Disposable(
+        interactions.onDidOutput((evt) => {
+          if (!evt.runId) return;
+          handler({ runId: evt.runId, chunk: evt.chunk });
         }),
       ),
   };
