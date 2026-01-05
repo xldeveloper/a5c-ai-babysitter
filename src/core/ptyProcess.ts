@@ -26,6 +26,11 @@ export type SpawnPtyOptions = {
   cols?: number;
   rows?: number;
   name?: string;
+  /**
+   * Windows only: optional path to a Bash executable (e.g. Git Bash `bash.exe`) used
+   * when wrapping bash-shebang scripts (like the `o` bash script).
+   */
+  windowsBashPath?: string;
 };
 
 function isWindowsCmdScript(filePath: string, platform: NodeJS.Platform): boolean {
@@ -57,6 +62,7 @@ export function wrapCommandForPlatform(params: {
   filePath: string;
   args: string[];
   platform: NodeJS.Platform;
+  windowsBashPath?: string;
 }): { filePath: string; args: string[] } {
   // On Windows, users may point Babysitter at the `o` bash script (e.g. from the `o` repo),
   // which cannot be executed directly via CreateProcess. Wrap it with `bash` when detected.
@@ -68,7 +74,12 @@ export function wrapCommandForPlatform(params: {
     if (!isKnownExecutable && !isKnownCmd && fs.existsSync(params.filePath)) {
       const shebang = readShebang(params.filePath);
       if (shebang && /\bbash\b/i.test(shebang)) {
-        return { filePath: 'bash', args: [params.filePath, ...params.args] };
+        const configuredBash = params.windowsBashPath?.trim();
+        const bashPath =
+          configuredBash && fs.existsSync(configuredBash) ? configuredBash : 'bash';
+        // Prefer forward slashes so MSYS bash treats it as a Windows path.
+        const scriptPathForBash = params.filePath.replace(/\\/g, '/');
+        return { filePath: bashPath, args: [scriptPathForBash, ...params.args] };
       }
     }
   }
@@ -88,21 +99,27 @@ function spawnStdioProcess(filePath: string, args: string[], options: SpawnPtyOp
   const dataHandlers = new Set<(data: string) => void>();
   const exitHandlers = new Set<(event: PtyExitEvent) => void>();
 
-  child.stdout.setEncoding('utf8');
-  child.stderr.setEncoding('utf8');
+  child.stdout?.setEncoding('utf8');
+  child.stderr?.setEncoding('utf8');
   const stdoutListener = (chunk: string): void => {
     for (const handler of dataHandlers) handler(chunk);
   };
   const stderrListener = (chunk: string): void => {
     for (const handler of dataHandlers) handler(chunk);
   };
-  child.stdout.on('data', stdoutListener);
-  child.stderr.on('data', stderrListener);
+  child.stdout?.on('data', stdoutListener);
+  child.stderr?.on('data', stderrListener);
 
   const exitListener = (code: number | null, signal: NodeJS.Signals | null): void => {
     for (const handler of exitHandlers) handler({ exitCode: code ?? 0, signal: signal ? 1 : 0 });
   };
   child.on('exit', exitListener);
+  const errorListener = (err: unknown): void => {
+    const message = err instanceof Error ? err.message : String(err);
+    for (const handler of dataHandlers) handler(`${message}\n`);
+    for (const handler of exitHandlers) handler({ exitCode: 1, signal: 0 });
+  };
+  child.on('error', errorListener);
 
   let disposed = false;
   const detach = (): void => {
@@ -110,9 +127,10 @@ function spawnStdioProcess(filePath: string, args: string[], options: SpawnPtyOp
     disposed = true;
     dataHandlers.clear();
     exitHandlers.clear();
-    child.stdout.off('data', stdoutListener);
-    child.stderr.off('data', stderrListener);
+    child.stdout?.off('data', stdoutListener);
+    child.stderr?.off('data', stderrListener);
     child.off('exit', exitListener);
+    child.off('error', errorListener);
   };
 
   return {
@@ -147,12 +165,115 @@ function spawnStdioProcess(filePath: string, args: string[], options: SpawnPtyOp
   };
 }
 
+function spawnStdioDirectProcess(
+  filePath: string,
+  args: string[],
+  options: SpawnPtyOptions,
+): PtyProcess {
+  const child = spawn(filePath, args, {
+    cwd: options.cwd,
+    env: { ...process.env, ...(options.env ?? {}) },
+    shell: false,
+    stdio: ['pipe', 'pipe', 'pipe'],
+  });
+
+  const dataHandlers = new Set<(data: string) => void>();
+  const exitHandlers = new Set<(event: PtyExitEvent) => void>();
+
+  child.stdout?.setEncoding('utf8');
+  child.stderr?.setEncoding('utf8');
+  const stdoutListener = (chunk: string): void => {
+    for (const handler of dataHandlers) handler(chunk);
+  };
+  const stderrListener = (chunk: string): void => {
+    for (const handler of dataHandlers) handler(chunk);
+  };
+  child.stdout?.on('data', stdoutListener);
+  child.stderr?.on('data', stderrListener);
+
+  const exitListener = (code: number | null, signal: NodeJS.Signals | null): void => {
+    for (const handler of exitHandlers) handler({ exitCode: code ?? 0, signal: signal ? 1 : 0 });
+  };
+  child.on('exit', exitListener);
+
+  const errorListener = (err: unknown): void => {
+    const message = err instanceof Error ? err.message : String(err);
+    for (const handler of dataHandlers) handler(`${message}\n`);
+    for (const handler of exitHandlers) handler({ exitCode: 1, signal: 0 });
+  };
+  child.on('error', errorListener);
+
+  let disposed = false;
+  const detach = (): void => {
+    if (disposed) return;
+    disposed = true;
+    dataHandlers.clear();
+    exitHandlers.clear();
+    child.stdout?.off('data', stdoutListener);
+    child.stderr?.off('data', stderrListener);
+    child.off('exit', exitListener);
+    child.off('error', errorListener);
+  };
+
+  return {
+    pid: child.pid ?? -1,
+    write: (data: string) => {
+      if (disposed) return;
+      child.stdin.write(data);
+    },
+    onData: (handler) => {
+      if (disposed) return () => undefined;
+      dataHandlers.add(handler);
+      return () => dataHandlers.delete(handler);
+    },
+    onExit: (handler) => {
+      if (disposed) return () => undefined;
+      exitHandlers.add(handler);
+      return () => exitHandlers.delete(handler);
+    },
+    kill: () => {
+      if (disposed) return;
+      child.kill();
+    },
+    detach,
+    dispose: () => {
+      detach();
+      try {
+        child.kill();
+      } catch {
+        // ignore
+      }
+    },
+  };
+}
+
+function isPermissionError(err: unknown): boolean {
+  const anyErr = err as { code?: unknown; message?: unknown };
+  const code = typeof anyErr?.code === 'string' ? anyErr.code : undefined;
+  if (code === 'EACCES' || code === 'EPERM') return true;
+  const message = typeof anyErr?.message === 'string' ? anyErr.message : String(err);
+  return /\b(EACCES|EPERM)\b/i.test(message) || /permission denied/i.test(message);
+}
+
+function chmodExecutableSync(filePath: string): void {
+  try {
+    fs.chmodSync(filePath, 0o755);
+  } catch {
+    // ignore
+  }
+}
+
 export function spawnPtyProcess(
   filePath: string,
   args: string[],
   options: SpawnPtyOptions,
 ): PtyProcess {
-  const wrapped = wrapCommandForPlatform({ filePath, args, platform: process.platform });
+  const wrapped = wrapCommandForPlatform({
+    filePath,
+    args,
+    platform: process.platform,
+    ...(options.windowsBashPath ? { windowsBashPath: options.windowsBashPath } : {}),
+  });
   filePath = wrapped.filePath;
   args = wrapped.args;
 
@@ -160,13 +281,34 @@ export function spawnPtyProcess(
     return spawnStdioProcess(filePath, args, options);
   }
 
-  const ptyProcess = pty.spawn(filePath, args, {
-    cwd: options.cwd,
-    env: { ...process.env, ...(options.env ?? {}) },
-    cols: options.cols ?? 120,
-    rows: options.rows ?? 30,
-    name: options.name ?? 'xterm-256color',
-  });
+  const spawnWithPty = (): ReturnType<typeof pty.spawn> =>
+    pty.spawn(filePath, args, {
+      cwd: options.cwd,
+      env: { ...process.env, ...(options.env ?? {}) },
+      cols: options.cols ?? 120,
+      rows: options.rows ?? 30,
+      name: options.name ?? 'xterm-256color',
+    });
+
+  let ptyProcess: ReturnType<typeof pty.spawn> | undefined;
+  try {
+    ptyProcess = spawnWithPty();
+  } catch (err) {
+    // macOS/Linux: if `o` exists but isn't executable, try `chmod +x` once and retry.
+    if (process.platform !== 'win32' && isPermissionError(err) && fs.existsSync(filePath)) {
+      chmodExecutableSync(filePath);
+      try {
+        ptyProcess = spawnWithPty();
+      } catch {
+        // fall through to stdio fallback
+      }
+    }
+
+    if (!ptyProcess) {
+      // Fallback: node-pty can fail for certain binaries (notably Git Bash/MSYS) and environments.
+      return spawnStdioDirectProcess(filePath, args, options);
+    }
+  }
 
   const dataHandlers = new Set<(data: string) => void>();
   const exitHandlers = new Set<(event: PtyExitEvent) => void>();

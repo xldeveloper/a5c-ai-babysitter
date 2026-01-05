@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import type { PtyProcess } from './ptyProcess';
 import { spawnPtyProcess } from './ptyProcess';
+import { windowsPathToWslPath } from './oInstaller';
 
 export type DispatchNewRunOptions = {
   oBinaryPath: string;
@@ -10,6 +11,16 @@ export type DispatchNewRunOptions = {
   runsRootPath: string;
   prompt: string;
   env?: NodeJS.ProcessEnv;
+  /**
+   * Windows only: optional path to a Bash executable (e.g. Git Bash `bash.exe`).
+   * Used when the configured `o` is a bash script and needs to be wrapped.
+   */
+  windowsBashPath?: string;
+  /**
+   * Windows only: optionally force dispatch via WSL (`wsl.exe`) for bash-script `o`.
+   * This avoids common Git Bash + node-pty spawn/pspawn issues.
+   */
+  windowsRuntime?: 'wsl';
   /**
    * Called immediately after spawning the interactive `o` process.
    * The returned handle can be used to send ESC/ENTER via stdin (PTY).
@@ -36,6 +47,8 @@ export type ResumeExistingRunOptions = {
   runId: string;
   prompt: string;
   env?: NodeJS.ProcessEnv;
+  windowsBashPath?: string;
+  windowsRuntime?: 'wsl';
   /**
    * Called immediately after spawning the interactive `o` process.
    * The returned handle can be used to send ESC/ENTER via stdin (PTY).
@@ -143,6 +156,51 @@ function parseResumedRunInfo(params: {
   return { runId: params.runId, runRootPath: runRootFromOutput ?? fallback };
 }
 
+function shSingleQuote(value: string): string {
+  return `'${value.replace(/'/g, `'"'"'`)}'`;
+}
+
+function isLikelyWindowsNativeBinary(filePath: string): boolean {
+  const ext = path.extname(filePath).toLowerCase();
+  return ext === '.exe' || ext === '.com' || ext === '.cmd' || ext === '.bat';
+}
+
+function buildWindowsWslInvocation(params: {
+  workspaceRoot: string;
+  oBinaryPath: string;
+  args: string[];
+}): { filePath: string; args: string[] } {
+  const bashScript = [
+    'set -euo pipefail',
+    `cd ${shSingleQuote(params.workspaceRoot)}`,
+    `${shSingleQuote(params.oBinaryPath)} ${params.args.map(shSingleQuote).join(' ')}`,
+  ].join('; ');
+  return { filePath: 'wsl.exe', args: ['-e', 'bash', '-lc', bashScript] };
+}
+
+function buildInvocationHelp(output: string): string | undefined {
+  const text = output.toLowerCase();
+  if (text.includes('bad interpreter') || text.includes('^m')) {
+    return (
+      'Likely cause: your `o` script has CRLF line endings (bad shebang). ' +
+      'Fix by reinstalling via "Babysitter: Install/Update `o` in Workspace" or converting the file to LF.'
+    );
+  }
+  if (text.includes('permission denied') || text.includes('eacces') || text.includes('eperm')) {
+    return (
+      'Likely cause: `o` is not executable. ' +
+      'Fix by reinstalling via "Babysitter: Install/Update `o` in Workspace" or running `chmod +x o`.'
+    );
+  }
+  if (text.includes('bash: command not found') || text.includes('env: bash')) {
+    return (
+      'Likely cause: `bash` is not available. ' +
+      'On Windows install WSL2 (recommended) or Git Bash; on macOS/Linux install bash.'
+    );
+  }
+  return undefined;
+}
+
 export async function dispatchNewRunViaO(
   options: DispatchNewRunOptions,
 ): Promise<DispatchNewRunResult> {
@@ -151,16 +209,35 @@ export async function dispatchNewRunViaO(
 
   let child: PtyProcess;
   try {
-    child = spawnPtyProcess(options.oBinaryPath, [options.prompt], {
-      cwd: options.workspaceRoot,
-      ...(options.env ? { env: options.env } : {}),
-    });
+    if (
+      process.platform === 'win32' &&
+      options.windowsRuntime === 'wsl' &&
+      !isLikelyWindowsNativeBinary(options.oBinaryPath)
+    ) {
+      const wslWorkspaceRoot = await windowsPathToWslPath(options.workspaceRoot);
+      const wslOBinaryPath = await windowsPathToWslPath(options.oBinaryPath);
+      const invocation = buildWindowsWslInvocation({
+        workspaceRoot: wslWorkspaceRoot,
+        oBinaryPath: wslOBinaryPath,
+        args: [options.prompt],
+      });
+      child = spawnPtyProcess(invocation.filePath, invocation.args, {
+        cwd: options.workspaceRoot,
+        ...(options.env ? { env: options.env } : {}),
+      });
+    } else {
+      child = spawnPtyProcess(options.oBinaryPath, [options.prompt], {
+        cwd: options.workspaceRoot,
+        ...(options.env ? { env: options.env } : {}),
+        ...(options.windowsBashPath ? { windowsBashPath: options.windowsBashPath } : {}),
+      });
+    }
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     if (process.platform === 'win32' && /error code:\s*193\b/i.test(message)) {
       throw new Error(
         `Failed to start \`o\` (${message}). The configured path (${options.oBinaryPath}) is not a Windows executable. ` +
-          `If you're pointing at the bash script from the \`o\` repo, install Git Bash and set Babysitter to use it, or point Babysitter at \`o.exe\`/an \`o.cmd\` wrapper.`,
+          `If you're pointing at the bash script from the \`o\` repo, prefer WSL2 (recommended) or install Git Bash and configure Babysitter to use it, or point Babysitter at \`o.exe\`/an \`o.cmd\` wrapper.`,
       );
     }
     throw err;
@@ -225,7 +302,11 @@ export async function dispatchNewRunViaO(
       `stdout=${stdout.trim() ? '(captured)' : '(empty)'}`,
       `stderr=${stderr.trim() ? '(captured)' : '(empty)'}`,
     ].join(', ');
-    const err = new Error(`\`o\` exited before a run id/path could be parsed (${details}).`);
+    const hint = buildInvocationHelp(`${stdout}\n${stderr}`) ?? '';
+    const err = new Error(
+      `\`o\` exited before a run id/path could be parsed (${details}).` +
+        (hint ? ` ${hint}` : ''),
+    );
     (err as { stdout?: string; stderr?: string }).stdout = stdout;
     (err as { stdout?: string; stderr?: string }).stderr = stderr;
     settled = true;

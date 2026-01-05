@@ -95,7 +95,7 @@ export function firstExistingPath(candidates: string[]): string | undefined {
   return undefined;
 }
 
-async function windowsPathToWslPath(windowsPath: string): Promise<string> {
+export async function windowsPathToWslPath(windowsPath: string): Promise<string> {
   const res = await spawnCollect('wsl.exe', ['-e', 'wslpath', '-a', '-u', windowsPath], {});
   if (res.exitCode !== 0) {
     const detail = (res.stderr || res.stdout).trim();

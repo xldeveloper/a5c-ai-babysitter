@@ -281,6 +281,40 @@ function renderWebviewHtml(webview: vscode.Webview): string {
       white-space: nowrap;
       border: 0;
     }
+    .md {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      background: var(--vscode-editor-background);
+      color: var(--vscode-foreground);
+      font-size: 12px;
+      line-height: 1.5;
+      max-height: 320px;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+    .md h1, .md h2, .md h3, .md h4, .md h5, .md h6 {
+      margin: 10px 0 6px;
+      font-weight: 600;
+    }
+    .md h1 { font-size: 15px; }
+    .md h2 { font-size: 14px; }
+    .md h3 { font-size: 13px; }
+    .md pre {
+      background: var(--vscode-textBlockQuote-background);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px;
+      overflow: auto;
+      margin: 8px 0;
+    }
+    .md code {
+      font-family: var(--vscode-editor-font-family);
+      font-size: 12px;
+    }
+    .md .md-li { margin: 2px 0; }
+    .md .md-blank { height: 8px; }
+    .md .md-p { margin: 2px 0; }
     textarea {
       width: 100%;
       box-sizing: border-box;
@@ -425,6 +459,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
               <button id="textPreviewClose">Close</button>
             </div>
           </div>
+          <div id="workPreviewHtml" class="md" style="display:none;"></div>
           <pre id="workPreview"></pre>
         </div>
         <div id="workEmpty" class="empty" style="margin-top: 10px;">No work summaries found.</div>
@@ -462,26 +497,44 @@ function renderWebviewHtml(webview: vscode.Webview): string {
     </section>
 
     <div class="grid2">
-      <section class="card">
-        <h2>
-          Prompts
-          <span class="pill" id="promptPill"></span>
-        </h2>
-        <div class="list" id="promptList"></div>
-        <div id="promptEmpty" class="empty">No prompts found.</div>
+      <section class="card" id="processCard">
+        <h2>Process</h2>
+
+        <div class="actions" style="justify-content: flex-start; margin-bottom: 8px; gap: 8px; flex-wrap: wrap;">
+          <span class="pill" id="processMdPill">process.md</span>
+          <button id="processMdOpen" style="display:none;">Open</button>
+        </div>
+        <div id="processMdPreview" class="md">No process.md found.</div>
+
+        <div class="actions" style="justify-content: flex-start; margin-top: 12px; margin-bottom: 8px; gap: 8px; flex-wrap: wrap;">
+          <span class="pill" id="processMermaidPill">process.mermaid.md</span>
+          <button id="processMermaidOpen" style="display:none;">Open</button>
+        </div>
+        <div id="processMermaidPreview" class="md">No process.mermaid.md found.</div>
       </section>
-      <section class="card">
+
+      <section class="card" id="mainJsCard">
         <h2>
           code/main.js
           <span class="pill" id="mainJsPill"></span>
         </h2>
-        <div class="empty" id="mainJsHint" style="margin-bottom: 10px;">Shows the run's process file when present.</div>
+        <div class="empty" id="mainJsHint" style="margin-bottom: 10px;"></div>
         <div class="actions" id="mainJsActions" style="display:none; justify-content: flex-start;">
-          <button id="mainJsPreview">Preview</button>
           <button id="mainJsOpen">Open</button>
+          <button id="mainJsSaveAs">Save as...</button>
         </div>
+        <pre id="mainJsPreviewPre" style="max-height: 320px; overflow: auto; margin: 0;"></pre>
       </section>
     </div>
+
+    <section class="card">
+      <h2>
+        Prompts
+        <span class="pill" id="promptPill"></span>
+      </h2>
+      <div class="list" id="promptList"></div>
+      <div id="promptEmpty" class="empty">No prompts found.</div>
+    </section>
 
     <section class="card">
       <h2>
@@ -513,16 +566,24 @@ function renderWebviewHtml(webview: vscode.Webview): string {
     const textPreviewCopy = el('textPreviewCopy');
     const textPreviewClose = el('textPreviewClose');
     const workPreview = el('workPreview');
+    const workPreviewHtml = el('workPreviewHtml');
     const workEmpty = el('workEmpty');
     const workPill = el('workPill');
     const promptList = el('promptList');
     const promptEmpty = el('promptEmpty');
     const promptPill = el('promptPill');
+    const processMdPill = el('processMdPill');
+    const processMdOpen = el('processMdOpen');
+    const processMdPreview = el('processMdPreview');
+    const processMermaidPill = el('processMermaidPill');
+    const processMermaidOpen = el('processMermaidOpen');
+    const processMermaidPreview = el('processMermaidPreview');
     const mainJsPill = el('mainJsPill');
     const mainJsHint = el('mainJsHint');
     const mainJsActions = el('mainJsActions');
-    const mainJsPreview = el('mainJsPreview');
     const mainJsOpen = el('mainJsOpen');
+    const mainJsSaveAs = el('mainJsSaveAs');
+    const mainJsPreviewPre = el('mainJsPreviewPre');
     const artifactsList = el('artifactsList');
     const artifactsEmpty = el('artifactsEmpty');
     const artifactsPill = el('artifactsPill');
@@ -561,6 +622,11 @@ function renderWebviewHtml(webview: vscode.Webview): string {
 	    let activeWorkPreviewTruncated = false;
 	    let activeWorkPreviewError = '';
       let activeWorkPreviewAutoScroll = false;
+      let activeWorkPreviewMode = 'plain'; // 'plain' | 'markdown' | 'code'
+      const textFileCache = new Map(); // fsPath -> { content?: string, truncated?: boolean, size?: number, mtimeMs?: number, error?: string }
+      let processMdTarget = null;
+      let processMermaidTarget = null;
+      let mainJsTarget = null;
       let keyFilesFilterValue = '';
 	      let pinnedIdsByRunId = {};
 	      let keyFilesRenderHandle = 0;
@@ -1136,6 +1202,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
 	          activeWorkPreviewTruncated = false;
 	          activeWorkPreviewError = '';
             activeWorkPreviewAutoScroll = true;
+            activeWorkPreviewMode = 'plain';
 	          renderActiveWorkPreview();
 	          vscode.postMessage({ type: 'loadTextFile', fsPath: item.fsPath, tail: true });
 	        });
@@ -1192,6 +1259,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
           activeWorkPreviewTruncated = false;
           activeWorkPreviewError = '';
           activeWorkPreviewAutoScroll = false;
+          activeWorkPreviewMode = 'plain';
           renderActiveWorkPreview();
           vscode.postMessage({ type: 'loadTextFile', fsPath: item.fsPath, tail: false });
         });
@@ -1227,6 +1295,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
         activeWorkPreviewTruncated = false;
         activeWorkPreviewError = '';
         activeWorkPreviewAutoScroll = false;
+        activeWorkPreviewMode = 'code';
         renderActiveWorkPreview();
         vscode.postMessage({ type: 'loadTextFile', fsPath: item.fsPath, tail: false });
       };
@@ -1265,6 +1334,25 @@ function renderWebviewHtml(webview: vscode.Webview): string {
         const actions = document.createElement('div');
         actions.className = 'actions';
 
+        const isMarkdown =
+          !item.isDirectory && typeof item.relPath === 'string' && item.relPath.toLowerCase().endsWith('.md');
+        if (isMarkdown) {
+          const previewBtn = document.createElement('button');
+          previewBtn.textContent = 'Preview';
+          previewBtn.title = 'Preview Markdown';
+          previewBtn.addEventListener('click', () => {
+            activeWorkPreviewFsPath = item.fsPath;
+            activeWorkPreviewContent = '';
+            activeWorkPreviewTruncated = false;
+            activeWorkPreviewError = '';
+            activeWorkPreviewAutoScroll = false;
+            activeWorkPreviewMode = 'markdown';
+            renderActiveWorkPreview();
+            vscode.postMessage({ type: 'loadTextFile', fsPath: item.fsPath, tail: false });
+          });
+          actions.appendChild(previewBtn);
+        }
+
         const revealBtn = document.createElement('button');
         revealBtn.textContent = 'Reveal';
         revealBtn.addEventListener('click', () => vscode.postMessage({ type: 'revealInExplorer', fsPath: item.fsPath }));
@@ -1301,10 +1389,66 @@ function renderWebviewHtml(webview: vscode.Webview): string {
 	      renderActiveWorkPreview();
 	    }
 
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function renderMarkdownToHtml(markdown) {
+        const lines = String(markdown || '').split(/\\r?\\n/);
+        let out = '';
+        let inCode = false;
+        let codeLang = '';
+        for (const rawLine of lines) {
+          const line = String(rawLine);
+          const fence = line.match(/^```\\s*([a-zA-Z0-9_-]+)?\\s*$/);
+          if (fence) {
+            if (!inCode) {
+              inCode = true;
+              codeLang = fence[1] || '';
+              out += `<pre><code class=\"lang-${escapeHtml(codeLang)}\">`;
+            } else {
+              inCode = false;
+              codeLang = '';
+              out += `</code></pre>`;
+            }
+            continue;
+          }
+          if (inCode) {
+            out += escapeHtml(line) + '\\n';
+            continue;
+          }
+          const heading = line.match(/^(#{1,6})\\s+(.*)$/);
+          if (heading) {
+            const level = heading[1].length;
+            out += `<h${level}>${escapeHtml(heading[2])}</h${level}>`;
+            continue;
+          }
+          const list = line.match(/^\\s*[-*]\\s+(.*)$/);
+          if (list) {
+            out += `<div class=\"md-li\">• ${escapeHtml(list[1])}</div>`;
+            continue;
+          }
+          if (!line.trim()) {
+            out += `<div class=\"md-blank\"></div>`;
+            continue;
+          }
+          out += `<div class=\"md-p\">${escapeHtml(line)}</div>`;
+        }
+        if (inCode) out += `</code></pre>`;
+        return out;
+      }
+
 	    function renderActiveWorkPreview() {
 	      if (!activeWorkPreviewFsPath) {
           textPreviewCard.style.display = 'none';
 	        workPreview.textContent = '';
+          workPreviewHtml.innerHTML = '';
+          workPreviewHtml.style.display = 'none';
 	        return;
 	      }
 
@@ -1314,6 +1458,9 @@ function renderWebviewHtml(webview: vscode.Webview): string {
 
 	      if (activeWorkPreviewError) {
 	        workPreview.textContent = 'Error loading work summary preview: ' + activeWorkPreviewError;
+          workPreview.style.display = '';
+          workPreviewHtml.innerHTML = '';
+          workPreviewHtml.style.display = 'none';
 	        workPreview.scrollTop = 0;
 	        return;
 	      }
@@ -1324,6 +1471,9 @@ function renderWebviewHtml(webview: vscode.Webview): string {
 	        } else {
 	          workPreview.textContent = 'No work summary output yet.';
 	        }
+          workPreview.style.display = '';
+          workPreviewHtml.innerHTML = '';
+          workPreviewHtml.style.display = 'none';
 	        workPreview.scrollTop = 0;
 	        return;
 	      }
@@ -1333,9 +1483,19 @@ function renderWebviewHtml(webview: vscode.Webview): string {
 	        latestRunStatus && latestRunStatus !== 'running' && latestRunStatus !== 'paused'
 	          ? '\\n\\n(Run finished)'
 	          : '';
-	      workPreview.textContent = activeWorkPreviewContent + suffixTruncated + suffixDone;
-        if (activeWorkPreviewAutoScroll) workPreview.scrollTop = workPreview.scrollHeight;
-        else workPreview.scrollTop = 0;
+        if (activeWorkPreviewMode === 'markdown') {
+          workPreview.style.display = 'none';
+          workPreviewHtml.style.display = '';
+          workPreviewHtml.innerHTML = renderMarkdownToHtml(activeWorkPreviewContent);
+          workPreviewHtml.scrollTop = 0;
+        } else {
+          workPreview.style.display = '';
+          workPreviewHtml.innerHTML = '';
+          workPreviewHtml.style.display = 'none';
+          workPreview.textContent = activeWorkPreviewContent + suffixTruncated + suffixDone;
+          if (activeWorkPreviewAutoScroll) workPreview.scrollTop = workPreview.scrollHeight;
+          else workPreview.scrollTop = 0;
+        }
 	    }
 
       function pathBasename(fsPath) {
