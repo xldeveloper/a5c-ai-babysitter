@@ -14,7 +14,8 @@ function isRunTreeItem(value: unknown): value is RunTreeItem {
 function toRun(value: unknown): Run | undefined {
   if (!value) return undefined;
   if (isRunTreeItem(value)) return value.run;
-  if (typeof value === 'object' && value !== null && 'id' in value && 'paths' in value) return value as Run;
+  if (typeof value === 'object' && value !== null && 'id' in value && 'paths' in value)
+    return value as Run;
   return undefined;
 }
 
@@ -125,6 +126,7 @@ export function registerRunsTreeView(context: vscode.ExtensionContext): {
   refresh: () => void;
   getRunsSnapshot: () => Run[];
   setOpenRunDetailsHandler: (handler: ((run: Run) => Promise<void>) | undefined) => void;
+  setOpenRunLogsHandler: (handler: ((run: Run) => Promise<void>) | undefined) => void;
 } {
   const provider = new RunsTreeDataProvider();
   context.subscriptions.push(vscode.window.registerTreeDataProvider('babysitter.runs', provider));
@@ -136,6 +138,18 @@ export function registerRunsTreeView(context: vscode.ExtensionContext): {
   const defaultOpenRunDetails = async (run: Run): Promise<void> => openStateJson(run);
   let openRunDetailsHandler: (run: Run) => Promise<void> = defaultOpenRunDetails;
 
+  const defaultOpenRunLogs = async (run: Run): Promise<void> => {
+    const uri = vscode.Uri.file(run.paths.journalJsonl);
+    try {
+      await vscode.window.showTextDocument(uri, { preview: true });
+    } catch {
+      await vscode.window.showWarningMessage(
+        `Babysitter: could not open ${run.paths.journalJsonl}`,
+      );
+    }
+  };
+  let openRunLogsHandler: (run: Run) => Promise<void> = defaultOpenRunLogs;
+
   const openRunDetailsDisposable = vscode.commands.registerCommand(
     'babysitter.openRunDetails',
     async (target?: RunTreeItemOrRun) => {
@@ -143,6 +157,16 @@ export function registerRunsTreeView(context: vscode.ExtensionContext): {
       const run = fromArg ?? (await pickRun(provider.getRunsSnapshot()));
       if (!run) return;
       await openRunDetailsHandler(run);
+    },
+  );
+
+  const openRunLogsDisposable = vscode.commands.registerCommand(
+    'babysitter.openRunLogs',
+    async (target?: RunTreeItemOrRun) => {
+      const fromArg = toRun(target);
+      const run = fromArg ?? (await pickRun(provider.getRunsSnapshot()));
+      if (!run) return;
+      await openRunLogsHandler(run);
     },
   );
 
@@ -156,7 +180,12 @@ export function registerRunsTreeView(context: vscode.ExtensionContext): {
     },
   );
 
-  context.subscriptions.push(refreshDisposable, openRunDetailsDisposable, revealRunFolderDisposable);
+  context.subscriptions.push(
+    refreshDisposable,
+    openRunDetailsDisposable,
+    openRunLogsDisposable,
+    revealRunFolderDisposable,
+  );
 
   return {
     setRunsRootPath: (runsRootPath: string | undefined) => provider.setRunsRootPath(runsRootPath),
@@ -164,6 +193,9 @@ export function registerRunsTreeView(context: vscode.ExtensionContext): {
     getRunsSnapshot: () => provider.getRunsSnapshot(),
     setOpenRunDetailsHandler: (handler) => {
       openRunDetailsHandler = handler ?? defaultOpenRunDetails;
+    },
+    setOpenRunLogsHandler: (handler) => {
+      openRunLogsHandler = handler ?? defaultOpenRunLogs;
     },
   };
 }

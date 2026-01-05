@@ -35,4 +35,3 @@ export function runStatusThemeIconId(status: RunStatus): string {
       return 'question';
   }
 }
-

@@ -17,20 +17,20 @@ function createOBinaryShim(tempDir: string, argsOutputPath: string): string {
       "const path = require('path');",
       '',
       `const argsOutputPath = ${JSON.stringify(argsOutputPath)};`,
-      "const argv = process.argv.slice(2);",
-      "const runId = argv[0];",
+      'const argv = process.argv.slice(2);',
+      'const runId = argv[0];',
       "const promptArg = argv.slice(1).join(' ');",
-      "fs.writeFileSync(argsOutputPath, JSON.stringify({ argv, runId, promptArg }, null, 2));",
+      'fs.writeFileSync(argsOutputPath, JSON.stringify({ argv, runId, promptArg }, null, 2));',
       '',
       "const runsRoot = path.join(process.cwd(), '.a5c', 'runs');",
       'const runRoot = path.join(runsRoot, runId);',
-      "fs.mkdirSync(runRoot, { recursive: true });",
+      'fs.mkdirSync(runRoot, { recursive: true });',
       '',
       "fs.writeFileSync(path.join(runRoot, 'state.json'), JSON.stringify({ runId, status: 'running' }, null, 2));",
       "fs.appendFileSync(path.join(runRoot, 'journal.jsonl'), JSON.stringify({ type: 'resume', ts: Date.now() }) + '\\n');",
       '',
-      "console.error(`resumed run ${runId}`);",
-      "console.log(`runRoot=${runRoot}`);",
+      'console.error(`resumed run ${runId}`);',
+      'console.log(`runRoot=${runRoot}`);',
       'process.exit(0);',
       '',
     ].join('\n'),
@@ -39,12 +39,12 @@ function createOBinaryShim(tempDir: string, argsOutputPath: string): string {
 
   if (process.platform === 'win32') {
     const shimCmdPath = path.join(tempDir, 'o.cmd');
-    fs.writeFileSync(shimCmdPath, `@echo off\r\nnode \"${shimScriptPath}\" %*\r\n`, 'utf8');
+    fs.writeFileSync(shimCmdPath, `@echo off\r\nnode "${shimScriptPath}" %*\r\n`, 'utf8');
     return shimCmdPath;
   }
 
   const shimShPath = path.join(tempDir, 'o');
-  fs.writeFileSync(shimShPath, `#!/usr/bin/env bash\nnode '${shimScriptPath}' \"$@\"\n`, 'utf8');
+  fs.writeFileSync(shimShPath, `#!/usr/bin/env bash\nnode '${shimScriptPath}' "$@"\n`, 'utf8');
   fs.chmodSync(shimShPath, 0o755);
   return shimShPath;
 }
@@ -68,12 +68,12 @@ suite('Resume', () => {
 
     const runId = 'run-20990101-000000';
     const prompt = 'resume integration test prompt';
-    const result = (await vscode.commands.executeCommand('babysitter.resumeRun', { runId, prompt })) as {
+    const result = await vscode.commands.executeCommand<{
       runId: string;
       runRootPath: string;
       stdout: string;
       stderr: string;
-    };
+    }>('babysitter.resumeRun', { runId, prompt });
 
     assert.strictEqual(result.runId, runId);
     assert.ok(result.runRootPath.includes(runId));

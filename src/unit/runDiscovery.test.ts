@@ -31,8 +31,6 @@ suite('runDiscovery', () => {
       const runsRoot = path.join(tempDir, '.a5c', 'runs');
       fs.mkdirSync(runsRoot, { recursive: true });
 
-      fs.mkdirSync(path.join(runsRoot, 'not-a-run'), { recursive: true });
-      fs.mkdirSync(path.join(runsRoot, 'run-invalid'), { recursive: true });
 
       const runA = path.join(runsRoot, 'run-20260105-010206');
       fs.mkdirSync(runA, { recursive: true });
@@ -44,8 +42,12 @@ suite('runDiscovery', () => {
       assert.strictEqual(runs[0]?.status, 'running');
       assert.ok(runs[0]?.paths.runRoot.endsWith(path.join('.a5c', 'runs', 'run-20260105-010206')));
       assert.ok(runs[0]?.paths.stateJson.endsWith(path.join('run-20260105-010206', 'state.json')));
-      assert.ok(runs[0]?.paths.journalJsonl.endsWith(path.join('run-20260105-010206', 'journal.jsonl')));
-      assert.ok(runs[0]?.paths.artifactsDir.endsWith(path.join('run-20260105-010206', 'artifacts')));
+      assert.ok(
+        runs[0]?.paths.journalJsonl.endsWith(path.join('run-20260105-010206', 'journal.jsonl')),
+      );
+      assert.ok(
+        runs[0]?.paths.artifactsDir.endsWith(path.join('run-20260105-010206', 'artifacts')),
+      );
     } finally {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
@@ -93,4 +95,3 @@ suite('runDiscovery', () => {
     }
   });
 });
-

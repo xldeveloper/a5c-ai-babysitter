@@ -3,7 +3,6 @@ import * as path from 'path';
 
 import type { PtyProcess } from './ptyProcess';
 import { spawnPtyProcess } from './ptyProcess';
-import { RUN_ID_DIR_REGEX } from './runId';
 
 export type DispatchNewRunOptions = {
   oBinaryPath: string;
@@ -73,25 +72,23 @@ function createDeferred<T>(): Deferred<T> {
 }
 
 function extractRunIdFromText(text: string): string | undefined {
-  const match = text.match(/run-\d{8}-\d{6}/);
-  if (!match) return undefined;
-  const candidate = match[0];
-  return RUN_ID_DIR_REGEX.test(candidate) ? candidate : undefined;
-}
-
-function trimToken(token: string): string {
-  return token.replace(/^['"(\[]+/, '').replace(/[\])'",.]+$/, '');
+  const match = text.match(/\d{8}-\d{6}-\w+/);
+  return match?.[0];
 }
 
 function isLikelyPathToken(token: string): boolean {
-  if (!token.includes('run-')) return false;
   if (token.includes(path.sep)) return true;
   if (process.platform === 'win32' && token.includes('/')) return true;
   return token.startsWith('.') || token.startsWith('/') || /^[A-Za-z]:[\\/]/.test(token);
 }
-
+function trimToken(token: string): string {
+  return token.replace(/^['"(\[]+/, '').replace(/[\])'",.]+$/, '');
+}
 function extractRunRootPathFromText(text: string, runId: string, cwd: string): string | undefined {
-  const tokens = text.split(/\s+/).map(trimToken).filter((t) => t.length > 0);
+  const tokens = text
+    .split(/\s+/)
+    .map(trimToken)
+    .filter((t) => t.length > 0);
   const candidates: string[] = [];
   for (const token of tokens) {
     if (!token.includes(runId)) continue;
@@ -122,7 +119,8 @@ function parseDispatchedRunInfo(
   if (!runId) return undefined;
 
   const runRootFromOutput =
-    extractRunRootPathFromText(stdout, runId, workspaceRoot) ?? extractRunRootPathFromText(stderr, runId, workspaceRoot);
+    extractRunRootPathFromText(stdout, runId, workspaceRoot) ??
+    extractRunRootPathFromText(stderr, runId, workspaceRoot);
   const fallback = path.join(runsRootPath, runId);
   return { runId, runRootPath: runRootFromOutput ?? fallback };
 }
@@ -141,7 +139,9 @@ function parseResumedRunInfo(params: {
   return { runId: params.runId, runRootPath: runRootFromOutput ?? fallback };
 }
 
-export async function dispatchNewRunViaO(options: DispatchNewRunOptions): Promise<DispatchNewRunResult> {
+export async function dispatchNewRunViaO(
+  options: DispatchNewRunOptions,
+): Promise<DispatchNewRunResult> {
   const timeoutMs = options.runInfoTimeoutMs ?? 30_000;
   const deferred = createDeferred<DispatchNewRunResult>();
 
@@ -152,14 +152,19 @@ export async function dispatchNewRunViaO(options: DispatchNewRunOptions): Promis
   options.onProcess?.(child);
 
   let stdout = '';
-  let stderr = '';
+  const stderr = '';
   let settled = false;
   let pendingTimer: NodeJS.Timeout | undefined;
   let pendingInfo: { runId: string; runRootPath: string } | undefined;
 
   const trySettle = (): void => {
     if (settled) return;
-    const info = parseDispatchedRunInfo(stdout, stderr, options.workspaceRoot, options.runsRootPath);
+    const info = parseDispatchedRunInfo(
+      stdout,
+      stderr,
+      options.workspaceRoot,
+      options.runsRootPath,
+    );
     if (!info) return;
     pendingInfo = info;
     if (pendingTimer) return;
@@ -187,7 +192,9 @@ export async function dispatchNewRunViaO(options: DispatchNewRunOptions): Promis
       clearTimeout(pendingTimer);
       pendingTimer = undefined;
     }
-    const info = parseDispatchedRunInfo(stdout, stderr, options.workspaceRoot, options.runsRootPath) ?? pendingInfo;
+    const info =
+      parseDispatchedRunInfo(stdout, stderr, options.workspaceRoot, options.runsRootPath) ??
+      pendingInfo;
     if (info) {
       settled = true;
       const result: DispatchNewRunResult = { ...info, stdout, stderr };
@@ -216,7 +223,9 @@ export async function dispatchNewRunViaO(options: DispatchNewRunOptions): Promis
       pendingTimer = undefined;
     }
     settled = true;
-    const err = new Error(`Timed out waiting for \`o\` to report a run id/path after ${timeoutMs}ms.`);
+    const err = new Error(
+      `Timed out waiting for \`o\` to report a run id/path after ${timeoutMs}ms.`,
+    );
     (err as { stdout?: string; stderr?: string }).stdout = stdout;
     (err as { stdout?: string; stderr?: string }).stderr = stderr;
     deferred.reject(err);
@@ -231,7 +240,9 @@ export async function dispatchNewRunViaO(options: DispatchNewRunOptions): Promis
   }
 }
 
-export async function resumeExistingRunViaO(options: ResumeExistingRunOptions): Promise<ResumeExistingRunResult> {
+export async function resumeExistingRunViaO(
+  options: ResumeExistingRunOptions,
+): Promise<ResumeExistingRunResult> {
   const timeoutMs = options.runInfoTimeoutMs ?? 30_000;
   const deferred = createDeferred<ResumeExistingRunResult>();
 
@@ -242,7 +253,7 @@ export async function resumeExistingRunViaO(options: ResumeExistingRunOptions): 
   options.onProcess?.(child);
 
   let stdout = '';
-  let stderr = '';
+  const stderr = '';
   let settled = false;
   let pendingTimer: NodeJS.Timeout | undefined;
   let spawnFallbackTimer: NodeJS.Timeout | undefined;
@@ -332,7 +343,9 @@ export async function resumeExistingRunViaO(options: ResumeExistingRunOptions): 
       spawnFallbackTimer = undefined;
     }
     settled = true;
-    const err = new Error(`Timed out waiting for \`o\` to start resuming ${options.runId} after ${timeoutMs}ms.`);
+    const err = new Error(
+      `Timed out waiting for \`o\` to start resuming ${options.runId} after ${timeoutMs}ms.`,
+    );
     (err as { stdout?: string; stderr?: string }).stdout = stdout;
     (err as { stdout?: string; stderr?: string }).stderr = stderr;
     deferred.reject(err);

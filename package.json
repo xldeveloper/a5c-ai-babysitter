@@ -2,7 +2,7 @@
   "name": "babysitter",
   "displayName": "Babysitter",
   "description": "VS Code extension for orchestrating and monitoring `o` runs.",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "publisher": "a5c-ai",
   "license": "UNLICENSED",
   "private": true,
@@ -11,6 +11,16 @@
   },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "a5c",
+    "o",
+    "orchestration",
+    "monitoring",
+    "runs"
+  ],
+  "extensionKind": [
+    "workspace"
   ],
   "main": "./dist/extension.js",
   "activationEvents": [
@@ -22,8 +32,11 @@
     "onCommand:babysitter.sendEnter",
     "onCommand:babysitter.locateOBinary",
     "onCommand:babysitter.showConfigurationErrors",
+    "onCommand:babysitter.openPromptBuilder",
     "onCommand:babysitter.openRunDetails",
-    "onCommand:babysitter.revealRunFolder"
+    "onCommand:babysitter.openRunLogs",
+    "onCommand:babysitter.revealRunFolder",
+    "onCommand:babysitter.runs.refresh"
   ],
   "contributes": {
     "commands": [
@@ -56,12 +69,24 @@
         "title": "Babysitter: Show Configuration Errors"
       },
       {
+        "command": "babysitter.openPromptBuilder",
+        "title": "Babysitter: Prompt Builder"
+      },
+      {
         "command": "babysitter.openRunDetails",
         "title": "Babysitter: Open Run Details"
       },
       {
+        "command": "babysitter.openRunLogs",
+        "title": "Babysitter: Open Run Logs"
+      },
+      {
         "command": "babysitter.revealRunFolder",
         "title": "Babysitter: Reveal Run Folder in Explorer"
+      },
+      {
+        "command": "babysitter.runs.refresh",
+        "title": "Babysitter: Refresh Runs"
       }
     ],
     "views": {
@@ -80,6 +105,11 @@
           "group": "navigation"
         },
         {
+          "command": "babysitter.openRunLogs",
+          "when": "view == babysitter.runs && viewItem == babysitterRun",
+          "group": "navigation"
+        },
+        {
           "command": "babysitter.resumeRun",
           "when": "view == babysitter.runs && viewItem == babysitterRun",
           "group": "navigation"
@@ -89,8 +119,57 @@
           "when": "view == babysitter.runs && viewItem == babysitterRun",
           "group": "navigation"
         }
+      ],
+      "view/title": [
+        {
+          "command": "babysitter.runs.refresh",
+          "when": "view == babysitter.runs",
+          "group": "navigation"
+        }
       ]
     },
+    "keybindings": [
+      {
+        "command": "babysitter.openPromptBuilder",
+        "key": "ctrl+alt+b p",
+        "mac": "cmd+alt+b p"
+      },
+      {
+        "command": "babysitter.dispatchRun",
+        "key": "ctrl+alt+b n",
+        "mac": "cmd+alt+b n"
+      },
+      {
+        "command": "babysitter.resumeRun",
+        "key": "ctrl+alt+b r",
+        "mac": "cmd+alt+b r"
+      },
+      {
+        "command": "babysitter.openRunDetails",
+        "key": "ctrl+alt+b d",
+        "mac": "cmd+alt+b d"
+      },
+      {
+        "command": "babysitter.openRunLogs",
+        "key": "ctrl+alt+b l",
+        "mac": "cmd+alt+b l"
+      },
+      {
+        "command": "babysitter.runs.refresh",
+        "key": "ctrl+alt+b shift+r",
+        "mac": "cmd+alt+b shift+r"
+      },
+      {
+        "command": "babysitter.sendEnter",
+        "key": "ctrl+alt+b enter",
+        "mac": "cmd+alt+b enter"
+      },
+      {
+        "command": "babysitter.sendEsc",
+        "key": "ctrl+alt+b escape",
+        "mac": "cmd+alt+b escape"
+      }
+    ],
     "configuration": {
       "title": "Babysitter",
       "properties": {
@@ -119,12 +198,13 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run build",
-    "build": "tsc -p .",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "npm run clean && tsc -p .",
     "watch": "tsc -watch -p .",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "package": "vsce package",
+    "package": "vsce package --allow-missing-repository",
     "test:unit": "npm run build && npm run test:unit:compiled",
     "test:unit:compiled": "mocha --ui tdd \"dist/unit/**/*.test.js\"",
     "test:extension": "npm run build && npm run test:extension:compiled",

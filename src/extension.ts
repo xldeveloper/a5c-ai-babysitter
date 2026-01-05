@@ -1,14 +1,23 @@
 import * as vscode from 'vscode';
 
-import { resolveBabysitterConfig, type BabysitterRawSettings, type ConfigIssue } from './core/config';
+import {
+  resolveBabysitterConfig,
+  type BabysitterRawSettings,
+  type ConfigIssue,
+} from './core/config';
 import { dispatchNewRunViaO, resumeExistingRunViaO } from './core/oDispatch';
 import type { PtyProcess } from './core/ptyProcess';
+import { OProcessInteractionTracker } from './core/oProcessInteraction';
 import { isRunId } from './core/runId';
 import type { Run } from './core/run';
-import { sendEnter, sendEsc } from './core/stdinControls';
 import { createRunFileWatchers } from './extension/runFileWatchers';
-import { createRunDetailsViewManager } from './extension/runDetailsView';
+import {
+  createRunDetailsViewManager,
+  type RunInteractionController,
+} from './extension/runDetailsView';
+import { createRunLogsViewManager } from './extension/runLogsView';
 import { registerRunsTreeView } from './extension/runTreeView';
+import { registerPromptBuilderCommand } from './extension/promptBuilderView';
 
 export const OUTPUT_CHANNEL_NAME = 'Babysitter';
 
@@ -37,9 +46,11 @@ function toRunFromCommandArg(value: unknown): Run | undefined {
   if (!value) return undefined;
   if (typeof value === 'object' && value !== null && 'run' in value) {
     const candidate = (value as { run?: unknown }).run;
-    if (candidate && typeof candidate === 'object' && 'id' in candidate && 'paths' in candidate) return candidate as Run;
+    if (candidate && typeof candidate === 'object' && 'id' in candidate && 'paths' in candidate)
+      return candidate as Run;
   }
-  if (typeof value === 'object' && value !== null && 'id' in value && 'paths' in value) return value as Run;
+  if (typeof value === 'object' && value !== null && 'id' in value && 'paths' in value)
+    return value as Run;
   return undefined;
 }
 
@@ -47,9 +58,36 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
   const output = vscode.window.createOutputChannel(OUTPUT_CHANNEL_NAME);
   output.appendLine('Babysitter extension activated.');
 
-  const runDetailsView = createRunDetailsViewManager(context);
+  const interactions = new OProcessInteractionTracker();
+  const interactionController: RunInteractionController = {
+    getAwaitingInput: (runId) => interactions.getAwaitingInputForRunId(runId),
+    sendUserInput: (runId, text) => {
+      const toRun = interactions.sendUserInputToRunId(runId, text);
+      return Boolean(toRun);
+    },
+    sendEnter: (runId) => {
+      const toRun = interactions.sendEnterToRunId(runId);
+      return Boolean(toRun);
+    },
+    sendEsc: (runId) => {
+      const toRun = interactions.sendEscToRunId(runId);
+      return Boolean(toRun);
+    },
+    onDidChange: (handler) =>
+      new vscode.Disposable(
+        interactions.onDidChange((change) => {
+          if (change.runId) handler(change.runId);
+        }),
+      ),
+  };
+
+  const runDetailsView = createRunDetailsViewManager(context, {
+    interaction: interactionController,
+  });
+  const runLogsView = createRunLogsViewManager(context, { interactions, output });
   const runsTreeView = registerRunsTreeView(context);
   runsTreeView.setOpenRunDetailsHandler((run) => runDetailsView.open(run));
+  runsTreeView.setOpenRunLogsHandler((run) => Promise.resolve(runLogsView.open(run)));
 
   const status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
   status.command = 'babysitter.showConfigurationErrors';
@@ -57,30 +95,25 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
   status.tooltip = 'Babysitter configuration status';
   status.show();
 
-  let latestIssues: ConfigIssue[] = [];
   let lastNotifiedFingerprint = '';
   let runWatchersDisposable: vscode.Disposable | undefined;
 
-  const oProcessesByPid = new Map<number, { process: PtyProcess; label: string }>();
-  let activeOPid: number | undefined;
   const registerOProcess = (process: PtyProcess, label: string): void => {
-    oProcessesByPid.set(process.pid, { process, label });
-    activeOPid = process.pid;
+    interactions.register(process, label);
     process.onExit(() => {
+      // Do not kill running `o` processes on exit; just detach listeners.
       process.detach();
-      oProcessesByPid.delete(process.pid);
-      if (activeOPid === process.pid) activeOPid = undefined;
     });
   };
 
   context.subscriptions.push(
     new vscode.Disposable(() => {
       // Do not kill running `o` processes on deactivation; just detach listeners.
-      for (const entry of oProcessesByPid.values()) entry.process.detach();
-      oProcessesByPid.clear();
-      activeOPid = undefined;
+      interactions.detachAll();
     }),
   );
+
+  context.subscriptions.push(registerPromptBuilderCommand(context));
 
   context.subscriptions.push(
     new vscode.Disposable(() => {
@@ -94,12 +127,13 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
     const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
     const settings = readRawSettings();
 
-    const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = { settings, platform: process.platform };
+    const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = {
+      settings,
+      platform: process.platform,
+    };
     if (workspaceRoot !== undefined) resolveOptions.workspaceRoot = workspaceRoot;
     if (process.env.PATH !== undefined) resolveOptions.envPath = process.env.PATH;
     const result = resolveBabysitterConfig(resolveOptions);
-
-    latestIssues = result.issues;
 
     if (result.issues.length > 0) {
       status.text = `Babysitter: Config error (${result.issues.length})`;
@@ -140,11 +174,11 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
     runsTreeView.setRunsRootPath(runsRootPath);
 
     runWatchersDisposable?.dispose();
-      runWatchersDisposable = createRunFileWatchers({
-        runsRootPath,
-        workspaceFolder,
-        debounceMs: 250,
-        onBatch: (batch) => {
+    runWatchersDisposable = createRunFileWatchers({
+      runsRootPath,
+      workspaceFolder,
+      debounceMs: 250,
+      onBatch: (batch) => {
         const summary = batch.runIds
           .map((runId) => {
             const areas = batch.areasByRunId.get(runId);
@@ -152,11 +186,12 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
             return `${runId}${areaList ? ` [${areaList}]` : ''}`;
           })
           .join(', ');
-          output.appendLine(`Run files changed (${batch.runIds.length}): ${summary}`);
-          runsTreeView.refresh();
-          runDetailsView.onRunChangeBatch(batch);
-        },
-      });
+        output.appendLine(`Run files changed (${batch.runIds.length}): ${summary}`);
+        runsTreeView.refresh();
+        runDetailsView.onRunChangeBatch(batch);
+        runLogsView.onRunChangeBatch(batch);
+      },
+    });
   };
 
   const disposable = vscode.commands.registerCommand('babysitter.activate', () => {
@@ -169,12 +204,17 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
     async (arg?: unknown): Promise<unknown> => {
       const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
       if (!workspaceRoot) {
-        await vscode.window.showErrorMessage('Babysitter: open a workspace folder to dispatch runs.');
+        await vscode.window.showErrorMessage(
+          'Babysitter: open a workspace folder to dispatch runs.',
+        );
         throw new Error('No workspace folder open.');
       }
 
       const settings = readRawSettings();
-      const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = { settings, platform: process.platform };
+      const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = {
+        settings,
+        platform: process.platform,
+      };
       resolveOptions.workspaceRoot = workspaceRoot;
       if (process.env.PATH !== undefined) resolveOptions.envPath = process.env.PATH;
       const result = resolveBabysitterConfig(resolveOptions);
@@ -198,11 +238,13 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
       const prompt =
         typeof promptFromArg === 'string' && promptFromArg.trim()
           ? promptFromArg.trim()
-          : (await vscode.window.showInputBox({
-              title: 'Dispatch new run',
-              prompt: 'Enter a request to dispatch via `o`.',
-              placeHolder: 'Describe what you want `o` to do…',
-            }))?.trim();
+          : (
+              await vscode.window.showInputBox({
+                title: 'Dispatch new run',
+                prompt: 'Enter a request to dispatch via `o`.',
+                placeHolder: 'Describe what you want `o` to do…',
+              })
+            )?.trim();
       if (!prompt) return undefined;
 
       output.show(true);
@@ -221,20 +263,24 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
         });
 
         if (dispatched.pid !== undefined) {
-          const entry = oProcessesByPid.get(dispatched.pid);
-          if (entry) entry.label = `o (dispatch ${dispatched.runId})`;
+          interactions.setRunIdForPid(dispatched.pid, dispatched.runId);
+          interactions.setLabelForPid(dispatched.pid, `o (dispatch ${dispatched.runId})`);
         }
         output.appendLine(`Dispatched run: ${dispatched.runId}`);
         output.appendLine(`Run root: ${dispatched.runRootPath}`);
-        if (dispatched.stdout.trim()) output.appendLine(`o stdout:\n${dispatched.stdout.trimEnd()}`);
-        if (dispatched.stderr.trim()) output.appendLine(`o stderr:\n${dispatched.stderr.trimEnd()}`);
+        if (dispatched.stdout.trim())
+          output.appendLine(`o stdout:\n${dispatched.stdout.trimEnd()}`);
+        if (dispatched.stderr.trim())
+          output.appendLine(`o stderr:\n${dispatched.stderr.trimEnd()}`);
 
         runsTreeView.refresh();
         return dispatched;
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         output.appendLine(`Dispatch failed: ${message}`);
-        await vscode.window.showErrorMessage('Babysitter: dispatch failed. See output for details.');
+        await vscode.window.showErrorMessage(
+          'Babysitter: dispatch failed. See output for details.',
+        );
         throw err;
       }
     },
@@ -250,7 +296,10 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
       }
 
       const settings = readRawSettings();
-      const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = { settings, platform: process.platform };
+      const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = {
+        settings,
+        platform: process.platform,
+      };
       resolveOptions.workspaceRoot = workspaceRoot;
       if (process.env.PATH !== undefined) resolveOptions.envPath = process.env.PATH;
       const result = resolveBabysitterConfig(resolveOptions);
@@ -273,11 +322,15 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
             ? (arg as { runId?: unknown }).runId
             : undefined;
       const promptFromArg =
-        typeof arg === 'object' && arg !== null && 'prompt' in arg ? (arg as { prompt?: unknown }).prompt : undefined;
+        typeof arg === 'object' && arg !== null && 'prompt' in arg
+          ? (arg as { prompt?: unknown }).prompt
+          : undefined;
 
       const runId =
         fromRun?.id ??
-        (typeof runIdFromArg === 'string' && runIdFromArg.trim() ? runIdFromArg.trim() : undefined) ??
+        (typeof runIdFromArg === 'string' && runIdFromArg.trim()
+          ? runIdFromArg.trim()
+          : undefined) ??
         (await (async () => {
           const runs = runsTreeView.getRunsSnapshot();
           if (runs.length === 0) {
@@ -303,11 +356,13 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
       const prompt =
         typeof promptFromArg === 'string' && promptFromArg.trim()
           ? promptFromArg.trim()
-          : (await vscode.window.showInputBox({
-              title: `Resume ${runId}`,
-              prompt: 'Enter an updated request/prompt to resume this run via `o`.',
-              placeHolder: 'Describe what you want `o` to do next…',
-            }))?.trim();
+          : (
+              await vscode.window.showInputBox({
+                title: `Resume ${runId}`,
+                prompt: 'Enter an updated request/prompt to resume this run via `o`.',
+                placeHolder: 'Describe what you want `o` to do next…',
+              })
+            )?.trim();
       if (!prompt) return undefined;
 
       output.show(true);
@@ -322,13 +377,13 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
           prompt,
           onProcess: (process) => {
             registerOProcess(process, `o (resume ${runId})`);
+            interactions.setRunIdForPid(process.pid, runId);
             output.appendLine(`Started interactive o process (pid ${process.pid}).`);
           },
         });
 
         if (resumed.pid !== undefined) {
-          const entry = oProcessesByPid.get(resumed.pid);
-          if (entry) entry.label = `o (resume ${resumed.runId})`;
+          interactions.setLabelForPid(resumed.pid, `o (resume ${resumed.runId})`);
         }
         output.appendLine(`Resumed run: ${resumed.runId}`);
         output.appendLine(`Run root: ${resumed.runRootPath}`);
@@ -347,46 +402,38 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
   );
 
   const sendEscDisposable = vscode.commands.registerCommand('babysitter.sendEsc', async () => {
-    const pid = activeOPid;
-    if (pid === undefined) {
-      await vscode.window.showWarningMessage('Babysitter: no active `o` process to send ESC to.');
-      return;
-    }
-    const entry = oProcessesByPid.get(pid);
-    if (!entry) {
-      await vscode.window.showWarningMessage('Babysitter: active `o` process is no longer available.');
-      activeOPid = undefined;
-      return;
-    }
     try {
-      sendEsc(entry.process);
-      output.appendLine(`Sent ESC to ${entry.label} (pid ${pid}).`);
+      const sent = interactions.sendEscToActive();
+      if (!sent) {
+        await vscode.window.showWarningMessage('Babysitter: no active `o` process to send ESC to.');
+        return;
+      }
+      output.appendLine(`Sent ESC to ${sent.label} (pid ${sent.pid}).`);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      output.appendLine(`Failed to send ESC to pid ${pid}: ${message}`);
-      await vscode.window.showErrorMessage('Babysitter: failed to send ESC. See output for details.');
+      output.appendLine(`Failed to send ESC: ${message}`);
+      await vscode.window.showErrorMessage(
+        'Babysitter: failed to send ESC. See output for details.',
+      );
     }
   });
 
   const sendEnterDisposable = vscode.commands.registerCommand('babysitter.sendEnter', async () => {
-    const pid = activeOPid;
-    if (pid === undefined) {
-      await vscode.window.showWarningMessage('Babysitter: no active `o` process to send Enter to.');
-      return;
-    }
-    const entry = oProcessesByPid.get(pid);
-    if (!entry) {
-      await vscode.window.showWarningMessage('Babysitter: active `o` process is no longer available.');
-      activeOPid = undefined;
-      return;
-    }
     try {
-      sendEnter(entry.process);
-      output.appendLine(`Sent Enter to ${entry.label} (pid ${pid}).`);
+      const sent = interactions.sendEnterToActive();
+      if (!sent) {
+        await vscode.window.showWarningMessage(
+          'Babysitter: no active `o` process to send Enter to.',
+        );
+        return;
+      }
+      output.appendLine(`Sent Enter to ${sent.label} (pid ${sent.pid}).`);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      output.appendLine(`Failed to send Enter to pid ${pid}: ${message}`);
-      await vscode.window.showErrorMessage('Babysitter: failed to send Enter. See output for details.');
+      output.appendLine(`Failed to send Enter: ${message}`);
+      await vscode.window.showErrorMessage(
+        'Babysitter: failed to send Enter. See output for details.',
+      );
     }
   });
 
@@ -398,7 +445,10 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
 
       const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
       const settings = readRawSettings();
-      const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = { settings, platform: process.platform };
+      const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = {
+        settings,
+        platform: process.platform,
+      };
       if (workspaceRoot !== undefined) resolveOptions.workspaceRoot = workspaceRoot;
       if (process.env.PATH !== undefined) resolveOptions.envPath = process.env.PATH;
       const result = resolveBabysitterConfig(resolveOptions);
@@ -425,7 +475,9 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
           output.appendLine(`- Resolved o: ${resolvedOBinary.path} (${resolvedOBinary.source})`);
         }
         if (resolvedRunsRoot) {
-          output.appendLine(`- Resolved runs root: ${resolvedRunsRoot.path} (${resolvedRunsRoot.source})`);
+          output.appendLine(
+            `- Resolved runs root: ${resolvedRunsRoot.path} (${resolvedRunsRoot.source})`,
+          );
         }
         await vscode.window.showInformationMessage('Babysitter: configuration looks good.');
         return;
@@ -450,7 +502,10 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
     async () => {
       const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
       const settings = readRawSettings();
-      const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = { settings, platform: process.platform };
+      const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = {
+        settings,
+        platform: process.platform,
+      };
       if (workspaceRoot !== undefined) resolveOptions.workspaceRoot = workspaceRoot;
       if (process.env.PATH !== undefined) resolveOptions.envPath = process.env.PATH;
       const result = resolveBabysitterConfig(resolveOptions);

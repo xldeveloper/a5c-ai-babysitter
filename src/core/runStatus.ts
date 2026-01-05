@@ -23,4 +23,3 @@ export function normalizeRunStatus(raw: unknown): RunStatus {
       return 'unknown';
   }
 }
-

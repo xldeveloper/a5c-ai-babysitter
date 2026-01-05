@@ -106,13 +106,12 @@ suite('runFileChanges', () => {
     const batch = toRunChangeBatch(changes);
     assert.deepStrictEqual(batch.runIds, ['run-20260105-010207', 'run-20260105-010206']);
 
-    assert.deepStrictEqual(
-      Array.from(batch.areasByRunId.get('run-20260105-010207') ?? []),
-      ['state'],
-    );
-    assert.deepStrictEqual(
-      Array.from(batch.areasByRunId.get('run-20260105-010206') ?? []).sort(),
-      ['artifacts', 'journal'],
-    );
+    assert.deepStrictEqual(Array.from(batch.areasByRunId.get('run-20260105-010207') ?? []), [
+      'state',
+    ]);
+    assert.deepStrictEqual(Array.from(batch.areasByRunId.get('run-20260105-010206') ?? []).sort(), [
+      'artifacts',
+      'journal',
+    ]);
   });
 });

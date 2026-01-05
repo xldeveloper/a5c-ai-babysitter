@@ -20,4 +20,3 @@ export type Run = {
   timestamps: RunTimestamps;
   paths: RunPaths;
 };
-

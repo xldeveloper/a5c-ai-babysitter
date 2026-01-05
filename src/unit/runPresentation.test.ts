@@ -21,4 +21,3 @@ suite('runPresentation', () => {
     assert.strictEqual(runStatusThemeIconId('unknown'), 'question');
   });
 });
-

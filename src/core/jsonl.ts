@@ -76,7 +76,7 @@ export class JsonlIncrementalParser {
 
     if (chunk.length > 0) this.remainder += chunk;
 
-    while (true) {
+    for (;;) {
       const newlineIndex = this.remainder.indexOf('\n');
       if (newlineIndex === -1) break;
 
@@ -92,7 +92,9 @@ export class JsonlIncrementalParser {
         records.push(JSON.parse(trimmed) as unknown);
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
-        errors.push(createJsonlParseError(`Invalid JSON at line ${lineNo}: ${message}`, lineNo, line));
+        errors.push(
+          createJsonlParseError(`Invalid JSON at line ${lineNo}: ${message}`, lineNo, line),
+        );
       }
     }
 
@@ -122,7 +124,9 @@ export class JsonlIncrementalParser {
       this.nextLineNumber++;
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      errors.push(createJsonlParseError(`Invalid JSON at line ${lineNo}: ${message}`, lineNo, this.remainder));
+      errors.push(
+        createJsonlParseError(`Invalid JSON at line ${lineNo}: ${message}`, lineNo, this.remainder),
+      );
     }
 
     return { records, errors };

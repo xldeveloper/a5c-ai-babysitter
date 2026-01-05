@@ -65,7 +65,10 @@ function isNonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
-function resolveRunsRootPath(runsRoot: string, workspaceRoot: string | undefined): string | undefined {
+function resolveRunsRootPath(
+  runsRoot: string,
+  workspaceRoot: string | undefined,
+): string | undefined {
   const trimmed = runsRoot.trim();
   if (!trimmed) return undefined;
   if (path.isAbsolute(trimmed)) return trimmed;
@@ -172,7 +175,9 @@ export function resolveBabysitterConfig(options: ResolveConfigOptions): ResolveC
     : undefined;
 
   const globalConfigResult =
-    globalConfigPath !== undefined ? readGlobalConfig(globalConfigPath) : { issues: [] as ConfigIssue[] };
+    globalConfigPath !== undefined
+      ? readGlobalConfig(globalConfigPath)
+      : { issues: [] as ConfigIssue[] };
   issues.push(...globalConfigResult.issues);
 
   const globalConfig = globalConfigResult.config;
@@ -206,7 +211,8 @@ export function resolveBabysitterConfig(options: ResolveConfigOptions): ResolveC
     });
   } else {
     const oBinarySource: BabysitterResolvedOBinary['source'] =
-      globalConfig?.oBinaryPath !== undefined && globalConfig.oBinaryPath === effectiveConfiguredOBinaryPath
+      globalConfig?.oBinaryPath !== undefined &&
+      globalConfig.oBinaryPath === effectiveConfiguredOBinaryPath
         ? 'globalConfig'
         : resolvedOBinary.source;
     resolvedConfig.oBinary = { path: resolvedOBinary.path, source: oBinarySource };
@@ -228,13 +234,12 @@ export function resolveBabysitterConfig(options: ResolveConfigOptions): ResolveC
     const runsRootIssue = validateRunsRootDirectory(resolvedRunsRoot);
     if (runsRootIssue) issues.push(runsRootIssue);
 
-    const runsRootSource: NonNullable<BabysitterResolvedConfig['runsRoot']>['source'] = isNonEmptyString(
-      settings.runsRoot,
-    )
-      ? 'setting'
-      : globalConfig?.runsRoot
-        ? 'globalConfig'
-        : 'default';
+    const runsRootSource: NonNullable<BabysitterResolvedConfig['runsRoot']>['source'] =
+      isNonEmptyString(settings.runsRoot)
+        ? 'setting'
+        : globalConfig?.runsRoot
+          ? 'globalConfig'
+          : 'default';
     resolvedConfig.runsRoot = { path: resolvedRunsRoot, source: runsRootSource };
   }
 

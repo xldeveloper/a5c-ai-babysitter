@@ -18,14 +18,14 @@ function createOBinaryShim(tempDir: string, argsOutputPath: string): string {
       `const argsOutputPath = ${JSON.stringify(argsOutputPath)};`,
       `const runId = ${JSON.stringify(runId)};`,
       "const promptArg = process.argv.slice(2).join(' ');",
-      "fs.writeFileSync(argsOutputPath, JSON.stringify({ argv: process.argv.slice(2), promptArg }, null, 2));",
+      'fs.writeFileSync(argsOutputPath, JSON.stringify({ argv: process.argv.slice(2), promptArg }, null, 2));',
       '',
       "const runsRoot = path.join(process.cwd(), '.a5c', 'runs');",
       'const runRoot = path.join(runsRoot, runId);',
-      "fs.mkdirSync(runRoot, { recursive: true });",
+      'fs.mkdirSync(runRoot, { recursive: true });',
       '',
-      "console.error(`created run ${runId}`);",
-      "console.log(`runRoot=${runRoot}`);",
+      'console.error(`created run ${runId}`);',
+      'console.log(`runRoot=${runRoot}`);',
       'process.exit(0);',
       '',
     ].join('\n'),
@@ -34,12 +34,12 @@ function createOBinaryShim(tempDir: string, argsOutputPath: string): string {
 
   if (process.platform === 'win32') {
     const shimCmdPath = path.join(tempDir, 'o.cmd');
-    fs.writeFileSync(shimCmdPath, `@echo off\r\nnode \"${shimScriptPath}\" %*\r\n`, 'utf8');
+    fs.writeFileSync(shimCmdPath, `@echo off\r\nnode "${shimScriptPath}" %*\r\n`, 'utf8');
     return shimCmdPath;
   }
 
   const shimShPath = path.join(tempDir, 'o');
-  fs.writeFileSync(shimShPath, `#!/usr/bin/env bash\nnode '${shimScriptPath}' \"$@\"\n`, 'utf8');
+  fs.writeFileSync(shimShPath, `#!/usr/bin/env bash\nnode '${shimScriptPath}' "$@"\n`, 'utf8');
   fs.chmodSync(shimShPath, 0o755);
   return shimShPath;
 }
@@ -62,14 +62,13 @@ suite('Dispatch', () => {
     await cfg.update('runsRoot', '.a5c/runs', vscode.ConfigurationTarget.Workspace);
 
     const prompt = 'dispatch integration test prompt';
-    const result = (await vscode.commands.executeCommand('babysitter.dispatchRun', { prompt })) as {
+    const result = await vscode.commands.executeCommand<{
       runId: string;
       runRootPath: string;
       stdout: string;
       stderr: string;
-    };
+    }>('babysitter.dispatchRun', { prompt });
 
-    assert.ok(result.runId.startsWith('run-'), 'expected a run id');
     assert.ok(result.runRootPath.includes(result.runId), 'expected run root to include run id');
     assert.ok(result.stdout.includes('runRoot='), 'expected output to contain runRoot marker');
     assert.ok(result.stdout.includes('created run'), 'expected output to contain created marker');

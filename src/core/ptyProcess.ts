@@ -1,3 +1,4 @@
+import { spawn } from 'child_process';
 import * as path from 'path';
 
 import * as pty from 'node-pty';
@@ -32,23 +33,87 @@ function isWindowsCmdScript(filePath: string, platform: NodeJS.Platform): boolea
   return ext === '.cmd' || ext === '.bat';
 }
 
-function quoteCmdArg(arg: string): string {
-  if (!arg) return '""';
-  if (!/[ \t"]/g.test(arg)) return arg;
-  return `"${arg.replace(/"/g, '""')}"`;
+function spawnStdioProcess(filePath: string, args: string[], options: SpawnPtyOptions): PtyProcess {
+  const child = spawn(filePath, args, {
+    cwd: options.cwd,
+    env: { ...process.env, ...(options.env ?? {}) },
+    // Use the system shell so `.cmd` / `.bat` wrappers run correctly on Windows.
+    shell: true,
+    stdio: ['pipe', 'pipe', 'pipe'],
+  });
+
+  const dataHandlers = new Set<(data: string) => void>();
+  const exitHandlers = new Set<(event: PtyExitEvent) => void>();
+
+  child.stdout.setEncoding('utf8');
+  child.stderr.setEncoding('utf8');
+  const stdoutListener = (chunk: string): void => {
+    for (const handler of dataHandlers) handler(chunk);
+  };
+  const stderrListener = (chunk: string): void => {
+    for (const handler of dataHandlers) handler(chunk);
+  };
+  child.stdout.on('data', stdoutListener);
+  child.stderr.on('data', stderrListener);
+
+  const exitListener = (code: number | null, signal: NodeJS.Signals | null): void => {
+    for (const handler of exitHandlers) handler({ exitCode: code ?? 0, signal: signal ? 1 : 0 });
+  };
+  child.on('exit', exitListener);
+
+  let disposed = false;
+  const detach = (): void => {
+    if (disposed) return;
+    disposed = true;
+    dataHandlers.clear();
+    exitHandlers.clear();
+    child.stdout.off('data', stdoutListener);
+    child.stderr.off('data', stderrListener);
+    child.off('exit', exitListener);
+  };
+
+  return {
+    pid: child.pid ?? -1,
+    write: (data: string) => {
+      if (disposed) return;
+      child.stdin.write(data);
+    },
+    onData: (handler) => {
+      if (disposed) return () => undefined;
+      dataHandlers.add(handler);
+      return () => dataHandlers.delete(handler);
+    },
+    onExit: (handler) => {
+      if (disposed) return () => undefined;
+      exitHandlers.add(handler);
+      return () => exitHandlers.delete(handler);
+    },
+    kill: () => {
+      if (disposed) return;
+      child.kill();
+    },
+    detach,
+    dispose: () => {
+      detach();
+      try {
+        child.kill();
+      } catch {
+        // ignore
+      }
+    },
+  };
 }
 
-function toCmdExeInvocation(filePath: string, args: string[]): { file: string; args: string[] } {
-  // Always quote the command path so the /c string starts with a quote.
-  const quotedCommand = `"${filePath.replace(/"/g, '""')}"`;
-  const cmdLine = [quotedCommand, ...args.map(quoteCmdArg)].join(' ');
-  // Pass the command line as a single argument after /c; it already contains the required quoting.
-  return { file: 'cmd.exe', args: ['/d', '/s', '/c', cmdLine] };
-}
+export function spawnPtyProcess(
+  filePath: string,
+  args: string[],
+  options: SpawnPtyOptions,
+): PtyProcess {
+  if (isWindowsCmdScript(filePath, process.platform)) {
+    return spawnStdioProcess(filePath, args, options);
+  }
 
-export function spawnPtyProcess(filePath: string, args: string[], options: SpawnPtyOptions): PtyProcess {
-  const invocation = isWindowsCmdScript(filePath, process.platform) ? toCmdExeInvocation(filePath, args) : undefined;
-  const ptyProcess = pty.spawn(invocation?.file ?? filePath, invocation?.args ?? args, {
+  const ptyProcess = pty.spawn(filePath, args, {
     cwd: options.cwd,
     env: { ...process.env, ...(options.env ?? {}) },
     cols: options.cols ?? 120,
@@ -62,8 +127,11 @@ export function spawnPtyProcess(filePath: string, args: string[], options: Spawn
   const dataDisposable = ptyProcess.onData((data) => {
     for (const handler of dataHandlers) handler(data);
   });
+  let exited = false;
   const exitDisposable = ptyProcess.onExit((event) => {
-    for (const handler of exitHandlers) handler({ exitCode: event.exitCode, signal: event.signal ?? 0 });
+    exited = true;
+    for (const handler of exitHandlers)
+      handler({ exitCode: event.exitCode, signal: event.signal ?? 0 });
   });
 
   let disposed = false;
@@ -99,6 +167,7 @@ export function spawnPtyProcess(filePath: string, args: string[], options: Spawn
     detach,
     dispose: () => {
       detach();
+      if (exited) return;
       try {
         ptyProcess.kill();
       } catch {

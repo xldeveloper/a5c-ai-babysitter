@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint + Tests + Package
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Prepare artifact directories
+        run: |
+          mkdir -p artifacts/test-logs
+
+      - name: Lint
+        run: |
+          set -o pipefail
+          npm run lint 2>&1 | tee artifacts/test-logs/lint.log
+
+      - name: Build
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee artifacts/test-logs/build.log
+
+      - name: Unit tests
+        run: |
+          set -o pipefail
+          npm run test:unit:compiled 2>&1 | tee artifacts/test-logs/unit-tests.log
+
+      - name: Extension tests
+        run: |
+          set -o pipefail
+          node ./dist/test/runTest.js --headless 2>&1 | tee artifacts/test-logs/extension-tests.log
+
+      - name: Package VSIX
+        run: |
+          set -o pipefail
+          npm run package 2>&1 | tee artifacts/test-logs/package.log
+
+      - name: Upload test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: artifacts/test-logs
+          if-no-files-found: error
+
+      - name: Upload VSIX
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsix
+          path: '*.vsix'
+          if-no-files-found: ignore

@@ -3,7 +3,12 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
-import { appendRollingWindow, isFsPathInsideRoot, listFilesRecursive, listFilesSortedByMtimeDesc } from '../core/runDetailsSnapshot';
+import {
+  appendRollingWindow,
+  isFsPathInsideRoot,
+  listFilesRecursive,
+  listFilesSortedByMtimeDesc,
+} from '../core/runDetailsSnapshot';
 
 function makeTempDir(prefix: string): string {
   return fs.mkdtempSync(path.join(os.tmpdir(), prefix));

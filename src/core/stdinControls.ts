@@ -12,4 +12,3 @@ export function sendEsc(process: StdinWritableProcess): void {
 export function sendEnter(process: StdinWritableProcess): void {
   process.write(ENTER);
 }
-

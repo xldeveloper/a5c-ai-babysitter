@@ -49,4 +49,3 @@ suite('stateJson', () => {
     }
   });
 });
-

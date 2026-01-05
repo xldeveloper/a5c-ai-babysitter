@@ -4,6 +4,11 @@ import * as path from 'path';
 import { JournalTailer, type JournalTailResult } from './journal';
 import type { Run } from './run';
 import { readStateJsonFile, type ReadStateJsonResult } from './stateJson';
+import {
+  detectAwaitingInputFromJournal,
+  detectAwaitingInputFromState,
+  type AwaitingInputStatus,
+} from './awaitingInput';
 
 export type RunView = Omit<Run, 'timestamps'> & {
   timestamps: {
@@ -43,6 +48,7 @@ export type RunDetailsSnapshot = {
   run: RunView;
   state: ReadStateJsonResult;
   journal: JournalView;
+  awaitingInput?: AwaitingInputStatus;
   workSummaries: RunFileItem[];
   artifacts: RunFileItem[];
 };
@@ -58,11 +64,17 @@ export function isFsPathInsideRoot(root: string, candidate: string): boolean {
   const normalizedCandidate = normalizeForPlatform(candidate);
 
   if (normalizedCandidate === normalizedRoot) return true;
-  const rootWithSep = normalizedRoot.endsWith(path.sep) ? normalizedRoot : `${normalizedRoot}${path.sep}`;
+  const rootWithSep = normalizedRoot.endsWith(path.sep)
+    ? normalizedRoot
+    : `${normalizedRoot}${path.sep}`;
   return normalizedCandidate.startsWith(rootWithSep);
 }
 
-export function appendRollingWindow<T>(current: readonly T[], next: readonly T[], limit: number): T[] {
+export function appendRollingWindow<T>(
+  current: readonly T[],
+  next: readonly T[],
+  limit: number,
+): T[] {
   if (limit <= 0) return [];
   if (current.length === 0) return next.slice(-limit);
   if (next.length === 0) return current.slice(-limit);
@@ -171,7 +183,13 @@ export function readRunDetailsSnapshot(params: {
 }): { snapshot: RunDetailsSnapshot; nextJournalEntries: unknown[] } {
   const state = readStateJsonFile(params.run.paths.stateJson);
   const tail = params.journalTailer.tail(params.run.paths.journalJsonl);
-  const nextJournalEntries = appendRollingWindow(params.existingJournalEntries, tail.entries, params.maxJournalEntries);
+  const nextJournalEntries = appendRollingWindow(
+    params.existingJournalEntries,
+    tail.entries,
+    params.maxJournalEntries,
+  );
+  const awaitingInput =
+    detectAwaitingInputFromState(state.state) ?? detectAwaitingInputFromJournal(nextJournalEntries);
 
   const workSummaries = listFilesSortedByMtimeDesc({
     dir: params.run.paths.workSummariesDir,
@@ -196,6 +214,7 @@ export function readRunDetailsSnapshot(params: {
       },
       state,
       journal: toJournalView({ ...tail, entries: nextJournalEntries }),
+      ...(awaitingInput ? { awaitingInput } : {}),
       workSummaries,
       artifacts,
     },

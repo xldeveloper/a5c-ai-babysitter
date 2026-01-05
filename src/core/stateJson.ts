@@ -10,7 +10,12 @@ export type StateJson = {
 };
 
 export type StateJsonIssue = {
-  code: 'STATE_NOT_FOUND' | 'STATE_READ_ERROR' | 'STATE_INVALID_JSON' | 'STATE_INVALID_SHAPE' | 'STATE_EMPTY';
+  code:
+    | 'STATE_NOT_FOUND'
+    | 'STATE_READ_ERROR'
+    | 'STATE_INVALID_JSON'
+    | 'STATE_INVALID_SHAPE'
+    | 'STATE_EMPTY';
   message: string;
   detail?: string;
 };
@@ -38,7 +43,10 @@ export function parseStateJsonText(text: string): ReadStateJsonResult {
   const issues: StateJsonIssue[] = [];
   const trimmed = text.trim();
   if (!trimmed) {
-    issues.push({ code: 'STATE_EMPTY', message: 'state.json is empty (possibly still being written).' });
+    issues.push({
+      code: 'STATE_EMPTY',
+      message: 'state.json is empty (possibly still being written).',
+    });
     return { status: 'unknown', issues };
   }
 
@@ -47,7 +55,11 @@ export function parseStateJsonText(text: string): ReadStateJsonResult {
     parsed = JSON.parse(trimmed) as unknown;
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    issues.push({ code: 'STATE_INVALID_JSON', message: 'state.json is not valid JSON.', detail: message });
+    issues.push({
+      code: 'STATE_INVALID_JSON',
+      message: 'state.json is not valid JSON.',
+      detail: message,
+    });
     return { status: 'unknown', issues };
   }
 
@@ -68,10 +80,17 @@ export function readStateJsonFile(filePath: string): ReadStateJsonResult {
   } catch (err) {
     const errno = err as NodeJS.ErrnoException | undefined;
     if (errno?.code === 'ENOENT') {
-      return { status: 'unknown', issues: [{ code: 'STATE_NOT_FOUND', message: 'state.json does not exist.' }] };
+      return {
+        status: 'unknown',
+        issues: [{ code: 'STATE_NOT_FOUND', message: 'state.json does not exist.' }],
+      };
     }
     const message = err instanceof Error ? err.message : String(err);
-    return { status: 'unknown', issues: [{ code: 'STATE_READ_ERROR', message: 'Failed to read state.json.', detail: message }] };
+    return {
+      status: 'unknown',
+      issues: [
+        { code: 'STATE_READ_ERROR', message: 'Failed to read state.json.', detail: message },
+      ],
+    };
   }
 }
-

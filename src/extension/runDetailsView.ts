@@ -10,18 +10,30 @@ import {
   readTextFileWithLimit,
   type RunDetailsSnapshot,
 } from '../core/runDetailsSnapshot';
+import type { AwaitingInputStatus } from '../core/awaitingInput';
 
 type WebviewInboundMessage =
   | { type: 'ready' }
   | { type: 'refresh' }
   | { type: 'openInEditor'; fsPath: string }
   | { type: 'revealInExplorer'; fsPath: string }
-  | { type: 'loadTextFile'; fsPath: string };
+  | { type: 'loadTextFile'; fsPath: string }
+  | { type: 'sendUserInput'; runId: string; text: string }
+  | { type: 'sendEnter'; runId: string }
+  | { type: 'sendEsc'; runId: string };
 
 type WebviewOutboundMessage =
   | { type: 'snapshot'; snapshot: RunDetailsSnapshot }
   | { type: 'textFile'; fsPath: string; content: string; truncated: boolean; size: number }
   | { type: 'error'; message: string };
+
+export type RunInteractionController = {
+  getAwaitingInput: (runId: string) => AwaitingInputStatus | undefined;
+  sendUserInput: (runId: string, text: string) => Promise<boolean> | boolean;
+  sendEnter: (runId: string) => Promise<boolean> | boolean;
+  sendEsc: (runId: string) => Promise<boolean> | boolean;
+  onDidChange: (handler: (runId: string) => void) => vscode.Disposable;
+};
 
 function nonce(len = 16): string {
   const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -199,6 +211,52 @@ function renderWebviewHtml(webview: vscode.Webview): string {
       font-family: var(--vscode-editor-font-family);
     }
     .empty { color: var(--muted); font-size: 12px; }
+    .banner {
+      display: none;
+      margin: var(--pad);
+      margin-bottom: 0;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .banner.show { display: flex; }
+    .banner .msg { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .banner.error { border-color: var(--vscode-notificationsErrorIcon-foreground); }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      border: 2px solid var(--border);
+      border-top-color: var(--vscode-progressBar-background);
+      animation: spin 1s linear infinite;
+      flex: 0 0 auto;
+    }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    button:focus-visible, textarea:focus-visible {
+      outline: 1px solid var(--vscode-focusBorder);
+      outline-offset: 2px;
+    }
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      resize: vertical;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      padding: 10px;
+      background: var(--vscode-input-background);
+      color: var(--vscode-input-foreground);
+      font-family: var(--vscode-font-family);
+      font-size: 12px;
+      line-height: 1.4;
+      outline: none;
+    }
+    textarea:focus {
+      border-color: var(--vscode-focusBorder);
+    }
   </style>
 </head>
 <body>
@@ -212,7 +270,32 @@ function renderWebviewHtml(webview: vscode.Webview): string {
     </div>
   </header>
 
+  <div id="banner" class="banner" role="status" aria-live="polite">
+    <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+      <div id="bannerSpinner" class="spinner" style="display:none;"></div>
+      <div id="bannerMsg" class="msg"></div>
+    </div>
+    <div class="actions">
+      <button id="bannerDismissBtn">Dismiss</button>
+    </div>
+  </div>
+
   <main>
+    <section class="card" id="interactionCard" style="display:none;">
+      <h2>
+        Awaiting Input
+        <span class="pill" id="interactionSource"></span>
+      </h2>
+      <div id="interactionPrompt" class="empty" style="margin-bottom: 10px;"></div>
+      <textarea id="interactionText" rows="3" placeholder="Type a response / steering instruction..."></textarea>
+      <div class="actions" style="justify-content: flex-end; margin-top: 10px;">
+        <button id="interactionEscBtn">ESC</button>
+        <button id="interactionEnterBtn">Enter</button>
+        <button id="interactionSendBtn" class="primary">Send</button>
+      </div>
+      <div id="interactionHint" class="empty" style="margin-top: 8px;"></div>
+    </section>
+
     <div class="grid2">
       <section class="card">
         <h2>Run</h2>
@@ -277,8 +360,90 @@ function renderWebviewHtml(webview: vscode.Webview): string {
     const artifactsEmpty = el('artifactsEmpty');
     const artifactsPill = el('artifactsPill');
     const refreshBtn = el('refreshBtn');
+    const interactionCard = el('interactionCard');
+    const interactionSource = el('interactionSource');
+    const interactionPrompt = el('interactionPrompt');
+    const interactionText = el('interactionText');
+    const interactionSendBtn = el('interactionSendBtn');
+    const interactionEnterBtn = el('interactionEnterBtn');
+    const interactionEscBtn = el('interactionEscBtn');
+    const interactionHint = el('interactionHint');
+    const banner = el('banner');
+    const bannerMsg = el('bannerMsg');
+    const bannerSpinner = el('bannerSpinner');
+    const bannerDismissBtn = el('bannerDismissBtn');
+
+    let latestRunId = undefined;
+    let awaitingInputVisible = false;
 
     refreshBtn.addEventListener('click', () => vscode.postMessage({ type: 'refresh' }));
+    bannerDismissBtn.addEventListener('click', () => hideBanner());
+
+    function showBanner(text, opts) {
+      banner.classList.add('show');
+      banner.classList.toggle('error', Boolean(opts && opts.error));
+      bannerSpinner.style.display = opts && opts.spinner ? '' : 'none';
+      bannerMsg.textContent = text || '';
+    }
+
+    function hideBanner() {
+      banner.classList.remove('show');
+      banner.classList.remove('error');
+      bannerSpinner.style.display = 'none';
+      bannerMsg.textContent = '';
+    }
+
+    function postInteraction(type, extra) {
+      const runId = latestRunId;
+      if (!runId) return;
+      vscode.postMessage({ type, runId, ...(extra || {}) });
+    }
+
+    interactionSendBtn.addEventListener('click', () => {
+      const text = (interactionText.value || '').trim();
+      if (!text) return;
+      postInteraction('sendUserInput', { text });
+      interactionText.value = '';
+    });
+    interactionEnterBtn.addEventListener('click', () => postInteraction('sendEnter'));
+    interactionEscBtn.addEventListener('click', () => postInteraction('sendEsc'));
+    interactionText.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        interactionSendBtn.click();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      const active = document.activeElement;
+      const typing = active && (active.tagName === 'TEXTAREA' || active.tagName === 'INPUT');
+
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R')) {
+        e.preventDefault();
+        refreshBtn.click();
+        return;
+      }
+
+      if (!awaitingInputVisible) return;
+
+      if (!typing && e.key === '/') {
+        e.preventDefault();
+        interactionText.focus();
+        return;
+      }
+
+      if (!typing && e.key === 'Escape') {
+        e.preventDefault();
+        interactionEscBtn.click();
+        return;
+      }
+
+      if (!typing && e.key === 'Enter') {
+        e.preventDefault();
+        interactionEnterBtn.click();
+        return;
+      }
+    });
 
     window.addEventListener('message', (event) => {
       const msg = event.data;
@@ -286,6 +451,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
 
       if (msg.type === 'snapshot') {
         renderSnapshot(msg.snapshot);
+        hideBanner();
         return;
       }
       if (msg.type === 'textFile') {
@@ -293,7 +459,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
         return;
       }
       if (msg.type === 'error') {
-        runSubtitle.textContent = msg.message;
+        showBanner(msg.message || 'Error', { error: true });
       }
     });
 
@@ -320,6 +486,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
     }
 
     function renderSnapshot(snapshot) {
+      latestRunId = snapshot.run.id;
       runTitle.textContent = snapshot.run.id;
       runSubtitle.innerHTML = '';
       const status = document.createElement('span');
@@ -341,7 +508,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
       const issues = snapshot.state.issues || [];
       if (issues.length > 0) {
         stateIssues.style.display = '';
-        stateIssues.textContent = issues.map((i) => '[' + i.code + '] ' + i.message).join('  •  ');
+        stateIssues.textContent = issues.map((i) => '[' + i.code + '] ' + i.message).join('  |  ');
       } else {
         stateIssues.style.display = 'none';
         stateIssues.textContent = '';
@@ -354,7 +521,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
       const jErrors = journal.errors || [];
       if (jErrors.length > 0) {
         journalErrors.style.display = '';
-        journalErrors.textContent = jErrors.slice(0, 2).map((e) => 'Line ' + e.line + ': ' + e.message).join('  •  ');
+        journalErrors.textContent = jErrors.slice(0, 2).map((e) => 'Line ' + e.line + ': ' + e.message).join('  |  ');
       } else {
         journalErrors.style.display = 'none';
         journalErrors.textContent = '';
@@ -362,6 +529,24 @@ function renderWebviewHtml(webview: vscode.Webview): string {
 
       renderWorkSummaries(snapshot.workSummaries || []);
       renderArtifacts(snapshot.artifacts || []);
+      renderInteraction(snapshot.awaitingInput);
+    }
+
+    function renderInteraction(awaitingInput) {
+      if (!awaitingInput || awaitingInput.awaiting !== true) {
+        awaitingInputVisible = false;
+        interactionCard.style.display = 'none';
+        interactionSource.textContent = '';
+        interactionPrompt.textContent = '';
+        interactionHint.textContent = '';
+        return;
+      }
+
+      awaitingInputVisible = true;
+      interactionCard.style.display = '';
+      interactionSource.textContent = awaitingInput.source || '';
+      interactionPrompt.textContent = awaitingInput.prompt ? awaitingInput.prompt : 'The o process appears to be waiting for input.';
+      interactionHint.textContent = 'Shortcuts: Ctrl+Enter to send response, Enter to send Enter, Esc to send ESC, / to focus input.';
     }
 
     function renderWorkSummaries(items) {
@@ -391,7 +576,7 @@ function renderWebviewHtml(webview: vscode.Webview): string {
         const hint = document.createElement('div');
         hint.className = 'hint';
         const size = item.size != null ? formatBytes(item.size) : '';
-        hint.textContent = [size].filter(Boolean).join(' • ');
+        hint.textContent = [size].filter(Boolean).join(' | ');
         left.appendChild(hint);
 
         const actions = document.createElement('div');
@@ -466,11 +651,12 @@ function renderWebviewHtml(webview: vscode.Webview): string {
     function renderTextFile(msg) {
       if (!msg || typeof msg.content !== 'string') return;
       workPreview.style.display = '';
-      const suffix = msg.truncated ? '\\n\\n… (truncated)' : '';
+      const suffix = msg.truncated ? '\\n\\n(truncated)' : '';
       workPreview.textContent = msg.content + suffix;
       workPreview.scrollTop = 0;
     }
 
+    showBanner('Loading run details...', { spinner: true });
     vscode.postMessage({ type: 'ready' });
   </script>
 </body>
@@ -482,11 +668,18 @@ class RunDetailsPanel {
   private readonly run: Run;
   private readonly journalTailer = new JournalTailer();
   private journalEntries: unknown[] = [];
+  private readonly interaction: RunInteractionController | undefined;
 
   private readonly disposables: vscode.Disposable[] = [];
 
-  constructor(params: { extensionUri: vscode.Uri; run: Run; onDisposed: () => void }) {
+  constructor(params: {
+    extensionUri: vscode.Uri;
+    run: Run;
+    onDisposed: () => void;
+    interaction?: RunInteractionController;
+  }) {
     this.run = params.run;
+    this.interaction = params.interaction;
     this.panel = vscode.window.createWebviewPanel(
       'babysitter.runDetails',
       `Run ${params.run.id}`,
@@ -535,6 +728,15 @@ class RunDetailsPanel {
       case 'loadTextFile':
         await this.loadTextFile(msg.fsPath);
         return;
+      case 'sendUserInput':
+        await this.sendUserInput(msg.runId, msg.text);
+        return;
+      case 'sendEnter':
+        await this.sendEnter(msg.runId);
+        return;
+      case 'sendEsc':
+        await this.sendEsc(msg.runId);
+        return;
       default:
         return;
     }
@@ -559,6 +761,8 @@ class RunDetailsPanel {
         maxWorkSummaries: 50,
       });
       this.journalEntries = nextJournalEntries;
+      const processAwaiting = this.interaction?.getAwaitingInput(this.run.id);
+      if (processAwaiting) snapshot.awaitingInput = processAwaiting;
       await this.post({ type: 'snapshot', snapshot });
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
@@ -566,9 +770,59 @@ class RunDetailsPanel {
     }
   }
 
+  private async sendUserInput(runId: string, text: string): Promise<void> {
+    if (!this.interaction) {
+      await this.post({
+        type: 'error',
+        message: 'No interactive `o` process is available to send input.',
+      });
+      return;
+    }
+    const trimmed = typeof text === 'string' ? text.trim() : '';
+    if (!trimmed) return;
+    const ok = await this.interaction.sendUserInput(runId, trimmed);
+    if (!ok)
+      await this.post({
+        type: 'error',
+        message: 'Could not send input: no associated `o` process.',
+      });
+  }
+
+  private async sendEnter(runId: string): Promise<void> {
+    if (!this.interaction) {
+      await this.post({
+        type: 'error',
+        message: 'No interactive `o` process is available to send Enter.',
+      });
+      return;
+    }
+    const ok = await this.interaction.sendEnter(runId);
+    if (!ok)
+      await this.post({
+        type: 'error',
+        message: 'Could not send Enter: no associated `o` process.',
+      });
+  }
+
+  private async sendEsc(runId: string): Promise<void> {
+    if (!this.interaction) {
+      await this.post({
+        type: 'error',
+        message: 'No interactive `o` process is available to send ESC.',
+      });
+      return;
+    }
+    const ok = await this.interaction.sendEsc(runId);
+    if (!ok)
+      await this.post({ type: 'error', message: 'Could not send ESC: no associated `o` process.' });
+  }
+
   private async openInEditor(fsPath: string): Promise<void> {
     if (!isFsPathInsideRoot(this.run.paths.runRoot, fsPath)) {
-      await this.post({ type: 'error', message: 'Refusing to open a file outside the run directory.' });
+      await this.post({
+        type: 'error',
+        message: 'Refusing to open a file outside the run directory.',
+      });
       return;
     }
     try {
@@ -587,7 +841,13 @@ class RunDetailsPanel {
     if (!isFsPathInsideRoot(this.run.paths.runRoot, fsPath)) return;
     try {
       const res = readTextFileWithLimit(fsPath, 200_000);
-      await this.post({ type: 'textFile', fsPath, content: res.content, truncated: res.truncated, size: res.size });
+      await this.post({
+        type: 'textFile',
+        fsPath,
+        content: res.content,
+        truncated: res.truncated,
+        size: res.size,
+      });
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       await this.post({ type: 'error', message: `Could not read file: ${message}` });
@@ -595,11 +855,24 @@ class RunDetailsPanel {
   }
 }
 
-export function createRunDetailsViewManager(context: vscode.ExtensionContext): {
+export function createRunDetailsViewManager(
+  context: vscode.ExtensionContext,
+  params?: { interaction?: RunInteractionController },
+): {
   open: (run: Run) => Promise<void>;
   onRunChangeBatch: (batch: RunChangeBatch) => void;
 } {
   const panelsByRunId = new Map<string, RunDetailsPanel>();
+  const interaction = params?.interaction;
+
+  if (interaction) {
+    context.subscriptions.push(
+      interaction.onDidChange((runId) => {
+        const panel = panelsByRunId.get(runId);
+        if (panel) void panel.refresh();
+      }),
+    );
+  }
 
   const open = async (run: Run): Promise<void> => {
     const existing = panelsByRunId.get(run.id);
@@ -615,6 +888,7 @@ export function createRunDetailsViewManager(context: vscode.ExtensionContext): {
       onDisposed: () => {
         panelsByRunId.delete(run.id);
       },
+      ...(interaction ? { interaction } : {}),
     });
     panelsByRunId.set(run.id, panel);
     context.subscriptions.push(panel);

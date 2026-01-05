@@ -63,4 +63,3 @@ suite('DebouncedBatcher', () => {
     assert.deepStrictEqual(batches, []);
   });
 });
-

@@ -24,7 +24,8 @@ function createGlobPatterns(params: {
 
   const workspaceRoot = params.workspaceFolder.uri.fsPath;
   const relative = path.relative(workspaceRoot, params.runsRootPath);
-  const isInsideWorkspace = relative !== '' && relative !== '.' && !relative.startsWith('..') && !path.isAbsolute(relative);
+  const isInsideWorkspace =
+    relative !== '' && relative !== '.' && !relative.startsWith('..') && !path.isAbsolute(relative);
 
   if (isInsideWorkspace) {
     const prefix = `${toPosixGlobPath(relative)}/`;
@@ -40,7 +41,10 @@ export function createRunFileWatchers(params: {
   debounceMs: number;
   onBatch: (batch: RunChangeBatch) => void;
 }): vscode.Disposable {
-  const globs = createGlobPatterns({ runsRootPath: params.runsRootPath, workspaceFolder: params.workspaceFolder });
+  const globs = createGlobPatterns({
+    runsRootPath: params.runsRootPath,
+    workspaceFolder: params.workspaceFolder,
+  });
 
   const batcher = new DebouncedBatcher<RunFileChange>(params.debounceMs, (changes) => {
     params.onBatch(toRunChangeBatch(changes));
@@ -57,13 +61,13 @@ export function createRunFileWatchers(params: {
   };
 
   const stateWatcher = vscode.workspace.createFileSystemWatcher(
-    new vscode.RelativePattern(globs.base, `${globs.prefix}run-*/state.json`),
+    new vscode.RelativePattern(globs.base, `${globs.prefix}/state.json`),
   );
   const journalWatcher = vscode.workspace.createFileSystemWatcher(
-    new vscode.RelativePattern(globs.base, `${globs.prefix}run-*/journal.jsonl`),
+    new vscode.RelativePattern(globs.base, `${globs.prefix}/journal.jsonl`),
   );
   const artifactsWatcher = vscode.workspace.createFileSystemWatcher(
-    new vscode.RelativePattern(globs.base, `${globs.prefix}run-*/artifacts/**`),
+    new vscode.RelativePattern(globs.base, `${globs.prefix}/artifacts/**`),
   );
 
   const disposables: vscode.Disposable[] = [

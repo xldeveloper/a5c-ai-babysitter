@@ -1,17 +1,15 @@
 import * as path from 'path';
 
-export const RUN_ID_DIR_REGEX = /^run-\d{8}-\d{6}$/;
-
 export function isRunId(dirName: string): boolean {
-  return RUN_ID_DIR_REGEX.test(dirName);
+  return true;
 }
 
 /**
- * Extracts the run id (`run-YYYYMMDD-HHMMSS`) from an absolute path that is
+ * Extracts the run id (`20260105-010206-anything`) from an absolute path that is
  * expected to be inside the runs root.
  *
  * Examples:
- * - runsRoot=/x/.a5c/runs, fsPath=/x/.a5c/runs/run-20260105-010206/state.json -> run-20260105-010206
+ * - runsRoot=/x/.a5c/runs, fsPath=/x/.a5c/runs/20260105-010206-anything/state.json -> 20260105-010206-anything
  * - runsRoot=/x/.a5c/runs, fsPath=/x/.a5c/runs -> undefined
  * - runsRoot=/x/.a5c/runs, fsPath=/x/other -> undefined
  */

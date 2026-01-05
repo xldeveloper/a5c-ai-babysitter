@@ -19,6 +19,7 @@ suite('Extension', () => {
 
     const commands = await vscode.commands.getCommands(true);
     assert.ok(commands.includes('babysitter.openRunDetails'));
+    assert.ok(commands.includes('babysitter.openRunLogs'));
     assert.ok(commands.includes('babysitter.revealRunFolder'));
   });
 });

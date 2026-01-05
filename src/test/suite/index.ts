@@ -12,6 +12,7 @@ export function run(): Promise<void> {
   mocha.addFile(path.resolve(testsRoot, 'extension.test'));
   mocha.addFile(path.resolve(testsRoot, 'dispatch.test'));
   mocha.addFile(path.resolve(testsRoot, 'resume.test'));
+  mocha.addFile(path.resolve(testsRoot, 'promptBuilderUi.test'));
 
   return new Promise((resolve, reject) => {
     mocha.run((failures) => {
