@@ -150,6 +150,25 @@ export class PromptBuilderBridge {
     if (!msg || typeof msg !== 'object' || !('type' in msg)) return false;
     const typed = msg as { type: string; [key: string]: unknown };
 
+    // Prompt preview is a webview-side UX affordance. Keep it in the bridge so
+    // callers can opt-in without needing extension-specific command plumbing.
+    if (typed.type === 'previewPrompt' || typed.type === 'previewDispatch') {
+      const raw =
+        typeof typed.text === 'string'
+          ? typed.text
+          : typeof typed.prompt === 'string'
+            ? typed.prompt
+            : '';
+      const text = raw.trim();
+      if (!text) {
+        await Promise.resolve(this.deps.webview.postMessage({ type: 'status', text: 'Prompt is empty.' }));
+        return true;
+      }
+      const responseType = typed.type === 'previewDispatch' ? 'dispatchPreview' : 'promptPreview';
+      await Promise.resolve(this.deps.webview.postMessage({ type: responseType, text }));
+      return true;
+    }
+
     if (typed.type === 'drop') {
       const raw = typeof typed.text === 'string' ? typed.text : '';
       const items = parseDroppedText(raw);
