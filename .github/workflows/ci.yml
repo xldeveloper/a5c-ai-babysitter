@@ -49,7 +49,7 @@ jobs:
       - name: Extension tests
         run: |
           set -o pipefail
-          node ./dist/test/runTest.js --headless 2>&1 | tee artifacts/test-logs/extension-tests.log
+          xvfb-run -a node ./dist/test/runTest.js 2>&1 | tee artifacts/test-logs/extension-tests.log
 
       - name: Package VSIX
         run: |
