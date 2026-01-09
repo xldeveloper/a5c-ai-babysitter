@@ -9,4 +9,3 @@ suite('terminalSanitize', () => {
     assert.strictEqual(output, 'hello red world\nnextline');
   });
 });
-

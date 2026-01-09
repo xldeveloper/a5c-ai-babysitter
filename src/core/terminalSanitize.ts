@@ -1,3 +1,4 @@
+/* eslint-disable no-control-regex */
 const CSI = /\x1b\[[0-?]*[ -/]*[@-~]/g; // Control Sequence Introducer
 const OSC = /\x1b\][^\x07]*(?:\x07|\x1b\\)/g; // Operating System Command
 const DCS_PM_APC = /\x1b[PX^_].*?\x1b\\/gs; // DCS, PM, APC
@@ -20,4 +21,3 @@ export function sanitizeTerminalOutput(text: string): string {
       .replace(OTHER_CONTROLS, '')
   );
 }
-

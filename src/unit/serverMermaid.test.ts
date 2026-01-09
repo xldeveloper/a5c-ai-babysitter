@@ -9,8 +9,14 @@ suite('serverMermaid renderer', () => {
     assert.strictEqual(blocks.length, 1);
     const block = blocks[0];
     assert.strictEqual(block.blockIndex, 0);
-    assert.ok(block.lightSvgDataUrl?.startsWith('data:image/svg+xml;base64,'), 'expected light SVG data URL');
-    assert.ok(block.darkSvgDataUrl?.startsWith('data:image/svg+xml;base64,'), 'expected dark SVG data URL');
+    assert.ok(
+      block.lightSvgDataUrl?.startsWith('data:image/svg+xml;base64,'),
+      'expected light SVG data URL',
+    );
+    assert.ok(
+      block.darkSvgDataUrl?.startsWith('data:image/svg+xml;base64,'),
+      'expected dark SVG data URL',
+    );
     assert.ifError(block.error);
   });
 

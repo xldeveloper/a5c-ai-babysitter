@@ -83,7 +83,7 @@ function chooseBestNewRunId(params: {
 
   const withTime = scored.filter((s) => s.timeMs !== undefined && Number.isFinite(s.timeMs));
   if (withTime.length > 0) {
-    withTime.sort((a, b) => (b.timeMs! - a.timeMs!) || a.id.localeCompare(b.id));
+    withTime.sort((a, b) => b.timeMs! - a.timeMs! || a.id.localeCompare(b.id));
     return withTime[0]!.id;
   }
 
@@ -118,16 +118,15 @@ export async function waitForNewRunId(params: {
     if (!signal) return new Promise((r) => setTimeout(r, ms));
     if (signal.aborted) return Promise.resolve();
     return new Promise((resolve) => {
-      let timer: NodeJS.Timeout;
+      const timer = setTimeout(() => {
+        signal.removeEventListener('abort', onAbort);
+        resolve();
+      }, ms);
       const onAbort = (): void => {
         clearTimeout(timer);
         signal.removeEventListener('abort', onAbort);
         resolve();
       };
-      timer = setTimeout(() => {
-        signal.removeEventListener('abort', onAbort);
-        resolve();
-      }, ms);
       signal.addEventListener('abort', onAbort);
     });
   };

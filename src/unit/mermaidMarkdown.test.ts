@@ -1,9 +1,6 @@
 import * as assert from 'assert';
 
-import {
-  extractMermaidCodeBlocks,
-  normalizeMermaidMarkdown,
-} from '../extension/mermaidMarkdown';
+import { extractMermaidCodeBlocks, normalizeMermaidMarkdown } from '../extension/mermaidMarkdown';
 
 suite('normalizeMermaidMarkdown', () => {
   test('returns input unchanged when full ```mermaid fence already exists', () => {

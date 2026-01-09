@@ -29,10 +29,7 @@ import {
   setPinnedIdsForRun,
 } from './keyFilesModel';
 import { normalizeMermaidMarkdown } from './mermaidMarkdown';
-import {
-  renderMermaidBlocksFromMarkdown,
-  type HostRenderedMermaidBlock,
-} from './serverMermaid';
+import { renderMermaidBlocksFromMarkdown, type HostRenderedMermaidBlock } from './serverMermaid';
 
 type WebviewInboundMessage =
   | { type: 'ready' }
@@ -83,7 +80,7 @@ function nonce(len = 16): string {
   return out;
 }
 
-function renderWebviewHtml(webview: vscode.Webview, extensionUri: vscode.Uri): string {
+function renderWebviewHtml(webview: vscode.Webview): string {
   const cspSource = webview.cspSource;
   const scriptNonce = nonce();
   const webviewHelpersJs = [
@@ -2310,7 +2307,7 @@ class RunDetailsPanel {
       },
     );
 
-    this.panel.webview.html = renderWebviewHtml(this.panel.webview, params.extensionUri);
+    this.panel.webview.html = renderWebviewHtml(this.panel.webview);
 
     this.disposables.push(
       this.panel.onDidDispose(() => {
@@ -2410,7 +2407,10 @@ class RunDetailsPanel {
       if (this.activeTextTailFsPath) {
         const update = this.workSummaryTailSession.poll();
         if (update?.type === 'set') {
-          const mermaidBlocks = await maybeRenderMermaidBlocksForFile(update.fsPath, update.content);
+          const mermaidBlocks = await maybeRenderMermaidBlocksForFile(
+            update.fsPath,
+            update.content,
+          );
           await this.post({
             type: 'textFile',
             fsPath: update.fsPath,

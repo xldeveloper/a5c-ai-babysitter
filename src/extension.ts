@@ -451,7 +451,8 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
           typeof (err as { stderr?: unknown }).stderr === 'string'
             ? ((err as { stderr?: string }).stderr ?? '')
             : '';
-        const combined = `${capturedStdout}${capturedStderr ? `\n${capturedStderr}` : ''}`.trimEnd();
+        const combined =
+          `${capturedStdout}${capturedStderr ? `\n${capturedStderr}` : ''}`.trimEnd();
         if (combined.trim()) {
           const maxChars = 8_000;
           const tail = combined.length > maxChars ? combined.slice(-maxChars) : combined;

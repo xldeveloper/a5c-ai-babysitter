@@ -11,6 +11,8 @@ export type HostRenderedMermaidBlock = {
   error?: string;
 };
 
+type GlobalShim = typeof globalThis & Record<string, unknown>;
+
 const DEFAULT_MAX_BLOCKS = 12;
 let envReady: Promise<void> | undefined;
 let renderSeq = 0;
@@ -32,10 +34,10 @@ function svgToDataUrl(svg: string): string {
 
 async function ensureMermaidEnvironment(): Promise<void> {
   if (envReady) return envReady;
-  envReady = (async () => {
+  envReady = Promise.resolve().then(() => {
     const dom = new JSDOM('<div id="mermaid-root"></div>', { pretendToBeVisual: true });
-    const windowAny = dom.window as unknown as Record<string, unknown>;
-    const globalAny = globalThis as typeof globalThis & Record<string, unknown>;
+    const windowAny = dom.window as unknown as GlobalShim;
+    const globalAny = globalThis as GlobalShim;
 
     globalAny.window = windowAny;
     globalAny.document = windowAny.document;
@@ -53,7 +55,7 @@ async function ensureMermaidEnvironment(): Promise<void> {
       windowAny.cancelAnimationFrame?.bind(windowAny) || ((id: number) => clearTimeout(Number(id)));
     globalAny.performance = windowAny.performance;
     globalAny.MutationObserver = windowAny.MutationObserver;
-  })();
+  });
   return envReady;
 }
 
