@@ -6,6 +6,9 @@
   "publisher": "a5c-ai",
   "license": "UNLICENSED",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "engines": {
     "vscode": "^1.90.0"
   },
@@ -241,7 +244,9 @@
     "test:extension": "npm run build && npm run test:extension:compiled",
     "test:extension:compiled": "node ./dist/test/runTest.js",
     "test": "npm run build && npm run test:unit:compiled && npm run test:extension:compiled",
-    "test:ci": "npm run build && npm run test:unit:compiled && node ./dist/test/runTest.js --headless"
+    "test:ci": "npm run build && npm run test:unit:compiled && node ./dist/test/runTest.js --headless",
+    "test:sdk": "npm run test --workspace=@a5c/babysitter-sdk",
+    "build:sdk": "npm run build --workspace=@a5c/babysitter-sdk"
   },
   "devDependencies": {
     "@types/jsdom": "^27.0.0",
@@ -259,6 +264,7 @@
     "prettier": "^3.3.3"
   },
   "dependencies": {
+    "dompurify": "^3.3.1",
     "jsdom": "^27.4.0",
     "mermaid": "^10.9.1",
     "node-pty": "^1.1.0",
