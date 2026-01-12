@@ -6,13 +6,7 @@ import { ProcessContext } from "../types";
 import { createProcessContext, InternalProcessContext } from "../processContext";
 import { replaySchemaVersion } from "../constants";
 import { RunFailedError } from "../exceptions";
-import {
-  createStateCacheSnapshot,
-  journalHeadsEqual,
-  readStateCache,
-  StateCacheSnapshot,
-  writeStateCache,
-} from "./stateCache";
+import { journalHeadsEqual, readStateCache, rebuildStateCache, StateCacheSnapshot } from "./stateCache";
 
 export interface CreateReplayEngineOptions {
   runDir: string;
@@ -37,8 +31,11 @@ export async function createReplayEngine(options: CreateReplayEngineOptions): Pr
   const metadata = await readRunMetadata(options.runDir);
   ensureCompatibleLayout(metadata.layoutVersion, options.runDir);
   const inputs = await readRunInputs(options.runDir);
-  const existingStateCache = await readStateCache(options.runDir);
   const effectIndex = await buildEffectIndex({ runDir: options.runDir });
+  const { snapshot: stateCacheSnapshot, rebuildMeta: stateRebuild } = await resolveStateCacheSnapshot({
+    runDir: options.runDir,
+    effectIndex,
+  });
   const replayCursor = new ReplayCursor();
   const processId = metadata.processId ?? metadata.request ?? metadata.runId;
   const { context, internalContext } = createProcessContext({
@@ -50,24 +47,6 @@ export async function createReplayEngine(options: CreateReplayEngineOptions): Pr
     now: options.now,
     logger: options.logger,
   });
-  const journalHead = effectIndex.getJournalHead();
-  const nextSnapshot = createStateCacheSnapshot(journalHead ?? undefined);
-  let stateCacheSnapshot: StateCacheSnapshot | null = existingStateCache ?? null;
-  let stateRebuild: ReplayEngine["stateRebuild"] = null;
-  if (!existingStateCache) {
-    stateCacheSnapshot = nextSnapshot;
-    stateRebuild = { reason: "missing_cache", previous: null };
-    await writeStateCache(options.runDir, stateCacheSnapshot);
-  } else if (!journalHeadsEqual(existingStateCache.journalHead, journalHead ?? null)) {
-    stateCacheSnapshot = nextSnapshot;
-    stateRebuild = {
-      reason: "journal_mismatch",
-      previous: existingStateCache.journalHead ?? null,
-    };
-    await writeStateCache(options.runDir, stateCacheSnapshot);
-  } else {
-    stateCacheSnapshot = existingStateCache;
-  }
 
   return {
     runId: metadata.runId,
@@ -81,6 +60,42 @@ export async function createReplayEngine(options: CreateReplayEngineOptions): Pr
     stateCache: stateCacheSnapshot,
     stateRebuild,
   };
+}
+
+async function resolveStateCacheSnapshot({
+  runDir,
+  effectIndex,
+}: {
+  runDir: string;
+  effectIndex: EffectIndex;
+}): Promise<{ snapshot: StateCacheSnapshot | null; rebuildMeta: ReplayEngine["stateRebuild"] }> {
+  let existingSnapshot: StateCacheSnapshot | null = null;
+  let corrupted = false;
+  try {
+    existingSnapshot = await readStateCache(runDir);
+  } catch {
+    corrupted = true;
+  }
+
+  if (corrupted || !existingSnapshot) {
+    const reason = corrupted ? "corrupt_cache" : "missing_cache";
+    const rebuilt = await rebuildStateCache(runDir, { effectIndex, reason });
+    return { snapshot: rebuilt, rebuildMeta: { reason, previous: null } };
+  }
+
+  const journalHead = effectIndex.getJournalHead() ?? null;
+  if (!journalHeadsEqual(existingSnapshot.journalHead, journalHead)) {
+    const rebuilt = await rebuildStateCache(runDir, {
+      effectIndex,
+      reason: "journal_mismatch",
+    });
+    return {
+      snapshot: rebuilt,
+      rebuildMeta: { reason: "journal_mismatch", previous: existingSnapshot.journalHead ?? null },
+    };
+  }
+
+  return { snapshot: existingSnapshot, rebuildMeta: null };
 }
 
 function ensureCompatibleLayout(layoutVersion: string | undefined, runDir: string) {

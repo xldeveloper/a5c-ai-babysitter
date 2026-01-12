@@ -1,7 +1,9 @@
 import type { JsonRecord, RunMetadata } from "../storage/types";
 import type { DefinedTask, TaskBuildContext, TaskDef, TaskInvokeOptions } from "../tasks/types";
+import type { StateCacheJournalHead } from "./replay/stateCache";
 
 export type { DefinedTask, TaskBuildContext, TaskDef, TaskInvokeOptions } from "../tasks/types";
+export type { StateCacheJournalHead } from "./replay/stateCache";
 
 export type ProcessLogger = (...args: any[]) => void;
 
@@ -111,10 +113,18 @@ export interface OrchestrateOptions {
   logger?: ProcessLogger;
 }
 
+export interface IterationMetadata {
+  stateVersion?: number;
+  stateRebuilt?: boolean;
+  stateRebuildReason?: string | null;
+  pendingEffectsByKind?: Record<string, number>;
+  journalHead?: StateCacheJournalHead | null;
+}
+
 export type IterationResult =
-  | { status: "completed"; output: unknown }
-  | { status: "waiting"; nextActions: EffectAction[] }
-  | { status: "failed"; error: unknown };
+  | { status: "completed"; output: unknown; metadata?: IterationMetadata }
+  | { status: "waiting"; nextActions: EffectAction[]; metadata?: IterationMetadata }
+  | { status: "failed"; error: unknown; metadata?: IterationMetadata };
 
 export interface CommitEffectResultOptions {
   runDir: string;

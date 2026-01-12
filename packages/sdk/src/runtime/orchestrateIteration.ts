@@ -10,7 +10,13 @@ import {
   ParallelPendingError,
   RunFailedError,
 } from "./exceptions";
-import { IterationResult, OrchestrateOptions, EffectAction, EffectSchedulerHints } from "./types";
+import {
+  IterationMetadata,
+  IterationResult,
+  OrchestrateOptions,
+  EffectAction,
+  EffectSchedulerHints,
+} from "./types";
 import { serializeUnknownError } from "./errorUtils";
 import { emitRuntimeMetric } from "./instrumentation";
 
@@ -41,7 +47,7 @@ export async function orchestrateIteration(options: OrchestrateOptions): Promise
         outputRef,
       },
     });
-    const result: IterationResult = { status: "completed", output };
+    const result: IterationResult = { status: "completed", output, metadata: createIterationMetadata(engine) };
     finalStatus = result.status;
     return result;
   } catch (error) {
@@ -51,6 +57,7 @@ export async function orchestrateIteration(options: OrchestrateOptions): Promise
       return {
         status: "waiting",
         nextActions: annotateWaitingActions(waiting.nextActions),
+        metadata: createIterationMetadata(engine),
       };
     }
     const failure = serializeUnknownError(error);
@@ -59,7 +66,11 @@ export async function orchestrateIteration(options: OrchestrateOptions): Promise
       eventType: "RUN_FAILED",
       event: { error: failure },
     });
-    const result: IterationResult = { status: "failed", error: failure };
+    const result: IterationResult = {
+      status: "failed",
+      error: failure,
+      metadata: createIterationMetadata(engine),
+    };
     finalStatus = result.status;
     return result;
   } finally {
@@ -212,4 +223,14 @@ function mergeSchedulerHints(
     return base;
   }
   return merged;
+}
+
+function createIterationMetadata(engine: ReplayEngine): IterationMetadata {
+  return {
+    stateVersion: engine.stateCache?.stateVersion,
+    pendingEffectsByKind: engine.stateCache?.pendingEffectsByKind,
+    journalHead: engine.stateCache?.journalHead ?? null,
+    stateRebuilt: Boolean(engine.stateRebuild),
+    stateRebuildReason: engine.stateRebuild?.reason ?? null,
+  };
 }

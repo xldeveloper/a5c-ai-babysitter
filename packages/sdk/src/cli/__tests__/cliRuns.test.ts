@@ -7,6 +7,7 @@ import { readRunMetadata } from "../../storage/runFiles";
 import { DEFAULT_LAYOUT_VERSION } from "../../storage/paths";
 import { appendEvent, loadJournal } from "../../storage/journal";
 import { createRunDir } from "../../storage/createRunDir";
+import { createStateCacheSnapshot, writeStateCache } from "../../runtime/replay/stateCache";
 
 describe("babysitter run:create CLI", () => {
   let runsRoot: string;
@@ -181,6 +182,33 @@ describe("run lifecycle inspection commands", () => {
       expect(payload.lastEvent.path).toMatch(/^journal\//);
     });
 
+    it("includes iteration metadata in JSON output", async () => {
+      const runDir = await createRunWithPendingEffects();
+      await seedStateCache(runDir, { stateVersion: 5 });
+
+      const exitCode = await cli.run(["run:status", runDir, "--json"]);
+
+      expect(exitCode).toBe(0);
+      const payload = readLastJson(logSpy);
+      expect(payload.metadata).toMatchObject({
+        stateVersion: 5,
+        pendingEffectsByKind: { breakpoint: 1, node: 1 },
+      });
+    });
+
+    it("renders state metadata in human-readable output", async () => {
+      const runDir = await createRunWithPendingEffects();
+      await seedStateCache(runDir, { stateVersion: 7 });
+
+      const exitCode = await cli.run(["run:status", runDir]);
+
+      expect(exitCode).toBe(0);
+      const line = findSingleLine(logSpy, (entry) => entry.startsWith("[run:status]"));
+      expect(line).toContain("stateVersion=7");
+      expect(line).toContain("pending[breakpoint]=1");
+      expect(line).toContain("pending[node]=1");
+    });
+
     it("fails clearly when the run directory is missing", async () => {
       const missingDir = path.join(runsRoot, "missing-run");
 
@@ -272,6 +300,68 @@ describe("run lifecycle inspection commands", () => {
       expect(exitCode).toBe(1);
       expect(hasLineContaining(errorSpy, "[run:events] unable to read run metadata")).toBe(true);
     });
+
+    it("surfaces iteration metadata in JSON output", async () => {
+      const runDir = await createRunSkeleton("run-iteration-events");
+      const iterationMetadata = {
+        stateVersion: 4,
+        pendingEffectsByKind: { node: 1 },
+        stateRebuilt: true,
+        stateRebuildReason: "runtime_refresh",
+      };
+      await appendEvent({
+        runDir,
+        eventType: "RUN_ITERATION",
+        event: {
+          iteration: {
+            status: "waiting",
+            nextActions: [],
+            metadata: iterationMetadata,
+          },
+        },
+      });
+
+      const exitCode = await cli.run(["run:events", runDir, "--json"]);
+
+      expect(exitCode).toBe(0);
+      const payload = readLastJson(logSpy);
+      expect(Array.isArray(payload.events)).toBe(true);
+      const lastEvent = payload.events.at(-1);
+      expect(lastEvent.data.iteration.metadata).toEqual(iterationMetadata);
+    });
+  });
+
+  describe("run:rebuild-state", () => {
+    it("rebuilds the cache and prints metadata summary", async () => {
+      const runDir = await createRunWithPendingEffects();
+
+      const exitCode = await cli.run(["run:rebuild-state", runDir]);
+
+      expect(exitCode).toBe(0);
+      const line = findSingleLine(logSpy, (entry) => entry.startsWith("[run:rebuild-state]"));
+      expect(line).toContain(`runDir=${runDir}`);
+      expect(line).toContain("pending[total]=2");
+      expect(line).toContain("pending[breakpoint]=1");
+      expect(line).toContain("pending[node]=1");
+    });
+
+    it("supports machine-readable metadata", async () => {
+      const runDir = await createRunWithPendingEffects();
+
+      const exitCode = await cli.run(["run:rebuild-state", runDir, "--json"]);
+
+      expect(exitCode).toBe(0);
+      const payload = readLastJson(logSpy);
+      expect(payload).toMatchObject({
+        runDir,
+        metadata: expect.objectContaining({
+          stateRebuilt: true,
+          stateRebuildReason: "cli_manual",
+          pendingEffectsByKind: { breakpoint: 1, node: 1 },
+        }),
+      });
+      expect(typeof payload.metadata.stateVersion).toBe("number");
+    });
   });
 
   async function createRunWithPendingEffects() {
@@ -292,6 +382,23 @@ describe("run lifecycle inspection commands", () => {
       event: { reason: "boom" },
     });
     return runDir;
+  }
+
+  async function seedStateCache(
+    runDir: string,
+    options: { stateVersion?: number; pendingEffectsByKind?: Record<string, number> } = {}
+  ) {
+    await writeStateCache(
+      runDir,
+      createStateCacheSnapshot({
+        stateVersion: options.stateVersion,
+        pendingEffectsByKind: options.pendingEffectsByKind,
+        journalHead: {
+          seq: options.stateVersion ?? 0,
+          ulid: "01HSTATECACHE0000000000000",
+        },
+      })
+    );
   }
 
   async function createRunSkeleton(runId: string) {

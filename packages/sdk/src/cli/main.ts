@@ -5,7 +5,9 @@ import type { CliRunNodeTaskResult } from "./nodeTaskRunner";
 import { orchestrateIteration } from "../runtime/orchestrateIteration";
 import { createRun } from "../runtime/createRun";
 import { buildEffectIndex } from "../runtime/replay/effectIndex";
-import { EffectAction, EffectRecord } from "../runtime/types";
+import { readStateCache, rebuildStateCache } from "../runtime/replay/stateCache";
+import type { StateCacheSnapshot } from "../runtime/replay/stateCache";
+import { EffectAction, EffectRecord, IterationMetadata } from "../runtime/types";
 import { readTaskDefinition, readTaskResult } from "../storage/tasks";
 import { loadJournal } from "../storage/journal";
 import { readRunMetadata } from "../storage/runFiles";
@@ -15,6 +17,7 @@ const USAGE = `Usage:
   babysitter run:create --process-id <id> --entry <path#export> [--runs-dir <dir>] [--inputs <file>] [--run-id <id>] [--process-revision <rev>] [--request <id>] [--json]
   babysitter run:status <runDir> [--runs-dir <dir>] [--json]
   babysitter run:events <runDir> [--runs-dir <dir>] [--json] [--limit <n>] [--reverse] [--filter-type <type>]
+  babysitter run:rebuild-state <runDir> [--runs-dir <dir>] [--json]
   babysitter task:run <runDir> <effectId> [--runs-dir <dir>] [--json] [--dry-run]
   babysitter run:step <runDir> [--runs-dir <dir>] [--json] [--now <iso8601>]
   babysitter run:continue <runDir> [--runs-dir <dir>] [--json] [--dry-run] [--auto-node-tasks]
@@ -162,6 +165,8 @@ function parseArgs(argv: string[]): ParsedArgs {
   } else if (parsed.command === "run:status") {
     [parsed.runDirArg] = positionals;
   } else if (parsed.command === "run:events") {
+    [parsed.runDirArg] = positionals;
+  } else if (parsed.command === "run:rebuild-state") {
     [parsed.runDirArg] = positionals;
   } else if (parsed.command === "run:step") {
     [parsed.runDirArg] = positionals;
@@ -318,6 +323,19 @@ async function handleRunStatus(parsed: ParsedArgs): Promise<number> {
   const pendingRecords = index.listPendingEffects();
   const pendingByKind = countPendingByKind(pendingRecords);
   const pendingTotal = pendingRecords.length;
+  const stateSnapshot = await readStateCacheSafe(runDir, "run:status");
+  const iterationMetadata: IterationMetadata = {
+    pendingEffectsByKind: pendingByKind,
+  };
+  if (stateSnapshot) {
+    iterationMetadata.stateVersion = stateSnapshot.stateVersion;
+    iterationMetadata.journalHead = stateSnapshot.journalHead ?? null;
+    if (stateSnapshot.rebuildReason) {
+      iterationMetadata.stateRebuilt = true;
+      iterationMetadata.stateRebuildReason = stateSnapshot.rebuildReason;
+    }
+  }
+  const formattedMetadata = formatIterationMetadata(iterationMetadata);
   const lastEvent = journal.at(-1);
   const lastLifecycleEvent = findLastLifecycleEvent(journal);
   const state = deriveRunState(lastLifecycleEvent?.type, pendingTotal);
@@ -328,12 +346,12 @@ async function handleRunStatus(parsed: ParsedArgs): Promise<number> {
         state,
         lastEvent: lastEvent ? serializeJournalEvent(lastEvent, runDir) : null,
         pendingByKind,
+        metadata: formattedMetadata.jsonMetadata ?? null,
       })
     );
     return 0;
   }
-  const pendingParts = formatPendingParts(pendingByKind, pendingTotal);
-  const suffix = pendingParts.length ? ` ${pendingParts.join(" ")}` : "";
+  const suffix = formattedMetadata.textParts.length ? ` ${formattedMetadata.textParts.join(" ")}` : "";
   console.log(`[run:status] state=${state} last=${lastSummary}${suffix}`);
   return 0;
 }
@@ -371,6 +389,31 @@ async function handleRunEvents(parsed: ParsedArgs): Promise<number> {
   for (const event of limited) {
     console.log(`- ${formatEventLine(event)}`);
   }
+  return 0;
+}
+
+async function handleRunRebuildState(parsed: ParsedArgs): Promise<number> {
+  if (!parsed.runDirArg) {
+    console.error(USAGE);
+    return 1;
+  }
+  const runDir = resolveRunDir(parsed.runsDir, parsed.runDirArg);
+  if (!(await readRunMetadataSafe(runDir, "run:rebuild-state"))) return 1;
+  const snapshot = await rebuildStateCache(runDir, { reason: "cli_manual" });
+  const metadata: IterationMetadata = {
+    pendingEffectsByKind: snapshot.pendingEffectsByKind,
+    stateVersion: snapshot.stateVersion,
+    journalHead: snapshot.journalHead ?? null,
+    stateRebuilt: true,
+    stateRebuildReason: snapshot.rebuildReason ?? undefined,
+  };
+  const formatted = formatIterationMetadata(metadata);
+  if (parsed.json) {
+    console.log(JSON.stringify({ runDir, metadata: formatted.jsonMetadata ?? null }));
+    return 0;
+  }
+  const suffix = formatted.textParts.length ? ` ${formatted.textParts.join(" ")}` : "";
+  console.log(`[run:rebuild-state] runDir=${runDir}${suffix}`);
   return 0;
 }
 
@@ -451,9 +494,9 @@ function logFinalStatus(
 
 function emitJsonResult(
   iteration:
-    | { status: "completed"; output: unknown }
-    | { status: "failed"; error: unknown }
-    | { status: "waiting"; pending: ActionSummary[] },
+    | { status: "completed"; output: unknown; metadata?: IterationMetadata }
+    | { status: "failed"; error: unknown; metadata?: IterationMetadata }
+    | { status: "waiting"; pending: ActionSummary[]; metadata?: IterationMetadata },
   executed: ActionSummary[],
   pending: ActionSummary[]
 ) {
@@ -468,6 +511,7 @@ function emitJsonResult(
   } else {
     payload.pending = pending;
   }
+  payload.metadata = iteration.metadata ?? null;
   console.log(JSON.stringify(payload));
 }
 
@@ -487,7 +531,7 @@ async function handleRunContinue(parsed: ParsedArgs): Promise<number> {
       if (nodeActions.length === 0) {
         const pending = summarizeActions(iteration.nextActions);
         if (parsed.json) {
-          emitJsonResult({ status: "waiting", pending }, executed, pending);
+          emitJsonResult({ status: "waiting", pending, metadata: iteration.metadata }, executed, pending);
         } else {
           logFinalStatus("waiting", executed.length, parsed);
           logPending("run:continue", iteration.nextActions);
@@ -519,7 +563,7 @@ async function handleRunContinue(parsed: ParsedArgs): Promise<number> {
 
     const pending = summarizeActions(iteration.nextActions);
     if (parsed.json) {
-      emitJsonResult({ status: "waiting", pending }, executed, pending);
+      emitJsonResult({ status: "waiting", pending, metadata: iteration.metadata }, executed, pending);
     } else {
       logFinalStatus("waiting", executed.length, parsed);
         logPending("run:continue", iteration.nextActions);
@@ -555,7 +599,7 @@ async function handleRunStep(parsed: ParsedArgs): Promise<number> {
 
   const iteration = await orchestrateIteration({ runDir, now });
   if (parsed.json) {
-    console.log(JSON.stringify(iteration));
+    console.log(JSON.stringify({ ...iteration, metadata: iteration.metadata ?? null }));
     return iteration.status === "failed" ? 1 : 0;
   }
 
@@ -714,6 +758,24 @@ async function loadJournalSafe(runDir: string, command: string): Promise<Journal
   }
 }
 
+async function readStateCacheSafe(runDir: string, command: string): Promise<StateCacheSnapshot | null> {
+  try {
+    const snapshot = await readStateCache(runDir);
+    if (!snapshot) {
+      console.warn(`[${command}] state cache snapshot missing at ${runDir} (continuing without metadata)`);
+      return null;
+    }
+    return snapshot;
+  } catch (error) {
+    console.warn(
+      `[${command}] unable to read state cache at ${runDir}: ${
+        error instanceof Error ? error.message : String(error)
+      } (continuing without metadata)`
+    );
+    return null;
+  }
+}
+
 const RUN_LIFECYCLE_TYPES: ReadonlySet<JournalEvent["type"]> = new Set([
   "RUN_CREATED",
   "RUN_COMPLETED",
@@ -754,16 +816,33 @@ function formatLastEventSummary(event?: JournalEvent): string {
   return `${event.type}#${formatSeq(event.seq)} ${event.recordedAt}`;
 }
 
-function formatPendingParts(pendingByKind: Record<string, number>, pendingTotal: number): string[] {
-  const entries = Object.entries(pendingByKind);
-  const parts = [`pending[total]=${pendingTotal}`];
-  for (const [kind, count] of entries) {
-    parts.push(`pending[${kind}]=${count}`);
+function formatIterationMetadata(
+  metadata?: IterationMetadata
+): { textParts: string[]; jsonMetadata?: IterationMetadata } {
+  const textParts: string[] = [];
+  if (!metadata) {
+    return { textParts, jsonMetadata: undefined };
   }
-  return parts;
+  if (metadata.stateVersion !== undefined) {
+    textParts.push(`stateVersion=${metadata.stateVersion}`);
+  }
+  if (metadata.stateRebuilt) {
+    const reasonSuffix = metadata.stateRebuildReason ? `(${metadata.stateRebuildReason})` : "";
+    textParts.push(`stateRebuilt=true${reasonSuffix}`);
+  }
+  const pendingEntries = Object.entries(metadata.pendingEffectsByKind ?? {}).sort(([a], [b]) =>
+    a.localeCompare(b)
+  );
+  const pendingTotal = pendingEntries.reduce((sum, [, count]) => sum + count, 0);
+  textParts.push(`pending[total]=${pendingTotal}`);
+  for (const [kind, count] of pendingEntries) {
+    textParts.push(`pending[${kind}]=${count}`);
+  }
+  return { textParts, jsonMetadata: metadata };
 }
 
 function serializeJournalEvent(event: JournalEvent, runDir: string) {
+  const data = ensureIterationMetadata(event.data);
   return {
     seq: event.seq,
     ulid: event.ulid,
@@ -771,7 +850,23 @@ function serializeJournalEvent(event: JournalEvent, runDir: string) {
     recordedAt: event.recordedAt,
     filename: event.filename,
     path: toRunRelativePosix(runDir, event.path),
-    data: event.data,
+    data,
+  };
+}
+
+function ensureIterationMetadata(data: Record<string, unknown>): Record<string, unknown> {
+  const iteration = data.iteration;
+  if (!iteration || typeof iteration !== "object" || Array.isArray(iteration)) {
+    return data;
+  }
+  const iterationRecord = iteration as Record<string, unknown>;
+  const metadata = iterationRecord.metadata;
+  return {
+    ...data,
+    iteration: {
+      ...iterationRecord,
+      metadata: metadata === undefined ? null : metadata,
+    },
   };
 }
 
@@ -790,6 +885,9 @@ export function createBabysitterCli() {
         const parsed = parseArgs(argv);
         if (parsed.command === "run:create") {
           return await handleRunCreate(parsed);
+        }
+        if (parsed.command === "run:rebuild-state") {
+          return await handleRunRebuildState(parsed);
         }
         if (parsed.command === "run:status") {
           return await handleRunStatus(parsed);

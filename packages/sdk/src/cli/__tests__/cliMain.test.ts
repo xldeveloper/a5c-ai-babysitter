@@ -120,6 +120,7 @@ describe("CLI main entry", () => {
   });
 
   it("emits JSON summary for waiting runs", async () => {
+    const iterationMetadata = { stateVersion: 2, pendingEffectsByKind: { breakpoint: 1 } };
     orchestrateIterationMock.mockResolvedValue({
       status: "waiting",
       nextActions: [
@@ -129,6 +130,7 @@ describe("CLI main entry", () => {
           label: "manual",
         },
       ],
+      metadata: iterationMetadata,
     });
 
     const cli = createBabysitterCli();
@@ -145,6 +147,7 @@ describe("CLI main entry", () => {
       },
       pending: [{ effectId: "ef-json", kind: "breakpoint", label: "manual" }],
     });
+    expect(payload.metadata).toEqual(iterationMetadata);
   });
 
   it("reports errors and exits non-zero", async () => {
@@ -214,16 +217,23 @@ describe("CLI main entry", () => {
       expect(errorSpy).toHaveBeenCalledWith(errorPayload);
     });
 
-    it("emits the raw iteration payload in JSON mode", async () => {
-      const payload = { status: "failed", error: { message: "boom" } };
-      orchestrateIterationMock.mockResolvedValue(payload);
+    it("emits the iteration payload with metadata in JSON mode", async () => {
+      const iterationPayload = {
+        status: "failed",
+        error: { message: "boom" },
+        metadata: {
+          stateVersion: 9,
+          pendingEffectsByKind: { node: 1 },
+        },
+      };
+      orchestrateIterationMock.mockResolvedValue(iterationPayload);
 
       const cli = createBabysitterCli();
       const exitCode = await cli.run(["run:step", "runs/demo", "--json"]);
 
       expect(exitCode).toBe(1);
       const raw = String(logSpy.mock.calls.at(-1)?.[0] ?? "{}");
-      expect(JSON.parse(raw)).toEqual(payload);
+      expect(JSON.parse(raw)).toEqual(iterationPayload);
     });
 
     it("parses --now override into a Date", async () => {
