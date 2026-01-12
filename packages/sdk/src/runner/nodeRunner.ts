@@ -10,6 +10,12 @@ import { NodeEnvHydrationResult, resolveNodeTaskEnv } from "./env";
 
 const DEFAULT_TIMEOUT_MS = 15 * 60 * 1000;
 
+export interface NodeCommandDetails {
+  binary: string;
+  args: string[];
+  cwd: string;
+}
+
 export interface RunNodeTaskOptions {
   runDir: string;
   effectId: string;
@@ -23,10 +29,13 @@ export interface RunNodeTaskOptions {
   hydration?: NodeEnvHydrationResult;
   timeoutMs?: number;
   dryRun?: boolean;
+  onStdoutChunk?: (chunk: string) => void;
+  onStderrChunk?: (chunk: string) => void;
 }
 
 export interface RunNodeTaskResult {
   task: TaskDef;
+  command: NodeCommandDetails;
   stdout: string;
   stderr: string;
   exitCode: number | null;
@@ -75,6 +84,11 @@ export async function runNodeTask(options: RunNodeTaskOptions): Promise<RunNodeT
   const args = task.node?.args ? [...task.node.args] : [];
   const timeoutMs =
     typeof options.timeoutMs === "number" ? options.timeoutMs : task.node?.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+  const commandDetails: NodeCommandDetails = {
+    binary: options.nodeBinaryPath ?? process.execPath,
+    args: [entryPath, ...args],
+    cwd: cwdPath ?? options.runDir,
+  };
 
   const envForProcess: Record<string, string> = { ...hydration.env };
   const ioPaths = applyIoEnv(envForProcess, options.runDir, options.effectId, task.io);
@@ -92,6 +106,7 @@ export async function runNodeTask(options: RunNodeTaskOptions): Promise<RunNodeT
       finishedAt: nowIso,
       durationMs: 0,
       timeoutMs,
+      command: commandDetails,
       io: ioPaths,
       hydrated: hydration,
     };
@@ -113,13 +128,15 @@ export async function runNodeTask(options: RunNodeTaskOptions): Promise<RunNodeT
   const startedAtIso = new Date(startedAtMs).toISOString();
 
   const runResult = await spawnNodeProcess({
-    command: options.nodeBinaryPath ?? process.execPath,
-    args: [entryPath, ...args],
-    cwd: cwdPath ?? options.runDir,
+    command: commandDetails.binary,
+    args: commandDetails.args,
+    cwd: commandDetails.cwd,
     env: envForProcess,
     timeoutMs,
     stdoutPath: ioPaths.stdoutPath,
     stderrPath: ioPaths.stderrPath,
+    onStdoutChunk: options.onStdoutChunk,
+    onStderrChunk: options.onStderrChunk,
   });
 
   const finishedAtMs = Date.now();
@@ -140,6 +157,7 @@ export async function runNodeTask(options: RunNodeTaskOptions): Promise<RunNodeT
     durationMs: finishedAtMs - startedAtMs,
     timeoutMs,
     output: parsedOutput,
+    command: commandDetails,
     io: ioPaths,
     hydrated: hydration,
   };
@@ -302,6 +320,8 @@ interface SpawnNodeOptions {
   timeoutMs: number;
   stdoutPath: string;
   stderrPath: string;
+  onStdoutChunk?: (chunk: string) => void;
+  onStderrChunk?: (chunk: string) => void;
 }
 
 async function spawnNodeProcess(
@@ -355,11 +375,13 @@ async function spawnNodeProcess(
     child.stdout?.on("data", (chunk) => {
       stdout += chunk;
       stdoutStream.write(chunk);
+      options.onStdoutChunk?.(chunk);
     });
     child.stderr?.setEncoding("utf8");
     child.stderr?.on("data", (chunk) => {
       stderr += chunk;
       stderrStream.write(chunk);
+      options.onStderrChunk?.(chunk);
     });
 
     stdoutStream.on("error", (error) => {

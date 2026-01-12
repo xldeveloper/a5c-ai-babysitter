@@ -1132,9 +1132,9 @@ These commands operate on pending/resolved **effects** (tasks).
         "labels": ["auto", "..."],
         "taskDefRef": "tasks/<effectId>/task.json",
         "inputsRef": "tasks/<effectId>/inputs.json",
-        "resultRef": "tasks/<effectId>/result.json",
-        "stdoutRef": "tasks/<effectId>/stdout.log",
-        "stderrRef": "tasks/<effectId>/stderr.log",
+        "resultRef": "tasks/<effectId>/result.json" | null,
+        "stdoutRef": "tasks/<effectId>/stdout.log" | null,
+        "stderrRef": "tasks/<effectId>/stderr.log" | null,
         "requestedAt": "<iso>",
         "resolvedAt": "<iso | undefined>"
       }
@@ -1142,7 +1142,7 @@ These commands operate on pending/resolved **effects** (tasks).
   }
   ```
   
-  Every path uses `/` separators and is relative to `<runDir>` so that callers can safely join the value onto whatever root they are inspecting.
+  Every path uses `/` separators and is relative to `<runDir>` so that callers can safely join the value onto whatever root they are inspecting. When a ref is not yet written it is emitted as `null` so JSON consumers can still rely on the schema.
   
   #### `babysitter task:show <runDir> <effectId>`
   
@@ -1167,7 +1167,7 @@ These commands operate on pending/resolved **effects** (tasks).
 
 #### `babysitter task:run <runDir> <effectId>`
 
-  Execute a `kind="node"` task locally and commit its result. CLI output shows the status plus stdout/stderr/result refs; `--json` returns `{ status, committed, stdoutRef, stderrRef, resultRef }` with the refs normalized relative to `<runDir>`.
+  Execute a `kind="node"` task locally and commit its result. The CLI validates the effect kind from the journal index and refuses to run anything but `kind="node"` (breakpoints, orchestrator tasks, etc. must be handled manually). Human output logs `[task:run] status=<...>` followed by stdout/stderr/result refs. `--json` returns `{ status, committed, stdoutRef, stderrRef, resultRef }` with refs normalized relative to `<runDir>` and keeps stdout silent so callers can safely pipe into `jq`. Exit codes follow the status: `ok`/`skipped` return `0`, while `error`/`timeout` return `1`.
 
 Behavior:
 
@@ -1181,8 +1181,8 @@ Behavior:
 Options:
 
 * `--runs-dir <path>`: base runs directory (default current working dir)
-* `--dry-run`: print the command without executing or committing
-* `--json`: emit machine-readable `{ status, committed }`
+* `--dry-run`: print the command without executing or committing; returns `status=skipped`
+* `--json`: emit machine-readable `{ status, committed, stdoutRef, stderrRef, resultRef }`
 
 ### 12.5 Breakpoint interaction commands
 

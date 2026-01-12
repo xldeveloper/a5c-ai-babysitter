@@ -11,7 +11,7 @@ import { EffectAction, EffectRecord, IterationMetadata } from "../runtime/types"
 import { readTaskDefinition, readTaskResult } from "../storage/tasks";
 import { loadJournal } from "../storage/journal";
 import { readRunMetadata } from "../storage/runFiles";
-import type { JournalEvent, RunMetadata } from "../storage/types";
+import type { JournalEvent, RunMetadata, StoredTaskResult } from "../storage/types";
 
 const USAGE = `Usage:
   babysitter run:create --process-id <id> --entry <path#export> [--runs-dir <dir>] [--inputs <file>] [--run-id <id>] [--process-revision <rev>] [--request <id>] [--json] [--dry-run]
@@ -338,6 +338,55 @@ function toRunRelativePosix(runDir: string, absolutePath?: string): string | und
   return path.relative(runDir, absolutePath).replace(/\\/g, "/");
 }
 
+function normalizeArtifactRef(runDir: string, ref?: string | null): string | null {
+  const absolute = resolveArtifactAbsolutePath(runDir, ref);
+  if (!absolute) return null;
+  const relative = toRunRelativePosix(runDir, absolute);
+  return relative ?? null;
+}
+
+function resolveArtifactAbsolutePath(runDir: string, ref?: string | null): string | null {
+  if (!ref) return null;
+  const normalized = ref.trim();
+  if (!normalized) return null;
+  const absoluteRunDir = path.resolve(runDir);
+  if (path.isAbsolute(normalized) || /^[A-Za-z]:[\\/]/.test(normalized)) {
+    return path.normalize(normalized);
+  }
+
+  const candidates = collectArtifactCandidates(absoluteRunDir, normalized);
+  if (candidates.length > 0) {
+    candidates.sort((a, b) => {
+      if (a.outsideRun !== b.outsideRun) return a.outsideRun ? 1 : -1;
+      return a.relative.length - b.relative.length;
+    });
+    return candidates[0].absolute;
+  }
+
+  return path.join(absoluteRunDir, normalized);
+}
+
+type ArtifactCandidate = { absolute: string; relative: string; outsideRun: boolean };
+
+function collectArtifactCandidates(runDir: string, ref: string): ArtifactCandidate[] {
+  const seen = new Map<string, ArtifactCandidate>();
+  const pushCandidate = (absolute: string) => {
+    const normalizedAbs = path.normalize(absolute);
+    const relative = path.relative(runDir, normalizedAbs).replace(/\\/g, "/");
+    const outsideRun = relative.startsWith("..");
+    seen.set(normalizedAbs, { absolute: normalizedAbs, relative, outsideRun });
+  };
+
+  pushCandidate(path.join(runDir, ref));
+  pushCandidate(path.resolve(ref));
+
+  return Array.from(seen.values());
+}
+
+function defaultResultRef(effectId: string): string {
+  return `tasks/${effectId}/result.json`;
+}
+
 function formatEntrypointSpecifier(entrypoint: { importPath: string; exportName: string }): string {
   return `${entrypoint.importPath}#${entrypoint.exportName}`;
 }
@@ -611,6 +660,7 @@ async function handleTaskRun(parsed: ParsedArgs): Promise<number> {
     return 1;
   }
   const runDir = resolveRunDir(parsed.runsDir, parsed.runDirArg);
+  const streamers = buildTaskRunStreamers(parsed);
   logVerbose("task:run", parsed, {
     runDir,
     effectId: parsed.effectId,
@@ -636,28 +686,35 @@ async function handleTaskRun(parsed: ParsedArgs): Promise<number> {
     effectId: parsed.effectId,
     invocationKey: record.invocationKey,
     dryRun: parsed.dryRun,
+    onStdoutChunk: streamers.onStdoutChunk,
+    onStderrChunk: streamers.onStderrChunk,
   });
   const status = determineTaskStatus(result);
-  const stdoutRef = toRunRelativePosix(runDir, result.io.stdoutPath);
-  const stderrRef = toRunRelativePosix(runDir, result.io.stderrPath);
-  const outputRef = toRunRelativePosix(runDir, result.io.outputJsonPath);
-  if (parsed.json) {
-    console.log(
-      JSON.stringify({
-        status,
-        committed: result.committed ?? null,
-        stdoutRef,
-        stderrRef,
-        resultRef: outputRef,
-      })
-    );
-  } else {
-    console.log(`[task:run] status=${status}`);
-    if (stdoutRef) console.log(`stdoutRef=${stdoutRef}`);
-    if (stderrRef) console.log(`stderrRef=${stderrRef}`);
-    if (outputRef) console.log(`resultRef=${outputRef}`);
+  const stdoutRef = resolveTaskRunArtifactRef(runDir, result.committed?.stdoutRef, result.io.stdoutPath);
+  const stderrRef = resolveTaskRunArtifactRef(runDir, result.committed?.stderrRef, result.io.stderrPath);
+  const outputRef = resolveTaskRunArtifactRef(runDir, result.committed?.resultRef, result.io.outputJsonPath);
+  const planPayload = parsed.dryRun ? buildTaskRunPlanPayload(runDir, result) : null;
+  if (parsed.dryRun && planPayload) {
+    logTaskRunPlan(planPayload);
   }
-  return 0;
+
+  if (parsed.json) {
+    const payload: Record<string, unknown> = {
+      status,
+      committed: result.committed ?? null,
+      stdoutRef: stdoutRef ?? null,
+      stderrRef: stderrRef ?? null,
+      resultRef: outputRef ?? null,
+    };
+    console.log(JSON.stringify(payload));
+  } else {
+    const parts = [`[task:run] status=${status}`];
+    if (stdoutRef) parts.push(`stdoutRef=${stdoutRef}`);
+    if (stderrRef) parts.push(`stderrRef=${stderrRef}`);
+    if (outputRef) parts.push(`resultRef=${outputRef}`);
+    console.log(parts.join(" "));
+  }
+  return status === "ok" || status === "skipped" ? 0 : 1;
 }
 
 async function autoRunNodeTasks(
@@ -912,7 +969,7 @@ async function handleTaskList(parsed: ParsedArgs): Promise<number> {
   console.log(`[task:list] ${scope}=${entries.length}`);
   for (const entry of entries) {
     const label = entry.label ? ` ${entry.label}` : "";
-    console.log(`- ${entry.effectId} [${entry.kind ?? "unknown"} ${entry.status}]${label} (taskId=${entry.taskId})`);
+    console.log(`- ${entry.effectId} [${entry.kind ?? "unknown"} ${entry.status}]${label} (taskId=${entry.taskId ?? "n/a"})`);
   }
   return 0;
 }
@@ -942,7 +999,7 @@ async function handleTaskShow(parsed: ParsedArgs): Promise<number> {
     console.error(`[task:show] task definition missing for effect ${parsed.effectId}`);
     return 1;
   }
-  const result = await readTaskResult(runDir, parsed.effectId, record.resultRef);
+  const preview = await loadTaskResultPreview(runDir, parsed.effectId, record);
   const entry = toTaskListEntry(record, runDir);
 
   if (parsed.json) {
@@ -950,7 +1007,8 @@ async function handleTaskShow(parsed: ParsedArgs): Promise<number> {
       JSON.stringify({
         effect: entry,
         task: taskDef,
-        result: result ?? null,
+        result: preview.large ? null : preview.result ?? null,
+        largeResult: preview.large ? entry.resultRef ?? defaultResultRef(record.effectId) : null,
       })
     );
     return 0;
@@ -968,8 +1026,10 @@ async function handleTaskShow(parsed: ParsedArgs): Promise<number> {
   if (entry.stdoutRef) console.log(`  stdoutRef=${entry.stdoutRef}`);
   if (entry.stderrRef) console.log(`  stderrRef=${entry.stderrRef}`);
   console.log("  taskDef:", JSON.stringify(taskDef, null, 2));
-  if (result) {
-    console.log("  result:", JSON.stringify(result, null, 2));
+  if (preview.large) {
+    console.log(`  result: see ${entry.resultRef ?? defaultResultRef(record.effectId)}`);
+  } else if (preview.result) {
+    console.log("  result:", JSON.stringify(preview.result, null, 2));
   } else {
     console.log("  result: (not yet written)");
   }
@@ -979,20 +1039,20 @@ async function handleTaskShow(parsed: ParsedArgs): Promise<number> {
 function toTaskListEntry(record: EffectRecord, runDir: string): TaskListEntry {
   return {
     effectId: record.effectId,
-    taskId: record.taskId,
-    stepId: record.stepId,
-    status: record.status,
-  kind: record.kind,
-  label: record.label,
-  labels: record.labels,
-  taskDefRef: toRunRelativePosix(runDir, record.taskDefRef) ?? null,
-  inputsRef: toRunRelativePosix(runDir, record.inputsRef) ?? null,
-  resultRef: toRunRelativePosix(runDir, record.resultRef) ?? null,
-  stdoutRef: toRunRelativePosix(runDir, record.stdoutRef) ?? null,
-  stderrRef: toRunRelativePosix(runDir, record.stderrRef) ?? null,
-  requestedAt: record.requestedAt,
-  resolvedAt: record.resolvedAt,
-};
+    taskId: record.taskId ?? "unknown",
+    stepId: record.stepId ?? "unknown",
+    status: record.status ?? "unknown",
+    kind: record.kind,
+    label: record.label,
+    labels: record.labels,
+    taskDefRef: normalizeArtifactRef(runDir, record.taskDefRef ?? `tasks/${record.effectId}/task.json`),
+    inputsRef: normalizeArtifactRef(runDir, record.inputsRef),
+    resultRef: normalizeArtifactRef(runDir, record.resultRef),
+    stdoutRef: normalizeArtifactRef(runDir, record.stdoutRef),
+    stderrRef: normalizeArtifactRef(runDir, record.stderrRef),
+    requestedAt: record.requestedAt,
+    resolvedAt: record.resolvedAt,
+  };
 }
 
 async function buildEffectIndexSafe(runDir: string, command: string, events?: JournalEvent[]) {
@@ -1069,6 +1129,75 @@ function countPendingByKind(records: EffectRecord[]): Record<string, number> {
     counts.set(key, (counts.get(key) ?? 0) + 1);
   }
   return Object.fromEntries(Array.from(counts.entries()).sort(([a], [b]) => a.localeCompare(b)));
+}
+
+async function loadTaskResultPreview(
+  runDir: string,
+  effectId: string,
+  record: EffectRecord
+): Promise<{ result?: StoredTaskResult; large: boolean }> {
+  const absolutePath = resolveArtifactAbsolutePath(runDir, record.resultRef ?? defaultResultRef(effectId));
+  if (!absolutePath) return { result: undefined, large: false };
+  try {
+    const stats = await fs.stat(absolutePath);
+    if (stats.size > LARGE_RESULT_PREVIEW_LIMIT) {
+      return { result: undefined, large: true };
+    }
+  } catch (error) {
+    const err = error as NodeJS.ErrnoException;
+    if (err.code === "ENOENT") {
+      return { result: undefined, large: false };
+    }
+    throw error;
+  }
+  const data = await readTaskResult(runDir, effectId, record.resultRef);
+  return { result: data ?? undefined, large: false };
+}
+
+type TaskRunPlanPayload = {
+  command: { binary: string; args: string[]; cwd: string };
+  io: { input: string; output: string; stdout: string; stderr: string };
+};
+
+function buildTaskRunPlanPayload(runDir: string, result: CliRunNodeTaskResult): TaskRunPlanPayload {
+  if (!result.command) {
+    throw new Error("task runner did not supply command metadata for dry-run planning");
+  }
+  const normalize = (absolute: string) => toRunRelativePosix(runDir, absolute) ?? absolute;
+  return {
+    command: {
+      binary: normalize(result.command.binary),
+      args: result.command.args.map((arg, index) => (index === 0 ? normalize(arg) : arg)),
+      cwd: normalize(result.command.cwd),
+    },
+    io: {
+      input: normalize(result.io.inputJsonPath),
+      output: normalize(result.io.outputJsonPath),
+      stdout: normalize(result.io.stdoutPath),
+      stderr: normalize(result.io.stderrPath),
+    },
+  };
+}
+
+function logTaskRunPlan(plan: TaskRunPlanPayload) {
+  console.error(`[task:run] dry-run plan ${JSON.stringify(plan)}`);
+}
+
+function resolveTaskRunArtifactRef(runDir: string, committedRef?: string, fallbackPath?: string): string | undefined {
+  return normalizeArtifactRef(runDir, committedRef) ?? toRunRelativePosix(runDir, fallbackPath);
+}
+
+function buildTaskRunStreamers(parsed: ParsedArgs) {
+  const stdoutTarget = parsed.json ? process.stderr : process.stdout;
+  const stderrTarget = process.stderr;
+  return {
+    onStdoutChunk: (chunk: string) => {
+      stdoutTarget.write(chunk);
+    },
+    onStderrChunk: (chunk: string) => {
+      stderrTarget.write(chunk);
+    },
+  };
 }
 
 function deriveRunState(

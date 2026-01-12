@@ -59,9 +59,11 @@ jobs:
           npm run test:unit:compiled 2>&1 | tee artifacts/logs/unit-tests.log
 
       - name: Run extension tests
+        env:
+          BABYSITTER_HEADLESS: 1
         run: |
           set -euo pipefail
-          xvfb-run -a node ./dist/test/runTest.js 2>&1 | tee artifacts/logs/extension-tests.log
+          dbus-run-session -- xvfb-run -a node ./dist/test/runTest.js 2>&1 | tee artifacts/logs/extension-tests.log
 
       - name: Package VSIX
         run: |

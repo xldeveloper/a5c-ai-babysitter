@@ -77,25 +77,44 @@ describe("CLI main entry", () => {
 
   it("executes task:run and prints refs", async () => {
     buildEffectIndexMock.mockResolvedValue(mockEffectIndex([nodeEffectRecord("ef-123")]));
-    runNodeTaskFromCliMock.mockResolvedValue(
-      mockRunResult({
-        committed: {
-          resultRef: "tasks/run/result.json",
-        },
-      })
-    );
+    runNodeTaskFromCliMock.mockResolvedValue(mockRunResult());
 
     const cli = createBabysitterCli();
     const exitCode = await cli.run(["task:run", "runs/demo", "ef-123"]);
 
     expect(exitCode).toBe(0);
-    expect(runNodeTaskFromCliMock).toHaveBeenCalledWith({
-      runDir: path.resolve("runs/demo"),
-      effectId: "ef-123",
-      invocationKey: "ef-123:inv",
-      dryRun: false,
-    });
-    expect(logSpy).toHaveBeenCalledWith("[task:run] status=ok");
+    expect(runNodeTaskFromCliMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        runDir: path.resolve("runs/demo"),
+        effectId: "ef-123",
+        invocationKey: "ef-123:inv",
+        dryRun: false,
+      })
+    );
+    expect(logSpy).toHaveBeenCalledWith(
+      "[task:run] status=ok stdoutRef=tasks/mock/stdout.log stderrRef=tasks/mock/stderr.log resultRef=tasks/mock/result.json"
+    );
+  });
+
+  it("prefers committed artifact refs in human output", async () => {
+    buildEffectIndexMock.mockResolvedValue(mockEffectIndex([nodeEffectRecord("ef-committed")]));
+    runNodeTaskFromCliMock.mockResolvedValue(
+      mockRunResult({
+        committed: {
+          stdoutRef: "tasks/ef-committed/stdout.log",
+          stderrRef: "tasks/ef-committed/stderr.log",
+          resultRef: "tasks/ef-committed/result.json",
+        },
+      })
+    );
+
+    const cli = createBabysitterCli();
+    const exitCode = await cli.run(["task:run", "runs/demo", "ef-committed"]);
+
+    expect(exitCode).toBe(0);
+    expect(logSpy).toHaveBeenCalledWith(
+      "[task:run] status=ok stdoutRef=tasks/ef-committed/stdout.log stderrRef=tasks/ef-committed/stderr.log resultRef=tasks/ef-committed/result.json"
+    );
   });
 
   it("supports task:run --dry-run JSON output", async () => {
@@ -111,12 +130,14 @@ describe("CLI main entry", () => {
     const exitCode = await cli.run(["task:run", "runs/demo", "ef-123", "--dry-run", "--json"]);
 
     expect(exitCode).toBe(0);
-    expect(runNodeTaskFromCliMock).toHaveBeenCalledWith({
-      runDir: path.resolve("runs/demo"),
-      effectId: "ef-123",
-      invocationKey: "ef-123:inv",
-      dryRun: true,
-    });
+    expect(runNodeTaskFromCliMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        runDir: path.resolve("runs/demo"),
+        effectId: "ef-123",
+        invocationKey: "ef-123:inv",
+        dryRun: true,
+      })
+    );
     const payload = JSON.parse(String(logSpy.mock.calls.at(-1)?.[0] ?? "{}"));
     expect(payload.status).toBe("skipped");
     expect(payload.committed).toBeNull();
@@ -150,6 +171,26 @@ describe("CLI main entry", () => {
     expect(runNodeTaskFromCliMock).not.toHaveBeenCalled();
     expect(errorSpy).toHaveBeenCalledWith(
       `[task:run] effect ef-missing not found at ${path.resolve("runs/demo")}`
+    );
+  });
+
+  it("exits non-zero when the node task reports a failure", async () => {
+    buildEffectIndexMock.mockResolvedValue(mockEffectIndex([nodeEffectRecord("ef-err")]));
+    runNodeTaskFromCliMock.mockResolvedValue(
+      mockRunResult({
+        exitCode: 2,
+        committed: {
+          resultRef: "tasks/ef-err/result.json",
+        },
+      })
+    );
+
+    const cli = createBabysitterCli();
+    const exitCode = await cli.run(["task:run", "runs/demo", "ef-err"]);
+
+    expect(exitCode).toBe(1);
+    expect(logSpy).toHaveBeenCalledWith(
+      "[task:run] status=error stdoutRef=tasks/mock/stdout.log stderrRef=tasks/mock/stderr.log resultRef=tasks/ef-err/result.json"
     );
   });
 
@@ -412,6 +453,11 @@ function mockRunResult(overrides: Partial<CliRunNodeTaskResult> = {}): CliRunNod
   const now = new Date(0).toISOString();
   const base: CliRunNodeTaskResult = {
     task: { kind: "node", node: { entry: "./script.js" } },
+    command: {
+      binary: process.execPath,
+      args: [path.resolve("runs/demo", "tasks/mock/script.js")],
+      cwd: path.resolve("runs/demo"),
+    },
     stdout: "",
     stderr: "",
     exitCode: 0,

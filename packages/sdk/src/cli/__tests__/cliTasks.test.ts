@@ -1,5 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import path from "path";
+import { promises as fs } from "node:fs";
+import type { Stats } from "fs";
 import { createBabysitterCli } from "../main";
 import { EffectRecord } from "../../runtime/types";
 import type { JsonRecord } from "../../storage/types";
@@ -22,16 +24,19 @@ const readTaskResultMock = vi.mocked(readTaskResult);
 describe("CLI task commands", () => {
   let logSpy: ReturnType<typeof vi.spyOn>;
   let errorSpy: ReturnType<typeof vi.spyOn>;
+  let statSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
     vi.clearAllMocks();
     logSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
     errorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    statSpy = vi.spyOn(fs, "stat").mockResolvedValue({ size: 512 } as unknown as Stats);
   });
 
   afterEach(() => {
     logSpy.mockRestore();
     errorSpy.mockRestore();
+    statSpy.mockRestore();
   });
 
   it("lists tasks with human output", async () => {
@@ -49,7 +54,14 @@ describe("CLI task commands", () => {
   it("lists pending tasks in JSON mode", async () => {
     buildEffectIndexMock.mockResolvedValue(
       mockEffectIndex([
-        effectRecord("ef-1", { status: "requested", label: "needs-review" }),
+        effectRecord("ef-1", {
+          status: "requested",
+          label: "needs-review",
+          resultRef: undefined,
+          stdoutRef: undefined,
+          stderrRef: undefined,
+          resolvedAt: undefined,
+        }),
         effectRecord("ef-2", { status: "resolved_ok" }),
       ])
     );
@@ -60,10 +72,14 @@ describe("CLI task commands", () => {
     expect(exitCode).toBe(0);
     const payload = readLastJson(logSpy);
     expect(payload.tasks).toHaveLength(1);
-    expect(payload.tasks[0]).toMatchObject({ effectId: "ef-1", status: "requested", label: "needs-review" });
     expect(payload.tasks[0]).toMatchObject({
+      effectId: "ef-1",
+      status: "requested",
+      label: "needs-review",
       taskDefRef: "tasks/ef-1/task.json",
-      resultRef: "tasks/ef-1/result.json",
+      resultRef: null,
+      stdoutRef: null,
+      stderrRef: null,
     });
   });
 
@@ -83,6 +99,29 @@ describe("CLI task commands", () => {
     expect(entries[0]).toContain("[breakpoint requested]");
   });
 
+  it("emits POSIX refs for resolved tasks in JSON mode", async () => {
+    buildEffectIndexMock.mockResolvedValue(
+      mockEffectIndex([
+        effectRecord("ef-node", {
+          stdoutRef: path.join("runs", "demo", "tasks", "ef-node", "stdout.log"),
+          stderrRef: path.join("runs", "demo", "tasks", "ef-node", "stderr.log"),
+        }),
+      ])
+    );
+
+    const cli = createBabysitterCli();
+    const exitCode = await cli.run(["task:list", "runs/demo", "--json"]);
+
+    expect(exitCode).toBe(0);
+    const payload = readLastJson(logSpy);
+    expect(payload.tasks).toHaveLength(1);
+    expect(payload.tasks[0]).toMatchObject({
+      stdoutRef: "tasks/ef-node/stdout.log",
+      stderrRef: "tasks/ef-node/stderr.log",
+      resultRef: "tasks/ef-node/result.json",
+    });
+  });
+
   it("shows task details with resolved result", async () => {
     buildEffectIndexMock.mockResolvedValue(mockEffectIndex([effectRecord("ef-123", { resolvedAt: "date" })]));
     readTaskDefinitionMock.mockResolvedValue({ schemaVersion: "v1", kind: "node" } as JsonRecord);
@@ -96,6 +135,53 @@ describe("CLI task commands", () => {
     expectLogContaining(logSpy, "resultRef=tasks/ef-123/result.json");
     expectLogContaining(logSpy, '"kind": "node"');
     expectLogContaining(logSpy, '"status": "ok"');
+  });
+
+  it("returns effect/task/result payloads in JSON mode", async () => {
+    buildEffectIndexMock.mockResolvedValue(mockEffectIndex([effectRecord("ef-json")]));
+    readTaskDefinitionMock.mockResolvedValue({ schemaVersion: "v1", kind: "node" } as JsonRecord);
+    readTaskResultMock.mockResolvedValue({ schemaVersion: "v1", status: "ok", value: { ok: true } });
+
+    const cli = createBabysitterCli();
+    const exitCode = await cli.run(["task:show", "runs/demo", "ef-json", "--json"]);
+
+    expect(exitCode).toBe(0);
+    const payload = readLastJson(logSpy);
+    expect(payload.effect).toMatchObject({ effectId: "ef-json", resultRef: "tasks/ef-json/result.json" });
+    expect(payload.task).toMatchObject({ kind: "node" });
+    expect(payload.result).toMatchObject({ status: "ok" });
+    expect(payload.largeResult).toBeNull();
+  });
+
+  it("omits inline result when blob exceeds preview limit", async () => {
+    buildEffectIndexMock.mockResolvedValue(mockEffectIndex([effectRecord("ef-large")]));
+    readTaskDefinitionMock.mockResolvedValue({ schemaVersion: "v1", kind: "node" } as JsonRecord);
+    readTaskResultMock.mockResolvedValue({ schemaVersion: "v1", status: "ok" });
+    statSpy.mockResolvedValue({ size: 2 * 1024 * 1024 } as unknown as Stats);
+
+    const cli = createBabysitterCli();
+    const exitCode = await cli.run(["task:show", "runs/demo", "ef-large", "--json"]);
+
+    expect(exitCode).toBe(0);
+    const payload = readLastJson(logSpy);
+    expect(payload.result).toBeNull();
+    expect(payload.largeResult).toBe("tasks/ef-large/result.json");
+    expect(readTaskResultMock).not.toHaveBeenCalled();
+  });
+
+  it("reports missing result artifacts without crashing", async () => {
+    buildEffectIndexMock.mockResolvedValue(mockEffectIndex([effectRecord("ef-missing-json")]));
+    readTaskDefinitionMock.mockResolvedValue({ schemaVersion: "v1", kind: "node" } as JsonRecord);
+    readTaskResultMock.mockResolvedValue(undefined);
+    statSpy.mockRejectedValue(Object.assign(new Error("missing"), { code: "ENOENT" as const }));
+
+    const cli = createBabysitterCli();
+    const exitCode = await cli.run(["task:show", "runs/demo", "ef-missing-json", "--json"]);
+
+    expect(exitCode).toBe(0);
+    const payload = readLastJson(logSpy);
+    expect(payload.result).toBeNull();
+    expect(payload.largeResult).toBeNull();
   });
 
   it("indicates when task results are not yet written", async () => {
@@ -123,7 +209,7 @@ describe("CLI task commands", () => {
 
 function effectRecord(effectId: string, overrides: Partial<EffectRecord> = {}): EffectRecord {
   const effectDir = path.resolve("runs/demo", "tasks", effectId);
-  return {
+  const base: EffectRecord = {
     effectId,
     invocationKey: `${effectId}:inv`,
     stepId: "step-1",
@@ -135,10 +221,22 @@ function effectRecord(effectId: string, overrides: Partial<EffectRecord> = {}): 
     taskDefRef: path.join(effectDir, "task.json"),
     inputsRef: path.join(effectDir, "inputs.json"),
     resultRef: path.join(effectDir, "result.json"),
+    stdoutRef: path.join(effectDir, "stdout.log"),
+    stderrRef: path.join(effectDir, "stderr.log"),
     requestedAt: "date",
     resolvedAt: "date",
+  };
+  const record: EffectRecord = {
+    ...base,
     ...overrides,
   };
+  if (record.status === "requested") {
+    record.resultRef = overrides.resultRef;
+    record.stdoutRef = overrides.stdoutRef;
+    record.stderrRef = overrides.stderrRef;
+    record.resolvedAt = overrides.resolvedAt;
+  }
+  return record;
 }
 
 function mockEffectIndex(records: EffectRecord[]) {
