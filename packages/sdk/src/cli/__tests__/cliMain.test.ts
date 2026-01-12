@@ -241,13 +241,15 @@ describe("CLI main entry", () => {
 
     expect(exitCode).toBe(0);
     expect(orchestrateIterationMock).toHaveBeenCalledTimes(2);
-    expect(runNodeTaskFromCliMock).toHaveBeenCalledWith({
-      runDir: path.resolve("runs/demo"),
-      effectId: "ef-auto",
-      task: taskDef,
-      invocationKey: undefined,
-      dryRun: false,
-    });
+    expect(runNodeTaskFromCliMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        runDir: path.resolve("runs/demo"),
+        effectId: "ef-auto",
+        task: taskDef,
+        invocationKey: undefined,
+        dryRun: false,
+      })
+    );
     expect(errorSpy).toHaveBeenCalledWith("[auto-run] ef-auto [node] auto");
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("[run:continue] status=completed autoNode=1"));
   });
@@ -320,6 +322,83 @@ describe("CLI main entry", () => {
     expect(exitCode).toBe(0);
     expect(runNodeTaskFromCliMock).not.toHaveBeenCalled();
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("dry-run auto-node tasks count=1"));
+  });
+
+  it("requires auto-node flags to be paired with --auto-node-tasks", async () => {
+    const cli = createBabysitterCli();
+    const exitCode = await cli.run(["run:continue", "runs/demo", "--auto-node-max", "1"]);
+
+    expect(exitCode).toBe(1);
+    expect(orchestrateIterationMock).not.toHaveBeenCalled();
+    expect(errorSpy).toHaveBeenCalledWith(
+      "[run:continue] --auto-node-max/--auto-node-label require --auto-node-tasks"
+    );
+  });
+
+  it("stops auto-node execution once --auto-node-max is reached", async () => {
+    const taskDef: TaskDef = { kind: "node", node: { entry: "./script.js" } };
+    orchestrateIterationMock.mockResolvedValueOnce({
+      status: "waiting",
+      nextActions: [
+        { effectId: "ef-1", kind: "node", label: "build", taskDef },
+        { effectId: "ef-2", kind: "node", label: "lint", taskDef },
+      ],
+    });
+    orchestrateIterationMock.mockResolvedValueOnce({
+      status: "waiting",
+      nextActions: [{ effectId: "ef-2", kind: "node", label: "lint", taskDef }],
+    });
+
+    const cli = createBabysitterCli();
+    const exitCode = await cli.run([
+      "run:continue",
+      "runs/demo",
+      "--auto-node-tasks",
+      "--auto-node-max",
+      "1",
+    ]);
+
+    expect(exitCode).toBe(0);
+    expect(orchestrateIterationMock).toHaveBeenCalledTimes(2);
+    expect(runNodeTaskFromCliMock).toHaveBeenCalledTimes(1);
+    expect(runNodeTaskFromCliMock).toHaveBeenCalledWith(
+      expect.objectContaining({ effectId: "ef-1", dryRun: false })
+    );
+    expect(errorSpy).toHaveBeenCalledWith("[auto-run] reached --auto-node-max=1");
+  });
+
+  it("filters auto-run actions via --auto-node-label", async () => {
+    const taskDef: TaskDef = { kind: "node", node: { entry: "./script.js" } };
+    orchestrateIterationMock.mockResolvedValueOnce({
+      status: "waiting",
+      nextActions: [
+        { effectId: "ef-build", kind: "node", label: "build deploy", taskDef },
+        { effectId: "ef-lint", kind: "node", label: "lint", taskDef },
+      ],
+    });
+    orchestrateIterationMock.mockResolvedValueOnce({
+      status: "waiting",
+      nextActions: [{ effectId: "ef-lint", kind: "node", label: "lint", taskDef }],
+    });
+
+    const cli = createBabysitterCli();
+    const exitCode = await cli.run([
+      "run:continue",
+      "runs/demo",
+      "--auto-node-tasks",
+      "--auto-node-label",
+      "build",
+    ]);
+
+    expect(exitCode).toBe(0);
+    expect(orchestrateIterationMock).toHaveBeenCalledTimes(2);
+    expect(runNodeTaskFromCliMock).toHaveBeenCalledTimes(1);
+    expect(runNodeTaskFromCliMock).toHaveBeenCalledWith(
+      expect.objectContaining({ effectId: "ef-build" })
+    );
+    expect(errorSpy).toHaveBeenCalledWith(
+      "[auto-run] no node tasks matched --auto-node-label=build; 1 pending"
+    );
   });
 
   it("rejects --now for run:continue and points to run:step", async () => {

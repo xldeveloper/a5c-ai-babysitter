@@ -20,7 +20,7 @@ const USAGE = `Usage:
   babysitter run:rebuild-state <runDir> [--runs-dir <dir>] [--json] [--dry-run]
   babysitter task:run <runDir> <effectId> [--runs-dir <dir>] [--json] [--dry-run]
   babysitter run:step <runDir> [--runs-dir <dir>] [--json] [--now <iso8601>]
-  babysitter run:continue <runDir> [--runs-dir <dir>] [--json] [--dry-run] [--auto-node-tasks]
+  babysitter run:continue <runDir> [--runs-dir <dir>] [--json] [--dry-run] [--auto-node-tasks] [--auto-node-max <n>] [--auto-node-label <text>]
   babysitter task:list <runDir> [--runs-dir <dir>] [--pending] [--kind <kind>] [--json]
   babysitter task:show <runDir> <effectId> [--runs-dir <dir>] [--json]
 
@@ -39,6 +39,8 @@ interface ParsedArgs {
   verbose: boolean;
   helpRequested: boolean;
   autoNodeTasks: boolean;
+  autoNodeMax?: number;
+  autoNodeLabel?: string;
   pendingOnly: boolean;
   kindFilter?: string;
   limit?: number;
@@ -134,11 +136,7 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
     if (arg === "--limit") {
       const raw = expectFlagValue(rest, ++i, "--limit");
-      const parsedLimit = Number(raw);
-      if (!Number.isFinite(parsedLimit) || parsedLimit <= 0) {
-        throw new Error("--limit must be a positive integer");
-      }
-      parsed.limit = Math.floor(parsedLimit);
+      parsed.limit = parsePositiveInteger(raw, "--limit");
       continue;
     }
     if (arg === "--reverse") {
@@ -177,6 +175,15 @@ function parseArgs(argv: string[]): ParsedArgs {
       parsed.nowOverride = expectFlagValue(rest, ++i, "--now");
       continue;
     }
+    if (arg === "--auto-node-max") {
+      const raw = expectFlagValue(rest, ++i, "--auto-node-max");
+      parsed.autoNodeMax = parsePositiveInteger(raw, "--auto-node-max");
+      continue;
+    }
+    if (arg === "--auto-node-label") {
+      parsed.autoNodeLabel = expectFlagValue(rest, ++i, "--auto-node-label");
+      continue;
+    }
     positionals.push(arg);
   }
   if (parsed.command === "task:run") {
@@ -212,12 +219,27 @@ function expectFlagValue(args: string[], index: number, flag: string): string {
   return value;
 }
 
+function parsePositiveInteger(raw: string, flag: string): number {
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    throw new Error(`${flag} must be a positive integer`);
+  }
+  return Math.floor(parsed);
+}
+
 function summarizeActions(actions: EffectAction[]): ActionSummary[] {
   return actions.map((action) => ({
     effectId: action.effectId,
     kind: action.kind,
     label: action.label,
   }));
+}
+
+function matchesAutoNodeLabel(action: EffectAction, filter?: string): boolean {
+  if (!filter) return true;
+  const needle = filter.toLowerCase();
+  const haystacks = [action.label, ...(action.labels ?? []), action.effectId];
+  return haystacks.some((value) => (value ? value.toLowerCase().includes(needle) : false));
 }
 
 function logPendingActions(
@@ -720,7 +742,6 @@ async function handleTaskRun(parsed: ParsedArgs): Promise<number> {
 async function autoRunNodeTasks(
   runDir: string,
   actions: EffectAction[],
-  parsed: ParsedArgs,
   executed: ActionSummary[]
 ) {
   for (const action of actions) {
@@ -737,7 +758,7 @@ async function autoRunNodeTasks(
       effectId: action.effectId,
       task: action.taskDef,
       invocationKey: action.invocationKey,
-      dryRun: parsed.dryRun,
+      dryRun: false,
     });
   }
 }
@@ -780,15 +801,24 @@ async function handleRunContinue(parsed: ParsedArgs): Promise<number> {
     console.error("[run:continue] --now is not supported; use run:step for single iterations");
     return 1;
   }
+  if ((parsed.autoNodeMax !== undefined || parsed.autoNodeLabel) && !parsed.autoNodeTasks) {
+    console.error("[run:continue] --auto-node-max/--auto-node-label require --auto-node-tasks");
+    return 1;
+  }
   const runDir = resolveRunDir(parsed.runsDir, parsed.runDirArg);
   logVerbose("run:continue", parsed, {
     runDir,
     dryRun: parsed.dryRun,
     json: parsed.json,
     autoNodeTasks: parsed.autoNodeTasks,
+    autoNodeMax: parsed.autoNodeMax ?? null,
+    autoNodeLabel: parsed.autoNodeLabel ?? null,
   });
   if (!(await readRunMetadataSafe(runDir, "run:continue"))) return 1;
   const executed: ActionSummary[] = [];
+  const autoNodeLimit = parsed.autoNodeMax ?? Number.POSITIVE_INFINITY;
+  let autoNodeRemaining = autoNodeLimit;
+  let autoNodeLimitLogged = false;
 
   while (true) {
     const iteration = await orchestrateIteration({ runDir });
@@ -806,24 +836,53 @@ async function handleRunContinue(parsed: ParsedArgs): Promise<number> {
       });
       logSleepHints("run:continue", iteration.nextActions);
       const nodeActions = iteration.nextActions.filter((action) => action.kind === "node");
+      const eligibleAutoActions = parsed.autoNodeTasks
+        ? nodeActions.filter((action) => matchesAutoNodeLabel(action, parsed.autoNodeLabel))
+        : nodeActions;
+      const planCap = parsed.autoNodeTasks
+        ? Math.min(
+            eligibleAutoActions.length,
+            Number.isFinite(autoNodeRemaining) ? Math.max(0, Math.floor(autoNodeRemaining)) : eligibleAutoActions.length
+          )
+        : eligibleAutoActions.length;
+      const plannedAutoActions = eligibleAutoActions.slice(0, planCap);
       const nodeSummaries = summarizeActions(nodeActions);
-      if (parsed.autoNodeTasks && nodeActions.length > 0) {
+      const autoPendingSummaries = parsed.autoNodeTasks ? summarizeActions(plannedAutoActions) : nodeSummaries;
+      if (parsed.autoNodeTasks && eligibleAutoActions.length > 0 && autoNodeRemaining <= 0 && Number.isFinite(autoNodeLimit)) {
+        if (!autoNodeLimitLogged) {
+          console.error(`[auto-run] reached --auto-node-max=${parsed.autoNodeMax}`);
+          autoNodeLimitLogged = true;
+        }
+      }
+      if (parsed.autoNodeTasks && parsed.autoNodeLabel && eligibleAutoActions.length === 0 && nodeActions.length > 0) {
+        console.error(
+          `[auto-run] no node tasks matched --auto-node-label=${parsed.autoNodeLabel}; ${nodeActions.length} pending`
+        );
+      }
+      if (parsed.autoNodeTasks && plannedAutoActions.length > 0) {
         if (parsed.dryRun) {
-          logAutoRunPlan(nodeSummaries);
+          logAutoRunPlan(autoPendingSummaries);
           if (parsed.json) {
             emitJsonResult(
               { status: "waiting" },
               {
                 executed,
                 pending,
-                autoPending: nodeSummaries,
+                autoPending: autoPendingSummaries,
                 metadata: formattedMetadata.jsonMetadata ?? null,
               }
             );
           }
           return 0;
         }
-        await autoRunNodeTasks(runDir, nodeActions, parsed, executed);
+        await autoRunNodeTasks(runDir, plannedAutoActions, executed);
+        if (Number.isFinite(autoNodeRemaining)) {
+          autoNodeRemaining = Math.max(0, autoNodeRemaining - plannedAutoActions.length);
+          if (autoNodeRemaining <= 0 && !autoNodeLimitLogged && parsed.autoNodeMax !== undefined) {
+            console.error(`[auto-run] reached --auto-node-max=${parsed.autoNodeMax}`);
+            autoNodeLimitLogged = true;
+          }
+        }
         continue;
       }
       if (parsed.json) {
@@ -832,7 +891,7 @@ async function handleRunContinue(parsed: ParsedArgs): Promise<number> {
           {
             executed,
             pending,
-            autoPending: nodeSummaries,
+            autoPending: autoPendingSummaries,
             metadata: formattedMetadata.jsonMetadata ?? null,
           }
         );
@@ -1326,7 +1385,6 @@ export function createBabysitterCli() {
   };
 }
 
-// TODO: add richer flags, docs, and automated tests now that auto-node looping exists.
 if (require.main === module) {
   void createBabysitterCli().run();
 }
