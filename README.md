@@ -72,6 +72,16 @@ For a predictable walkthrough using the included fixture workspace, see `DEMO.md
 
 Need a deeper dive into `o` + Babysitter? Read [`USER_GUIDE.md`](https://github.com/a5c-ai/babysitter/blob/main/USER_GUIDE.md) for the quality-convergence model, event-sourced runs, and troubleshooting tips.
 
+## Continuous Releases
+
+- Pushes to `main` automatically execute `.github/workflows/release.yml`, which reruns lint/tests/build/package, generates SHA256 checksums for the VSIX, bumps `package.json`/`CHANGELOG.md`, tags `vX.Y.Z`, and publishes a GitHub Release (workflow commits include `[skip release]` to avoid recursive runs).
+- Helper scripts live in `scripts/`:
+  - `bump-version.mjs`: determines the next semantic version (`#minor`/`#major` hints supported) and rolls the changelog.
+  - `release-notes.mjs`: emits the latest changelog section for GitHub Releases/Marketplace copy.
+  - `rollback-release.sh`: deletes a GitHub Release + tag (see below before re-opening changelog entries).
+- Guardrails: all GitHub Actions are pinned to commit SHAs, VSIX artifacts are hashed/verified between jobs, and rollback automation is documented in [`docs/release-pipeline.md`](docs/release-pipeline.md) (includes secret ownership for `GITHUB_TOKEN`/`VSCE_PAT` and the operational checklist).
+- To reverse a release: run `scripts/rollback-release.sh vX.Y.Z`, revert the associated release commit on `main`, and move the relevant notes back under `## [Unreleased]` in `CHANGELOG.md`.
+
 ## Core Concepts
 
 ### Runs and run folders
@@ -105,6 +115,7 @@ Babysitter hyperlinks these artifacts so you can replay the **quality-convergenc
 | --- | --- |
 | Babysitter: Activate (Log Output) | `babysitter.activate` |
 | Babysitter: Dispatch Run | `babysitter.dispatchRun` |
+| Babysitter: Dispatch Run from Task File | `babysitter.dispatchRunFromTaskFile` |
 | Babysitter: Resume Run | `babysitter.resumeRun` |
 | Babysitter: Send ESC to `o` | `babysitter.sendEsc` |
 | Babysitter: Send Enter to `o` | `babysitter.sendEnter` |
@@ -149,6 +160,8 @@ Settings are under the `babysitter` namespace.
 | `babysitter.runsRoot` | `string` | `.a5c/runs` | Runs root directory (relative paths resolve from workspace root). |
 | `babysitter.globalConfigPath` | `string` | `""` | Optional path to a JSON config file. Supported keys: `oBinaryPath`, `runsRoot`. |
 | `babysitter.o.install.bashPath` | `string` | `""` | Windows only: path to `bash.exe` (Git Bash) for installing `o` when WSL isn't available. |
+| `babysitter.dispatch.shellPath` | `string` | `""` | macOS/Linux: override the shell executable used for dispatch terminals. Defaults to `$SHELL` or `/bin/bash`. |
+| `babysitter.dispatch.shellArgs` | `string \| string[]` | `['-l']` | macOS/Linux: extra shell arguments for dispatch terminals. Provide a string or array; set an empty array to disable the `-l` default. |
 
 Example `settings.json`:
 
@@ -185,6 +198,8 @@ Babysitter adds a **Babysitter Runs** TreeView in the Explorer sidebar.
 ### Dispatch
 
 - `Babysitter: Dispatch Run` invokes `o` with your request prompt.
+- On macOS/Linux the command opens `o` inside a VS Code terminal so you can interact with prompts directly; adjust the shell via `babysitter.dispatch.shellPath` / `babysitter.dispatch.shellArgs`.
+- Right-click any `.task.md` file in Explorer and choose **Babysitter: Dispatch Run from Task File** to send the trimmed file contents directly to `o`.
 - For a guided UI, use `Babysitter: Prompt Builder`.
 
 ### Monitor
