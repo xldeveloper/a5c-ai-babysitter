@@ -1,5 +1,5 @@
 {
-  "name": "@a5c-ai/babysitter-vscode",
+  "name": "babysitter-vscode",
   "displayName": "Babysitter",
   "description": "VS Code extension for orchestrating and monitoring `o` runs.",
   "version": "0.0.12",
