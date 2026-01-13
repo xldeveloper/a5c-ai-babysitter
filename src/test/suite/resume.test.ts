@@ -6,6 +6,7 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 
 import { discoverRuns } from '../../core/runDiscovery';
+import { EXTENSION_ID } from './constants';
 
 function createOBinaryShim(tempDir: string, argsOutputPath: string): string {
   const shimScriptPath = path.join(tempDir, 'o-shim.js');
@@ -51,7 +52,7 @@ function createOBinaryShim(tempDir: string, argsOutputPath: string): string {
 
 suite('Resume', () => {
   test('resumes via configured `o` binary with run id + prompt', async () => {
-    const ext = vscode.extensions.getExtension('a5c-ai.babysitter');
+    const ext = vscode.extensions.getExtension(EXTENSION_ID);
     assert.ok(ext, 'extension not found');
     await ext.activate();
 

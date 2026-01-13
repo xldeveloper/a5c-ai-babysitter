@@ -1,10 +1,11 @@
 import * as assert from 'assert';
-
 import * as vscode from 'vscode';
+
+import { EXTENSION_ID } from './constants';
 
 suite('Extension', () => {
   test('activates and returns API', async () => {
-    const ext = vscode.extensions.getExtension('a5c-ai.babysitter');
+    const ext = vscode.extensions.getExtension(EXTENSION_ID);
     assert.ok(ext, 'extension not found');
 
     const api = (await ext.activate()) as { outputChannelName?: unknown };
@@ -13,7 +14,7 @@ suite('Extension', () => {
   });
 
   test('registers run view commands', async () => {
-    const ext = vscode.extensions.getExtension('a5c-ai.babysitter');
+    const ext = vscode.extensions.getExtension(EXTENSION_ID);
     assert.ok(ext, 'extension not found');
     await ext.activate();
 
