@@ -1,5 +1,5 @@
 {
-  "name": "babysitter",
+  "name": "babysitter-vscode",
   "displayName": "Babysitter",
   "description": "VS Code extension for orchestrating and monitoring `o` runs.",
   "version": "0.0.10",
@@ -9,7 +9,7 @@
     "url": "https://github.com/a5c-ai/babysitter.git"
   },
   "license": "UNLICENSED",
-  "private": true,
+  "private": false,
   "workspaces": [
     "packages/*"
   ],
