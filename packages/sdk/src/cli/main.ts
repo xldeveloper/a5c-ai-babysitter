@@ -27,7 +27,7 @@ const USAGE = `Usage:
   babysitter run:continue <runDir> [--runs-dir <dir>] [--json] [--dry-run] [--auto-node-tasks] [--auto-node-max <n>] [--auto-node-label <text>]
   babysitter task:list <runDir> [--runs-dir <dir>] [--pending] [--kind <kind>] [--json]
   babysitter task:show <runDir> <effectId> [--runs-dir <dir>] [--json]
-  babysitter skill:install [--type <claude|codex|cursor>] [--scope <local|global>] [--skills-dir <dir>] [--force] [--json] [--dry-run]
+  babysitter skill:install [--type <claude|codex|cursor>] [--scope <local|global>] [--force] [--json] [--dry-run]
 
 Global flags:
   --runs-dir <dir>   Override the runs directory (defaults to .a5c/runs).
