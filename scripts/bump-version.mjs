@@ -24,6 +24,7 @@ const packageManifests = [
   { path: "package.json" },
   { path: "packages/vscode-extension/package.json" },
   { path: "packages/sdk/package.json" },
+  { path: "packages/breakpoints/package.json" },
 ];
 
 const manifests = packageManifests.map(({ path }) => ({
@@ -70,6 +71,10 @@ if (existsSync(lockPath)) {
   if (lock.packages && lock.packages[sdkWorkspaceKey]) {
     lock.packages[sdkWorkspaceKey].version = newVersion;
   }
+  const breakpointsWorkspaceKey = "packages/breakpoints";
+  if (lock.packages && lock.packages[breakpointsWorkspaceKey]) {
+    lock.packages[breakpointsWorkspaceKey].version = newVersion;
+  }
   const extensionManifest = manifests.find(
     (manifest) => manifest.path === "packages/vscode-extension/package.json",
   );
@@ -88,6 +93,16 @@ if (existsSync(lockPath)) {
     const sdkNodeModulesKey = `node_modules/${sdkName}`;
     if (lock.packages && lock.packages[sdkNodeModulesKey]) {
       lock.packages[sdkNodeModulesKey].version = newVersion;
+    }
+  }
+  const breakpointsManifest = manifests.find(
+    (manifest) => manifest.path === "packages/breakpoints/package.json",
+  );
+  const breakpointsName = breakpointsManifest?.data?.name;
+  if (breakpointsName) {
+    const breakpointsNodeModulesKey = `node_modules/${breakpointsName}`;
+    if (lock.packages && lock.packages[breakpointsNodeModulesKey]) {
+      lock.packages[breakpointsNodeModulesKey].version = newVersion;
     }
   }
   writeFileSync(lockPath, `${JSON.stringify(lock, null, 2)}\n`);

@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -21,13 +20,13 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
@@ -36,7 +35,9 @@ jobs:
         run: npm ci
 
       - name: Prepare artifacts directory
-        run: mkdir -p artifacts/logs artifacts/release
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/logs
 
       # - name: Lint
       #   run: |
@@ -53,44 +54,20 @@ jobs:
           set -euo pipefail
           npm run build 2>&1 | tee artifacts/logs/build.log
 
-      - name: Run unit tests
+      - name: Unit tests
         run: |
           set -euo pipefail
           npm run test:unit:compiled 2>&1 | tee artifacts/logs/unit-tests.log
 
-      - name: Run extension tests
+      - name: Extension tests
         env:
           BABYSITTER_HEADLESS: 1
         run: |
           set -euo pipefail
           dbus-run-session -- xvfb-run -a npm run test:extension:compiled 2>&1 | tee artifacts/logs/extension-tests.log
 
-      - name: Package VSIX
-        run: |
-          set -euo pipefail
-          npm run package 2>&1 | tee artifacts/logs/package.log
-
-      - name: Collect VSIX and checksum
-        run: |
-          set -euo pipefail
-          shopt -s nullglob
-          files=( packages/vscode-extension/*.vsix )
-          if [[ ${#files[@]} -eq 0 ]]; then
-            echo "VSIX artifact not found" >&2
-            exit 1
-          fi
-          mv "${files[@]}" artifacts/release/
-          (cd artifacts/release && sha256sum *.vsix > vsix.sha256)
-
-      - name: Upload release assets
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: release-assets
-          path: artifacts/release
-          if-no-files-found: error
-
       - name: Upload build logs
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v4
         with:
           name: build-logs
           path: artifacts/logs
@@ -103,13 +80,13 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
@@ -120,22 +97,16 @@ jobs:
         run: npm ci
 
       - name: Download build logs
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@v4
         with:
           name: build-logs
           path: artifacts/logs
 
-      - name: Download release assets
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: release-assets
-          path: release-assets
-
-      - name: Verify VSIX checksum
+      - name: Prepare release artifacts directory
         run: |
           set -euo pipefail
-          cd release-assets
-          sha256sum -c vsix.sha256
+          mkdir -p artifacts/release
+
 
       - name: Bump version and changelog
         id: bump
@@ -145,7 +116,9 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Generate release notes
-        run: node scripts/release-notes.mjs > release-notes.md
+        run: |
+          set -euo pipefail
+          node scripts/release-notes.mjs > release-notes.md
 
       - name: Commit release metadata
         env:
@@ -154,7 +127,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add package.json packages/vscode-extension/package.json package-lock.json CHANGELOG.md
+          git add package.json packages/vscode-extension/package.json packages/breakpoints/package.json package-lock.json CHANGELOG.md
           if git diff --cached --quiet; then
             echo "No version changes detected."
           else
@@ -164,15 +137,58 @@ jobs:
           fi
 
       - name: Build npm package
-        run: npm run build
+        run: |
+          set -euo pipefail
+          npm run build
 
       - name: Build SDK package
-        run: npm run --workspace=@a5c-ai/babysitter-sdk build
+        run: |
+          set -euo pipefail
+          npm run --workspace=@a5c-ai/babysitter-sdk build
+
+      - name: Package VSIX
+        run: |
+          set -euo pipefail
+          npm run package
+          shopt -s nullglob
+          files=( packages/vscode-extension/*.vsix )
+          if [[ ${#files[@]} -eq 0 ]]; then
+            echo "VSIX artifact not found" >&2
+            exit 1
+          fi
+          mv "${files[@]}" artifacts/release/
+
+      - name: Pack npm artifacts
+        run: |
+          set -euo pipefail
+          npm pack --workspace=@a5c-ai/babysitter-sdk --pack-destination artifacts/release
+          (cd packages/breakpoints && npm pack --pack-destination ../../artifacts/release)
+
+      - name: Generate artifact checksums
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          artifacts=( artifacts/release/*.vsix artifacts/release/*.tgz )
+          if [[ ${#artifacts[@]} -eq 0 ]]; then
+            echo "Release artifacts missing" >&2
+            exit 1
+          fi
+          (cd artifacts/release && sha256sum *.vsix *.tgz > artifacts.sha256)
 
       - name: Publish SDK to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --workspace=@a5c-ai/babysitter-sdk --access public
+        run: |
+          set -euo pipefail
+          npm publish --workspace=@a5c-ai/babysitter-sdk --access public
+
+      - name: Publish breakpoints to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          npm publish --access public
+        working-directory: packages/breakpoints
 
       - name: Tag release
         run: |
@@ -193,11 +209,11 @@ jobs:
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release delete "$TAG" -y
           fi
-          VSIX_FILES=(release-assets/*.vsix)
-          if [[ ${#VSIX_FILES[@]} -eq 0 ]]; then
-            echo "Release assets missing VSIX file" >&2
+          ASSETS=(artifacts/release/*)
+          if [[ ${#ASSETS[@]} -eq 0 ]]; then
+            echo "Release artifacts missing" >&2
             exit 1
           fi
-          gh release create "$TAG" "${VSIX_FILES[@]}" release-assets/vsix.sha256 \
+          gh release create "$TAG" "${ASSETS[@]}" \
             --title "Babysitter $TAG" \
             --notes-file release-notes.md
