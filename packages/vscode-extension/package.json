@@ -10,6 +10,12 @@
   },
   "license": "UNLICENSED",
   "private": false,
+  "files": [
+    "dist/**",
+    "package.json",
+    "README.md",
+    "LICENSE.txt"
+  ],
   "engines": {
     "vscode": "^1.90.0"
   },
