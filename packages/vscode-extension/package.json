@@ -269,7 +269,7 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "package": "vsce package --allow-missing-repository",
+    "package": "vsce package --allow-missing-repository --no-git",
     "test:unit": "npm run build && npm run test:unit:compiled",
     "test:unit:compiled": "mocha --ui tdd \"dist/unit/**/*.test.js\"",
     "test:extension": "npm run build && npm run test:extension:compiled",
