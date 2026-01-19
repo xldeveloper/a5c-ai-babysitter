@@ -1,0 +1,5 @@
+- [ ] add hooks (using shell scripts) on-breakpoint in the babysitter breakpoint skill (so that the skill is instructed to call the main hook script that dispatches the per repo or per user hooks for the breakpoint), then have the breakpoint cli just one potential hook implementation. also write the main hook scripts
+- [ ] write a spec for babysitter plugin
+- [ ] find potential gaps, bugs, inconsistencies, missing functionalty, copy-paste leftovers, inline todos in the plugin and fix them.
+- [ ] add hooks (shell scripts) for start-run, resume-run, step-dispatch, orchestration-iteration-start, orchestration-iteration-end, on-breakpoint
+- [ ] refactor and implement all the existing AND missing functionality in(breakpoints, orchestration through sdk, etc.) through native hooks and not just skill instructions and embedded shell logic.

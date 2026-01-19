@@ -1,0 +1,25 @@
+{
+    "description": "Babysitter plugin stop hook for continuous orchestration loops",
+    "hooks": {
+        "SessionStart": [
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "${CLAUDE_PLUGIN_ROOT}/hooks/babysitter-session-start-hook.sh"
+                }
+              ]
+            }
+          ],        
+      "Stop": [
+        {
+          "hooks": [
+            {
+              "type": "command",
+              "command": "${CLAUDE_PLUGIN_ROOT}/hooks/babysitter-stop-hook.sh"
+            }
+          ]
+        }
+      ]
+    }
+  }
