@@ -7,17 +7,7 @@ import {
   type BabysitterRawSettings,
   type ConfigIssue,
 } from './core/config';
-import { dispatchNewRunViaO, resumeExistingRunViaO } from './core/oDispatch';
-import {
-  findGitBashCandidates,
-  firstExistingPath,
-  isWslAvailable,
-  runOInstaller,
-  type OInstallOptions,
-  type WindowsInstallerRuntime,
-} from './core/oInstaller';
-import type { PtyProcess } from './core/ptyProcess';
-import { OProcessInteractionTracker } from './core/oProcessInteraction';
+import { dispatchNewRunViaSdk, resumeExistingRunViaSdk } from './core/sdkDispatch';
 import { isRunId } from './core/runId';
 import { listRunIds, waitForNewRunId } from './core/runPolling';
 import { sanitizeTerminalOutput } from './core/terminalSanitize';
@@ -39,10 +29,10 @@ type BabysitterApi = {
 function readRawSettings(): BabysitterRawSettings {
   const cfg = vscode.workspace.getConfiguration('babysitter');
   return {
-    oBinaryPath: cfg.get<string>('o.binaryPath') ?? '',
-    oPath: cfg.get<string>('oPath') ?? '',
+    sdkBinaryPath: cfg.get<string>('sdk.binaryPath') ?? '',
     runsRoot: cfg.get<string>('runsRoot') ?? '',
-    globalConfigPath: cfg.get<string>('globalConfigPath') ?? '',
+    breakpointsApiUrl: cfg.get<string>('breakpoints.apiUrl') ?? 'http://localhost:3185',
+    breakpointsEnabled: cfg.get<boolean>('breakpoints.enabled') ?? true,
   };
 }
 
@@ -94,43 +84,23 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
   const output = vscode.window.createOutputChannel(OUTPUT_CHANNEL_NAME);
   output.appendLine('Babysitter extension activated.');
 
-  const interactions = new OProcessInteractionTracker();
+  // Simplified interaction controller without PTY process tracking
   const interactionController: RunInteractionController = {
-    getAwaitingInput: (runId) => interactions.getAwaitingInputForRunId(runId),
-    getPidForRunId: (runId) => interactions.getPidForRunId(runId),
-    getLabelForRunId: (runId) => interactions.getLabelForRunId(runId),
-    getOutputTailForRunId: (runId) => interactions.getOutputTailForRunId(runId),
-    sendUserInput: (runId, text) => {
-      const toRun = interactions.sendUserInputToRunId(runId, text);
-      return Boolean(toRun);
-    },
-    sendEnter: (runId) => {
-      const toRun = interactions.sendEnterToRunId(runId);
-      return Boolean(toRun);
-    },
-    sendEsc: (runId) => {
-      const toRun = interactions.sendEscToRunId(runId);
-      return Boolean(toRun);
-    },
-    onDidChange: (handler) =>
-      new vscode.Disposable(
-        interactions.onDidChange((change) => {
-          if (change.runId) handler(change.runId);
-        }),
-      ),
-    onDidOutput: (handler) =>
-      new vscode.Disposable(
-        interactions.onDidOutput((evt) => {
-          if (!evt.runId) return;
-          handler({ runId: evt.runId, chunk: evt.chunk });
-        }),
-      ),
+    getAwaitingInput: (_runId) => undefined,
+    getPidForRunId: (_runId) => undefined,
+    getLabelForRunId: (_runId) => undefined,
+    getOutputTailForRunId: (_runId) => undefined,
+    sendUserInput: (_runId, _text) => false,
+    sendEnter: (_runId) => false,
+    sendEsc: (_runId) => false,
+    onDidChange: (_handler) => new vscode.Disposable(() => {}),
+    onDidOutput: (_handler) => new vscode.Disposable(() => {}),
   };
 
   const runDetailsView = createRunDetailsViewManager(context, {
     interaction: interactionController,
   });
-  const runLogsView = createRunLogsViewManager(context, { interactions, output });
+  const runLogsView = createRunLogsViewManager(context, { output });
   const runsTreeView = registerRunsTreeView(context);
   runsTreeView.setOpenRunDetailsHandler((run) => runDetailsView.open(run));
   runsTreeView.setOpenRunLogsHandler((run) => Promise.resolve(runLogsView.open(run)));
@@ -143,46 +113,6 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
 
   let lastNotifiedFingerprint = '';
   let runWatchersDisposable: vscode.Disposable | undefined;
-
-  const registerOProcess = (process: PtyProcess, label: string): void => {
-    interactions.register(process, label);
-    process.onExit(() => {
-      // Do not kill running `o` processes on exit; just detach listeners.
-      process.detach();
-    });
-  };
-
-  const isLikelyWindowsNativeBinary = (filePath: string): boolean => {
-    const ext = path.extname(filePath).toLowerCase();
-    return ext === '.exe' || ext === '.com' || ext === '.cmd' || ext === '.bat';
-  };
-
-  let cachedWslAvailable: boolean | undefined;
-  const getWslAvailable = async (): Promise<boolean> => {
-    if (cachedWslAvailable === undefined) cachedWslAvailable = await isWslAvailable();
-    return cachedWslAvailable;
-  };
-
-  const resolveWindowsInvocationOptions = async (
-    folder: vscode.WorkspaceFolder,
-    oBinaryPath: string,
-  ): Promise<{ windowsRuntime?: 'wsl'; windowsBashPath?: string }> => {
-    if (process.platform !== 'win32') return {};
-    if (isLikelyWindowsNativeBinary(oBinaryPath)) return {};
-
-    if (await getWslAvailable()) {
-      return { windowsRuntime: 'wsl' };
-    }
-
-    const cfg = vscode.workspace.getConfiguration('babysitter', folder.uri);
-    const configuredBashPath = (cfg.get<string>('o.install.bashPath') ?? '').trim();
-    const detectedGitBashPath =
-      (configuredBashPath && fs.existsSync(configuredBashPath) ? configuredBashPath : '') ||
-      firstExistingPath(findGitBashCandidates());
-
-    if (!detectedGitBashPath) return {};
-    return { windowsBashPath: detectedGitBashPath };
-  };
 
   const bashSingleQuote = (value: string): string => `'${value.replace(/'/g, `'"'"'`)}'`;
 
@@ -237,12 +167,7 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
 
   const isHeadlessSession = (): boolean => process.env.BABYSITTER_HEADLESS === '1';
 
-  context.subscriptions.push(
-    new vscode.Disposable(() => {
-      // Do not kill running `o` processes on deactivation; just detach listeners.
-      interactions.detachAll();
-    }),
-  );
+  // No process cleanup needed - SDK manages processes
 
   const openPromptBuilderDisposable = vscode.commands.registerCommand(
     'babysitter.openPromptBuilder',
@@ -365,7 +290,7 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
       if (process.env.PATH !== undefined) resolveOptions.envPath = process.env.PATH;
       const result = resolveBabysitterConfig(resolveOptions);
 
-      if (result.issues.length > 0 || !result.config.oBinary || !result.config.runsRoot) {
+      if (result.issues.length > 0 || !result.config.sdkBinary || !result.config.runsRoot) {
         output.show(true);
         output.appendLine('Babysitter: cannot dispatch run due to configuration issues:');
         for (const line of formatIssues(result.issues)) output.appendLine(line);
@@ -387,209 +312,35 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
           : (
               await vscode.window.showInputBox({
                 title: 'Dispatch new run',
-                prompt: 'Enter a request to dispatch via `o`.',
-                placeHolder: 'Describe what you want `o` to do…',
+                prompt: 'Enter a request to dispatch via Babysitter SDK.',
+                placeHolder: 'Describe what you want Babysitter to do…',
               })
             )?.trim();
       if (!prompt) return undefined;
 
       output.show(true);
-      output.appendLine(`Dispatching via \`o\`: ${result.config.oBinary.path}`);
+      output.appendLine(`Dispatching via Babysitter SDK: ${result.config.sdkBinary.path}`);
 
       try {
-        const windowsInvocation = workspaceFolder
-          ? await resolveWindowsInvocationOptions(workspaceFolder, result.config.oBinary.path)
-          : {};
-        if (
-          process.platform === 'win32' &&
-          !isLikelyWindowsNativeBinary(result.config.oBinary.path)
-        ) {
-          const runtimeLabel = windowsInvocation.windowsRuntime
-            ? 'WSL'
-            : windowsInvocation.windowsBashPath
-              ? `Git Bash (${windowsInvocation.windowsBashPath})`
-              : '(none)';
-          output.appendLine(`Windows runtime: ${runtimeLabel}`);
-        }
-        if (
-          process.platform === 'win32' &&
-          !isLikelyWindowsNativeBinary(result.config.oBinary.path) &&
-          !windowsInvocation.windowsRuntime &&
-          !windowsInvocation.windowsBashPath
-        ) {
-          await vscode.window.showErrorMessage(
-            'Babysitter: `o` appears to be a bash script on Windows, but neither WSL nor Git Bash was found. ' +
-              'Install WSL2 (recommended) or set `babysitter.o.install.bashPath` to your Git Bash `bash.exe`.',
-          );
-          throw new Error('No usable Bash runtime found for Windows `o` bash script.');
-        }
-
-        if (
-          process.platform === 'win32' &&
-          !isLikelyWindowsNativeBinary(result.config.oBinary.path) &&
-          !windowsInvocation.windowsRuntime &&
-          windowsInvocation.windowsBashPath
-        ) {
-          const baselineIds = new Set(listRunIds(result.config.runsRoot.path));
-          const bashCmd = [
-            'set -euo pipefail',
-            `cd "$(cygpath -u ${bashSingleQuote(workspaceRoot)})"`,
-            `"$(cygpath -u ${bashSingleQuote(result.config.oBinary.path)})" ${bashSingleQuote(prompt)}`,
-          ].join('; ');
-
-          const dispatchStartMs = Date.now();
-          openGitBashTerminalAndSend({
-            name: 'o (dispatch)',
-            bashPath: windowsInvocation.windowsBashPath,
-            workspaceRoot,
-            command: bashCmd,
-          });
-
-          const runId = await waitForNewRunId({
-            runsRootPath: result.config.runsRoot.path,
-            baselineIds,
-            timeoutMs: 120_000,
-            afterTimeMs: dispatchStartMs,
-          });
-          if (!runId) {
-            throw new Error(
-              'Timed out waiting for a new run directory to appear under runsRoot. ' +
-                'The `o` session is running in the terminal; check its output for errors.',
-            );
-          }
-
-          const runRootPath = path.join(result.config.runsRoot.path, runId);
-          output.appendLine(`Dispatched run (from terminal): ${runId}`);
-          output.appendLine(`Run root: ${runRootPath}`);
-          runsTreeView.refresh();
-          return { runId, runRootPath, stdout: '', stderr: '' };
-        }
-
-        if (process.platform !== 'win32') {
-          const headless = isHeadlessSession();
-          if (!headless) {
-            const baselineIds = new Set(listRunIds(result.config.runsRoot.path));
-            const dispatchStartMs = Date.now();
-            const shellCommand = [
-              'set -euo pipefail',
-              `cd ${bashSingleQuote(workspaceRoot)}`,
-              `${bashSingleQuote(result.config.oBinary.path)} ${bashSingleQuote(prompt)}`,
-            ].join('; ');
-            try {
-              const { terminal, shellPath } = openPosixTerminalAndSend({
-                name: 'o (dispatch)',
-                workspaceRoot,
-                command: shellCommand,
-                workspaceFolder,
-              });
-              const runId = await waitForNewRunId({
-                runsRootPath: result.config.runsRoot.path,
-                baselineIds,
-                timeoutMs: 120_000,
-                afterTimeMs: dispatchStartMs,
-              });
-              if (!runId) {
-                throw new Error(
-                  'Timed out waiting for a new run directory to appear under runsRoot. ' +
-                    'The `o` session is running in the terminal; check its output for errors.',
-                );
-              }
-
-              try {
-                const pid = await terminal.processId;
-                if (typeof pid === 'number') {
-                  interactions.setRunIdForPid(pid, runId);
-                  interactions.setLabelForPid(pid, `o (dispatch ${runId})`);
-                } else {
-                  output.appendLine(
-                    'Babysitter: VS Code did not expose a terminal pid; ESC/Enter shortcuts are unavailable for this run.',
-                  );
-                }
-              } catch (pidErr) {
-                const pidMessage = pidErr instanceof Error ? pidErr.message : String(pidErr);
-                output.appendLine(
-                  `Babysitter: failed to read terminal pid; ESC/Enter shortcuts unavailable (${sanitizeForOutputChannel(pidMessage)}).`,
-                );
-              }
-              const runRootPath = path.join(result.config.runsRoot.path, runId);
-              output.appendLine(`Dispatched run (from terminal): ${runId}`);
-              output.appendLine(`Run root: ${runRootPath}`);
-              output.appendLine(`Terminal shell: ${sanitizeForOutputChannel(shellPath)}`);
-              runsTreeView.refresh();
-              return { runId, runRootPath, stdout: '', stderr: '' };
-            } catch (terminalErr) {
-              const message =
-                terminalErr instanceof Error ? terminalErr.message : String(terminalErr);
-              output.appendLine(
-                `POSIX terminal dispatch failed; falling back to direct \`o\`: ${sanitizeForOutputChannel(
-                  message,
-                )}`,
-              );
-            }
-          } else {
-            output.appendLine(
-              'Babysitter: headless session detected; dispatching via background `o` without opening a terminal.',
-            );
-          }
-        }
-
-        const dispatched = await dispatchNewRunViaO({
-          oBinaryPath: result.config.oBinary.path,
+        const dispatched = await dispatchNewRunViaSdk({
+          sdkBinaryPath: result.config.sdkBinary.path,
           workspaceRoot,
           runsRootPath: result.config.runsRoot.path,
           prompt,
-          ...(windowsInvocation.windowsRuntime
-            ? { windowsRuntime: windowsInvocation.windowsRuntime }
-            : {}),
-          ...(windowsInvocation.windowsBashPath
-            ? { windowsBashPath: windowsInvocation.windowsBashPath }
-            : {}),
-          onProcess: (process) => {
-            registerOProcess(process, 'o (dispatch)');
-            output.appendLine(`Started interactive o process (pid ${process.pid}).`);
-          },
         });
 
-        if (dispatched.pid !== undefined) {
-          interactions.setRunIdForPid(dispatched.pid, dispatched.runId);
-          interactions.setLabelForPid(dispatched.pid, `o (dispatch ${dispatched.runId})`);
-        }
         output.appendLine(`Dispatched run: ${dispatched.runId}`);
         output.appendLine(`Run root: ${dispatched.runRootPath}`);
         if (dispatched.stdout.trim())
-          output.appendLine(`o stdout:\n${sanitizeForOutputChannel(dispatched.stdout)}`);
+          output.appendLine(`SDK stdout:\n${sanitizeForOutputChannel(dispatched.stdout)}`);
         if (dispatched.stderr.trim())
-          output.appendLine(`o stderr:\n${sanitizeForOutputChannel(dispatched.stderr)}`);
+          output.appendLine(`SDK stderr:\n${sanitizeForOutputChannel(dispatched.stderr)}`);
 
         runsTreeView.refresh();
         return dispatched;
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         output.appendLine(`Dispatch failed: ${sanitizeForOutputChannel(message)}`);
-        const capturedStdout =
-          typeof (err as { stdout?: unknown }).stdout === 'string'
-            ? ((err as { stdout?: string }).stdout ?? '')
-            : '';
-        const capturedStderr =
-          typeof (err as { stderr?: unknown }).stderr === 'string'
-            ? ((err as { stderr?: string }).stderr ?? '')
-            : '';
-        const combined =
-          `${capturedStdout}${capturedStderr ? `\n${capturedStderr}` : ''}`.trimEnd();
-        if (combined.trim()) {
-          const maxChars = 8_000;
-          const tail = combined.length > maxChars ? combined.slice(-maxChars) : combined;
-          output.appendLine(
-            `Captured \`o\` output (tail${combined.length > maxChars ? ', truncated' : ''}):\n${sanitizeForOutputChannel(tail)}`,
-          );
-        }
-        if (process.platform === 'win32' && /error code:\s*193\b/i.test(message)) {
-          await vscode.window.showErrorMessage(
-            'Babysitter: dispatch failed because the configured `o` path is not runnable on Windows. ' +
-              'Point `babysitter.o.binaryPath` at a Windows `o.exe` or ensure `bash` is on PATH if using the bash script.',
-          );
-          throw err;
-        }
         await vscode.window.showErrorMessage(
           'Babysitter: dispatch failed. See output for details.',
         );
@@ -673,7 +424,7 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
       if (process.env.PATH !== undefined) resolveOptions.envPath = process.env.PATH;
       const result = resolveBabysitterConfig(resolveOptions);
 
-      if (result.issues.length > 0 || !result.config.oBinary || !result.config.runsRoot) {
+      if (result.issues.length > 0 || !result.config.sdkBinary || !result.config.runsRoot) {
         output.show(true);
         output.appendLine('Babysitter: cannot resume run due to configuration issues:');
         for (const line of formatIssues(result.issues)) output.appendLine(line);
@@ -728,151 +479,43 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
           : (
               await vscode.window.showInputBox({
                 title: `Resume ${runId}`,
-                prompt: 'Enter an updated request/prompt to resume this run via `o`.',
-                placeHolder: 'Describe what you want `o` to do next…',
+                prompt: 'Enter an updated request/prompt to resume this run via Babysitter SDK.',
+                placeHolder: 'Describe what you want Babysitter to do next…',
               })
             )?.trim();
       if (!prompt) return undefined;
 
       output.show(true);
-      output.appendLine(`Resuming ${runId} via \`o\`: ${result.config.oBinary.path}`);
+      output.appendLine(`Resuming ${runId} via Babysitter SDK: ${result.config.sdkBinary.path}`);
 
       try {
-        const windowsInvocation = workspaceFolder
-          ? await resolveWindowsInvocationOptions(workspaceFolder, result.config.oBinary.path)
-          : {};
-        if (
-          process.platform === 'win32' &&
-          !isLikelyWindowsNativeBinary(result.config.oBinary.path)
-        ) {
-          const runtimeLabel = windowsInvocation.windowsRuntime
-            ? 'WSL'
-            : windowsInvocation.windowsBashPath
-              ? `Git Bash (${windowsInvocation.windowsBashPath})`
-              : '(none)';
-          output.appendLine(`Windows runtime: ${runtimeLabel}`);
-        }
-        if (
-          process.platform === 'win32' &&
-          !isLikelyWindowsNativeBinary(result.config.oBinary.path) &&
-          !windowsInvocation.windowsRuntime &&
-          !windowsInvocation.windowsBashPath
-        ) {
-          await vscode.window.showErrorMessage(
-            'Babysitter: `o` appears to be a bash script on Windows, but neither WSL nor Git Bash was found. ' +
-              'Install WSL2 (recommended) or set `babysitter.o.install.bashPath` to your Git Bash `bash.exe`.',
-          );
-          throw new Error('No usable Bash runtime found for Windows `o` bash script.');
-        }
-
-        if (
-          process.platform === 'win32' &&
-          !isLikelyWindowsNativeBinary(result.config.oBinary.path) &&
-          !windowsInvocation.windowsRuntime &&
-          windowsInvocation.windowsBashPath
-        ) {
-          const bashCmd = [
-            'set -euo pipefail',
-            `cd "$(cygpath -u ${bashSingleQuote(workspaceRoot)})"`,
-            `"$(cygpath -u ${bashSingleQuote(result.config.oBinary.path)})" ${bashSingleQuote(runId)} ${bashSingleQuote(prompt)}`,
-          ].join('; ');
-
-          openGitBashTerminalAndSend({
-            name: `o (resume ${runId})`,
-            bashPath: windowsInvocation.windowsBashPath,
-            workspaceRoot,
-            command: bashCmd,
-          });
-
-          const runRootPath = path.join(result.config.runsRoot.path, runId);
-          output.appendLine(`Resuming run in terminal: ${runId}`);
-          output.appendLine(`Run root: ${runRootPath}`);
-          runsTreeView.refresh();
-          return { runId, runRootPath, stdout: '', stderr: '' };
-        }
-
-        const resumed = await resumeExistingRunViaO({
-          oBinaryPath: result.config.oBinary.path,
+        const resumed = await resumeExistingRunViaSdk({
+          sdkBinaryPath: result.config.sdkBinary.path,
           workspaceRoot,
           runsRootPath: result.config.runsRoot.path,
           runId,
           prompt,
-          ...(windowsInvocation.windowsRuntime
-            ? { windowsRuntime: windowsInvocation.windowsRuntime }
-            : {}),
-          ...(windowsInvocation.windowsBashPath
-            ? { windowsBashPath: windowsInvocation.windowsBashPath }
-            : {}),
-          onProcess: (process) => {
-            registerOProcess(process, `o (resume ${runId})`);
-            interactions.setRunIdForPid(process.pid, runId);
-            output.appendLine(`Started interactive o process (pid ${process.pid}).`);
-          },
         });
 
-        if (resumed.pid !== undefined) {
-          interactions.setLabelForPid(resumed.pid, `o (resume ${resumed.runId})`);
-        }
         output.appendLine(`Resumed run: ${resumed.runId}`);
         output.appendLine(`Run root: ${resumed.runRootPath}`);
         if (resumed.stdout.trim())
-          output.appendLine(`o stdout:\n${sanitizeForOutputChannel(resumed.stdout)}`);
+          output.appendLine(`SDK stdout:\n${sanitizeForOutputChannel(resumed.stdout)}`);
         if (resumed.stderr.trim())
-          output.appendLine(`o stderr:\n${sanitizeForOutputChannel(resumed.stderr)}`);
+          output.appendLine(`SDK stderr:\n${sanitizeForOutputChannel(resumed.stderr)}`);
 
         runsTreeView.refresh();
         return resumed;
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         output.appendLine(`Resume failed: ${sanitizeForOutputChannel(message)}`);
-        if (process.platform === 'win32' && /error code:\s*193\b/i.test(message)) {
-          await vscode.window.showErrorMessage(
-            'Babysitter: resume failed because the configured `o` path is not runnable on Windows. ' +
-              'Point `babysitter.o.binaryPath` at a Windows `o.exe` or ensure `bash` is on PATH if using the bash script.',
-          );
-          throw err;
-        }
         await vscode.window.showErrorMessage('Babysitter: resume failed. See output for details.');
         throw err;
       }
     },
   );
 
-  const sendEscDisposable = vscode.commands.registerCommand('babysitter.sendEsc', async () => {
-    try {
-      const sent = interactions.sendEscToActive();
-      if (!sent) {
-        await vscode.window.showWarningMessage('Babysitter: no active `o` process to send ESC to.');
-        return;
-      }
-      output.appendLine(`Sent ESC to ${sent.label} (pid ${sent.pid}).`);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      output.appendLine(`Failed to send ESC: ${message}`);
-      await vscode.window.showErrorMessage(
-        'Babysitter: failed to send ESC. See output for details.',
-      );
-    }
-  });
-
-  const sendEnterDisposable = vscode.commands.registerCommand('babysitter.sendEnter', async () => {
-    try {
-      const sent = interactions.sendEnterToActive();
-      if (!sent) {
-        await vscode.window.showWarningMessage(
-          'Babysitter: no active `o` process to send Enter to.',
-        );
-        return;
-      }
-      output.appendLine(`Sent Enter to ${sent.label} (pid ${sent.pid}).`);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      output.appendLine(`Failed to send Enter: ${message}`);
-      await vscode.window.showErrorMessage(
-        'Babysitter: failed to send Enter. See output for details.',
-      );
-    }
-  });
+  // Removed sendEsc and sendEnter commands - SDK manages process interaction
 
   const showConfigErrorsDisposable = vscode.commands.registerCommand(
     'babysitter.showConfigurationErrors',
@@ -892,24 +535,24 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
 
       output.appendLine(`- Workspace root: ${workspaceRoot ?? '(no workspace open)'}`);
       output.appendLine(
-        `- Setting (babysitter.o.binaryPath): ${settings.oBinaryPath?.trim() ? settings.oBinaryPath : '(not set)'}`,
-      );
-      output.appendLine(
-        `- Setting (babysitter.oPath, legacy): ${settings.oPath?.trim() ? settings.oPath : '(not set)'}`,
+        `- Setting (babysitter.sdk.binaryPath): ${settings.sdkBinaryPath?.trim() ? settings.sdkBinaryPath : '(default: npx)'}`,
       );
       output.appendLine(
         `- Setting (babysitter.runsRoot): ${settings.runsRoot?.trim() ? settings.runsRoot : '(default)'}`,
       );
       output.appendLine(
-        `- Setting (babysitter.globalConfigPath): ${settings.globalConfigPath?.trim() ? settings.globalConfigPath : '(not set)'}`,
+        `- Setting (babysitter.breakpoints.apiUrl): ${settings.breakpointsApiUrl || '(default)'}`,
+      );
+      output.appendLine(
+        `- Setting (babysitter.breakpoints.enabled): ${settings.breakpointsEnabled}`,
       );
 
       if (result.issues.length === 0) {
         output.appendLine('Result: OK');
-        const resolvedOBinary = result.config.oBinary;
+        const resolvedSdkBinary = result.config.sdkBinary;
         const resolvedRunsRoot = result.config.runsRoot;
-        if (resolvedOBinary) {
-          output.appendLine(`- Resolved o: ${resolvedOBinary.path} (${resolvedOBinary.source})`);
+        if (resolvedSdkBinary) {
+          output.appendLine(`- Resolved SDK: ${resolvedSdkBinary.path} (${resolvedSdkBinary.source})`);
         }
         if (resolvedRunsRoot) {
           output.appendLine(
@@ -934,205 +577,7 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
     },
   );
 
-  const locateOBinaryDisposable = vscode.commands.registerCommand(
-    'babysitter.locateOBinary',
-    async () => {
-      const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
-      const settings = readRawSettings();
-      const resolveOptions: Parameters<typeof resolveBabysitterConfig>[0] = {
-        settings,
-        platform: process.platform,
-      };
-      if (workspaceRoot !== undefined) resolveOptions.workspaceRoot = workspaceRoot;
-      if (process.env.PATH !== undefined) resolveOptions.envPath = process.env.PATH;
-      const result = resolveBabysitterConfig(resolveOptions);
-
-      output.show(true);
-      output.appendLine('Locating `o` binary...');
-      output.appendLine(
-        `- Setting (babysitter.o.binaryPath): ${settings.oBinaryPath ? settings.oBinaryPath : '(not set)'}`,
-      );
-      output.appendLine(
-        `- Setting (babysitter.oPath, legacy): ${settings.oPath ? settings.oPath : '(not set)'}`,
-      );
-      output.appendLine(`- Workspace root: ${workspaceRoot ?? '(no workspace open)'}`);
-
-      if (!result.config?.oBinary) {
-        output.appendLine('Result: NOT FOUND');
-        for (const line of formatIssues(result.issues)) output.appendLine(line);
-        await vscode.window.showWarningMessage(
-          'Babysitter: could not find the `o` binary. Set `babysitter.o.binaryPath` (or legacy `babysitter.oPath`), place `o` in the workspace root, or add it to PATH.',
-        );
-        return;
-      }
-
-      output.appendLine(
-        `Result: FOUND (${result.config.oBinary.source}) -> ${result.config.oBinary.path}`,
-      );
-      await vscode.window.showInformationMessage(
-        `Babysitter: found \`o\` (${result.config.oBinary.source}): ${result.config.oBinary.path}`,
-      );
-    },
-  );
-
-  const installOInWorkspaceDisposable = vscode.commands.registerCommand(
-    'babysitter.installOInWorkspace',
-    async () => {
-      const folder = await vscode.window.showWorkspaceFolderPick({
-        placeHolder: 'Select a workspace folder to install/update `o` into',
-      });
-      if (!folder) {
-        await vscode.window.showErrorMessage(
-          'Babysitter: open a workspace folder to install/update `o`.',
-        );
-        return;
-      }
-      const workspaceRoot = folder.uri.fsPath;
-
-      const consent = await vscode.window.showWarningMessage(
-        'Babysitter will download and run the upstream `o` installer (curl | bash) and modify files in this workspace (./o, ./.a5c/*, and possibly ./.gitignore).',
-        { modal: true },
-        'Continue',
-      );
-      if (consent !== 'Continue') return;
-
-      const hasExistingO =
-        fs.existsSync(path.join(workspaceRoot, 'o')) ||
-        fs.existsSync(path.join(workspaceRoot, '.a5c', 'o.md')) ||
-        fs.existsSync(path.join(workspaceRoot, '.a5c', 'functions')) ||
-        fs.existsSync(path.join(workspaceRoot, '.a5c', 'processes'));
-
-      const forceOptionLabel = 'Overwrite existing files';
-      const noGitignoreOptionLabel = 'Do not modify .gitignore';
-      const picked = await vscode.window.showQuickPick(
-        [
-          {
-            label: forceOptionLabel,
-            description: '--force',
-            picked: hasExistingO,
-          },
-          {
-            label: noGitignoreOptionLabel,
-            description: '--no-gitignore',
-            picked: false,
-          },
-        ],
-        {
-          canPickMany: true,
-          title: 'Babysitter: Install/Update `o` options',
-        },
-      );
-      if (!picked) return;
-
-      const options: OInstallOptions = {
-        force: picked.some((p) => p.label === forceOptionLabel),
-        noGitignore: picked.some((p) => p.label === noGitignoreOptionLabel),
-      };
-
-      let windowsRuntime: WindowsInstallerRuntime | undefined;
-      if (process.platform === 'win32') {
-        const wslAvailable = await isWslAvailable();
-        const cfg = vscode.workspace.getConfiguration('babysitter', folder.uri);
-        const configuredBashPath = (cfg.get<string>('o.install.bashPath') ?? '').trim();
-        const detectedGitBashPath =
-          (configuredBashPath && fs.existsSync(configuredBashPath) ? configuredBashPath : '') ||
-          firstExistingPath(findGitBashCandidates());
-
-        const runtimeChoices: Array<{
-          label: string;
-          description: string;
-          runtime: WindowsInstallerRuntime;
-        }> = [];
-        if (wslAvailable) {
-          runtimeChoices.push({
-            label: 'WSL (recommended)',
-            description: 'Uses wsl.exe + bash',
-            runtime: { kind: 'wsl' },
-          });
-        }
-        if (detectedGitBashPath) {
-          runtimeChoices.push({
-            label: 'Git Bash',
-            description: detectedGitBashPath,
-            runtime: { kind: 'git-bash', bashPath: detectedGitBashPath },
-          });
-        }
-
-        if (runtimeChoices.length === 0) {
-          const openSettings = 'Open Settings';
-          const choice = await vscode.window.showErrorMessage(
-            'Babysitter: cannot install `o` on Windows without WSL or Git Bash. Install WSL2 (recommended) or set `babysitter.o.install.bashPath` to your Git Bash `bash.exe`.',
-            openSettings,
-          );
-          if (choice === openSettings) {
-            await vscode.commands.executeCommand(
-              'workbench.action.openSettings',
-              'babysitter.o.install.bashPath',
-            );
-          }
-          return;
-        }
-
-        if (runtimeChoices.length === 1) {
-          windowsRuntime = runtimeChoices[0]?.runtime;
-        } else {
-          const selected = await vscode.window.showQuickPick(runtimeChoices, {
-            title: 'Babysitter: Choose a Bash runtime for installing `o`',
-          });
-          if (!selected) return;
-          windowsRuntime = selected.runtime;
-        }
-      }
-
-      output.show(true);
-      output.appendLine(`Installing/updating \`o\` into: ${workspaceRoot}`);
-      output.appendLine(
-        `Installer flags: ${options.force ? '--force' : '(no --force)'} ${options.noGitignore ? '--no-gitignore' : '(gitignore managed)'}`,
-      );
-      if (process.platform === 'win32') {
-        const runtimeLabel =
-          windowsRuntime?.kind === 'wsl'
-            ? 'WSL'
-            : windowsRuntime?.kind === 'git-bash'
-              ? `Git Bash (${windowsRuntime.bashPath})`
-              : '(unknown)';
-        output.appendLine(`Windows runtime: ${runtimeLabel}`);
-      }
-
-      try {
-        await vscode.window.withProgress(
-          {
-            location: vscode.ProgressLocation.Notification,
-            title: 'Babysitter: Installing/updating `o` in workspace...',
-            cancellable: false,
-          },
-          async () => {
-            const installerParams: Parameters<typeof runOInstaller>[0] = {
-              workspaceRoot,
-              options,
-              platform: process.platform,
-              onOutput: (line) => output.appendLine(line),
-            };
-            if (windowsRuntime) installerParams.windowsRuntime = windowsRuntime;
-            await runOInstaller(installerParams);
-          },
-        );
-      } catch (err) {
-        const message = err instanceof Error ? err.message : String(err);
-        output.appendLine(`Babysitter: install/update failed: ${message}`);
-        await vscode.window.showErrorMessage(
-          'Babysitter: failed to install/update `o`. See Output > Babysitter for details.',
-        );
-        return;
-      }
-
-      output.appendLine('Babysitter: install/update completed.');
-      await vscode.window.showInformationMessage(
-        'Babysitter: `o` installed/updated in workspace root.',
-      );
-      void refreshConfig(false);
-    },
-  );
+  // Removed locateOBinary and installOInWorkspace commands - SDK is managed via npm
 
   void refreshConfig(true);
 
@@ -1144,11 +589,7 @@ export function activate(context: vscode.ExtensionContext): BabysitterApi {
     dispatchRunDisposable,
     dispatchRunFromTaskFileDisposable,
     resumeRunDisposable,
-    sendEscDisposable,
-    sendEnterDisposable,
     showConfigErrorsDisposable,
-    locateOBinaryDisposable,
-    installOInWorkspaceDisposable,
     vscode.workspace.onDidChangeConfiguration((e) => {
       if (e.affectsConfiguration('babysitter')) void refreshConfig(false);
     }),

@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
-import type { OProcessInteractionTracker } from '../core/oProcessInteraction';
+// Removed OProcessInteractionTracker - no longer needed with SDK
 import type { Run } from '../core/run';
 import type { RunChangeBatch } from '../core/runFileChanges';
 import { TextFileTailer } from '../core/textTailer';
@@ -465,7 +465,6 @@ class RunLogsPanel {
     private readonly run: Run,
     private readonly deps: {
       context: vscode.ExtensionContext;
-      interactions: OProcessInteractionTracker;
       output: vscode.OutputChannel;
       onDispose?: () => void;
     },
@@ -495,11 +494,7 @@ class RunLogsPanel {
       ),
     );
 
-    const disposeOutput = this.deps.interactions.onDidOutput((evt) => {
-      if (evt.runId !== this.run.id) return;
-      this.append('process', evt.chunk);
-    });
-    this.disposables.push(new vscode.Disposable(disposeOutput));
+    // Removed PTY output tracking - SDK manages process output
   }
 
   private async post(message: WebviewOutboundMessage): Promise<void> {
@@ -520,7 +515,7 @@ class RunLogsPanel {
       { id: 'workSummaryLatest', label: 'latest work summary (tail)' },
     ];
 
-    this.processText = this.deps.interactions.getOutputTailForRunId(this.run.id) ?? '';
+    this.processText = ''; // SDK manages process output directly
     this.journalText = seedTextTailerFromEnd({
       tailer: this.journalTailer,
       filePath: this.run.paths.journalJsonl,
@@ -644,7 +639,7 @@ class RunLogsPanel {
 
 export function createRunLogsViewManager(
   context: vscode.ExtensionContext,
-  deps: { interactions: OProcessInteractionTracker; output: vscode.OutputChannel },
+  deps: { output: vscode.OutputChannel },
 ): { open: (run: Run) => void; onRunChangeBatch: (batch: RunChangeBatch) => void } {
   const panelsByRunId = new Map<string, RunLogsPanel>();
 

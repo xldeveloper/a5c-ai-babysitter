@@ -4,7 +4,15 @@
       "Bash(npm install:*)",
       "Bash(npm run build:sdk:*)",
       "Bash(npm pack:*)",
-      "Bash(node scripts/check-package-metadata.cjs:*)"
+      "Bash(node scripts/check-package-metadata.cjs:*)",
+      "Skill(babysitter)",
+      "Bash(npx -y @a5c-ai/babysitter-sdk --version)",
+      "Bash(npx:*)",
+      "Skill(babysitter-breakpoint)",
+      "Bash(breakpoints breakpoint create:*)",
+      "Bash(breakpoints breakpoint wait:*)",
+      "Bash(npm run build:*)",
+      "Bash(echo:*)"
     ]
   }
 }

@@ -488,17 +488,14 @@ notifySelect.addEventListener("change", async () => {
     if (Notification.permission !== "granted") {
       await Notification.requestPermission();
     }
-  }
-  updateNotifyStatus();
-});
-
-notifySelect.addEventListener("change", () => {
-  if ("Notification" in window) {
+    updateNotifyStatus();
     if (Notification.permission === "granted") {
       new Notification("Desktop alerts enabled", {
         body: "You will be notified of new waiting breakpoints.",
       });
     }
+  } else {
+    updateNotifyStatus();
   }
 });
 

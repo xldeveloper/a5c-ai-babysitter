@@ -1,7 +1,7 @@
 {
   "name": "babysitter-vscode",
   "displayName": "Babysitter",
-  "description": "VS Code extension for orchestrating and monitoring `o` runs.",
+  "description": "VS Code extension for orchestrating and monitoring Babysitter runs.",
   "version": "0.0.29",
   "publisher": "a5c-ai",
   "repository": {
@@ -18,7 +18,7 @@
   ],
   "keywords": [
     "a5c",
-    "o",
+    "babysitter",
     "orchestration",
     "monitoring",
     "runs"
@@ -33,10 +33,6 @@
     "onCommand:babysitter.activate",
     "onCommand:babysitter.dispatchRun",
     "onCommand:babysitter.resumeRun",
-    "onCommand:babysitter.sendEsc",
-    "onCommand:babysitter.sendEnter",
-    "onCommand:babysitter.locateOBinary",
-    "onCommand:babysitter.installOInWorkspace",
     "onCommand:babysitter.showConfigurationErrors",
     "onCommand:babysitter.openPromptBuilder",
     "onCommand:babysitter.dispatchRunFromTaskFile",
@@ -64,22 +60,6 @@
       {
         "command": "babysitter.resumeRun",
         "title": "Babysitter: Resume Run"
-      },
-      {
-        "command": "babysitter.sendEsc",
-        "title": "Babysitter: Send ESC to `o`"
-      },
-      {
-        "command": "babysitter.sendEnter",
-        "title": "Babysitter: Send Enter to `o`"
-      },
-      {
-        "command": "babysitter.locateOBinary",
-        "title": "Babysitter: Locate `o` Binary"
-      },
-      {
-        "command": "babysitter.installOInWorkspace",
-        "title": "Babysitter: Install/Update `o` in Workspace"
       },
       {
         "command": "babysitter.showConfigurationErrors",
@@ -200,63 +180,30 @@
         "command": "babysitter.runs.refresh",
         "key": "ctrl+alt+b shift+r",
         "mac": "cmd+alt+b shift+r"
-      },
-      {
-        "command": "babysitter.sendEnter",
-        "key": "ctrl+alt+b enter",
-        "mac": "cmd+alt+b enter"
-      },
-      {
-        "command": "babysitter.sendEsc",
-        "key": "ctrl+alt+b escape",
-        "mac": "cmd+alt+b escape"
       }
     ],
     "configuration": {
       "title": "Babysitter",
       "properties": {
-        "babysitter.o.binaryPath": {
+        "babysitter.sdk.binaryPath": {
           "type": "string",
           "default": "",
-          "description": "Optional full path to the `o` executable (or a directory containing it). If empty, Babysitter looks for `o` in the workspace root first, then on PATH."
-        },
-        "babysitter.oPath": {
-          "type": "string",
-          "default": "",
-          "description": "Legacy alias for `babysitter.o.binaryPath`. Optional full path to the `o` executable (or a directory containing it)."
+          "description": "Optional full path to the babysitter SDK CLI executable. If empty, uses npx to run @a5c-ai/babysitter-sdk."
         },
         "babysitter.runsRoot": {
           "type": "string",
           "default": ".a5c/runs",
           "description": "Runs root directory. Relative paths are resolved from the workspace root."
         },
-        "babysitter.globalConfigPath": {
+        "babysitter.breakpoints.apiUrl": {
           "type": "string",
-          "default": "",
-          "description": "Optional path to a JSON global config file. Supported keys: `oBinaryPath`, `runsRoot`."
+          "default": "http://localhost:3185",
+          "description": "URL for the Babysitter Breakpoints API server."
         },
-        "babysitter.o.install.bashPath": {
-          "type": "string",
-          "default": "",
-          "description": "Windows only: optional full path to a Bash executable (e.g. Git Bash `bash.exe`) for running the upstream `o` installer when WSL is unavailable."
-        },
-        "babysitter.dispatch.shellPath": {
-          "type": "string",
-          "default": "",
-          "description": "macOS/Linux: optional shell executable to use when launching dispatch terminals. Defaults to $SHELL or /bin/bash."
-        },
-        "babysitter.dispatch.shellArgs": {
-          "type": [
-            "array",
-            "string"
-          ],
-          "items": {
-            "type": "string"
-          },
-          "default": [
-            "-l"
-          ],
-          "description": "macOS/Linux: additional shell arguments for dispatch terminals. Provide a string or array; use an empty array to disable the -l default."
+        "babysitter.breakpoints.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Breakpoints integration for user approvals and feedback during runs."
         }
       }
     }
@@ -292,7 +239,8 @@
     "prettier": "^3.3.3"
   },
   "dependencies": {
-    "node-pty": "^1.1.0",
+    "@a5c-ai/babysitter-sdk": "^0.0.29",
+    "@a5c-ai/babysitter-breakpoints": "^0.0.29",
     "typescript": "^5.5.4"
   }
 }

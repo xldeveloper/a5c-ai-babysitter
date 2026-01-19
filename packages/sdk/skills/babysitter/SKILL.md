@@ -43,8 +43,8 @@ Do **not** proceed if the CLI check fails; fix the issue (missing Node, npx reso
 - **Run entry**: you are either resuming a run id or creating a new run from a high-level task.
 - **Main.js approval**: when you create a new run, inspect `.a5c/processes/**` for a suitable starting point, generate `.a5c/runs/<runId>/code/main.js`, and create `.a5c/runs/<runId>/artifacts/process.md`. Before any orchestration, use the `babysitter-breakpoint` skill to request approval of the process, inputs, and `main.js`. Do not proceed until the breakpoint is released with approval. After approval, do not change `main.js` without explicit instruction.
 - **Missing babysitter-breakpoint skill**: if the `babysitter-breakpoint` skill is unavailable, install it from npm by running `npm install -g @a5c-ai/babysitter-breakpoints`, then `breakpoints install-skill --target codex --scope global`. If the `breakpoints` CLI is not on PATH, run `npx -y @a5c-ai/babysitter-breakpoints install-skill --target codex --scope global`. Restart Codex after install.
-- **Do the work**: execute the CLI-provided next action yourself; do not defer
-  to agent runners or function templates.
+- **Execute through orchestration**: Use `run:step` or `run:continue` to drive the process. When the CLI tells you the next action, execute it using the appropriate tools (Edit, Write, Bash, etc.), but ONLY after the CLI instructs you. Never skip ahead and do all work at once.
+- **"Do the work" means**: Execute the specific action that `run:step` or `run:continue` tells you to do (read file, edit code, run tests), NOT skip the orchestration layer and directly edit files.
 - **Follow the process**: execute exactly what `code/main.js` (and imported files) prescribe; only deviate when the user explicitly instructs it.
 - **Helper scripts**: if needed, store them in `.a5c/orchestrator_scripts/` or `.a5c/runs/<runId>/orchestrator/`, never as whole-iteration automation.
 - **Journal/state ownership**: do not edit `journal.jsonl` or `state.json` by hand; use the CLI and agent outputs so state stays deterministic.
@@ -67,9 +67,71 @@ Regardless of the entry point, always:
 
 ---
 
+## 3.5. Entry Modes: Two Workflows
+
+### Mode A: Resume Existing Run
+
+When the user provides a run ID (e.g., `run-20260109-101648-dev-build`):
+
+1. Inspect the run:
+   ```bash
+   $CLI run:status .a5c/runs/<runId>
+   $CLI run:events .a5c/runs/<runId> --reverse --limit 20
+   ```
+
+2. Continue from current state:
+   ```bash
+   $CLI run:continue .a5c/runs/<runId> --auto-node-tasks --auto-node-max 5
+   ```
+
+### Mode B: Create New Run
+
+When the user provides a high-level task:
+
+1. **DO NOT manually create directories or files first**
+2. Either use an existing process:
+   ```bash
+   $CLI run:create --process-id dev/build \
+     --entry .a5c/processes/roles/development/recipes/full_project.js#fullProject \
+     --inputs inputs.json \
+     --run-id "run-$(date -u +%Y%m%d-%H%M%S)-task-name"
+   ```
+
+3. OR: For custom workflows, create `main.js` and `process.md` in a temporary location first, then use `run:create` pointing to them
+
+**CRITICAL**: Never manually create `.a5c/runs/<runId>/` directories before running `run:create`. The CLI manages the run directory structure.
+
+---
+
+## 3.6. After Breakpoint Approval
+
+Once the breakpoint is released with approval, you MUST continue through the orchestration layer:
+
+### ✅ CORRECT Workflow
+
+1. **Drive execution through CLI**:
+   ```bash
+   $CLI run:continue .a5c/runs/<runId> --auto-node-tasks --auto-node-max 5
+   ```
+
+2. **Execute only what CLI instructs**: When `run:continue` or `run:step` outputs the next action, execute it using Edit/Write/Bash tools
+
+3. **Verify and repeat**: Check status, continue until completed
+
+### ❌ WRONG Workflow
+
+1. ~~Get approval from breakpoint~~
+2. ~~Immediately use Edit/Write tools to make all changes~~
+3. ~~Skip `run:continue` or `run:step` entirely~~
+4. ~~No journal entries, no state updates~~
+
+**Remember**: Approval means "proceed with orchestration," NOT "skip orchestration and do everything manually."
+
+---
+
 ## 4. CLI workflows
 
-### 3.1 Inspecting a run
+### 4.1 Inspecting a run
 
 ```bash
 $CLI run:status .a5c/runs/<runId>
@@ -78,7 +140,7 @@ $CLI run:events .a5c/runs/<runId> --limit 50 --reverse   # tail recent events
 
 Use `--json` when you need machine-readable data. These commands replace manual `tail` or ad-hoc scripts; they also echo deterministic metadata pairs (`stateVersion`, `journalHead`, `pending[...]`).
 
-### 3.2 Creating a run
+### 4.2 Creating a run
 
 ```bash
 $CLI run:create \
@@ -90,7 +152,7 @@ $CLI run:create \
 
 The CLI prints the new run id + directory. Immediately open `.a5c/runs/<runId>/code/main.js` to ensure it reflects the requested recipe; if you generate a custom `main.js`, still store it under `code/` and capture the narrative in `artifacts/process.md`. Mermaid diagrams are no longer required.
 
-### 3.3 Driving iterations
+### 4.3 Driving iterations
 
 Use `run:step` for single iterations or `run:continue` for full loops:
 
@@ -105,7 +167,7 @@ CLI output tells you the status (`waiting/completed/failed`), pending effects, a
 
 > **Quality gate:** compare the JSON payload to the structure documented in `docs/cli-examples.md` §3–§6 (`pending`, `autoRun.executed/pending`, `metadata.stateVersion/pendingEffectsByKind`). If a field is missing or renamed, stop and reconcile with the SDK team before proceeding; otherwise documentation and harnesses will drift.
 
-### 3.4 Working with tasks
+### 4.4 Working with tasks
 
 ```bash
 $CLI task:list .a5c/runs/<runId> --pending
@@ -118,7 +180,7 @@ $CLI task:run .a5c/runs/<runId> <effectId> \
 
 Use these instead of manually inspecting `tasks/<effectId>`. Remember: raw payloads remain redacted unless `BABYSITTER_ALLOW_SECRET_LOGS` **and** `--json --verbose` are set. Verify the output includes `payloads: redacted…` whenever the guard is disabled; treat deviations as failures that must be investigated.
 
-### 3.5 Journal utilities
+### 4.5 Journal utilities
 
 ```bash
 $CLI run:events .a5c/runs/<runId> --limit 20
@@ -176,7 +238,121 @@ function-template or agent-runner indirection.
 
 ---
 
-## 9. Example session
+## 9. Common Mistakes to Avoid
+
+### ❌ Mistakes That Break Orchestration
+
+1. **Creating run directories manually**
+   - Wrong: `mkdir -p .a5c/runs/<runId>/code`
+   - Right: `$CLI run:create ...` (CLI creates directories)
+
+2. **Editing files directly after approval**
+   - Wrong: Get approval → immediately use Edit/Write tools
+   - Right: Get approval → run `$CLI run:continue` → execute what it tells you
+
+3. **Writing main.js but never running it**
+   - Wrong: Create main.js → manually edit files based on what you planned
+   - Right: Create main.js → use `run:create` → use `run:step`/`run:continue` to execute it
+
+4. **Skipping journal/state management**
+   - Wrong: Make changes without running CLI commands
+   - Right: Every change flows through `run:step`/`run:continue` which updates journal
+
+5. **Doing all work in one step**
+   - Wrong: Get next action → complete entire task → mark done
+   - Right: Follow iterative loop: `run:step` → execute one action → `run:step` → execute next action
+
+### ✅ What You SHOULD Do
+
+- Use CLI commands for all orchestration operations
+- Execute only what the current step requires
+- Record events and state changes through CLI
+- Verify state after each step using `run:status`
+- Follow the main.js process step-by-step
+
+---
+
+## 10. Quality Gate Checklist
+
+### Before Making ANY File Changes
+
+Ask yourself these questions. If ANY answer is "no", STOP and run the required CLI commands first.
+
+- [ ] Have I run `run:create` (for new runs) or `run:status` (for existing runs)?
+- [ ] Have I run `run:step` or `run:continue` to get the next action?
+- [ ] Am I executing ONLY what the orchestration output tells me to do?
+- [ ] Will my changes be recorded in journal.jsonl via the CLI?
+- [ ] Am I following the process defined in main.js?
+
+### Red Flags That Indicate You're Deviating
+
+- You're using Edit/Write tools but haven't run a CLI orchestration command recently
+- You're making multiple file changes without checking in with `run:step` between them
+- You created a main.js but never executed it through the CLI
+- You got approval from a breakpoint and immediately started editing files
+- You manually created `.a5c/runs/<runId>/` directories
+
+### Recovery Steps
+
+If you realize you've deviated:
+
+1. STOP making changes immediately
+2. Run `$CLI run:status .a5c/runs/<runId>` to check current state
+3. Run `$CLI run:events .a5c/runs/<runId> --reverse --limit 20` to see what was recorded
+4. Continue properly with `$CLI run:continue` or `$CLI run:step`
+
+---
+
+## 11. Complete Workflow Example
+
+### Scenario: User asks to "improve the breakpoints UI"
+
+```bash
+CLI="npx -y @a5c-ai/babysitter-sdk"
+
+# Step 1: Preflight check
+$CLI --version
+
+# Step 2: Explore codebase to understand task
+# (Use Glob/Grep/Read tools to understand current UI structure)
+
+# Step 3: Create main.js and process.md with implementation plan
+# (Create these files with the step-by-step process)
+
+# Step 4: Request approval via breakpoint
+# (Use babysitter-breakpoint skill)
+
+# Step 5: After approval, initialize the run
+$CLI run:create \
+  --process-id ui-improvement \
+  --entry .a5c/runs/run-20260118-example/code/main.js#improveBreakpointsUI \
+  --inputs .a5c/runs/run-20260118-example/inputs.json \
+  --run-id run-20260118-example
+
+# Step 6: Drive orchestration (NOT manual edits!)
+$CLI run:continue .a5c/runs/run-20260118-example --auto-node-tasks --auto-node-max 5
+
+# Step 7: Execute what run:continue tells you
+# Example output might say: "Next action: Edit styles.css to add responsive breakpoints"
+# NOW you use Edit tool to make that specific change
+
+# Step 8: Continue iteration
+$CLI run:step .a5c/runs/run-20260118-example
+
+# Step 9: Execute next action from step output
+# Output might say: "Next action: Fix notification duplicate listeners in app.js"
+# NOW you use Edit tool for that specific change
+
+# Step 10: Continue until completed
+$CLI run:status .a5c/runs/run-20260118-example
+# Should show status: completed
+```
+
+**Key Point**: Notice how CLI commands drive the process, and Edit/Write tools are only used AFTER the CLI tells you what to do.
+
+---
+
+## 12. Original Example Session
 
 ```bash
 CLI="npx -y @a5c-ai/babysitter-sdk"
