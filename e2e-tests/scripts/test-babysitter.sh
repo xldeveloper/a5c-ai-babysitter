@@ -1,2 +1,2 @@
 #! /bin/bash
-claude --dangerously-skip-permissions "/babysitter:run perform the task in the .task.md file found in this dir"
+claude --dangerously-skip-permissions "/babysitter:run perform the tasks in the *.task.md files found in this dir"
