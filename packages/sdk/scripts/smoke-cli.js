@@ -203,7 +203,10 @@ async function writeDeterministicBootstrap(runsRoot, modulePath) {
   const hookDir = path.join(runsRoot, "__smoke__");
   await fsp.mkdir(hookDir, { recursive: true });
   const hookPath = path.join(hookDir, "deterministic-preload.cjs");
+  const counterPath = path.join(hookDir, "ulid-counter.json");
   const payload = `"use strict";
+const fs = require("node:fs");
+const path = require("node:path");
 const deterministic = require(${JSON.stringify(modulePath)});
 const installFixedClock = deterministic.installFixedClock;
 const installDeterministicUlids = deterministic.installDeterministicUlids;
@@ -229,10 +232,36 @@ function restoreHandle(handle) {
   }
 }
 
+function nextUlidEpochMs() {
+  const counterFile = ${JSON.stringify(counterPath)};
+  let counter = 0;
+  try {
+    const raw = fs.readFileSync(counterFile, "utf8");
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object" && typeof parsed.counter === "number") {
+      counter = parsed.counter;
+    }
+  } catch {
+    // treat as empty
+  }
+  counter += 1;
+  try {
+    fs.mkdirSync(path.dirname(counterFile), { recursive: true });
+    fs.writeFileSync(counterFile, JSON.stringify({ counter }, null, 2) + "\\n", "utf8");
+  } catch {
+    // best-effort; still proceed
+  }
+  const base = Date.UTC(2025, 0, 1, 0, 0, 0, 0);
+  // Ensure monotonic ULID timestamps across separate Node processes by advancing the epoch per invocation.
+  return base + counter * 60_000;
+}
+
 try {
   const clock = typeof installFixedClock === "function" ? installFixedClock({ start: "2025-01-01T00:00:00.000Z", stepMs: 250 }) : null;
   const ulids =
-    typeof installDeterministicUlids === "function" ? installDeterministicUlids({ randomnessSeed: 42 }) : null;
+    typeof installDeterministicUlids === "function"
+      ? installDeterministicUlids({ randomnessSeed: 42, epochMs: nextUlidEpochMs(), incrementMs: 1 })
+      : null;
 
   applyHandle(clock);
   applyHandle(ulids);
