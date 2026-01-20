@@ -26,7 +26,7 @@ function createOBinaryShim(tempDir: string, argsOutputPath: string): string {
       'const runRoot = path.join(runsRoot, runId);',
       'fs.mkdirSync(runRoot, { recursive: true });',
       '',
-      'console.error(`created run ${runId}`);',
+      'console.log(`created run ${runId}`);',
       'console.log(`runRoot=${runRoot}`);',
       'process.exit(0);',
       '',

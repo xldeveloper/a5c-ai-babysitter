@@ -30,7 +30,7 @@ function createOBinaryShim(tempDir: string, argsOutputPath: string): string {
       "fs.writeFileSync(path.join(runRoot, 'state.json'), JSON.stringify({ runId, status: 'running' }, null, 2));",
       "fs.appendFileSync(path.join(runRoot, 'journal.jsonl'), JSON.stringify({ type: 'resume', ts: Date.now() }) + '\\n');",
       '',
-      'console.error(`resumed run ${runId}`);',
+      'console.log(`resumed run ${runId}`);',
       'console.log(`runRoot=${runRoot}`);',
       'process.exit(0);',
       '',
