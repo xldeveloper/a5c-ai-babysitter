@@ -34,7 +34,9 @@
       "Bash(plugins/babysitter/hooks/on-iteration-start/native-orchestrator.sh)",
       "Bash(npm test:*)",
       "Bash(bash:*)",
-      "Bash(xargs cat:*)"
+      "Bash(xargs cat:*)",
+      "Bash(wc:*)",
+      "Bash(plugins/babysitter/hooks/babysitter-session-start-hook.sh)"
     ]
   }
 }
