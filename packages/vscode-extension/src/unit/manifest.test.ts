@@ -56,8 +56,7 @@ suite('Extension manifest', () => {
       ['babysitter.openRunDetails', 'ctrl+alt+b d'],
       ['babysitter.openRunLogs', 'ctrl+alt+b l'],
       ['babysitter.runs.refresh', 'ctrl+alt+b shift+r'],
-      ['babysitter.sendEnter', 'ctrl+alt+b enter'],
-      ['babysitter.sendEsc', 'ctrl+alt+b escape'],
+      // Note: sendEnter and sendEsc commands removed - SDK manages process interaction
     ]);
 
     for (const [command, key] of required) {
