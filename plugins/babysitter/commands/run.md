@@ -7,12 +7,12 @@ hide-from-slash-command-tool: "true"
 
 # Babysitter Start Run Command
 
-Use the Babysitter Skill to start a run.
+Before anything else, use the Babysitter Skill. (read "${CLAUDE_PLUGIN_ROOT}/SKILL.md" - the babysitter/SKILL.md file)
 
 Execute the setup script to initialize the Babysitter run:
 
 ```!
-"${CLAUDE_PLUGIN_ROOT}/scripts/setup-babysitter-run.sh" $ARGUMENTS
+"${CLAUDE_PLUGIN_ROOT}/scripts/setup-babysitter-run.sh" --claude-session-id "${CLAUDE_SESSION_ID}" $ARGUMENTS
 ```
 
 ## Architecture Overview

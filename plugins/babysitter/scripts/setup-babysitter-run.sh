@@ -26,6 +26,7 @@ ARGUMENTS:
 OPTIONS:
   --max-iterations <n>           Maximum iterations before auto-stop (default: unlimited)
   --completion-promise '<text>'  Promise phrase (USE QUOTES for multi-word)
+  --claude-session-id <id>      Session ID to use for the run (default: current session)
   -h, --help                     Show this help message
 
 DESCRIPTION:
@@ -54,6 +55,17 @@ MONITORING:
   The exact path is shown when the loop starts.
 HELP_EOF
       exit 0
+      ;;
+    --claude-session-id)
+      if [[ -z "${2:-}" ]]; then
+        echo "❌ Error: --claude-session-id requires a session ID argument" >&2
+        echo "" >&2
+        echo "   Valid examples:" >&2
+        echo "     --claude-session-id 123e4567-e89b-12d3-a456-426614174000" >&2
+        exit 1
+      fi
+      CLAUDE_SESSION_ID="$2"
+      shift 2
       ;;
     --max-iterations)
       if [[ -z "${2:-}" ]]; then
@@ -124,37 +136,6 @@ if [[ -z "$PROMPT" ]]; then
   exit 1
 fi
 
-# Read hook input from stdin
-HOOK_INPUT=$(cat)
-
-# Extract session_id from hook input
-SESSION_ID=$(echo "$HOOK_INPUT" | jq -r '.session_id // empty')
-
-if [[ -z "$SESSION_ID" ]]; then
-  # No session ID available - this shouldn't happen but exit gracefully
-  exit 0
-fi
-
-# Detect project context
-PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")
-PROJECT_NAME=$(basename "$PROJECT_ROOT")
-PROJECT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
-
-# CLAUDE_ENV_FILE is provided by Claude Code for SessionStart hooks
-# Writing to this file persists environment variables for the session
-if [[ -n "${CLAUDE_ENV_FILE:-}" ]]; then
-  # Session identity
-  echo "export CLAUDE_SESSION_ID=\"$SESSION_ID\"" >> "$CLAUDE_ENV_FILE"
-
-  # Project context
-  echo "export PROJECT_ROOT=\"$PROJECT_ROOT\"" >> "$CLAUDE_ENV_FILE"
-  echo "export PROJECT_NAME=\"$PROJECT_NAME\"" >> "$CLAUDE_ENV_FILE"
-  [[ -n "$PROJECT_BRANCH" ]] && echo "export PROJECT_BRANCH=\"$PROJECT_BRANCH\"" >> "$CLAUDE_ENV_FILE"
-
-  # Inherit from wrapper if present (e.g., mycc wrapper)
-  [[ -n "${myccpid:-}" ]] && echo "export myccpid=\"$myccpid\"" >> "$CLAUDE_ENV_FILE"
-  [[ -n "${ai_model:-}" ]] && echo "export ai_model=\"$ai_model\"" >> "$CLAUDE_ENV_FILE"
-fi
 # Now check for session ID (after --help has been processed)
 if [[ -z "${CLAUDE_SESSION_ID:-}" ]]; then
   echo "❌ Error: CLAUDE_SESSION_ID not available" >&2
@@ -202,9 +183,8 @@ Max iterations: $(if [[ $MAX_ITERATIONS -gt 0 ]]; then echo $MAX_ITERATIONS; els
 Completion promise: $(if [[ "$COMPLETION_PROMISE" != "null" ]]; then echo "${COMPLETION_PROMISE//\"/} (ONLY output when TRUE - do not lie!)"; else echo "none (runs forever)"; fi)
 
 The stop hook is now active. When you try to exit, the SAME PROMPT will be
-fed back to you. You'll see your previous work in files, creating a
-self-referential loop where you iteratively improve on the same task.
-
+fed back to you.
+You must use the babysitter-sdk and cli to iterate (refer to the babysitter/SKILL.md file), execute requrested effects, post them back to the cli, and continue the loop until the run is completed.
 To monitor: head -10 "$BABYSITTER_STATE_FILE"
 
 ⚠️  WARNING: This loop cannot be stopped manually! It will run infinitely
