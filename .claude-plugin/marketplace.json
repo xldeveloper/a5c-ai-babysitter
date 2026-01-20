@@ -1,18 +1,18 @@
 {
+  "name": "a5c.ai",
+  "owner": {
     "name": "a5c.ai",
-    "owner": {
-      "name": "a5c.ai",
-      "email": "support@a5c.ai"
-    },
-    "plugins": [
-      {
-        "name": "babysitter",
-        "source": "./plugins/babysitter",
-        "description": "Babysitter",
-        "version": "4.0.3",
-        "author": {
-          "name": "a5c.ai"
-        }
+    "email": "support@a5c.ai"
+  },
+  "plugins": [
+    {
+      "name": "babysitter",
+      "source": "./plugins/babysitter",
+      "description": "Babysitter",
+      "version": "0.0.33",
+      "author": {
+        "name": "a5c.ai"
       }
-    ]
-  }
+    }
+  ]
+}
