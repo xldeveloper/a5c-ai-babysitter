@@ -8,7 +8,7 @@ hide-from-slash-command-tool: "true"
 
 # Babysitter Resume Run Command
 
-Before anything else, use the Babysitter Skill. (read "${CLAUDE_PLUGIN_ROOT}/SKILL.md" - the babysitter/SKILL.md file)
+Before anything else, use the Babysitter Skill. (read "${CLAUDE_PLUGIN_ROOT}/skills/babysitter/SKILL.md" - the babysitter/SKILL.md file)
 
 Execute the setup script to resume the Babysitter run:
 

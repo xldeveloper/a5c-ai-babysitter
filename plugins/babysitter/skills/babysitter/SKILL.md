@@ -252,10 +252,9 @@ $CLI task:run <runId> <effectId> --json
 ```bash
 $CLI run:iterate <runId> --json --iteration <n>
 ```
-
 ---
 
 ## See Also
-
+- `process/tdd-quality-convergence.js` - TDD quality convergence example - read this before creating the code for a run (create the run using the CLI, then use this process as a reference)
 - `reference/ADVANCED_PATTERNS.md` - Agent/skill patterns, iterative convergence
 - `packages/sdk/sdk.md` - SDK API reference
