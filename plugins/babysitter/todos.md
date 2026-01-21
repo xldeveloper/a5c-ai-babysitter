@@ -25,3 +25,5 @@ build-realtime-remediation.js ( pulls ci state and remediates it )
 agile.js ( agile development loop with springs, release cycles and product->develop->qa->release iterations )
 top-down.js
 bottom-up.js
+
+- [ ] make it so the completion promise is a secret embedded in the sdk and the agent does not know it until the run is completed. and the scripts should be updated to compare to the secret completion promise. and instructions should be updated to pass the secret from the cli when the run is completed. the sdk should emit the secret completion promise when the run is completed (on iterate and status commands)

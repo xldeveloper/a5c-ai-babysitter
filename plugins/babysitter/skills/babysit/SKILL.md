@@ -272,3 +272,5 @@ If at any point the run fails due to SDK issues or corrupted state or journal. a
 
 CRITICAL RULE: If a completion promise is set, you may ONLY output it when the entire run is completely and unequivocally DONE (completed status from the orchestartion cli). Do not output false promises to escape the run, even if you think you're stuck or should exit for other reasons. The run is designed to continue until genuine completion.
 Do not output or talk about it by mistake with the user NOR by explaining the stop condition or anything like that.
+
+CRITICAL RULE: never approve breakpoints by yourself. only create them and wait for them. they will always be resolved externally.
