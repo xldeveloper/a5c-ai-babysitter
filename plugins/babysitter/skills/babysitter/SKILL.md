@@ -1,7 +1,7 @@
 ---
 name: babysitter
 description: Orchestrate .a5c runs via @a5c-ai/babysitter-sdk CLI. Run iterations, get requested effects, perform effects, post results.
-
+tools: ["Write", "Read", "Task", "Bash"]
 ---
 
 # babysitter
