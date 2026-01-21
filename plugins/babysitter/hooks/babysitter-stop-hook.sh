@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Babysitter Stop Hook
 # Prevents session exit when a babysitter run is active

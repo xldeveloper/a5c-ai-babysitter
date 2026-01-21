@@ -132,13 +132,13 @@ This means you can **pause, resume, or recover** at any point.
 ### Resume an Existing Run
 
 ```
-/babysit:resume --run-id <runId>
+/babysit resume --run-id <runId>
 ```
 
 **Examples:**
 ```
-/babysit:resume --run-id 01KFFTSF8TK8C9GT3YM9QYQ6WG
-/babysit:resume --run-id todo-app-20260121-084244 --max-iterations 10
+/babysit resume --run-id 01KFFTSF8TK8C9GT3YM9QYQ6WG
+/babysit resume --run-id todo-app-20260121-084244 --max-iterations 10
 ```
 
 ### Natural Language (via Skill)

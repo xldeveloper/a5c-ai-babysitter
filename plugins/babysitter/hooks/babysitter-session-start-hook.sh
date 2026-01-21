@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Babysitter Session Start Hook
 # Extracts session_id from hook input and persists it as CLAUDE_SESSION_ID
