@@ -2,6 +2,7 @@ import path from "path";
 import { pathToFileURL } from "url";
 import { appendEvent } from "../storage/journal";
 import { writeRunOutput } from "../storage/runFiles";
+import { withRunLock } from "../storage/lock";
 import { createReplayEngine, type ReplayEngine } from "./replay/createReplayEngine";
 import { withProcessContext } from "./processContext";
 import {
@@ -29,128 +30,130 @@ const dynamicImportModule = new Function(
 ) as (specifier: string) => Promise<Record<string, unknown>>;
 
 export async function orchestrateIteration(options: OrchestrateOptions): Promise<IterationResult> {
-  const iterationStartedAt = Date.now();
-  const nowFn = resolveNow(options.now);
-  const engine = await initializeReplayEngine(options, nowFn, iterationStartedAt);
-  const defaultEntrypoint = {
-    importPath: engine.metadata.entrypoint?.importPath ?? engine.metadata.processPath,
-    exportName: engine.metadata.entrypoint?.exportName,
-  };
-  const processFn = await loadProcessFunction(options, defaultEntrypoint, options.runDir);
-  const inputs = options.inputs ?? engine.inputs;
-  let finalStatus: IterationResult["status"] = "failed";
-  const logger = engine.internalContext.logger ?? options.logger;
-
-  // Compute project root for hook calls (parent of .a5c dir where plugins/ is located)
-  // runDir is like: /path/to/project/.a5c/runs/<runId>
-  // So we need 3 levels up: runs -> .a5c -> project
-  const projectRoot = path.dirname(path.dirname(path.dirname(options.runDir)));
-
-  // Call on-iteration-start hook
-  await callRuntimeHook(
-    "on-iteration-start",
-    {
-      runId: engine.runId,
-      iteration: engine.replayCursor.value,
-    },
-    {
-      cwd: projectRoot,
-      logger,
-    }
-  );
-
-  try {
-    const output = await withProcessContext(engine.internalContext, () =>
-      processFn(inputs, engine.context, options.context)
-    );
-    const outputRef = await writeRunOutput(options.runDir, output);
-    await appendEvent({
-      runDir: options.runDir,
-      eventType: "RUN_COMPLETED",
-      event: {
-        outputRef,
-      },
-    });
-
-    // Call on-run-complete hook
-    await callRuntimeHook(
-      "on-run-complete",
-      {
-        runId: engine.runId,
-        status: "completed",
-        output,
-        duration: Date.now() - iterationStartedAt,
-      },
-      {
-        cwd: projectRoot,
-        logger,
-      }
-    );
-
-    const result: IterationResult = { status: "completed", output, metadata: createIterationMetadata(engine) };
-    finalStatus = result.status;
-    return result;
-  } catch (error) {
-    const waiting = asWaitingResult(error);
-    if (waiting) {
-      finalStatus = waiting.status;
-      return {
-        status: "waiting",
-        nextActions: annotateWaitingActions(waiting.nextActions),
-        metadata: createIterationMetadata(engine),
-      };
-    }
-    const failure = serializeUnknownError(error);
-    await appendEvent({
-      runDir: options.runDir,
-      eventType: "RUN_FAILED",
-      event: { error: failure },
-    });
-
-    // Call on-run-fail hook
-    await callRuntimeHook(
-      "on-run-fail",
-      {
-        runId: engine.runId,
-        status: "failed",
-        error: failure.message || "Unknown error",
-        duration: Date.now() - iterationStartedAt,
-      },
-      {
-        cwd: projectRoot,
-        logger,
-      }
-    );
-
-    const result: IterationResult = {
-      status: "failed",
-      error: failure,
-      metadata: createIterationMetadata(engine),
+  return await withRunLock(options.runDir, "runtime:orchestrateIteration", async () => {
+    const iterationStartedAt = Date.now();
+    const nowFn = resolveNow(options.now);
+    const engine = await initializeReplayEngine(options, nowFn, iterationStartedAt);
+    const defaultEntrypoint = {
+      importPath: engine.metadata.entrypoint?.importPath ?? engine.metadata.processPath,
+      exportName: engine.metadata.entrypoint?.exportName,
     };
-    finalStatus = result.status;
-    return result;
-  } finally {
-    emitRuntimeMetric(logger, "replay.iteration", {
-      duration_ms: Date.now() - iterationStartedAt,
-      status: finalStatus,
-      runId: engine.runId,
-      stepCount: engine.replayCursor.value,
-    });
+    const processFn = await loadProcessFunction(options, defaultEntrypoint, options.runDir);
+    const inputs = options.inputs ?? engine.inputs;
+    let finalStatus: IterationResult["status"] = "failed";
+    const logger = engine.internalContext.logger ?? options.logger;
 
-    // Call on-iteration-end hook
+    // Compute project root for hook calls (parent of .a5c dir where plugins/ is located)
+    // runDir is like: /path/to/project/.a5c/runs/<runId>
+    // So we need 3 levels up: runs -> .a5c -> project
+    const projectRoot = path.dirname(path.dirname(path.dirname(options.runDir)));
+
+    // Call on-iteration-start hook
     await callRuntimeHook(
-      "on-iteration-end",
+      "on-iteration-start",
       {
         runId: engine.runId,
         iteration: engine.replayCursor.value,
-        status: finalStatus,
       },
       {
         cwd: projectRoot,
         logger,
       }
     );
-  }
+
+    try {
+      const output = await withProcessContext(engine.internalContext, () =>
+        processFn(inputs, engine.context, options.context)
+      );
+      const outputRef = await writeRunOutput(options.runDir, output);
+      await appendEvent({
+        runDir: options.runDir,
+        eventType: "RUN_COMPLETED",
+        event: {
+          outputRef,
+        },
+      });
+
+      // Call on-run-complete hook
+      await callRuntimeHook(
+        "on-run-complete",
+        {
+          runId: engine.runId,
+          status: "completed",
+          output,
+          duration: Date.now() - iterationStartedAt,
+        },
+        {
+          cwd: projectRoot,
+          logger,
+        }
+      );
+
+      const result: IterationResult = { status: "completed", output, metadata: createIterationMetadata(engine) };
+      finalStatus = result.status;
+      return result;
+    } catch (error) {
+      const waiting = asWaitingResult(error);
+      if (waiting) {
+        finalStatus = waiting.status;
+        return {
+          status: "waiting",
+          nextActions: annotateWaitingActions(waiting.nextActions),
+          metadata: createIterationMetadata(engine),
+        };
+      }
+      const failure = serializeUnknownError(error);
+      await appendEvent({
+        runDir: options.runDir,
+        eventType: "RUN_FAILED",
+        event: { error: failure },
+      });
+
+      // Call on-run-fail hook
+      await callRuntimeHook(
+        "on-run-fail",
+        {
+          runId: engine.runId,
+          status: "failed",
+          error: failure.message || "Unknown error",
+          duration: Date.now() - iterationStartedAt,
+        },
+        {
+          cwd: projectRoot,
+          logger,
+        }
+      );
+
+      const result: IterationResult = {
+        status: "failed",
+        error: failure,
+        metadata: createIterationMetadata(engine),
+      };
+      finalStatus = result.status;
+      return result;
+    } finally {
+      emitRuntimeMetric(logger, "replay.iteration", {
+        duration_ms: Date.now() - iterationStartedAt,
+        status: finalStatus,
+        runId: engine.runId,
+        stepCount: engine.replayCursor.value,
+      });
+
+      // Call on-iteration-end hook
+      await callRuntimeHook(
+        "on-iteration-end",
+        {
+          runId: engine.runId,
+          iteration: engine.replayCursor.value,
+          status: finalStatus,
+        },
+        {
+          cwd: projectRoot,
+          logger,
+        }
+      );
+    }
+  });
 }
 
 interface EntrypointDefaults {

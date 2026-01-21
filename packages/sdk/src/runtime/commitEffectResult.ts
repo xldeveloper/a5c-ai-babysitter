@@ -1,4 +1,5 @@
 import { appendEvent } from "../storage/journal";
+import { withRunLock } from "../storage/lock";
 import { buildEffectIndex } from "./replay/effectIndex";
 import {
   CommitEffectResultArtifacts,
@@ -13,73 +14,75 @@ import { globalTaskRegistry } from "../tasks/registry";
 import { serializeAndWriteTaskResult } from "../tasks/serializer";
 
 export async function commitEffectResult(options: CommitEffectResultOptions): Promise<CommitEffectResultArtifacts> {
-  guardResultPayload(options);
-  const effectIndex = await buildEffectIndex({ runDir: options.runDir });
-  const record = effectIndex.getByEffectId(options.effectId);
+  return await withRunLock(options.runDir, "runtime:commitEffectResult", async () => {
+    guardResultPayload(options);
+    const effectIndex = await buildEffectIndex({ runDir: options.runDir });
+    const record = effectIndex.getByEffectId(options.effectId);
 
-  if (!record) {
-    logCommitFailure(options, "unknown_effect");
-    throw new RunFailedError(`Unknown effectId ${options.effectId}`);
-  }
+    if (!record) {
+      logCommitFailure(options, "unknown_effect");
+      throw new RunFailedError(`Unknown effectId ${options.effectId}`);
+    }
 
-  if (record.status !== "requested") {
-    logCommitFailure(options, "already_resolved", { currentStatus: record.status });
-    throw new RunFailedError(`Effect ${options.effectId} is already resolved`);
-  }
+    if (record.status !== "requested") {
+      logCommitFailure(options, "already_resolved", { currentStatus: record.status });
+      throw new RunFailedError(`Effect ${options.effectId} is already resolved`);
+    }
 
-  ensureInvocationKeyMatches(options, record);
+    ensureInvocationKeyMatches(options, record);
 
-  const resultPayload = buildResultPayload(options);
+    const resultPayload = buildResultPayload(options);
 
-  const { resultRef, stdoutRef: writtenStdoutRef, stderrRef: writtenStderrRef } = await serializeAndWriteTaskResult({
-    runDir: options.runDir,
-    effectId: options.effectId,
-    taskId: requireTaskId(record),
-    invocationKey: record.invocationKey,
-    payload: resultPayload,
-  });
-  const stdoutRef = resultPayload.stdoutRef ?? writtenStdoutRef;
-  const stderrRef = resultPayload.stderrRef ?? writtenStderrRef;
-  const eventError = resultPayload.status === "error" ? resultPayload.error : undefined;
-
-  const resolvedEvent = await appendEvent({
-    runDir: options.runDir,
-    eventType: "EFFECT_RESOLVED",
-    event: {
+    const { resultRef, stdoutRef: writtenStdoutRef, stderrRef: writtenStderrRef } = await serializeAndWriteTaskResult({
+      runDir: options.runDir,
       effectId: options.effectId,
-      status: options.result.status,
+      taskId: requireTaskId(record),
+      invocationKey: record.invocationKey,
+      payload: resultPayload,
+    });
+    const stdoutRef = resultPayload.stdoutRef ?? writtenStdoutRef;
+    const stderrRef = resultPayload.stderrRef ?? writtenStderrRef;
+    const eventError = resultPayload.status === "error" ? resultPayload.error : undefined;
+
+    const resolvedEvent = await appendEvent({
+      runDir: options.runDir,
+      eventType: "EFFECT_RESOLVED",
+      event: {
+        effectId: options.effectId,
+        status: options.result.status,
+        resultRef,
+        error: eventError,
+        stdoutRef,
+        stderrRef,
+        startedAt: resultPayload.startedAt,
+        finishedAt: resultPayload.finishedAt,
+      },
+    });
+    globalTaskRegistry.resolveEffect(options.effectId, {
+      status: options.result.status === "ok" ? "resolved_ok" : "resolved_error",
       resultRef,
-      error: eventError,
       stdoutRef,
       stderrRef,
+      resolvedAt: resolvedEvent.recordedAt,
+    });
+
+    emitRuntimeMetric(options.logger, "commit.effect", {
+      effectId: options.effectId,
+      invocationKey: record.invocationKey,
+      status: options.result.status,
+      runDir: options.runDir,
+      hasStdout: Boolean(stdoutRef),
+      hasStderr: Boolean(stderrRef),
+    });
+
+    return {
+      resultRef,
+      stdoutRef: stdoutRef ?? undefined,
+      stderrRef: stderrRef ?? undefined,
       startedAt: resultPayload.startedAt,
       finishedAt: resultPayload.finishedAt,
-    },
+    };
   });
-  globalTaskRegistry.resolveEffect(options.effectId, {
-    status: options.result.status === "ok" ? "resolved_ok" : "resolved_error",
-    resultRef,
-    stdoutRef,
-    stderrRef,
-    resolvedAt: resolvedEvent.recordedAt,
-  });
-
-  emitRuntimeMetric(options.logger, "commit.effect", {
-    effectId: options.effectId,
-    invocationKey: record.invocationKey,
-    status: options.result.status,
-    runDir: options.runDir,
-    hasStdout: Boolean(stdoutRef),
-    hasStderr: Boolean(stderrRef),
-  });
-
-  return {
-    resultRef,
-    stdoutRef: stdoutRef ?? undefined,
-    stderrRef: stderrRef ?? undefined,
-    startedAt: resultPayload.startedAt,
-    finishedAt: resultPayload.finishedAt,
-  };
 }
 
 function ensureInvocationKeyMatches(options: CommitEffectResultOptions, record: EffectRecord) {

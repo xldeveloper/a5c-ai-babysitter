@@ -36,3 +36,47 @@ export async function readRunLock(runDir: string): Promise<RunLockInfo | null> {
     throw err;
   }
 }
+
+function isLockHeldError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+  return error.message.startsWith("run.lock already held");
+}
+
+async function sleep(ms: number) {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export interface WithRunLockOptions {
+  retries?: number;
+  delayMs?: number;
+}
+
+export async function withRunLock<T>(
+  runDir: string,
+  owner: string,
+  fn: () => Promise<T>,
+  options: WithRunLockOptions = {}
+): Promise<T> {
+  const retries = typeof options.retries === "number" ? Math.max(0, Math.floor(options.retries)) : 40;
+  const delayMs = typeof options.delayMs === "number" ? Math.max(0, Math.floor(options.delayMs)) : 250;
+  let acquired = false;
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    try {
+      await acquireRunLock(runDir, owner);
+      acquired = true;
+      break;
+    } catch (error) {
+      if (!isLockHeldError(error) || attempt === retries) {
+        throw error;
+      }
+      await sleep(delayMs);
+    }
+  }
+  try {
+    return await fn();
+  } finally {
+    if (acquired) {
+      await releaseRunLock(runDir);
+    }
+  }
+}

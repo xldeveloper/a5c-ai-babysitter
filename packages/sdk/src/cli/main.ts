@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
+import * as crypto from "node:crypto";
 import { commitEffectResult } from "../runtime/commitEffectResult";
 import { createRun } from "../runtime/createRun";
 import { buildEffectIndex } from "../runtime/replay/effectIndex";
@@ -8,6 +9,7 @@ import { readStateCache, rebuildStateCache } from "../runtime/replay/stateCache"
 import type { StateCacheSnapshot } from "../runtime/replay/stateCache";
 import { EffectAction, EffectRecord, IterationMetadata } from "../runtime/types";
 import type { JsonRecord } from "../storage/types";
+import { nextUlid } from "../storage/ulids";
 import { readTaskDefinition, readTaskResult } from "../storage/tasks";
 import { loadJournal } from "../storage/journal";
 import { readRunMetadata } from "../storage/runFiles";
@@ -19,6 +21,7 @@ const USAGE = `Usage:
   babysitter run:status <runDir> [--runs-dir <dir>] [--json]
   babysitter run:events <runDir> [--runs-dir <dir>] [--json] [--limit <n>] [--reverse] [--filter-type <type>]
   babysitter run:rebuild-state <runDir> [--runs-dir <dir>] [--json] [--dry-run]
+  babysitter run:repair-journal <runDir> [--runs-dir <dir>] [--json] [--dry-run]
   babysitter run:iterate <runDir> [--runs-dir <dir>] [--json] [--verbose] [--iteration <n>]
   babysitter task:post <runDir> <effectId> --status <ok|error> [--runs-dir <dir>] [--json] [--dry-run] [--value <file>] [--error <file>] [--stdout-ref <ref>] [--stderr-ref <ref>] [--stdout-file <file>] [--stderr-file <file>] [--started-at <iso8601>] [--finished-at <iso8601>] [--metadata <file>] [--invocation-key <key>]
   babysitter task:list <runDir> [--runs-dir <dir>] [--pending] [--kind <kind>] [--json]
@@ -243,6 +246,8 @@ function parseArgs(argv: string[]): ParsedArgs {
   } else if (parsed.command === "run:events") {
     [parsed.runDirArg] = positionals;
   } else if (parsed.command === "run:rebuild-state") {
+    [parsed.runDirArg] = positionals;
+  } else if (parsed.command === "run:repair-journal") {
     [parsed.runDirArg] = positionals;
   }
   return parsed;
@@ -737,6 +742,122 @@ async function handleRunRebuildState(parsed: ParsedArgs): Promise<number> {
   }
   const suffix = formatted.textParts.length ? ` ${formatted.textParts.join(" ")}` : "";
   console.log(`[run:rebuild-state] runDir=${runDir}${suffix}`);
+  return 0;
+}
+
+async function handleRunRepairJournal(parsed: ParsedArgs): Promise<number> {
+  if (!parsed.runDirArg) {
+    console.error(USAGE);
+    return 1;
+  }
+  const runDir = resolveRunDir(parsed.runsDir, parsed.runDirArg);
+  logVerbose("run:repair-journal", parsed, {
+    runDir,
+    dryRun: parsed.dryRun,
+    json: parsed.json,
+  });
+  if (!(await readRunMetadataSafe(runDir, "run:repair-journal"))) return 1;
+
+  const journalDir = path.join(runDir, "journal");
+  const files = (await fs.readdir(journalDir)).filter((name) => name.endsWith(".json")).sort();
+  const rawEvents: Array<{ filename: string; payload: { type?: unknown; recordedAt?: unknown; data?: unknown } }> = [];
+  for (const filename of files) {
+    const fullPath = path.join(journalDir, filename);
+    const payload = JSON.parse(await fs.readFile(fullPath, "utf8")) as { type?: unknown; recordedAt?: unknown; data?: unknown };
+    rawEvents.push({ filename, payload });
+  }
+
+  const seenInvocation = new Set<string>();
+  const keptEffectIds = new Set<string>();
+  const droppedEffectIds = new Set<string>();
+  const kept: Array<{ type: string; recordedAt?: string; data: JsonRecord }> = [];
+  let droppedRequested = 0;
+  let droppedResolved = 0;
+
+  for (const entry of rawEvents) {
+    const type = typeof entry.payload.type === "string" ? entry.payload.type : "UNKNOWN";
+    const recordedAt = typeof entry.payload.recordedAt === "string" ? entry.payload.recordedAt : undefined;
+    const data = isJsonRecord(entry.payload.data) ? entry.payload.data : {};
+
+    if (type === "EFFECT_REQUESTED") {
+      const invocationKey = typeof data.invocationKey === "string" ? data.invocationKey : "";
+      const effectId = typeof data.effectId === "string" ? data.effectId : "";
+      if (invocationKey && seenInvocation.has(invocationKey)) {
+        droppedRequested += 1;
+        if (effectId) droppedEffectIds.add(effectId);
+        continue;
+      }
+      if (invocationKey) seenInvocation.add(invocationKey);
+      if (effectId) keptEffectIds.add(effectId);
+      kept.push({ type, recordedAt, data });
+      continue;
+    }
+
+    if (type === "EFFECT_RESOLVED") {
+      const effectId = typeof data.effectId === "string" ? data.effectId : "";
+      if (effectId && droppedEffectIds.has(effectId) && !keptEffectIds.has(effectId)) {
+        droppedResolved += 1;
+        continue;
+      }
+      kept.push({ type, recordedAt, data });
+      continue;
+    }
+
+    // Keep all other events.
+    kept.push({ type, recordedAt, data });
+  }
+
+  const summary = {
+    runDir,
+    journal: {
+      originalFiles: files.length,
+      keptEvents: kept.length,
+      droppedRequested,
+      droppedResolved,
+    },
+  };
+
+  if (parsed.dryRun) {
+    if (parsed.json) {
+      console.log(JSON.stringify({ dryRun: true, ...summary }));
+    } else {
+      console.log(
+        `[run:repair-journal] dry-run originalFiles=${files.length} keptEvents=${kept.length} droppedRequested=${droppedRequested} droppedResolved=${droppedResolved}`
+      );
+    }
+    return 0;
+  }
+
+  const stamp = Date.now();
+  const repairedDir = path.join(runDir, `journal.repaired.${stamp}`);
+  await fs.mkdir(repairedDir, { recursive: true });
+
+  for (let i = 0; i < kept.length; i += 1) {
+    const seq = String(i + 1).padStart(6, "0");
+    const ulid = nextUlid();
+    const filename = `${seq}.${ulid}.json`;
+    const eventPayload: JsonRecord = {
+      type: kept[i].type,
+      recordedAt: kept[i].recordedAt ?? new Date().toISOString(),
+      data: kept[i].data,
+    };
+    const contents = JSON.stringify(eventPayload, null, 2) + "\n";
+    const checksum = crypto.createHash("sha256").update(contents).digest("hex");
+    const withChecksum = JSON.stringify({ ...eventPayload, checksum }, null, 2) + "\n";
+    await fs.writeFile(path.join(repairedDir, filename), withChecksum, "utf8");
+  }
+
+  const backupDir = path.join(runDir, `journal.bak.${stamp}`);
+  await fs.rename(journalDir, backupDir);
+  await fs.rename(repairedDir, journalDir);
+
+  if (parsed.json) {
+    console.log(JSON.stringify({ ...summary, backupDir, repaired: true }));
+  } else {
+    console.log(
+      `[run:repair-journal] repaired originalFiles=${files.length} keptEvents=${kept.length} droppedRequested=${droppedRequested} droppedResolved=${droppedResolved} backupDir=${backupDir}`
+    );
+  }
   return 0;
 }
 
@@ -1295,6 +1416,9 @@ export function createBabysitterCli() {
         }
         if (parsed.command === "run:rebuild-state") {
           return await handleRunRebuildState(parsed);
+        }
+        if (parsed.command === "run:repair-journal") {
+          return await handleRunRepairJournal(parsed);
         }
         if (parsed.command === "run:status") {
           return await handleRunStatus(parsed);

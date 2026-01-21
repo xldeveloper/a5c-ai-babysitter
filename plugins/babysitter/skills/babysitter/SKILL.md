@@ -5,7 +5,9 @@ description: Orchestrate .a5c runs via @a5c-ai/babysitter-sdk CLI. Run iteration
 
 # babysitter
 
-Orchestrate `.a5c/runs/<runId>/` through iterative execution. Use the SDK CLI to drive the orchestration loop.
+Orchestrate `.a5c/runs/<runId>/` through iterative execution. Use the SDK CLI to drive the orchestration loop. 
+
+IMPORTANT: Never build a wrapper, python or helper scripts to orchestrate the runs. Use the CLI to drive the orchestration loop and never loop programmatically.
 
 make sure you have the latest version of the cli:
 
@@ -75,10 +77,16 @@ $CLI task:list .a5c/runs/<runId> --pending --json
 
 ### 3. Perform Effects
 
-Run the effect externally (by you, your hook, or another worker). After execution, post the outcome into the run by calling `task:post`, which:
+Run the effect externally to the SDK (by you, your hook, or another worker). After execution (by delegation to an agent or skill), post the outcome summary into the run by calling `task:post`, which:
 - Writes the committed result to `tasks/<effectId>/result.json`
 - Appends an `EFFECT_RESOLVED` event to the journal
 - Updates the state cache
+
+IMPORTANT:
+- Delegate using the Task tool if possible. 
+- Make sure the change was actually performed and not described or implied. (for example, if code files were mentioned as created in the summary, make sure they were actually created.)
+- Include in the instructions to the agent or skill to perform the task in full and return the only the summary result in the requested schema.
+
 
 if the effect is a breakpoint, you need to run the command:
 ```bash
@@ -94,8 +102,7 @@ npx @a5c-ai/babysitter-breakpoints breakpoint create --tag <tag> --question "<qu
 $CLI task:post .a5c/runs/<runId> <effectId> --status <ok|error> --json
 ```
 
-
-Effects are executed **externally** (by you, your hook, or another worker). After execution, post the outcome into the run by calling `task:post`, which:
+Effects are executed **externally** to the SDK (by you, your hook, or another worker). After execution, post the outcome into the run by calling `task:post`, which:
 - Writes the committed result to `tasks/<effectId>/result.json`
 - Appends an `EFFECT_RESOLVED` event to the journal
 - Updates the state cache
