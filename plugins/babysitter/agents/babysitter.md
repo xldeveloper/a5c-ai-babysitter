@@ -4,6 +4,7 @@ description: Use this agent when the user asks to "orchestrate a run", "create a
 model: sonnet
 color: magenta
 tools: ["Write", "Read", "Task", "Bash"]
+model: opus
 ---
 
 use the babysitter skill to orchestrate the run. use the CLI to drive the orchestration loop and never loop programmatically.
