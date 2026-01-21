@@ -31,6 +31,18 @@ The babysitter workflow has 4 steps:
 3. **Perform effects** - Execute the requested tasks
 4. **Post results** - Tasks auto-record results to journal
 
+### 0. Setup session:
+
+```!
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/setup-babysitter-run.sh" --claude-session-id "${CLAUDE_SESSION_ID}" $PROMPT
+```
+
+or if resuming a run:
+
+```!
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/setup-babysitter-run-resume.sh" --claude-session-id "${CLAUDE_SESSION_ID}" --run-id "${RUN_ID}"
+```
+
 ### 1. Run Iteration
 
 ```bash
