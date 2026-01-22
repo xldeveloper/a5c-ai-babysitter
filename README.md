@@ -84,13 +84,23 @@ npm install -g @a5c-ai/babysitter@latest @a5c-ai/babysitter-sdk@latest @a5c-ai/b
 
 ```bash
 # Add the plugin repository
-/plugin marketplace add a5c-ai/babysitter
+claude plugin marketplace add a5c-ai/babysitter
 
 # Install the plugin
-/plugin install babysitter@a5c.ai
+claude plugin install --scope user babysitter@a5c.ai
+
+# Enable per user
+claude plugin enable --scope user babysitter@a5c.ai 
 ```
 
 Then restart Claude Code.
+
+Tip: Run update daily or 
+```bash
+claude plugin marketplace update a5c.ai 
+
+claude plugin update babysitter@a5c.ai 
+```
 
 ### 3. Verify Installation
 
@@ -123,6 +133,13 @@ OR
 ## Quick Start
 
 Simply ask Claude to use the babysitter skill:
+
+
+```bash
+claude "/babysit implement user authentication with TDD"
+```
+
+or in English:
 
 ```
 Use the babysitter skill to implement user authentication with TDD
