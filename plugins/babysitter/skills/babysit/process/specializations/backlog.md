@@ -30,25 +30,24 @@ Software and R&D Specializations (give a proper name to each specialization) - i
 
 Engineering Specializations (give a proper name to each specialization):
 
-[ ] Embedded Systems, Hardware, Firmware, Device Drivers, Hardware-Software Integration
-[ ] Robotics and world simulation
-[ ] Game Product Development
-[ ] Web Product Development (frameworks, patterns, best practices, tools, sdk, libraries, etc.)
-[ ] Mobile Product Development
-[ ] Desktop Product Development
-[ ] AI Agents and Conversational AI Agents and Chatbots - Howtos, UX, Frameworks, Tools, SDKs, Libraries, Best Practices, Patterns, etc.
-[ ] Algorithms, Optimization, Microcoding, l33tcode, etc.
+[x] Embedded Systems, Hardware, Firmware, Device Drivers, Hardware-Software Integration
+[x] Robotics and world simulation
+[x] Game Product Development
+[x] Web Product Development (frameworks, patterns, best practices, tools, sdk, libraries, etc.)
+[x] Mobile Product Development
+[x] Desktop Product Development
+[x] AI Agents and Conversational AI Agents and Chatbots - Howtos, UX, Frameworks, Tools, SDKs, Libraries, Best Practices, Patterns, etc.
+[x] Algorithms, Optimization, Microcoding, l33tcode, etc.
 
-Science Specializations (give a proper name to each specialization):
+Science Specializations (give a proper name to each specialization): each in process/specializations/domains/science/[specialization-name-slugified]/
 
-[ ] General Purpose Scientific Discovery, Engineering, and Problem Solving - Methodical Creative Thinking. Thinking Patterns for Scientific Discovery, Engineering, and Problem Solving
+[ ] General Purpose Scientific Discovery, Engineering, and Problem Solving - Methodical Creative Thinking. Thinking Patterns for Scientific Discovery, Thinking and discovery patterns.
 [ ] Quantum Computing, Quantum Algorithms, Quantum Hardware, Quantum Software
 [ ] Bioinformatics, Genomics, Proteomics
 [ ] Nanotechnology
 [ ] Materials Science
 [ ] Aerospace Engineering
 [ ] Automotive Engineering
-[ ] Civil Engineering
 [ ] Mechanical Engineering
 [ ] Electrical Engineering
 [ ] Chemical Engineering
@@ -58,8 +57,9 @@ Science Specializations (give a proper name to each specialization):
 [ ] Computer Science
 [ ] Mathematics
 [ ] Physics
+[ ] Civil Engineering
 
-Business and Finance Specializations (give a proper name to each specialization):
+Business and Finance Specializations (give a proper name to each specialization): each in process/specializations/domains/business/[specialization-name-slugified]/
 
 [ ] Business
 [ ] Finance, Accounting, Economics
@@ -69,11 +69,11 @@ Business and Finance Specializations (give a proper name to each specialization)
 [ ] Human Resources
 [ ] Customer Service, Support, Customer Success, Customer Experience
 [ ] General Purpose Project Management, Leadership, etc.
-
-Social Sciences and Humanities Specializations (give a proper name to each specialization):
-
 [ ] Supply Chain Management
 [ ] Logistics, Transportation, Shipping, Freight, Warehousing, Inventory Management
+
+Social Sciences and Humanities Specializations (give a proper name to each specialization): each in process/specializations/domains/social-sciences-humanities/[specialization-name-slugified]/
+
 [ ] Healthcare, Medical, Healthcare Management, Medical Management
 [ ] Education, Teaching, Learning, Learning Management System, Learning Management System
 [ ] Social Sciences
