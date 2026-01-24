@@ -182,7 +182,7 @@ https://github.com/xbim08/awesome-claude-code-plugins/tree/main/plugins
 
 also the claude-skills tag on github: https://github.com/topics/claude-skills
 
-## Phase 5: create, copy or update the skill or agent file in the relevant directory.
+## Phase 6: create, copy or update the skill or agent file in the relevant directory.
 
 if found online, copy the entire content include supporting files, scripts, documentation, etc.
 
@@ -195,6 +195,8 @@ the same domain and specialization dir as the process file. rnd specialzations d
 
 if the skill or agent is common or shared between specializations, create the skills or agents directory in common ancestors directories. for example, if the skill name is as generic as developer-skill, create the plugins/babysitter/skills/babysit/process/specializations/skills/developer-skill/ directory, then create the files (SKILL.md, README.md, references/ , scripts/ etc.). include supporting files, scripts, documentation, etc.
 
-## Phase 6: integrate the skill or agent into the process file
+do it for ALL the skills and agents in the skills-agents-backlog.md file. mark when done with a checkmark.
+
+## Phase 7: integrate the skill or agent into the process file
 
 For each skill and agent, update the relevant processes js files to use it
