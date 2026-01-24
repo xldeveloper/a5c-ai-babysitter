@@ -1,6 +1,6 @@
 ---
 name: pymc-probabilistic-programming
-description: PyMC for flexible Bayesian modeling in Python
+description: PyMC for flexible Bayesian modeling
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: statistical-computing
-  domain: mathematics
-  backlog-id: SK-MATH-022
-  tools:
-    - PyMC
-    - ArviZ
-    - PyTensor
-  processes:
-    - bayesian-inference-workflow
-    - statistical-model-selection
+  phase: 6
 ---
 
-# PyMC Probabilistic Programming Skill
+# PyMC Probabilistic Programming
 
 ## Purpose
 
-Provides PyMC for flexible Bayesian modeling with Python integration and excellent visualization support.
+Provides PyMC capabilities for flexible Bayesian modeling and probabilistic programming in Python.
 
 ## Capabilities
 
-- **Hierarchical Models**: Build hierarchical/multilevel models
-- **Custom Distributions**: Define custom distributions
-- **Gaussian Processes**: GP regression and classification
-- **MCMC/VI**: MCMC and variational inference
-- **Diagnostics**: Comprehensive model diagnostics
-- **ArviZ Integration**: Visualization with ArviZ
+- Hierarchical model specification
+- Custom distributions
+- Gaussian processes
+- MCMC and variational inference
+- Model diagnostics
+- ArviZ integration for visualization
 
 ## Usage Guidelines
 
-1. **Model Building**
-   - Use PyMC context managers
-   - Define priors appropriately
-   - Build hierarchical structure
+1. **Model Building**: Use PyMC context managers
+2. **Custom Distributions**: Define distributions when needed
+3. **Hierarchical Models**: Build proper hierarchical structures
+4. **Visualization**: Use ArviZ for diagnostic plots
 
-2. **Inference**
-   - Choose MCMC or VI
-   - Configure sampler settings
-   - Run diagnostics
+## Tools/Libraries
 
-3. **Analysis**
-   - Use ArviZ for visualization
-   - Check convergence
-   - Perform model comparison
-
-4. **Best Practices**
-   - Start with simple models
-   - Check prior predictions
-   - Iterate on model design
+- PyMC
+- ArviZ
+- Theano/PyTensor

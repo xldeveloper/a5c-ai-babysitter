@@ -8,55 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: numerical-analysis
-  domain: mathematics
-  backlog-id: SK-MATH-011
-  tools:
-    - LAPACK
-    - BLAS
-    - SuiteSparse
-    - Eigen
-  processes:
-    - matrix-computation-optimization
-    - numerical-stability-analysis
+  phase: 6
 ---
 
-# Numerical Linear Algebra Toolkit Skill
+# Numerical Linear Algebra Toolkit
 
 ## Purpose
 
-Provides high-performance numerical linear algebra operations with careful attention to accuracy and stability.
+Provides high-performance numerical linear algebra operations for scientific computing and mathematical analysis.
 
 ## Capabilities
 
-- **Matrix Decompositions**: LU, QR, SVD, Cholesky, Schur decompositions
-- **Eigenvalue Problems**: Eigenvalue and eigenvector computation
-- **Sparse Operations**: Sparse matrix operations and solvers
-- **Iterative Methods**: CG, GMRES, BiCGSTAB iterative solvers
-- **Conditioning**: Condition number estimation
-- **Error Analysis**: Error bounds and analysis
+- Matrix decompositions (LU, QR, SVD, Cholesky, Schur)
+- Eigenvalue/eigenvector computation
+- Sparse matrix operations
+- Iterative solvers (CG, GMRES, BiCGSTAB)
+- Condition number estimation
+- Error analysis and bounds
 
 ## Usage Guidelines
 
-1. **Decomposition Selection**
-   - Choose appropriate decomposition for task
-   - Consider matrix structure (symmetric, sparse, etc.)
-   - Assess conditioning before solving
+1. **Decomposition Selection**: Choose appropriate factorization for the problem
+2. **Sparsity Exploitation**: Use sparse formats for large sparse matrices
+3. **Iterative Methods**: Apply iterative solvers for very large systems
+4. **Conditioning**: Assess and monitor condition numbers
 
-2. **Solver Selection**
-   - Use direct methods for small/medium problems
-   - Use iterative methods for large sparse systems
-   - Configure preconditioners appropriately
+## Tools/Libraries
 
-3. **Error Analysis**
-   - Estimate condition numbers
-   - Track error propagation
-   - Validate results
-
-4. **Best Practices**
-   - Exploit matrix structure
-   - Test on well-conditioned problems first
-   - Document numerical precision
+- LAPACK
+- BLAS
+- SuiteSparse
+- Eigen

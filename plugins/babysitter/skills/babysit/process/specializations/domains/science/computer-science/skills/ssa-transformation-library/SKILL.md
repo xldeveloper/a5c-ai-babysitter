@@ -1,6 +1,6 @@
 ---
 name: ssa-transformation-library
-description: SSA-form transformations and optimizations for compiler intermediate representations
+description: SSA-form transformations and optimizations for compiler development
 allowed-tools:
   - Bash
   - Read
@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: compilers
+  category: compiler-optimization
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on SSA form construction and SSA-based compiler optimizations.
+Provides expert guidance on SSA (Static Single Assignment) form transformations for compiler optimization.
 
 ## Capabilities
 
@@ -28,21 +28,18 @@ Provides expert guidance on SSA form construction and SSA-based compiler optimiz
 - SSA-based optimization templates
 - Dominance tree computation
 - Use-def chain analysis
-- SSA deconstruction
+- SSA destruction for code generation
 
 ## Usage Guidelines
 
-1. **CFG Analysis**: Build control flow graph
-2. **Dominance Computation**: Calculate dominators
-3. **SSA Construction**: Insert phi nodes
-4. **Optimization**: Apply SSA-based transforms
-5. **Deconstruction**: Convert back from SSA
+1. **CFG Analysis**: Analyze control flow graph
+2. **Dominance**: Compute dominance frontiers
+3. **SSA Construction**: Insert phi nodes and rename variables
+4. **Optimization**: Apply SSA-based optimizations
+5. **Destruction**: Convert back for code generation
 
-## Dependencies
+## Tools/Libraries
 
 - LLVM IR
+- GCC GIMPLE
 - SSA libraries
-
-## Process Integration
-
-- Compiler Optimization Design workflows

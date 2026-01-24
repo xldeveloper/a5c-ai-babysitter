@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: programming-languages
+  category: programming-language-theory
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on implementing type inference algorithms for statically-typed languages.
+Provides expert guidance on implementing type inference algorithms for programming language implementations.
 
 ## Capabilities
 
@@ -32,18 +32,14 @@ Provides expert guidance on implementing type inference algorithms for staticall
 
 ## Usage Guidelines
 
-1. **Language Definition**: Specify type system
-2. **Constraint Generation**: Build type constraints
-3. **Unification**: Solve constraints
-4. **Type Assignment**: Compute principal types
-5. **Error Reporting**: Diagnose type errors
+1. **Constraint Generation**: Generate type constraints from expressions
+2. **Unification**: Implement unification algorithm
+3. **Generalization**: Handle let-polymorphism
+4. **Error Messages**: Generate informative type errors
+5. **Testing**: Validate inference on test cases
 
-## Dependencies
+## Tools/Libraries
 
 - Language workbenches
 - Constraint solvers
-
-## Process Integration
-
-- Type System Design
-- DSL Design Implementation workflows
+- Type inference libraries

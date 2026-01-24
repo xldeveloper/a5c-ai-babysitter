@@ -8,55 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: theorem-proving
-  domain: mathematics
-  backlog-id: SK-MATH-004
-  tools:
-    - Z3
-    - CVC5
-    - Quickcheck
-    - Nitpick
-  processes:
-    - conjecture-exploration
-    - theorem-proof-verification
+  phase: 6
 ---
 
-# Counterexample Generator Skill
+# Counterexample Generator
 
 ## Purpose
 
-Provides automated counterexample search for mathematical conjectures using SMT solvers, random testing, and finite model finding.
+Provides automated search capabilities for finding counterexamples to mathematical conjectures and validating proof attempts.
 
 ## Capabilities
 
-- **Random Testing**: Apply intelligent sampling for counterexamples
-- **SMT Search**: Use SMT solvers for counterexample generation
-- **Property Testing**: Apply Quickcheck-style property testing
-- **Boundary Cases**: Enumerate boundary case candidates
-- **Finite Models**: Find finite counterexamples with Nitpick/Quickcheck
-- **Reporting**: Generate counterexample reports
+- Random testing with intelligent sampling
+- SMT-based counterexample search
+- Quickcheck-style property testing
+- Boundary case enumeration
+- Finite model finding (Nitpick, Quickcheck)
 
 ## Usage Guidelines
 
-1. **Conjecture Setup**
-   - Formalize conjecture precisely
-   - Identify relevant parameter spaces
-   - Define validity criteria
+1. **Property Specification**: Define testable properties formally
+2. **Sampling Strategy**: Choose appropriate random distributions
+3. **Constraint Solving**: Use SMT for structured search
+4. **Boundary Testing**: Exhaustively check small cases
 
-2. **Search Strategy**
-   - Start with small domains
-   - Use random testing for quick checks
-   - Apply SMT for harder cases
+## Tools/Libraries
 
-3. **Counterexample Analysis**
-   - Verify counterexamples manually
-   - Understand why conjecture fails
-   - Refine conjecture if appropriate
-
-4. **Best Practices**
-   - Try multiple methods
-   - Document search bounds
-   - Report negative results
+- Z3
+- CVC5
+- Quickcheck
+- Nitpick

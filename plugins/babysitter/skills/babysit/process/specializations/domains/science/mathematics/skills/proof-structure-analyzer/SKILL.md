@@ -8,53 +8,36 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: theorem-proving
-  domain: mathematics
-  backlog-id: SK-MATH-005
-  tools:
-    - Natural language parsing
-    - Formal logic representation
-  processes:
-    - proof-writing-assistance
-    - theorem-proof-verification
+  phase: 6
 ---
 
-# Proof Structure Analyzer Skill
+# Proof Structure Analyzer
 
 ## Purpose
 
-Provides analysis and restructuring of mathematical proofs to improve clarity, identify gaps, and ensure completeness.
+Provides analysis and restructuring capabilities for mathematical proofs to improve clarity, completeness, and logical flow.
 
 ## Capabilities
 
-- **Strategy Identification**: Identify proof strategies (induction, contradiction, etc.)
-- **Dependency Graph**: Construct dependency graphs between steps
-- **Gap Detection**: Detect gaps in reasoning chains
-- **Outline Generation**: Generate proof outlines
-- **Lemma Extraction**: Suggest lemma extractions
-- **Clarity Assessment**: Assess proof clarity
+- Proof strategy identification (induction, contradiction, etc.)
+- Dependency graph construction
+- Gap detection in reasoning chains
+- Proof outline generation
+- Lemma extraction suggestions
 
 ## Usage Guidelines
 
-1. **Proof Analysis**
-   - Parse proof structure
-   - Identify main strategy
-   - Map step dependencies
+1. **Strategy Analysis**: Identify the overall proof approach
+2. **Dependency Mapping**: Build logical dependency graphs
+3. **Gap Detection**: Find missing steps or unjustified claims
+4. **Restructuring**: Suggest clearer proof organization
 
-2. **Gap Identification**
-   - Check logical completeness
-   - Identify implicit assumptions
-   - Flag unclear steps
+## Tools/Libraries
 
-3. **Restructuring**
-   - Suggest clearer organization
-   - Extract reusable lemmas
-   - Improve step ordering
-
-4. **Best Practices**
-   - Maintain logical flow
-   - Document all assumptions
-   - Keep steps verifiable
+- Natural language parsing
+- Formal logic representation
+- Graph analysis tools

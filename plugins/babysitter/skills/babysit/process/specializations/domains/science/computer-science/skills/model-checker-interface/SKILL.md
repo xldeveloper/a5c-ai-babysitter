@@ -1,6 +1,6 @@
 ---
 name: model-checker-interface
-description: Interface with multiple model checking tools including SPIN, NuSMV, and UPPAAL
+description: Interface with multiple model checking tools for formal verification
 allowed-tools:
   - Bash
   - Read
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on using model checking tools for system verification.
+Provides expert guidance on using model checking tools for formal verification of systems and protocols.
 
 ## Capabilities
 
@@ -28,22 +28,19 @@ Provides expert guidance on using model checking tools for system verification.
 - UPPAAL for timed systems
 - Result parsing and visualization
 - Counterexample trace analysis
-- State space reduction techniques
+- Abstraction refinement
 
 ## Usage Guidelines
 
-1. **Model Selection**: Choose appropriate tool
-2. **Specification Writing**: Create model
-3. **Property Specification**: Define temporal properties
-4. **Model Checking**: Execute verification
-5. **Analysis**: Interpret results
+1. **Tool Selection**: Choose appropriate model checker
+2. **Specification**: Translate system to checker's language
+3. **Properties**: Specify properties to verify
+4. **Checking**: Run model checker
+5. **Analysis**: Interpret results and counterexamples
 
-## Dependencies
+## Tools/Libraries
 
-- SPIN, NuSMV, UPPAAL
-- Visualization tools
-
-## Process Integration
-
-- Model Checking Verification
-- Distributed Consensus Protocol Design workflows
+- SPIN
+- NuSMV
+- UPPAAL
+- PRISM

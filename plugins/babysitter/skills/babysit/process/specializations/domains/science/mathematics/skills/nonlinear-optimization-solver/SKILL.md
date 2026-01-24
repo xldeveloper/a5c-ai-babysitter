@@ -8,55 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: optimization
-  domain: mathematics
-  backlog-id: SK-MATH-017
-  tools:
-    - IPOPT
-    - KNITRO
-    - NLopt
-    - scipy.optimize
-  processes:
-    - optimization-problem-formulation
-    - sensitivity-analysis-optimization
+  phase: 6
 ---
 
-# Nonlinear Optimization Solver Skill
+# Nonlinear Optimization Solver
 
 ## Purpose
 
-Provides solution methods for general nonlinear optimization problems including gradient-based and derivative-free approaches.
+Provides capabilities for solving general nonlinear optimization problems including constrained and unconstrained formulations.
 
 ## Capabilities
 
-- **Gradient Methods**: BFGS, L-BFGS, conjugate gradient
-- **Newton Methods**: Newton and quasi-Newton methods
-- **Interior Point**: Interior point methods for constrained problems
-- **SQP**: Sequential quadratic programming
-- **Global Optimization**: Basin-hopping, differential evolution
-- **Constraint Handling**: Equality and inequality constraints
+- Gradient-based methods (BFGS, L-BFGS, CG)
+- Newton and quasi-Newton methods
+- Interior point methods
+- Sequential quadratic programming (SQP)
+- Global optimization (basin-hopping, differential evolution)
+- Constraint handling
 
 ## Usage Guidelines
 
-1. **Problem Analysis**
-   - Assess smoothness and convexity
-   - Identify local vs global optimization needs
-   - Determine constraint structure
+1. **Starting Point**: Provide good initial guesses
+2. **Gradient Information**: Supply gradients when available
+3. **Global vs Local**: Choose global methods for multimodal problems
+4. **Constraint Handling**: Use appropriate constraint formulations
 
-2. **Solver Selection**
-   - Use gradient methods for smooth problems
-   - Use derivative-free for noisy/expensive functions
-   - Use global methods when needed
+## Tools/Libraries
 
-3. **Tuning**
-   - Configure convergence tolerances
-   - Set appropriate bounds
-   - Use warm starting when possible
-
-4. **Best Practices**
-   - Provide gradients when available
-   - Use multiple starting points
-   - Verify solutions
+- IPOPT
+- KNITRO
+- NLopt
+- scipy.optimize

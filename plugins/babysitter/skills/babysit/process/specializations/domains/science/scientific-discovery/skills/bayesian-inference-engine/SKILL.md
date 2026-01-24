@@ -1,6 +1,6 @@
 ---
 name: bayesian-inference-engine
-description: Bayesian probabilistic reasoning for inference
+description: Bayesian probabilistic reasoning for prior specification, posterior computation, and belief updating
 allowed-tools:
   - Bash
   - Read
@@ -8,56 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: hypothesis-reasoning
-  domain: scientific-discovery
-  backlog-id: SK-SD-008
-  tools:
-    - PyMC
-    - Stan (PyStan)
-    - ArviZ
-    - NumPyro
-  processes:
-    - bayesian-probabilistic-reasoning
-    - likelihood-based-reasoning
-    - probabilistic-forecasting
+  phase: 6
 ---
 
-# Bayesian Inference Engine Skill
+# Bayesian Inference Engine
 
 ## Purpose
 
-Provides Bayesian probabilistic reasoning capabilities for prior specification, posterior computation, and belief updating.
+Provides Bayesian probabilistic reasoning capabilities for prior specification, posterior computation, and sequential belief updating.
 
 ## Capabilities
 
-- **Prior Elicitation**: Prior elicitation support
-- **MCMC Sampling**: NUTS and HMC sampling
-- **Variational Inference**: Variational inference methods
-- **Model Comparison**: Bayes factors, LOO-CV comparison
-- **Posterior Checking**: Posterior predictive checking
-- **Sequential Update**: Sequential belief updating
+- Prior elicitation support
+- MCMC sampling (NUTS, HMC)
+- Variational inference
+- Model comparison (Bayes factors, LOO-CV)
+- Posterior predictive checking
+- Sequential belief updating
 
 ## Usage Guidelines
 
-1. **Model Specification**
-   - Elicit priors carefully
-   - Define likelihood appropriately
-   - Check prior predictive
+1. **Prior Selection**: Choose appropriate, defensible priors
+2. **Sampling**: Use efficient MCMC algorithms
+3. **Diagnostics**: Check convergence and mixing
+4. **Model Comparison**: Use appropriate comparison criteria
 
-2. **Inference**
-   - Monitor convergence
-   - Check diagnostics
-   - Validate with posterior checks
+## Tools/Libraries
 
-3. **Model Comparison**
-   - Use appropriate criteria
-   - Consider model complexity
-   - Report uncertainties
-
-4. **Best Practices**
-   - Document prior choices
-   - Run multiple chains
-   - Perform sensitivity analysis
+- PyMC
+- Stan (PyStan)
+- ArviZ
+- NumPyro

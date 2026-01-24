@@ -1,6 +1,6 @@
 ---
 name: latex-document-compiler
-description: LaTeX document preparation
+description: LaTeX document preparation for manuscript formatting and journal submission
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: scientific-writing
-  domain: scientific-discovery
-  backlog-id: SK-SD-028
-  tools:
-    - latexmk
-    - biber
-    - pandoc
-  processes:
-    - literature-review-synthesis
-    - pre-registration-documentation
-    - scientific-writing
+  phase: 6
 ---
 
-# LaTeX Document Compiler Skill
+# LaTeX Document Compiler
 
 ## Purpose
 
@@ -32,31 +23,22 @@ Provides LaTeX document preparation capabilities for manuscript formatting, bibl
 
 ## Capabilities
 
-- **Templates**: Journal template application
-- **Bibliography**: BibTeX/BibLaTeX integration
-- **Figures/Tables**: Figure/table formatting
-- **Cross-References**: Cross-reference management
-- **Compilation**: PDF compilation
-- **Submission**: Submission package preparation
+- Journal template application
+- BibTeX/BibLaTeX integration
+- Figure/table formatting
+- Cross-reference management
+- PDF compilation
+- Submission package preparation
 
 ## Usage Guidelines
 
-1. **Setup**
-   - Select journal template
-   - Configure bibliography
-   - Set up structure
+1. **Templates**: Use journal-specific templates
+2. **Bibliography**: Manage citations with BibTeX
+3. **Cross-References**: Use labels and refs consistently
+4. **Submission**: Prepare complete submission packages
 
-2. **Writing**
-   - Use appropriate environments
-   - Manage cross-references
-   - Format figures and tables
+## Tools/Libraries
 
-3. **Compilation**
-   - Compile document
-   - Resolve errors
-   - Prepare submission package
-
-4. **Best Practices**
-   - Use version control
-   - Modularize document
-   - Test compilation regularly
+- latexmk
+- biber
+- pandoc

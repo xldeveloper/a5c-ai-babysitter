@@ -1,6 +1,6 @@
 ---
 name: statistical-reporting-formatter
-description: APA/AMA-compliant statistical result formatting
+description: APA/AMA-compliant statistical result formatting for tables and in-text reporting
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: scientific-writing
-  domain: scientific-discovery
-  backlog-id: SK-SD-029
-  tools:
-    - pandas
-    - statsmodels
-    - custom formatters
-  processes:
-    - statistical-reasoning
-    - hypothesis-formulation-testing
-    - model-evaluation-validation
+  phase: 6
 ---
 
-# Statistical Reporting Formatter Skill
+# Statistical Reporting Formatter
 
 ## Purpose
 
@@ -32,31 +23,22 @@ Provides APA/AMA-compliant statistical result formatting capabilities for tables
 
 ## Capabilities
 
-- **APA Formatting**: APA 7th edition formatting
-- **Tables**: Statistical table generation
-- **Effect Sizes**: Effect size reporting
-- **Confidence Intervals**: Confidence interval formatting
-- **P-Values**: p-value formatting conventions
-- **Auto-Text**: Automated result text generation
+- APA 7th edition formatting
+- Statistical table generation
+- Effect size reporting
+- Confidence interval formatting
+- p-value formatting conventions
+- Automated result text generation
 
 ## Usage Guidelines
 
-1. **Format Selection**
-   - Choose appropriate style
-   - Apply discipline conventions
-   - Use standard formats
+1. **Style Compliance**: Follow APA 7th or appropriate style
+2. **Tables**: Format statistical tables correctly
+3. **Effect Sizes**: Always report effect sizes
+4. **Confidence Intervals**: Include CIs appropriately
 
-2. **Table Generation**
-   - Format tables correctly
-   - Include all required statistics
-   - Add notes appropriately
+## Tools/Libraries
 
-3. **In-Text Reporting**
-   - Report effect sizes
-   - Format p-values correctly
-   - Include confidence intervals
-
-4. **Best Practices**
-   - Follow journal guidelines
-   - Be consistent
-   - Include all relevant statistics
+- pandas
+- statsmodels
+- Custom formatters

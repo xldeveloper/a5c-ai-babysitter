@@ -1,6 +1,6 @@
 ---
 name: benchmark-suite-manager
-description: Manage benchmarks for algorithm engineering experiments and performance evaluation
+description: Manage benchmarks for algorithm engineering experiments and evaluations
 allowed-tools:
   - Bash
   - Read
@@ -8,53 +8,39 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: computer-science
+  domain: science
   category: research-documentation
-  domain: computer-science
-  tools:
-    - DIMACS
-    - TSPLIB
-    - Statistical tools
-  processes:
-    - algorithm-engineering-evaluation
-    - system-performance-modeling
+  phase: 6
 ---
 
-# Benchmark Suite Manager Skill
+# Benchmark Suite Manager
 
 ## Purpose
 
-Provides benchmark management capabilities for rigorous algorithm engineering experiments.
+Provides expert guidance on managing benchmark suites for algorithm engineering and experimental evaluation.
 
 ## Capabilities
 
-- **Suite Access**: Access standard benchmark suites (DIMACS, TSPLIB)
-- **Instance Generation**: Generate instances for specific problem classes
-- **Statistical Analysis**: Analyze experimental results statistically
-- **Comparison Tables**: Generate performance comparison tables
-- **Scaling Visualization**: Visualize algorithm scaling behavior
+- Standard benchmark suite access (DIMACS, TSPLIB, etc.)
+- Instance generation for specific problem classes
+- Statistical analysis of results
+- Performance comparison tables
+- Visualization of scaling behavior
+- Reproducibility support
 
 ## Usage Guidelines
 
-1. **Benchmark Selection**
-   - Choose appropriate benchmark suite
-   - Select representative instances
-   - Consider instance characteristics
+1. **Suite Selection**: Choose appropriate benchmark suite
+2. **Instance Selection**: Select representative instances
+3. **Execution**: Run experiments systematically
+4. **Analysis**: Perform statistical analysis
+5. **Reporting**: Generate comparison tables and plots
 
-2. **Experiment Design**
-   - Define experimental methodology
-   - Configure measurement infrastructure
-   - Plan statistical analysis
+## Tools/Libraries
 
-3. **Result Analysis**
-   - Apply statistical tests
-   - Visualize performance data
-   - Report results clearly
-
-4. **Best Practices**
-   - Use standard benchmarks
-   - Report statistical significance
-   - Document experimental setup
-   - Enable reproducibility
+- DIMACS
+- TSPLIB
+- SuiteSparse Matrix Collection
+- Statistical tools

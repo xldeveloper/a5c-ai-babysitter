@@ -1,62 +1,59 @@
 ---
 name: analogy-mapper
-description: Analogical reasoning and structure mapping
+description: Skill for identifying and mapping analogies across domains
 allowed-tools:
-  - Bash
   - Read
   - Write
-  - Edit
-  - Glob
-  - Grep
-  - Task
+  - Bash
 metadata:
-  version: "1.0"
-  category: hypothesis-reasoning
-  domain: scientific-discovery
-  backlog-id: SK-SD-010
-  tools:
-    - SME (Structure Mapping Engine)
-    - custom NLP pipelines
-  processes:
-    - analogical-reasoning
-    - case-based-reasoning
-    - latent-space-transfer
-    - cross-domain-innovation
+  specialization: scientific-discovery
+  domain: science
+  category: Hypothesis Development
+  skill-id: SK-SCIDISC-010
 ---
 
 # Analogy Mapper Skill
 
 ## Purpose
 
-Provides analogical reasoning capabilities for structure mapping between domains, analogy quality assessment, and transfer suggestions.
+Identify and map structural analogies across scientific domains to enable cross-domain insight transfer and creative hypothesis generation.
 
 ## Capabilities
 
-- **Structure Mapping**: Structure mapping theory implementation
-- **Quality Scoring**: Analogy quality scoring
-- **Alignment**: Source-target alignment
-- **Inference Generation**: Candidate inference generation
-- **Transfer Recommendations**: Cross-domain transfer recommendations
-- **Explanation**: Analogy explanation generation
+- Identify structural similarities
+- Map relationships across domains
+- Transfer insights between fields
+- Generate analogical hypotheses
+- Evaluate analogy strength
+- Document mappings
 
 ## Usage Guidelines
 
-1. **Source Selection**
-   - Identify potential source domains
-   - Assess structural similarity
-   - Evaluate transfer potential
+1. Define source domain
+2. Identify target domain
+3. Map structural elements
+4. Identify correspondences
+5. Generate insights
+6. Evaluate validity
 
-2. **Mapping Process**
-   - Align source and target
-   - Identify correspondences
-   - Generate candidate inferences
+## Process Integration
 
-3. **Quality Assessment**
-   - Score analogy quality
-   - Identify limitations
-   - Validate transfers
+Works within scientific discovery workflows for:
+- Cross-domain discovery
+- Creative hypothesis generation
+- Knowledge transfer
+- Pattern recognition
 
-4. **Best Practices**
-   - Use multiple analogies
-   - Document mappings
-   - Test transferred insights
+## Configuration
+
+- Domain ontologies
+- Mapping algorithms
+- Similarity metrics
+- Output formatting
+
+## Output Artifacts
+
+- Analogy mappings
+- Structural correspondences
+- Insight reports
+- Validity assessments

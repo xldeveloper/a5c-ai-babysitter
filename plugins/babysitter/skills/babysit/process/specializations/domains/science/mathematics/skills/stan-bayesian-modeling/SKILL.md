@@ -8,55 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: statistical-computing
-  domain: mathematics
-  backlog-id: SK-MATH-021
-  tools:
-    - Stan
-    - CmdStan
-    - RStan
-    - PyStan
-  processes:
-    - bayesian-inference-workflow
-    - statistical-model-selection
+  phase: 6
 ---
 
-# Stan Bayesian Modeling Skill
+# Stan Bayesian Modeling
 
 ## Purpose
 
-Provides Stan probabilistic programming for rigorous Bayesian statistical inference using state-of-the-art MCMC.
+Provides Stan probabilistic programming capabilities for Bayesian inference and statistical modeling.
 
 ## Capabilities
 
-- **Model Specification**: Write Stan models
-- **MCMC Sampling**: NUTS and HMC sampling
-- **Variational Inference**: Automatic variational inference
-- **Prior Checks**: Prior predictive checks
-- **Posterior Checks**: Posterior predictive checks
-- **Model Comparison**: LOO-CV and WAIC comparison
+- Stan model specification
+- MCMC sampling (NUTS, HMC)
+- Variational inference
+- Prior predictive checks
+- Posterior predictive checks
+- Model comparison (LOO-CV, WAIC)
 
 ## Usage Guidelines
 
-1. **Model Development**
-   - Specify priors carefully
-   - Use appropriate likelihood
-   - Check model identifiability
+1. **Model Specification**: Write Stan code with clear blocks
+2. **Prior Selection**: Choose appropriate, weakly informative priors
+3. **Diagnostics**: Check Rhat, ESS, and divergences
+4. **Model Comparison**: Use LOO-CV for model selection
 
-2. **Sampling**
-   - Run multiple chains
-   - Check convergence (Rhat, ESS)
-   - Diagnose divergences
+## Tools/Libraries
 
-3. **Model Checking**
-   - Perform prior predictive checks
-   - Conduct posterior predictive checks
-   - Compare models with LOO
-
-4. **Best Practices**
-   - Use weakly informative priors
-   - Check diagnostics thoroughly
-   - Document model choices
+- Stan
+- CmdStan
+- RStan
+- PyStan

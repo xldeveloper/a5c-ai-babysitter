@@ -1,6 +1,6 @@
 ---
 name: peer-review-simulator
-description: Pre-submission review simulation
+description: Pre-submission review simulation for methodology critique and clarity assessment
 allowed-tools:
   - Bash
   - Read
@@ -8,22 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: peer-review-validation
-  domain: scientific-discovery
-  backlog-id: SK-SD-031
-  tools:
-    - LLM chains
-    - custom rubrics
-  processes:
-    - adversarial-co-design
-    - premortem-red-team
-    - key-assumptions-check
+  specialization: scientific-discovery
+  domain: science
+  category: peer-review
+  phase: 6
 ---
 
-# Peer Review Simulator Skill
+# Peer Review Simulator
 
 ## Purpose
 
@@ -31,31 +23,21 @@ Provides pre-submission review simulation capabilities for methodology critique,
 
 ## Capabilities
 
-- **Methodology Critique**: Methodology critique generation
-- **Statistical Review**: Statistical analysis review
-- **Clarity Assessment**: Clarity and readability assessment
-- **Concern Identification**: Common reviewer concern identification
-- **Strength/Limitation**: Strength/limitation analysis
-- **Revision Suggestions**: Revision suggestion generation
+- Methodology critique generation
+- Statistical analysis review
+- Clarity and readability assessment
+- Common reviewer concern identification
+- Strength/limitation analysis
+- Revision suggestion generation
 
 ## Usage Guidelines
 
-1. **Review Setup**
-   - Define review scope
-   - Select rubrics
-   - Configure reviewers
+1. **Methodology Review**: Assess methods critically
+2. **Statistical Review**: Check statistical approaches
+3. **Clarity Assessment**: Evaluate readability
+4. **Revision Guidance**: Generate actionable suggestions
 
-2. **Simulation**
-   - Generate critiques
-   - Identify concerns
-   - Assess strengths/limitations
+## Tools/Libraries
 
-3. **Revision**
-   - Address critiques
-   - Improve clarity
-   - Strengthen arguments
-
-4. **Best Practices**
-   - Review before submission
-   - Address all concerns
-   - Document responses
+- LLM chains
+- Custom rubrics

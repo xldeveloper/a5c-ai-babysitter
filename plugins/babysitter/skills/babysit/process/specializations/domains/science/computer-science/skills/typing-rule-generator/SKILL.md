@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: programming-languages
+  category: programming-language-theory
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on generating and formatting typing rules for programming language design.
+Provides expert guidance on generating typing rules for programming language design using formal inference rule notation.
 
 ## Capabilities
 
@@ -28,22 +28,19 @@ Provides expert guidance on generating and formatting typing rules for programmi
 - Typing derivation tree construction
 - Rule dependency analysis
 - Export to Ott/LNGen format
-- Consistency checking
+- Handle subtyping and polymorphism
 
 ## Usage Guidelines
 
-1. **Language Definition**: Specify syntax and types
-2. **Rule Derivation**: Generate typing rules
-3. **Formatting**: Produce LaTeX output
-4. **Derivation Trees**: Build example derivations
-5. **Export**: Generate tool input
+1. **Syntax Definition**: Define language syntax formally
+2. **Rule Design**: Design typing rules for each construct
+3. **Derivation Trees**: Build typing derivation examples
+4. **Formatting**: Generate publication-quality rules
+5. **Export**: Export to mechanization tools
 
-## Dependencies
+## Tools/Libraries
 
-- LaTeX
-- Ott specification language
-
-## Process Integration
-
-- Type System Design
-- Operational Semantics Specification workflows
+- LaTeX (mathpartir)
+- Ott
+- LNGen
+- PLT Redex

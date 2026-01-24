@@ -1,6 +1,6 @@
 ---
 name: mathscinet-interface
-description: MathSciNet database access and search
+description: Interface with MathSciNet for mathematical reviews
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
+  - WebFetch
+  - WebSearch
 metadata:
-  version: "1.0"
-  category: literature-research
-  domain: mathematics
-  backlog-id: SK-MATH-036
-  tools:
-    - MathSciNet API
-    - Web scraping tools
-    - BibTeX processors
-  processes:
-    - literature-review
-    - citation-analysis
+  specialization: mathematics
+  domain: science
+  category: research
+  phase: 6
 ---
 
-# MathSciNet Interface Skill
+# MathSciNet Interface
 
 ## Purpose
 
-Provides interface to MathSciNet for comprehensive mathematical literature search and citation analysis.
+Provides interface with MathSciNet for accessing mathematical reviews and bibliographic data.
 
 ## Capabilities
 
-- **Author Search**: MR Author ID lookup
-- **Citation Analysis**: Citation counts and graphs
-- **MSC Classification**: Subject class browsing
-- **Review Access**: Mathematical reviews
-- **BibTeX Export**: Bibliography generation
-- **Collaboration Network**: Co-author analysis
+- MSC classification lookup
+- Author profile retrieval
+- Citation searching
+- Review text access
+- Related work discovery
+- Collaboration network analysis
 
 ## Usage Guidelines
 
-1. **Search Setup**
-   - Define search parameters
-   - Select MSC classes
-   - Specify publication types
+1. **MSC Codes**: Use Mathematics Subject Classification codes
+2. **Author Search**: Search by author with disambiguation
+3. **Citation Network**: Analyze citing and cited papers
+4. **Reviews**: Access expert mathematical reviews
 
-2. **Analysis**
-   - Review citations
-   - Analyze collaborations
-   - Track research impact
+## Tools/Libraries
 
-3. **Bibliography Management**
-   - Export BibTeX entries
-   - Verify references
-   - Update citations
-
-4. **Best Practices**
-   - Use MR Author IDs
-   - Check MSC classifications
-   - Verify review content
+- MathSciNet API

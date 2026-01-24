@@ -1,6 +1,6 @@
 ---
 name: pubmed-literature-miner
-description: Biomedical literature mining using PubMed/MEDLINE
+description: Biomedical literature mining using PubMed/MEDLINE for systematic review support
 allowed-tools:
   - Bash
   - Read
@@ -8,55 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
+  - WebFetch
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: literature-knowledge
-  domain: scientific-discovery
-  backlog-id: SK-SD-002
-  tools:
-    - Biopython
-    - PyMed
-    - NCBI E-utilities
-  processes:
-    - literature-review-synthesis
-    - hypothesis-formulation-testing
-    - evidence-triangulation
+  phase: 6
 ---
 
-# PubMed Literature Miner Skill
+# PubMed Literature Miner
 
 ## Purpose
 
-Provides biomedical literature mining capabilities using PubMed/MEDLINE for systematic review support, MeSH term extraction, and PICO framework analysis.
+Provides biomedical literature mining capabilities using PubMed/MEDLINE for systematic review support and PICO framework analysis.
 
 ## Capabilities
 
-- **MeSH Search**: MeSH term-based search
-- **PICO Extraction**: PICO element extraction
-- **Screening**: Abstract screening automation
-- **Deduplication**: Citation deduplication
-- **PRISMA Support**: PRISMA flow diagram data generation
-- **Full-Text**: Full-text retrieval coordination
+- MeSH term-based search
+- PICO element extraction
+- Abstract screening automation
+- Citation deduplication
+- PRISMA flow diagram data generation
+- Full-text retrieval coordination
 
 ## Usage Guidelines
 
-1. **Search Construction**
-   - Use appropriate MeSH terms
-   - Apply Boolean operators
-   - Set date and filter limits
+1. **MeSH Terms**: Use controlled vocabulary for precise searches
+2. **PICO Framework**: Structure searches around population, intervention, comparison, outcome
+3. **Screening**: Apply inclusion/exclusion criteria systematically
+4. **PRISMA Compliance**: Generate required flow diagram data
 
-2. **Systematic Review**
-   - Follow PRISMA guidelines
-   - Document search strategy
-   - Track screening decisions
+## Tools/Libraries
 
-3. **Data Extraction**
-   - Extract PICO elements
-   - Capture study characteristics
-   - Record quality assessments
-
-4. **Best Practices**
-   - Save search strategies
-   - Use citation managers
-   - Document exclusions
+- Biopython
+- PyMed
+- NCBI E-utilities

@@ -1,6 +1,6 @@
 ---
 name: combinatorial-enumeration
-description: Combinatorial counting and enumeration
+description: Combinatorial object generation and counting
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: discrete-mathematics
-  domain: mathematics
-  backlog-id: SK-MATH-028
-  tools:
-    - SymPy
-    - Mathematica
-    - OEIS API
-  processes:
-    - combinatorial-analysis
-    - generating-function-methods
+  specialization: mathematics
+  domain: science
+  category: combinatorics
+  phase: 6
 ---
 
-# Combinatorial Enumeration Skill
+# Combinatorial Enumeration
 
 ## Purpose
 
-Provides tools for combinatorial counting, enumeration, and analysis of discrete structures.
+Provides combinatorial object generation and counting capabilities for discrete mathematics.
 
 ## Capabilities
 
-- **Counting Functions**: Permutations, combinations, partitions
-- **Generating Functions**: OGF, EGF, Dirichlet series
-- **Recurrence Relations**: Solve and analyze recurrences
-- **Asymptotic Analysis**: Growth rate estimation
-- **Bijective Proofs**: Construct bijections
-- **OEIS Integration**: Sequence lookup and analysis
+- Permutation and combination generation
+- Partition enumeration
+- Generating function computation
+- OEIS sequence lookup
+- Polya enumeration
+- Species theory computations
 
 ## Usage Guidelines
 
-1. **Problem Formulation**
-   - Identify structure to count
-   - Determine symmetries
-   - Choose counting approach
+1. **Object Definition**: Precisely define combinatorial objects
+2. **Generation Strategy**: Choose efficient generation methods
+3. **Counting**: Use generating functions for counting
+4. **OEIS Lookup**: Search for known sequences
 
-2. **Technique Selection**
-   - Direct counting vs generating functions
-   - Inclusion-exclusion when appropriate
-   - Polya enumeration for symmetries
+## Tools/Libraries
 
-3. **Verification**
-   - Check small cases manually
-   - Verify against OEIS
-   - Test boundary conditions
-
-4. **Best Practices**
-   - Document counting arguments
-   - Provide bijective interpretations
-   - Analyze asymptotics
+- OEIS
+- SageMath combinat
+- SymPy combinatorics

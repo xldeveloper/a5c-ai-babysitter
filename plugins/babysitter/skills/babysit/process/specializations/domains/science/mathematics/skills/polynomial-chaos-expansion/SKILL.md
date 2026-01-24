@@ -1,6 +1,6 @@
 ---
 name: polynomial-chaos-expansion
-description: Polynomial chaos methods for stochastic systems
+description: Polynomial chaos for uncertainty propagation
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: computational-mathematics
-  domain: mathematics
-  backlog-id: SK-MATH-031
-  tools:
-    - Chaospy
-    - OpenTURNS
-    - UQpy
-  processes:
-    - uncertainty-quantification
-    - stochastic-modeling
+  specialization: mathematics
+  domain: science
+  category: uncertainty-quantification
+  phase: 6
 ---
 
-# Polynomial Chaos Expansion Skill
+# Polynomial Chaos Expansion
 
 ## Purpose
 
-Provides polynomial chaos expansion methods for efficient uncertainty propagation in stochastic systems.
+Provides polynomial chaos expansion methods for efficient uncertainty propagation in computational models.
 
 ## Capabilities
 
-- **Basis Selection**: Hermite, Legendre, custom polynomials
-- **Projection Methods**: Galerkin, collocation
-- **Sparse PCE**: Compressive sensing approaches
-- **Adaptive Methods**: Adaptive basis selection
-- **Multi-Element PCE**: Discontinuous responses
-- **Sensitivity Indices**: Sobol indices from PCE
+- Generalized polynomial chaos bases
+- Sparse PCE construction
+- Adaptive basis selection
+- PCE-based sensitivity indices
+- Low-rank tensor approximation
+- Stochastic Galerkin projection
 
 ## Usage Guidelines
 
-1. **Basis Construction**
-   - Match basis to input distribution
-   - Determine polynomial order
-   - Consider tensor vs sparse
+1. **Basis Selection**: Match basis to input distributions
+2. **Truncation**: Choose appropriate polynomial order
+3. **Sparsity**: Exploit sparsity for high dimensions
+4. **Sensitivity**: Extract Sobol indices from PCE coefficients
 
-2. **Coefficient Computation**
-   - Choose projection method
-   - Select quadrature rules
-   - Validate coefficient accuracy
+## Tools/Libraries
 
-3. **Post-Processing**
-   - Extract statistical moments
-   - Compute sensitivity indices
-   - Generate probability distributions
-
-4. **Best Practices**
-   - Verify convergence with order
-   - Check for Gibbs phenomena
-   - Validate against MC sampling
+- Chaospy
+- UQLab
+- OpenTURNS

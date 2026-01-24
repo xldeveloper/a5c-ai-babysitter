@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: statistical-computing
-  domain: mathematics
-  backlog-id: SK-MATH-024
-  tools:
-    - G*Power
-    - pwr (R)
-    - statsmodels
-  processes:
-    - experimental-design-planning
-    - hypothesis-testing-framework
+  phase: 6
 ---
 
-# Power and Sample Size Calculator Skill
+# Power and Sample Size Calculator
 
 ## Purpose
 
-Provides statistical power analysis and sample size determination for rigorous experimental design.
+Provides statistical power analysis and sample size determination capabilities for experimental design.
 
 ## Capabilities
 
-- **Power Analysis**: Power analysis for common tests
-- **Effect Sizes**: Effect size calculation
-- **Sample Size**: Sample size estimation
-- **Simulation-Based**: Simulation-based power analysis
-- **Multilevel Power**: Power for multilevel models
-- **Sequential Design**: Sequential analysis planning
+- Power analysis for common tests (t-test, ANOVA, chi-square)
+- Effect size calculation
+- Sample size estimation
+- Simulation-based power analysis
+- Multi-level model power analysis
+- Sequential analysis design
 
 ## Usage Guidelines
 
-1. **A Priori Analysis**
-   - Specify effect size
-   - Set significance level
-   - Determine required power
+1. **Effect Size**: Specify meaningful effect sizes
+2. **Power Target**: Set appropriate power levels (typically 0.80)
+3. **Type I Error**: Control alpha appropriately
+4. **Simulation**: Use simulation for complex designs
 
-2. **Post Hoc Analysis**
-   - Calculate achieved power
-   - Report with caveats
-   - Consider alternatives
+## Tools/Libraries
 
-3. **Complex Designs**
-   - Use simulation for complex cases
-   - Account for clustering
-   - Consider multiple comparisons
-
-4. **Best Practices**
-   - Use realistic effect sizes
-   - Document assumptions
-   - Plan for attrition
+- G*Power
+- pwr (R)
+- statsmodels

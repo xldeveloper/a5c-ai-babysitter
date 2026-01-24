@@ -1,6 +1,6 @@
 ---
 name: abstract-domain-library
-description: Library of abstract domains for static analysis including intervals, octagons, and polyhedra
+description: Library of abstract domains for static analysis and abstract interpretation
 allowed-tools:
   - Bash
   - Read
@@ -8,52 +8,39 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: computer-science
+  domain: science
   category: formal-verification
-  domain: computer-science
-  tools:
-    - Apron
-    - ELINA
-    - Abstract interpretation tools
-  processes:
-    - abstract-interpretation-analysis
+  phase: 6
 ---
 
-# Abstract Domain Library Skill
+# Abstract Domain Library
 
 ## Purpose
 
-Provides abstract domain implementations for static analysis based on abstract interpretation theory.
+Provides expert guidance on abstract domains for abstract interpretation-based static analysis.
 
 ## Capabilities
 
-- **Interval Domain**: Implement interval abstract domain
-- **Octagon Domain**: Implement octagon constraints
-- **Polyhedra Domain**: Implement convex polyhedra
-- **Congruence Domain**: Implement congruence relations
-- **Domain Combination**: Combine domains with reduced product
+- Interval domain
+- Octagon domain
+- Polyhedra domain
+- Congruence domain
+- Domain combination (reduced product)
+- Widening and narrowing operators
 
 ## Usage Guidelines
 
-1. **Domain Selection**
-   - Use intervals for simple bounds
-   - Use octagons for relational analysis
-   - Use polyhedra for precision
+1. **Domain Selection**: Choose appropriate abstract domain
+2. **Operations**: Implement domain operations
+3. **Widening**: Design widening for termination
+4. **Precision Tuning**: Balance precision and efficiency
+5. **Combination**: Combine domains for precision
 
-2. **Analysis Configuration**
-   - Configure widening thresholds
-   - Set narrowing iterations
-   - Balance precision vs. cost
+## Tools/Libraries
 
-3. **Domain Operations**
-   - Implement join and meet
-   - Apply widening correctly
-   - Use narrowing for precision
-
-4. **Best Practices**
-   - Understand domain expressiveness
-   - Document precision limitations
-   - Test on representative programs
-   - Consider domain products
+- Apron
+- ELINA
+- Crab
+- Frama-C

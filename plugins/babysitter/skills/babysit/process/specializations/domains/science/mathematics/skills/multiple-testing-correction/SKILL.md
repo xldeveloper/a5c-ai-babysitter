@@ -8,54 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: statistical-computing
-  domain: mathematics
-  backlog-id: SK-MATH-025
-  tools:
-    - statsmodels
-    - scipy.stats
-    - multcomp (R)
-  processes:
-    - hypothesis-testing-framework
-    - experimental-design-planning
+  phase: 6
 ---
 
-# Multiple Testing Correction Skill
+# Multiple Testing Correction
 
 ## Purpose
 
-Provides multiple comparison correction methods for controlling family-wise error rate and false discovery rate.
+Provides multiple comparison correction methods for controlling error rates in simultaneous hypothesis testing.
 
 ## Capabilities
 
-- **Bonferroni**: Bonferroni correction
-- **Holm-Bonferroni**: Step-down Holm procedure
-- **Benjamini-Hochberg**: FDR control
-- **Sidak**: Sidak correction
-- **Permutation-Based**: Permutation-based corrections
-- **FWER Control**: Family-wise error rate methods
+- Bonferroni correction
+- Holm-Bonferroni method
+- Benjamini-Hochberg FDR control
+- Sidak correction
+- Permutation-based corrections
+- Family-wise error rate control
 
 ## Usage Guidelines
 
-1. **Method Selection**
-   - Use FWER for strong control
-   - Use FDR for exploratory analysis
-   - Consider dependency structure
+1. **Error Rate Selection**: Choose FWER vs FDR based on goals
+2. **Method Selection**: Apply appropriate correction method
+3. **Dependency Handling**: Account for test dependencies
+4. **Interpretation**: Report adjusted p-values correctly
 
-2. **Application**
-   - Define family of tests
-   - Apply correction consistently
-   - Report corrected p-values
+## Tools/Libraries
 
-3. **Interpretation**
-   - Understand correction strength
-   - Consider power tradeoffs
-   - Report appropriately
-
-4. **Best Practices**
-   - Pre-specify correction method
-   - Consider test dependency
-   - Document multiple testing strategy
+- statsmodels
+- scipy.stats
+- multcomp (R)
+- multtest (R)

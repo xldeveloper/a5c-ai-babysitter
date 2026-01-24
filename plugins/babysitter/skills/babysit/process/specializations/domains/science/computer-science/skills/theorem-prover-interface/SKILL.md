@@ -1,6 +1,6 @@
 ---
 name: theorem-prover-interface
-description: Interface with interactive theorem provers including Coq, Isabelle, and Lean
+description: Interface with interactive theorem provers for mechanized verification
 allowed-tools:
   - Bash
   - Read
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on using interactive theorem provers for formal verification.
+Provides expert guidance on using interactive theorem provers for mechanized formal verification.
 
 ## Capabilities
 
@@ -28,22 +28,19 @@ Provides expert guidance on using interactive theorem provers for formal verific
 - Lean 4 integration
 - Proof automation (hammers, tactics)
 - Proof library search
-- Program extraction
+- Extraction to executable code
 
 ## Usage Guidelines
 
-1. **Prover Selection**: Choose appropriate prover
-2. **Formalization**: Encode problem in prover
-3. **Proof Development**: Construct proof
-4. **Automation**: Apply proof tactics
-5. **Extraction**: Generate verified code
+1. **Prover Selection**: Choose appropriate theorem prover
+2. **Formalization**: Formalize definitions and theorems
+3. **Proof Development**: Develop proofs interactively
+4. **Automation**: Apply automated tactics
+5. **Extraction**: Extract certified code if needed
 
-## Dependencies
+## Tools/Libraries
 
-- Coq, Isabelle, Lean
-- Proof automation tools
-
-## Process Integration
-
-- Theorem Prover Verification
-- Algorithm Correctness Proof workflows
+- Coq
+- Isabelle
+- Lean
+- ACL2

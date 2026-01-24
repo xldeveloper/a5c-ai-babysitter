@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: symbolic-computation
-  domain: mathematics
-  backlog-id: SK-MATH-006
-  tools:
-    - SymPy
-    - NumPy
-    - mpmath
-  processes:
-    - symbolic-simplification
-    - symbolic-integration-differentiation
+  phase: 6
 ---
 
-# SymPy Computer Algebra Skill
+# SymPy Computer Algebra
 
 ## Purpose
 
-Provides comprehensive symbolic computation capabilities using SymPy for algebraic manipulation, calculus, and equation solving.
+Provides symbolic computation capabilities using SymPy for Python-based mathematical analysis and manipulation.
 
 ## Capabilities
 
-- **Differentiation/Integration**: Symbolic differentiation and integration
-- **Equation Solving**: Solve algebraic and differential equations
-- **Series Expansion**: Taylor series and limits
-- **Matrix Algebra**: Symbolic matrix operations
-- **Simplification**: Pattern matching and simplification
-- **Code Generation**: Generate NumPy, C, Fortran code
+- Symbolic differentiation and integration
+- Equation solving (algebraic, differential)
+- Series expansion and limits
+- Matrix algebra and linear algebra
+- Pattern matching and simplification
+- Code generation (NumPy, C, Fortran)
 
 ## Usage Guidelines
 
-1. **Expression Creation**
-   - Define symbols with appropriate assumptions
-   - Build expressions systematically
-   - Use appropriate simplification
+1. **Symbol Definition**: Define symbols with appropriate assumptions
+2. **Expression Building**: Construct symbolic expressions
+3. **Simplification**: Apply appropriate simplification strategies
+4. **Code Generation**: Export to efficient numerical code
 
-2. **Computation**
-   - Apply differentiation and integration
-   - Solve equations symbolically
-   - Expand and simplify as needed
+## Tools/Libraries
 
-3. **Output**
-   - Export to LaTeX
-   - Generate numerical code
-   - Verify results numerically
-
-4. **Best Practices**
-   - Set symbol assumptions correctly
-   - Verify symbolic results numerically
-   - Use appropriate precision
+- SymPy
+- NumPy
+- mpmath

@@ -8,53 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: optimization
-  domain: mathematics
-  backlog-id: SK-MATH-020
-  tools:
-    - scipy.optimize
-    - Optuna
-    - GPyOpt
-  processes:
-    - optimization-problem-formulation
+  phase: 6
 ---
 
-# Derivative-Free Optimization Skill
+# Derivative-Free Optimization
 
 ## Purpose
 
-Provides optimization methods that do not require gradient information, suitable for noisy or expensive functions.
+Provides optimization capabilities for problems where gradient information is unavailable or unreliable.
 
 ## Capabilities
 
-- **Nelder-Mead**: Simplex-based direct search
-- **Powell's Method**: Direction set methods
-- **Surrogate Optimization**: Surrogate-based methods
-- **Bayesian Optimization**: Bayesian optimization with GPs
-- **Pattern Search**: Pattern and mesh search methods
-- **Trust Region**: Derivative-free trust region methods
+- Nelder-Mead simplex method
+- Powell's method
+- Surrogate-based optimization
+- Bayesian optimization
+- Pattern search methods
+- Trust region methods
 
 ## Usage Guidelines
 
-1. **Method Selection**
-   - Use Nelder-Mead for low dimensions
-   - Use surrogate methods for expensive functions
-   - Use Bayesian optimization for few evaluations
+1. **Method Selection**: Choose based on problem characteristics
+2. **Function Evaluations**: Minimize expensive function calls
+3. **Surrogate Models**: Build and refine surrogate approximations
+4. **Exploration-Exploitation**: Balance search strategies
 
-2. **Configuration**
-   - Set appropriate bounds
-   - Configure evaluation budget
-   - Handle constraints appropriately
+## Tools/Libraries
 
-3. **Convergence**
-   - Monitor convergence
-   - Use multiple restarts
-   - Validate final solution
-
-4. **Best Practices**
-   - Start with simple methods
-   - Budget function evaluations
-   - Document search history
+- scipy.optimize
+- Optuna
+- GPyOpt

@@ -1,6 +1,6 @@
 ---
 name: randomization-generator
-description: Randomization protocol generation
+description: Randomization protocol for allocation sequence generation and block randomization
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: experimental-design
-  domain: scientific-discovery
-  backlog-id: SK-SD-014
-  tools:
-    - scipy
-    - random
-    - custom protocols
-  processes:
-    - experimental-design-controls
-    - pre-registration
+  phase: 6
 ---
 
-# Randomization Generator Skill
+# Randomization Generator
 
 ## Purpose
 
-Provides randomization protocol capabilities for allocation sequence generation, stratified randomization, and block randomization.
+Provides randomization protocol capabilities for allocation sequence generation, stratified randomization, and audit trail creation.
 
 ## Capabilities
 
-- **Simple Randomization**: Simple randomization
-- **Block Randomization**: Fixed/permuted block randomization
-- **Stratified**: Stratified randomization
-- **Adaptive**: Minimization/adaptive randomization
-- **Concealment**: Allocation concealment verification
-- **Audit Trail**: Randomization audit trail
+- Simple randomization
+- Block randomization (fixed/permuted)
+- Stratified randomization
+- Minimization/adaptive randomization
+- Allocation concealment verification
+- Randomization audit trail
 
 ## Usage Guidelines
 
-1. **Protocol Selection**
-   - Choose randomization method
-   - Define stratification factors
-   - Set block sizes
+1. **Method Selection**: Choose appropriate randomization method
+2. **Block Size**: Consider practical and statistical factors
+3. **Stratification**: Stratify on key prognostic factors
+4. **Concealment**: Ensure proper allocation concealment
 
-2. **Implementation**
-   - Generate allocation sequence
-   - Ensure concealment
-   - Document process
+## Tools/Libraries
 
-3. **Verification**
-   - Check balance
-   - Audit allocations
-   - Verify concealment
-
-4. **Best Practices**
-   - Pre-specify method
-   - Use secure generation
-   - Maintain audit trails
+- scipy
+- random
+- Custom protocols

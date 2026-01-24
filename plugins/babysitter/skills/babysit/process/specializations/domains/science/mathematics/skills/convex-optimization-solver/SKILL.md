@@ -1,6 +1,6 @@
 ---
 name: convex-optimization-solver
-description: Solve convex optimization problems efficiently using modern solvers
+description: Solve convex optimization problems efficiently
 allowed-tools:
   - Bash
   - Read
@@ -8,56 +8,39 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: optimization
-  domain: mathematics
-  backlog-id: SK-MATH-016
-  tools:
-    - CVXPY
-    - Gurobi
-    - MOSEK
-    - SCS
-    - ECOS
-  processes:
-    - optimization-problem-formulation
-    - convex-analysis-verification
+  phase: 6
 ---
 
-# Convex Optimization Solver Skill
+# Convex Optimization Solver
 
 ## Purpose
 
-Provides efficient solution of convex optimization problems including LP, QP, SOCP, and SDP.
+Provides capabilities for formulating and solving convex optimization problems efficiently and reliably.
 
 ## Capabilities
 
-- **Linear Programming**: Solve LP problems
-- **Quadratic Programming**: Solve QP problems
-- **Cone Programs**: SOCP and SDP solving
-- **Conic Optimization**: General conic programming
-- **Duality Analysis**: Analyze dual problems
-- **Infeasibility Detection**: Detect and diagnose infeasibility
+- Linear programming (LP)
+- Quadratic programming (QP)
+- Second-order cone programming (SOCP)
+- Semidefinite programming (SDP)
+- Conic optimization
+- Duality analysis
 
 ## Usage Guidelines
 
-1. **Problem Formulation**
-   - Verify convexity
-   - Choose appropriate cone
-   - Model constraints correctly
+1. **Convexity Verification**: Confirm problem convexity
+2. **Formulation**: Express problem in standard conic form
+3. **Solver Selection**: Choose solver based on problem structure
+4. **Duality**: Extract dual variables for sensitivity analysis
 
-2. **Solver Selection**
-   - Use interior point for medium problems
-   - Use first-order for large problems
-   - Configure tolerances appropriately
+## Tools/Libraries
 
-3. **Solution Analysis**
-   - Extract primal and dual solutions
-   - Check optimality conditions
-   - Analyze sensitivity
-
-4. **Best Practices**
-   - Verify problem is convex
-   - Scale problem appropriately
-   - Use disciplined convex programming
+- CVXPY
+- Gurobi
+- MOSEK
+- SCS
+- ECOS

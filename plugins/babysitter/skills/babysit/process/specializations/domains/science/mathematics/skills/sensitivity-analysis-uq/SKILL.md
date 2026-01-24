@@ -1,6 +1,6 @@
 ---
 name: sensitivity-analysis-uq
-description: Sensitivity analysis and uncertainty quantification
+description: Global sensitivity analysis methods
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: computational-mathematics
-  domain: mathematics
-  backlog-id: SK-MATH-030
-  tools:
-    - SALib
-    - UQpy
-    - OpenTURNS
-  processes:
-    - uncertainty-quantification
-    - model-validation
+  specialization: mathematics
+  domain: science
+  category: uncertainty-quantification
+  phase: 6
 ---
 
-# Sensitivity Analysis and UQ Skill
+# Sensitivity Analysis (UQ)
 
 ## Purpose
 
-Provides sensitivity analysis and uncertainty quantification methods for understanding model behavior under parameter variations.
+Provides global sensitivity analysis methods for understanding model behavior and input importance.
 
 ## Capabilities
 
-- **Local Sensitivity**: Derivative-based methods
-- **Global Sensitivity**: Sobol indices, Morris screening
-- **Variance Decomposition**: ANOVA-based methods
-- **Uncertainty Propagation**: Forward propagation methods
-- **Surrogate Modeling**: PCE, Kriging for UQ
-- **Reliability Analysis**: FORM, SORM methods
+- Sobol indices computation
+- Morris screening method
+- FAST (Fourier amplitude sensitivity test)
+- Correlation-based sensitivity
+- Derivative-based sensitivity (DGSM)
+- Variance-based decomposition
 
 ## Usage Guidelines
 
-1. **Analysis Planning**
-   - Define input uncertainties
-   - Specify quantities of interest
-   - Choose analysis type
+1. **Method Selection**: Choose based on computational budget
+2. **Input Ranges**: Define appropriate input ranges
+3. **Sample Size**: Ensure sufficient samples for convergence
+4. **Interpretation**: Correctly interpret sensitivity indices
 
-2. **Method Selection**
-   - Local vs global sensitivity
-   - Sample-based vs surrogate
-   - Consider computational budget
+## Tools/Libraries
 
-3. **Interpretation**
-   - Rank parameter importance
-   - Identify interactions
-   - Quantify output uncertainty
-
-4. **Best Practices**
-   - Document uncertainty sources
-   - Validate surrogate accuracy
-   - Report confidence bounds
+- SALib
+- OpenTURNS
+- UQLab

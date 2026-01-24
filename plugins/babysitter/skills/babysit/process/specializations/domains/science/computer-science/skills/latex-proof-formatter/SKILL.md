@@ -8,52 +8,40 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: computer-science
+  domain: science
   category: research-documentation
-  domain: computer-science
-  tools:
-    - LaTeX
-    - Overleaf
-    - algorithmicx
-  processes:
-    - theoretical-cs-paper-development
+  phase: 6
 ---
 
-# LaTeX Proof Formatter Skill
+# LaTeX Proof Formatter
 
 ## Purpose
 
-Provides publication-quality LaTeX formatting for proofs, algorithms, and theoretical computer science papers.
+Provides expert guidance on formatting theoretical CS proofs and algorithms in publication-quality LaTeX.
 
 ## Capabilities
 
-- **Algorithm Formatting**: Format pseudocode with algorithmicx
-- **Inference Rules**: Typeset inference rules
-- **Proof Environments**: Format structured proofs
-- **Cross-References**: Manage theorem numbering and references
-- **BibTeX Integration**: Handle citations properly
+- Algorithm pseudocode formatting (algorithmicx)
+- Inference rule typesetting
+- Proof environment formatting
+- Theorem numbering and cross-references
+- BibTeX integration
+- Conference style compliance
 
 ## Usage Guidelines
 
-1. **Document Setup**
-   - Configure document class
-   - Include appropriate packages
-   - Define custom commands
+1. **Structure**: Organize proof structure clearly
+2. **Algorithms**: Format algorithms with algorithmicx
+3. **Rules**: Typeset inference rules with mathpartir
+4. **References**: Manage cross-references properly
+5. **Style**: Conform to conference/journal style
 
-2. **Algorithm Formatting**
-   - Use algorithm2e or algorithmicx
-   - Maintain consistent style
-   - Include line numbers
+## Tools/Libraries
 
-3. **Proof Writing**
-   - Use theorem environments
-   - Structure proofs clearly
-   - Add appropriate labels
-
-4. **Best Practices**
-   - Follow venue style guidelines
-   - Use semantic markup
-   - Maintain consistent notation
-   - Keep source readable
+- LaTeX
+- algorithmicx
+- mathpartir
+- amsthm
+- Overleaf

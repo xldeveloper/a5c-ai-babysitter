@@ -1,6 +1,6 @@
 ---
 name: data-flow-analysis-framework
-description: Design and implement data-flow analyses for compiler optimization and program analysis
+description: Design and implement data-flow analyses for compiler optimization
 allowed-tools:
   - Bash
   - Read
@@ -11,15 +11,15 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: compilers
+  category: compiler-optimization
   phase: 6
 ---
 
-# Data-Flow Analysis Framework
+# Data Flow Analysis Framework
 
 ## Purpose
 
-Provides expert guidance on designing and implementing data-flow analyses for compilers.
+Provides expert guidance on designing and implementing data-flow analyses for compiler optimization and program analysis.
 
 ## Capabilities
 
@@ -28,22 +28,19 @@ Provides expert guidance on designing and implementing data-flow analyses for co
 - Transfer function generation
 - Fixpoint computation (worklist algorithm)
 - Analysis soundness verification
-- Common analyses (reaching defs, live vars)
+- Interprocedural analysis
 
 ## Usage Guidelines
 
-1. **Analysis Design**: Specify analysis goal
-2. **Lattice Definition**: Define abstract domain
-3. **Transfer Functions**: Implement statement effects
-4. **Fixpoint Algorithm**: Configure worklist
-5. **Integration**: Connect to compiler
+1. **Lattice Design**: Define abstract domain and lattice
+2. **Transfer Functions**: Define transfer functions for statements
+3. **Analysis Direction**: Specify forward or backward
+4. **Fixpoint**: Implement worklist algorithm
+5. **Verification**: Verify soundness of analysis
 
-## Dependencies
+## Tools/Libraries
 
-- LLVM, GCC internals
-- Analysis frameworks
-
-## Process Integration
-
-- Compiler Optimization Design
-- Abstract Interpretation Analysis workflows
+- LLVM
+- GCC internals
+- Soot
+- WALA

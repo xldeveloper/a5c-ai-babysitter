@@ -1,61 +1,59 @@
 ---
 name: triz-contradiction-solver
-description: TRIZ inventive problem solving
+description: Skill for systematic innovation using TRIZ methodology
 allowed-tools:
-  - Bash
   - Read
   - Write
-  - Edit
-  - Glob
-  - Grep
-  - Task
+  - Bash
 metadata:
-  version: "1.0"
-  category: hypothesis-reasoning
-  domain: scientific-discovery
-  backlog-id: SK-SD-011
-  tools:
-    - Custom TRIZ knowledge base
-    - pattern matching
-  processes:
-    - triz-contradiction-resolution
-    - constraint-sculpting
-    - inverted-goal-thinking
+  specialization: scientific-discovery
+  domain: science
+  category: Hypothesis Development
+  skill-id: SK-SCIDISC-011
 ---
 
 # TRIZ Contradiction Solver Skill
 
 ## Purpose
 
-Provides TRIZ inventive problem solving capabilities for contradiction identification, inventive principle application, and solution pattern matching.
+Apply TRIZ (Theory of Inventive Problem Solving) methodology for systematic innovation and resolving technical contradictions.
 
 ## Capabilities
 
-- **Technical Contradictions**: Technical contradiction identification
-- **Physical Contradictions**: Physical contradiction resolution
-- **Inventive Principles**: 40 inventive principles application
-- **Contradiction Matrix**: Contradiction matrix lookup
-- **Ideal Final Result**: Ideal final result formulation
-- **Resource Analysis**: Substance-field analysis
+- Identify technical contradictions
+- Apply inventive principles
+- Use contradiction matrix
+- Generate solution concepts
+- Evaluate solutions
+- Document innovation process
 
 ## Usage Guidelines
 
-1. **Problem Analysis**
-   - Identify contradictions
-   - Classify contradiction type
-   - Define ideal final result
+1. Define the problem
+2. Identify contradictions
+3. Apply TRIZ principles
+4. Generate solutions
+5. Evaluate feasibility
+6. Document outcomes
 
-2. **Principle Application**
-   - Consult contradiction matrix
-   - Apply relevant principles
-   - Generate solution concepts
+## Process Integration
 
-3. **Solution Development**
-   - Evaluate solutions
-   - Combine principles
-   - Refine concepts
+Works within scientific discovery workflows for:
+- Innovation challenges
+- Technical problem solving
+- Design optimization
+- Creative solutions
 
-4. **Best Practices**
-   - Frame problems abstractly
-   - Consider multiple principles
-   - Document inventive steps
+## Configuration
+
+- Contradiction parameters
+- Principle selection
+- Evaluation criteria
+- Output formatting
+
+## Output Artifacts
+
+- Contradiction analyses
+- Solution concepts
+- Principle applications
+- Innovation reports

@@ -8,53 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: statistical-computing
-  domain: mathematics
-  backlog-id: SK-MATH-023
-  tools:
-    - ArviZ
-    - CODA
-    - MCMCpack
-  processes:
-    - bayesian-inference-workflow
+  phase: 6
 ---
 
-# MCMC Diagnostics Skill
+# MCMC Diagnostics
 
 ## Purpose
 
-Provides comprehensive MCMC convergence diagnostics for validating Bayesian inference results.
+Provides MCMC convergence diagnostics and analysis capabilities for validating Bayesian inference results.
 
 ## Capabilities
 
-- **Rhat Computation**: Compute potential scale reduction factor
-- **ESS Calculation**: Effective sample size analysis
-- **Trace Plots**: Generate trace plots
-- **Autocorrelation**: Autocorrelation analysis
-- **Divergence Detection**: Detect and analyze divergences
-- **Energy Diagnostics**: E-BFMI energy diagnostics
+- Rhat (potential scale reduction) computation
+- Effective sample size (ESS) calculation
+- Trace plot generation
+- Autocorrelation analysis
+- Divergence detection
+- Energy diagnostic (E-BFMI)
 
 ## Usage Guidelines
 
-1. **Convergence Checks**
-   - Compute Rhat for all parameters
-   - Check ESS is sufficient
-   - Examine trace plots
+1. **Convergence Check**: Verify Rhat < 1.01 for all parameters
+2. **Sample Quality**: Ensure ESS is sufficient for inference
+3. **Visual Inspection**: Review trace plots for mixing
+4. **Divergences**: Address divergent transitions
 
-2. **Problem Detection**
-   - Identify divergences
-   - Check energy diagnostics
-   - Examine autocorrelation
+## Tools/Libraries
 
-3. **Remediation**
-   - Increase warmup
-   - Reparameterize model
-   - Adjust step size
-
-4. **Best Practices**
-   - Run multiple chains
-   - Check all diagnostics
-   - Document diagnostic results
+- ArviZ
+- CODA
+- MCMCpack

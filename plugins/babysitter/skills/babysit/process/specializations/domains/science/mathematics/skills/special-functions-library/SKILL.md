@@ -8,55 +8,36 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: symbolic-computation
-  domain: mathematics
-  backlog-id: SK-MATH-010
-  tools:
-    - DLMF
-    - mpmath
-    - scipy.special
-  processes:
-    - symbolic-simplification
-    - symbolic-integration-differentiation
-    - pde-solver-selection
+  phase: 6
 ---
 
-# Special Functions Library Skill
+# Special Functions Library
 
 ## Purpose
 
-Provides comprehensive evaluation and manipulation of mathematical special functions with high precision.
+Provides comprehensive capabilities for special functions evaluation, manipulation, and analysis.
 
 ## Capabilities
 
-- **Bessel Functions**: Bessel, hypergeometric, elliptic functions
-- **Orthogonal Polynomials**: Legendre, Chebyshev, Hermite, Laguerre
-- **Gamma Functions**: Gamma, beta, zeta functions
-- **Asymptotic Expansions**: Asymptotic series and approximations
-- **Connection Formulas**: Identities and transformation formulas
-- **Arbitrary Precision**: High-precision evaluation
+- Bessel, hypergeometric, elliptic functions
+- Orthogonal polynomials (Legendre, Chebyshev, Hermite)
+- Gamma, beta, zeta functions
+- Asymptotic expansions
+- Connection formulas and identities
 
 ## Usage Guidelines
 
-1. **Function Selection**
-   - Use standard definitions (DLMF)
-   - Handle branch cuts correctly
-   - Choose appropriate precision
+1. **Function Selection**: Choose appropriate function definitions
+2. **Numerical Evaluation**: Use high-precision arithmetic when needed
+3. **Identities**: Apply transformation and connection formulas
+4. **Asymptotics**: Use asymptotic expansions for large arguments
 
-2. **Evaluation**
-   - Use mpmath for high precision
-   - scipy.special for standard precision
-   - Verify results across implementations
+## Tools/Libraries
 
-3. **Identities**
-   - Apply connection formulas
-   - Use asymptotic forms when appropriate
-   - Document transformations
-
-4. **Best Practices**
-   - Reference DLMF for definitions
-   - Test at special values
-   - Handle singularities carefully
+- DLMF (Digital Library of Mathematical Functions)
+- mpmath
+- scipy.special

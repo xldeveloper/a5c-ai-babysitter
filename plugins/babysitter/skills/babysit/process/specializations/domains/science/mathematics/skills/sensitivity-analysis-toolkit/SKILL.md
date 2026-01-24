@@ -1,6 +1,6 @@
 ---
 name: sensitivity-analysis-toolkit
-description: Comprehensive sensitivity analysis for optimization problems
+description: Comprehensive sensitivity analysis for optimization
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: optimization
-  domain: mathematics
-  backlog-id: SK-MATH-019
-  tools:
-    - Pyomo
-    - JuMP
-    - AMPL
-  processes:
-    - sensitivity-analysis-optimization
-    - optimization-problem-formulation
+  phase: 6
 ---
 
-# Sensitivity Analysis Toolkit Skill
+# Sensitivity Analysis Toolkit
 
 ## Purpose
 
-Provides comprehensive sensitivity analysis for optimization problems including dual analysis and parametric programming.
+Provides comprehensive sensitivity analysis capabilities for optimization problems to understand solution robustness.
 
 ## Capabilities
 
-- **Dual Variables**: Compute and interpret dual variables
-- **Shadow Prices**: Analyze shadow prices
-- **Parametric Programming**: Perform parametric analysis
-- **Binding Constraints**: Analyze binding constraint structure
-- **Post-Optimality**: Conduct post-optimality analysis
-- **Robust Formulations**: Develop robust optimization formulations
+- Dual variable computation and interpretation
+- Shadow price analysis
+- Parametric programming
+- Binding constraint analysis
+- Post-optimality analysis
+- Robust optimization formulations
 
 ## Usage Guidelines
 
-1. **Dual Analysis**
-   - Extract dual variables
-   - Interpret economic meaning
-   - Identify binding constraints
+1. **Dual Extraction**: Obtain dual variables from solvers
+2. **Shadow Prices**: Interpret marginal values correctly
+3. **Parametric Analysis**: Study solution changes with parameters
+4. **Robustness**: Formulate robust counterparts when needed
 
-2. **Parametric Analysis**
-   - Vary parameters systematically
-   - Track solution changes
-   - Identify critical parameter values
+## Tools/Libraries
 
-3. **Robustness**
-   - Identify sensitive parameters
-   - Formulate robust alternatives
-   - Quantify solution stability
-
-4. **Best Practices**
-   - Verify dual feasibility
-   - Document sensitivity ranges
-   - Consider multiple scenarios
+- Pyomo
+- JuMP
+- AMPL

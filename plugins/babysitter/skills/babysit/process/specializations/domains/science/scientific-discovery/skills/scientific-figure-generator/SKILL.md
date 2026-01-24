@@ -1,6 +1,6 @@
 ---
 name: scientific-figure-generator
-description: Publication-quality figure generation
+description: Publication-quality figure generation with journal style compliance and accessibility
 allowed-tools:
   - Bash
   - Read
@@ -8,24 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: data-visualization
-  domain: scientific-discovery
-  backlog-id: SK-SD-021
-  tools:
-    - matplotlib
-    - seaborn
-    - plotly
-    - altair
-  processes:
-    - exploratory-data-analysis
-    - literature-review-synthesis
-    - representation-shifts
+  phase: 6
 ---
 
-# Scientific Figure Generator Skill
+# Scientific Figure Generator
 
 ## Purpose
 
@@ -33,31 +23,23 @@ Provides publication-quality figure generation capabilities with journal style c
 
 ## Capabilities
 
-- **Journal Styles**: Journal style template application
-- **Multi-Panel**: Multi-panel figure composition
-- **Statistical Annotation**: Statistical annotation (significance stars)
-- **Accessibility**: Color-blind friendly palettes
-- **Vector Export**: Vector format export (SVG, PDF)
-- **Legends**: Figure legend generation
+- Journal style template application
+- Multi-panel figure composition
+- Statistical annotation (significance stars)
+- Color-blind friendly palettes
+- Vector format export (SVG, PDF)
+- Figure legend generation
 
 ## Usage Guidelines
 
-1. **Design Phase**
-   - Choose appropriate plot type
-   - Plan figure composition
-   - Select color palette
+1. **Style Templates**: Apply journal-specific styles
+2. **Multi-Panel Layout**: Compose complex figures effectively
+3. **Accessibility**: Use color-blind friendly palettes
+4. **Vector Output**: Export in vector formats for quality
 
-2. **Creation**
-   - Apply journal style
-   - Add statistical annotations
-   - Ensure accessibility
+## Tools/Libraries
 
-3. **Export**
-   - Export in required format
-   - Check resolution
-   - Generate legends
-
-4. **Best Practices**
-   - Follow journal guidelines
-   - Test color blindness
-   - Keep figures simple
+- matplotlib
+- seaborn
+- plotly
+- altair

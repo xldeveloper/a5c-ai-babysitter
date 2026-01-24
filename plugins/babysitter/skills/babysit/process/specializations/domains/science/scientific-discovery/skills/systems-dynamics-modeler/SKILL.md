@@ -1,63 +1,59 @@
 ---
 name: systems-dynamics-modeler
-description: Systems thinking and causal loop modeling
+description: Skill for building and simulating systems dynamics models
 allowed-tools:
   - Bash
   - Read
   - Write
-  - Edit
-  - Glob
-  - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: hypothesis-reasoning
-  domain: scientific-discovery
-  backlog-id: SK-SD-012
-  tools:
-    - PySD
-    - BPTK-Py
-    - NetworkX
-  processes:
-    - systems-thinking
-    - causal-loop-development
-    - system-dynamics-modeling
-    - homeostasis-feedback-thinking
+  specialization: scientific-discovery
+  domain: science
+  category: Hypothesis Development
+  skill-id: SK-SCIDISC-012
 ---
 
 # Systems Dynamics Modeler Skill
 
 ## Purpose
 
-Provides systems thinking capabilities for causal loop diagram creation, stock-flow modeling, and system archetype identification.
+Build and simulate systems dynamics models to understand complex system behavior, feedback loops, and emergent phenomena.
 
 ## Capabilities
 
-- **Causal Loop Diagrams**: Causal loop diagram generation
-- **Stock-Flow Models**: Stock and flow model construction
-- **Archetype Detection**: System archetype detection
-- **Feedback Analysis**: Feedback loop analysis
-- **Leverage Points**: Leverage point identification
-- **Simulation**: Scenario simulation
+- Build stock-flow diagrams
+- Model feedback loops
+- Simulate system behavior
+- Analyze equilibria
+- Perform sensitivity analysis
+- Generate scenarios
 
 ## Usage Guidelines
 
-1. **System Definition**
-   - Define system boundary
-   - Identify key variables
-   - Map causal relationships
+1. Define system boundaries
+2. Identify stocks and flows
+3. Model feedback loops
+4. Parameterize model
+5. Run simulations
+6. Analyze results
 
-2. **Model Building**
-   - Construct causal loops
-   - Add stocks and flows
-   - Identify archetypes
+## Process Integration
 
-3. **Analysis**
-   - Run simulations
-   - Find leverage points
-   - Test interventions
+Works within scientific discovery workflows for:
+- Complex systems analysis
+- Policy modeling
+- Scenario planning
+- Behavior prediction
 
-4. **Best Practices**
-   - Start simple
-   - Validate with data
-   - Document assumptions
+## Configuration
+
+- Model parameters
+- Simulation settings
+- Visualization options
+- Output formats
+
+## Output Artifacts
+
+- System diagrams
+- Simulation results
+- Scenario analyses
+- Behavior reports

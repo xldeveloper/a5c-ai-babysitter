@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: numerical-analysis
-  domain: mathematics
-  backlog-id: SK-MATH-013
-  tools:
-    - SUNDIALS
-    - scipy.integrate
-    - DifferentialEquations.jl
-  processes:
-    - numerical-stability-analysis
-    - model-formulation-workflow
+  phase: 6
 ---
 
-# ODE Solver Library Skill
+# ODE Solver Library
 
 ## Purpose
 
-Provides numerical methods for solving ordinary differential equations with adaptive step size control and stiff equation handling.
+Provides numerical methods and solvers for ordinary differential equations in mathematical modeling and dynamical systems analysis.
 
 ## Capabilities
 
-- **Runge-Kutta Methods**: Explicit and implicit RK methods
-- **Multistep Methods**: Adams-Bashforth, BDF methods
-- **Stiff Handling**: Specialized stiff equation solvers
-- **Adaptive Stepping**: Adaptive step size control
-- **Event Detection**: Root finding and event detection
-- **Sensitivity Analysis**: Adjoint sensitivity analysis
+- Runge-Kutta methods (explicit and implicit)
+- Multistep methods (Adams-Bashforth, BDF)
+- Stiff equation handling
+- Adaptive step size control
+- Event detection and root finding
+- Sensitivity analysis
 
 ## Usage Guidelines
 
-1. **Method Selection**
-   - Use explicit methods for non-stiff problems
-   - Use implicit/BDF for stiff problems
-   - Choose order based on accuracy needs
+1. **Stiffness Assessment**: Determine if problem is stiff
+2. **Method Selection**: Choose explicit or implicit methods accordingly
+3. **Tolerance Setting**: Set appropriate error tolerances
+4. **Event Handling**: Configure event detection for discontinuities
 
-2. **Integration**
-   - Set appropriate tolerances
-   - Configure event detection if needed
-   - Monitor step size behavior
+## Tools/Libraries
 
-3. **Validation**
-   - Test on problems with known solutions
-   - Check conservation laws
-   - Verify long-time behavior
-
-4. **Best Practices**
-   - Identify stiffness early
-   - Use appropriate tolerances
-   - Document solver configuration
+- SUNDIALS
+- scipy.integrate
+- DifferentialEquations.jl

@@ -1,6 +1,6 @@
 ---
 name: math-notation-validator
-description: Mathematical notation consistency checker
+description: Validate and standardize mathematical notation
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,36 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: research-documentation
-  domain: mathematics
-  backlog-id: SK-MATH-034
-  tools:
-    - LaTeX parsers
-    - Custom validators
-    - Style checkers
-  processes:
-    - paper-writing
-    - quality-assurance
+  specialization: mathematics
+  domain: science
+  category: documentation
+  phase: 6
 ---
 
-# Math Notation Validator Skill
+# Math Notation Validator
 
 ## Purpose
 
-Provides validation tools for ensuring mathematical notation consistency and correctness across documents.
+Provides validation and standardization capabilities for mathematical notation to ensure consistency and clarity.
 
 ## Capabilities
 
-- **Symbol Consistency**: Track symbol definitions
-- **Notation Conflicts**: Detect conflicting uses
-- **Style Compliance**: Check style guidelines
-- **Undefined Symbols**: Find undefined notation
-- **Convention Checking**: Verify naming conventions
-- **Cross-Reference Validation**: Check references
+- Notation consistency checking
+- Symbol definition tracking
+- Notation conflict detection
+- Style guide compliance
+- Glossary generation
+- Notation conversion between standards
 
 ## Usage Guidelines
 
-1. **Setup**
-   - Define notation glossary
-   - Specify style rules
-   - Configure validators
+1. **Symbol Tracking**: Maintain symbol definitions
+2. **Consistency**: Check notation usage throughout document
+3. **Style Compliance**: Follow journal/conference style guides
+4. **Glossary**: Generate notation glossary for readers
 
-2. **Validation Process**
-   - Parse mathematical content
-   - Check against definitions
-   - Report inconsistencies
+## Tools/Libraries
 
-3. **Remediation**
-   - Address conflicts
-   - Update definitions
-   - Standardize notation
-
-4. **Best Practices**
-   - Maintain notation table
-   - Define symbols at first use
-   - Review before submission
+- Custom parsers
+- LaTeX linters

@@ -1,6 +1,6 @@
 ---
 name: replication-feasibility-assessor
-description: Replication study feasibility assessment
+description: Replication study feasibility for protocol completeness and resource estimation
 allowed-tools:
   - Bash
   - Read
@@ -8,22 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: peer-review-validation
-  domain: scientific-discovery
-  backlog-id: SK-SD-032
-  tools:
-    - Custom assessment frameworks
-    - NLP extractors
-  processes:
-    - reproducible-research-pipeline
-    - literature-review-quality
-    - rigor-assessment
+  specialization: scientific-discovery
+  domain: science
+  category: peer-review
+  phase: 6
 ---
 
-# Replication Feasibility Assessor Skill
+# Replication Feasibility Assessor
 
 ## Purpose
 
@@ -31,31 +23,21 @@ Provides replication study feasibility capabilities for protocol completeness, r
 
 ## Capabilities
 
-- **Completeness Scoring**: Protocol completeness scoring
-- **Resource Estimation**: Resource requirement estimation
-- **Critical Details**: Critical detail identification
-- **Deviation Impact**: Deviation impact analysis
-- **Difficulty Rating**: Replication difficulty rating
-- **Missing Information**: Missing information flagging
+- Protocol completeness scoring
+- Resource requirement estimation
+- Critical detail identification
+- Deviation impact analysis
+- Replication difficulty rating
+- Missing information flagging
 
 ## Usage Guidelines
 
-1. **Assessment Setup**
-   - Gather study materials
-   - Define assessment criteria
-   - Identify key details
+1. **Completeness Assessment**: Score protocol detail level
+2. **Resource Estimation**: Estimate required resources
+3. **Critical Details**: Identify must-have information
+4. **Deviation Analysis**: Assess impact of protocol deviations
 
-2. **Evaluation**
-   - Score completeness
-   - Estimate resources
-   - Identify gaps
+## Tools/Libraries
 
-3. **Reporting**
-   - Document findings
-   - Rate replicability
-   - Suggest improvements
-
-4. **Best Practices**
-   - Be thorough
-   - Consider practical constraints
-   - Document assumptions
+- Custom assessment frameworks
+- NLP extractors

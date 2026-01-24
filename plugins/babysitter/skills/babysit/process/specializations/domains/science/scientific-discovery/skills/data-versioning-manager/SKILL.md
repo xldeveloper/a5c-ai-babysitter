@@ -1,6 +1,6 @@
 ---
 name: data-versioning-manager
-description: Research data versioning and provenance
+description: Research data versioning for dataset tracking and provenance documentation
 allowed-tools:
   - Bash
   - Read
@@ -8,22 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: reproducibility-documentation
-  domain: scientific-discovery
-  backlog-id: SK-SD-025
-  tools:
-    - DVC
-    - Git LFS
-    - datacite
-  processes:
-    - reproducible-research-pipeline
-    - pre-registration
+  specialization: scientific-discovery
+  domain: science
+  category: reproducibility
+  phase: 6
 ---
 
-# Data Versioning Manager Skill
+# Data Versioning Manager
 
 ## Purpose
 
@@ -31,31 +23,22 @@ Provides research data versioning capabilities for dataset tracking, provenance 
 
 ## Capabilities
 
-- **Version Control**: Dataset version control
-- **Provenance**: Data provenance tracking
-- **Metadata**: Metadata schema enforcement
-- **Citation**: Data citation generation
-- **Repository**: Repository preparation (Zenodo, Figshare)
-- **FAIR**: FAIR compliance checking
+- Dataset version control
+- Data provenance tracking
+- Metadata schema enforcement
+- Data citation generation
+- Repository preparation (Zenodo, Figshare)
+- FAIR compliance checking
 
 ## Usage Guidelines
 
-1. **Setup**
-   - Initialize versioning
-   - Define metadata schema
-   - Track initial data
+1. **Version Control**: Track all dataset versions
+2. **Provenance**: Document data lineage
+3. **Metadata**: Enforce schema compliance
+4. **FAIR Principles**: Ensure data is findable, accessible, interoperable, reusable
 
-2. **Versioning**
-   - Track changes
-   - Document provenance
-   - Maintain history
+## Tools/Libraries
 
-3. **Sharing**
-   - Prepare for repositories
-   - Generate citations
-   - Check FAIR compliance
-
-4. **Best Practices**
-   - Version early and often
-   - Document transformations
-   - Use persistent identifiers
+- DVC
+- Git LFS
+- datacite

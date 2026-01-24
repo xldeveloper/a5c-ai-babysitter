@@ -1,6 +1,6 @@
 ---
 name: zbmath-interface
-description: zbMATH database search interface
+description: Interface with zbMATH Open database
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,36 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
+  - WebFetch
+  - WebSearch
 metadata:
-  version: "1.0"
-  category: literature-research
-  domain: mathematics
-  backlog-id: SK-MATH-037
-  tools:
-    - zbMATH API
-    - REST clients
-    - BibTeX tools
-  processes:
-    - literature-review
-    - research-discovery
+  specialization: mathematics
+  domain: science
+  category: research
+  phase: 6
 ---
 
-# zbMATH Interface Skill
+# zbMATH Interface
 
 ## Purpose
 
-Provides interface to zbMATH Open for mathematical literature search with open access reviews and metadata.
+Provides interface with zbMATH Open for open access mathematical literature search and discovery.
 
 ## Capabilities
 
-- **Full-Text Search**: Content and formula search
-- **Author Profiles**: zbMATH author IDs
-- **Software Links**: Mathematical software references
-- **Classification Browse**: MSC 2020 navigation
-- **Open Reviews**: Access to Zentralblatt reviews
-- **API Access**: Programmatic queries
+- Open access mathematical literature search
+- Software reference linking
+- Classification browsing
+- Author disambiguation
+- Full-text linking
 
 ## Usage Guidelines
 
-1. **Search Configuration**
-   - Define query terms
-   - Apply filters
-   - Select fields
+1. **Open Access**: Leverage open access content
+2. **Software Links**: Find related mathematical software
+3. **Classification**: Browse by MSC classification
+4. **Full Text**: Link to open access full texts
 
-2. **Result Analysis**
-   - Review abstracts
-   - Check classifications
-   - Explore references
+## Tools/Libraries
 
-3. **Data Export**
-   - Export citations
-   - Download metadata
-   - Generate reports
-
-4. **Best Practices**
-   - Use zbMATH author IDs
-   - Explore software links
-   - Cross-reference with MathSciNet
+- zbMATH Open API

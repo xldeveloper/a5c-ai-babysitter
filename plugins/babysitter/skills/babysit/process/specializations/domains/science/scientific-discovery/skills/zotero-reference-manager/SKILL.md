@@ -1,6 +1,6 @@
 ---
 name: zotero-reference-manager
-description: Reference management for bibliography organization
+description: Reference management for bibliography organization, annotation sync, and citation formatting
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,36 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: literature-knowledge
-  domain: scientific-discovery
-  backlog-id: SK-SD-005
-  tools:
-    - Pyzotero
-    - Zotero API
-  processes:
-    - literature-review-synthesis
-    - pre-registration
-    - scientific-writing
+  phase: 6
 ---
 
-# Zotero Reference Manager Skill
+# Zotero Reference Manager
 
 ## Purpose
 
-Provides reference management capabilities for bibliography organization, annotation sync, and citation formatting.
+Provides reference management capabilities for bibliography organization, annotation synchronization, and citation formatting.
 
 ## Capabilities
 
-- **Import**: Reference import from multiple sources
-- **Annotations**: Annotation and note management
-- **Citation Styles**: Citation style formatting (CSL)
-- **Collaboration**: Group library collaboration
-- **PDF Management**: PDF attachment management
-- **Export**: BibTeX/RIS export
+- Reference import from multiple sources
+- Annotation and note management
+- Citation style formatting (CSL)
+- Group library collaboration
+- PDF attachment management
+- BibTeX/RIS export
 
 ## Usage Guidelines
 
-1. **Library Organization**
-   - Create logical collections
-   - Use tags consistently
-   - Maintain metadata quality
+1. **Organization**: Use collections and tags for organization
+2. **Annotation**: Sync highlights and notes with references
+3. **Citation Styles**: Apply appropriate CSL styles
+4. **Collaboration**: Share libraries with research groups
 
-2. **Annotation Workflow**
-   - Annotate systematically
-   - Extract key quotes
-   - Link related items
+## Tools/Libraries
 
-3. **Citation Management**
-   - Select appropriate style
-   - Generate bibliographies
-   - Verify citations
-
-4. **Best Practices**
-   - Sync regularly
-   - Backup library
-   - Use group features
+- Pyzotero
+- Zotero API

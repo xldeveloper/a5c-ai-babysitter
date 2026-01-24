@@ -1,6 +1,6 @@
 ---
 name: checklist-validator
-description: Reporting guideline compliance validation
+description: Reporting guideline compliance for CONSORT, PRISMA, STROBE validation
 allowed-tools:
   - Bash
   - Read
@@ -8,22 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: peer-review-validation
-  domain: scientific-discovery
-  backlog-id: SK-SD-030
-  tools:
-    - Custom rule engines
-    - NLP extractors
-  processes:
-    - literature-review-synthesis
-    - experimental-design-controls
-    - rigor-assessment
+  specialization: scientific-discovery
+  domain: science
+  category: peer-review
+  phase: 6
 ---
 
-# Checklist Validator Skill
+# Checklist Validator
 
 ## Purpose
 
@@ -31,31 +23,21 @@ Provides reporting guideline compliance capabilities for CONSORT, PRISMA, STROBE
 
 ## Capabilities
 
-- **CONSORT**: CONSORT checklist validation
-- **PRISMA**: PRISMA compliance checking
-- **STROBE**: STROBE item verification
-- **ARRIVE**: ARRIVE guidelines (animal research)
-- **Location Tracking**: Checklist item location tracking
-- **Gap Reporting**: Compliance gap reporting
+- CONSORT checklist validation
+- PRISMA compliance checking
+- STROBE item verification
+- ARRIVE guidelines (animal research)
+- Checklist item location tracking
+- Compliance gap reporting
 
 ## Usage Guidelines
 
-1. **Checklist Selection**
-   - Choose appropriate checklist
-   - Identify required items
-   - Plan for compliance
+1. **Checklist Selection**: Choose appropriate reporting guideline
+2. **Item Verification**: Check each item systematically
+3. **Location Tracking**: Document where items are addressed
+4. **Gap Reporting**: Identify and address gaps
 
-2. **Validation**
-   - Check each item
-   - Track locations
-   - Identify gaps
+## Tools/Libraries
 
-3. **Reporting**
-   - Document compliance
-   - Address gaps
-   - Submit checklist
-
-4. **Best Practices**
-   - Check early in writing
-   - Use as writing guide
-   - Document deviations
+- Custom rule engines
+- NLP extractors

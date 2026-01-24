@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: approximation-algorithms
+  category: complexity-theory
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on analyzing approximation algorithms and proving their performance guarantees.
+Provides expert guidance on analyzing approximation algorithms and proving approximation guarantees.
 
 ## Capabilities
 
@@ -28,22 +28,18 @@ Provides expert guidance on analyzing approximation algorithms and proving their
 - Randomized rounding analysis
 - Approximation factor derivation
 - PTAS/FPTAS feasibility assessment
-- Inapproximability connection
+- Inapproximability results analysis
 
 ## Usage Guidelines
 
-1. **Algorithm Definition**: Specify approximation algorithm
-2. **Relaxation Analysis**: Analyze LP/SDP relaxation
-3. **Ratio Derivation**: Prove approximation guarantee
-4. **Gap Analysis**: Compute integrality gap
-5. **Documentation**: Generate formal proof
+1. **Problem Setup**: Formalize the optimization problem
+2. **LP Relaxation**: Construct and analyze LP relaxation
+3. **Rounding Design**: Design rounding scheme
+4. **Ratio Proof**: Prove approximation ratio
+5. **Gap Analysis**: Analyze integrality gap
 
-## Dependencies
+## Tools/Libraries
 
 - LP/ILP solvers
 - Symbolic computation
-
-## Process Integration
-
-- Approximation Algorithm Design
-- Algorithm Complexity Analysis workflows
+- Proof assistants

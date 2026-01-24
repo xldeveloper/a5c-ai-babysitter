@@ -1,6 +1,6 @@
 ---
 name: counterexample-guided-refinement
-description: Implement CEGAR (counterexample-guided abstraction refinement) for synthesis and verification
+description: Implement CEGAR for synthesis and verification workflows
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,39 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: computer-science
+  domain: science
   category: program-synthesis
-  domain: computer-science
-  tools:
-    - CPAChecker
-    - SeaHorn
-    - CEGAR tools
-  processes:
-    - program-synthesis-specification
-    - abstract-interpretation-analysis
-    - model-checking-verification
+  phase: 6
 ---
 
-# Counterexample-Guided Refinement Skill
+# Counterexample-Guided Refinement
 
 ## Purpose
 
-Provides CEGAR implementation capabilities for iterative abstraction refinement in verification and synthesis.
+Provides expert guidance on CEGAR (Counterexample-Guided Abstraction Refinement) for verification and synthesis.
 
 ## Capabilities
 
-- **Counterexample Analysis**: Analyze spurious counterexamples
-- **Predicate Refinement**: Refine predicate abstraction
-- **Interpolation Refinement**: Use interpolation for refinement
-- **Loop Management**: Manage abstraction-refinement loop
-- **Convergence Analysis**: Analyze CEGAR convergence
+- Counterexample analysis
+- Predicate abstraction refinement
+- Interpolation-based refinement
+- Abstraction refinement loop management
+- Convergence analysis
+- Spurious counterexample detection
 
 ## Usage Guidelines
 
-1. **Initial Abstraction**
-   - Define initial abstract domain
-   - Set coarse abstraction
-   - Verify abstract model
+1. **Initial Abstraction**: Define initial abstraction
+2. **Verification**: Check abstract model
+3. **Counterexample Analysis**: Analyze counterexamples
+4. **Refinement**: Refine abstraction if spurious
+5. **Iteration**: Repeat until verified or real counterexample
 
-2. **Refinement Loop**
-   - Check property on abstract model
-   - Analyze counterexamples
-   - Refine abstraction
+## Tools/Libraries
 
-3. **Convergence**
-   - Monitor refinement progress
-   - Detect divergence early
-   - Apply heuristics for efficiency
-
-4. **Best Practices**
-   - Start with coarse abstractions
-   - Use interpolation when available
-   - Document refinement history
-   - Handle non-convergence gracefully
+- CPAChecker
+- SeaHorn
+- BLAST
+- SLAM

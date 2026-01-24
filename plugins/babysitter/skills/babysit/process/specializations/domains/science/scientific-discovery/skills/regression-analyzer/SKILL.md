@@ -1,6 +1,6 @@
 ---
 name: regression-analyzer
-description: Comprehensive regression analysis
+description: Comprehensive regression analysis for model fitting, diagnostics, and interpretation
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: statistical-analysis
-  domain: scientific-discovery
-  backlog-id: SK-SD-019
-  tools:
-    - statsmodels
-    - scikit-learn
-    - linearmodels
-  processes:
-    - statistical-reasoning
-    - causal-inference-observational
-    - bias-variance-tradeoff
+  phase: 6
 ---
 
-# Regression Analyzer Skill
+# Regression Analyzer
 
 ## Purpose
 
@@ -32,31 +23,22 @@ Provides comprehensive regression analysis capabilities for model fitting, diagn
 
 ## Capabilities
 
-- **Model Types**: Linear/logistic/Poisson regression
-- **Mixed Effects**: Mixed effects models
-- **Diagnostics**: Assumption diagnostics
-- **VIF**: Multicollinearity detection
-- **Residuals**: Residual analysis
-- **Interpretation**: Coefficient interpretation support
+- Linear/logistic/Poisson regression
+- Mixed effects models
+- Assumption diagnostics
+- Multicollinearity detection (VIF)
+- Residual analysis
+- Coefficient interpretation support
 
 ## Usage Guidelines
 
-1. **Model Building**
-   - Select appropriate model type
-   - Include relevant predictors
-   - Consider interactions
+1. **Model Specification**: Choose appropriate regression model
+2. **Diagnostics**: Check assumptions systematically
+3. **Multicollinearity**: Assess and address if needed
+4. **Interpretation**: Interpret coefficients correctly
 
-2. **Diagnostics**
-   - Check assumptions
-   - Examine residuals
-   - Detect multicollinearity
+## Tools/Libraries
 
-3. **Interpretation**
-   - Interpret coefficients
-   - Report confidence intervals
-   - Discuss limitations
-
-4. **Best Practices**
-   - Check all assumptions
-   - Report full results
-   - Consider alternatives
+- statsmodels
+- scikit-learn
+- linearmodels

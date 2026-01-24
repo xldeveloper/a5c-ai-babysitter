@@ -1,6 +1,6 @@
 ---
 name: jupyter-reproducibility-checker
-description: Notebook reproducibility validation
+description: Notebook reproducibility validation for dependency tracking and environment capture
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: reproducibility-documentation
-  domain: scientific-discovery
-  backlog-id: SK-SD-024
-  tools:
-    - nbQA
-    - papermill
-    - pipreqs
-    - nbstripout
-  processes:
-    - reproducible-research-pipeline
-    - exploratory-data-analysis
+  specialization: scientific-discovery
+  domain: science
+  category: reproducibility
+  phase: 6
 ---
 
-# Jupyter Reproducibility Checker Skill
+# Jupyter Reproducibility Checker
 
 ## Purpose
 
@@ -32,31 +23,23 @@ Provides notebook reproducibility validation capabilities for dependency trackin
 
 ## Capabilities
 
-- **Execution Order**: Cell execution order validation
-- **Hidden State**: Hidden state detection
-- **Dependencies**: Dependency extraction (pipreqs)
-- **Environment**: Environment capture (pip freeze, conda)
-- **Linting**: Notebook linting
-- **Scoring**: Reproducibility scoring
+- Cell execution order validation
+- Hidden state detection
+- Dependency extraction (pipreqs)
+- Environment capture (pip freeze, conda)
+- Notebook linting
+- Reproducibility scoring
 
 ## Usage Guidelines
 
-1. **Validation**
-   - Check execution order
-   - Detect hidden state
-   - Extract dependencies
+1. **Execution Order**: Verify cells run in order
+2. **Hidden State**: Detect and eliminate hidden state
+3. **Dependencies**: Extract and pin dependencies
+4. **Environment**: Capture complete environment
 
-2. **Environment**
-   - Capture environment
-   - Pin versions
-   - Document requirements
+## Tools/Libraries
 
-3. **Cleanup**
-   - Strip outputs
-   - Lint notebook
-   - Score reproducibility
-
-4. **Best Practices**
-   - Run fresh kernel tests
-   - Use requirements files
-   - Document data sources
+- nbQA
+- papermill
+- pipreqs
+- nbstripout

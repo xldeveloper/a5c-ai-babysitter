@@ -1,6 +1,6 @@
 ---
 name: doe-optimizer
-description: Design of Experiments optimization
+description: Design of Experiments optimization for factorial design and response surface methodology
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: experimental-design
-  domain: scientific-discovery
-  backlog-id: SK-SD-016
-  tools:
-    - pyDOE2
-    - statsmodels
-    - scipy.optimize
-  processes:
-    - experimental-design-controls
-    - fermi-order-magnitude
-    - limiting-case-reasoning
+  phase: 6
 ---
 
-# DOE Optimizer Skill
+# DOE Optimizer
 
 ## Purpose
 
@@ -32,31 +23,22 @@ Provides Design of Experiments optimization capabilities for factorial design, r
 
 ## Capabilities
 
-- **Factorial Design**: Full/fractional factorial design
-- **RSM**: Response surface methodology
-- **Optimal Design**: D-optimal/I-optimal design generation
-- **Taguchi Arrays**: Taguchi orthogonal arrays
-- **Design Metrics**: Design evaluation metrics
-- **Confounding**: Confounding structure analysis
+- Full/fractional factorial design
+- Response surface methodology (RSM)
+- D-optimal/I-optimal design generation
+- Taguchi orthogonal arrays
+- Design evaluation metrics
+- Confounding structure analysis
 
 ## Usage Guidelines
 
-1. **Design Selection**
-   - Identify factors and levels
-   - Choose design type
-   - Consider resource constraints
+1. **Design Selection**: Choose appropriate design type
+2. **Factor Levels**: Define factor levels appropriately
+3. **Confounding**: Understand confounding structure
+4. **Optimality**: Use optimal designs when appropriate
 
-2. **Optimization**
-   - Generate optimal design
-   - Evaluate design metrics
-   - Analyze confounding
+## Tools/Libraries
 
-3. **Implementation**
-   - Create run order
-   - Plan blocking
-   - Document design
-
-4. **Best Practices**
-   - Consider replication
-   - Plan for center points
-   - Account for nuisance factors
+- pyDOE2
+- statsmodels
+- scipy.optimize

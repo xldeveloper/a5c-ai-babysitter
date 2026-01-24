@@ -1,6 +1,6 @@
 ---
 name: power-analysis-calculator
-description: Statistical power analysis and sample size determination
+description: Statistical power analysis for sample size determination and sensitivity analysis
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: experimental-design
-  domain: scientific-discovery
-  backlog-id: SK-SD-013
-  tools:
-    - statsmodels
-    - pingouin
-    - GPower (via API)
-  processes:
-    - experimental-design-controls
-    - hypothesis-formulation-testing
-    - ab-testing-framework
+  phase: 6
 ---
 
-# Power Analysis Calculator Skill
+# Power Analysis Calculator
 
 ## Purpose
 
@@ -32,31 +23,22 @@ Provides statistical power analysis capabilities for sample size determination, 
 
 ## Capabilities
 
-- **A Priori Power**: A priori power analysis
-- **Post Hoc Power**: Post-hoc power calculation
-- **Sensitivity Analysis**: Effect size sensitivity analysis
-- **Multiple Comparisons**: Multiple comparison adjustment
-- **Complex Designs**: Power for factorial, repeated measures
-- **Visualization**: Power curve visualization
+- A priori power analysis
+- Post-hoc power calculation
+- Sensitivity analysis (effect size)
+- Multiple comparison adjustment
+- Complex design power (factorial, repeated measures)
+- Power curve visualization
 
 ## Usage Guidelines
 
-1. **Planning Phase**
-   - Specify effect size
-   - Set alpha and power targets
-   - Account for design complexity
+1. **Effect Size**: Specify meaningful effect sizes
+2. **Alpha Level**: Set appropriate significance level
+3. **Power Target**: Typically aim for 0.80 or higher
+4. **Design Complexity**: Account for design factors
 
-2. **Calculation**
-   - Choose appropriate test
-   - Input parameters
-   - Compute sample size
+## Tools/Libraries
 
-3. **Interpretation**
-   - Assess feasibility
-   - Consider alternatives
-   - Document decisions
-
-4. **Best Practices**
-   - Use realistic effect sizes
-   - Plan for attrition
-   - Pre-register power analysis
+- statsmodels
+- pingouin
+- GPower (via API)

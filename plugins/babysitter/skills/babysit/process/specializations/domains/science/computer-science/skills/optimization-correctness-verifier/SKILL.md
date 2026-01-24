@@ -1,6 +1,6 @@
 ---
 name: optimization-correctness-verifier
-description: Verify correctness of compiler optimizations through semantic preservation checking
+description: Verify correctness of compiler optimizations using formal methods
 allowed-tools:
   - Bash
   - Read
@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: compilers
+  category: compiler-optimization
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on verifying compiler optimization correctness.
+Provides expert guidance on verifying semantic preservation of compiler optimizations.
 
 ## Capabilities
 
@@ -28,21 +28,19 @@ Provides expert guidance on verifying compiler optimization correctness.
 - Bisimulation proof construction
 - Counterexample generation
 - Optimization refinement suggestions
-- CompCert-style verification
+- Undefined behavior handling
 
 ## Usage Guidelines
 
-1. **Optimization Specification**: Define transformation
-2. **Semantic Model**: Specify program semantics
-3. **Verification**: Check semantic preservation
-4. **Counterexample Analysis**: Examine violations
-5. **Refinement**: Fix incorrect optimizations
+1. **Optimization Specification**: Define source and target patterns
+2. **Precondition Identification**: Identify required preconditions
+3. **Verification**: Check semantic equivalence
+4. **Counterexample Analysis**: Analyze any counterexamples
+5. **Refinement**: Refine optimization if needed
 
-## Dependencies
+## Tools/Libraries
 
 - Alive2
-- CompCert, SMT solvers
-
-## Process Integration
-
-- Compiler Optimization Design workflows
+- CompCert
+- SMT solvers
+- Vellvm

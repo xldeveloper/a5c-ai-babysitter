@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: programming-languages
+  category: programming-language-theory
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on generating compilers and interpreters for domain-specific languages.
+Provides expert guidance on generating compilers and interpreters for domain-specific languages from high-level specifications.
 
 ## Capabilities
 
@@ -32,18 +32,15 @@ Provides expert guidance on generating compilers and interpreters for domain-spe
 
 ## Usage Guidelines
 
-1. **Language Design**: Specify DSL requirements
-2. **Grammar Definition**: Write formal grammar
-3. **Semantics Definition**: Specify meaning
-4. **Generator Configuration**: Set up generation
-5. **Testing**: Validate generated tools
+1. **Grammar Design**: Define DSL syntax
+2. **Parser Generation**: Generate parser from grammar
+3. **Type System**: Implement type checking
+4. **Semantics**: Implement interpreter or code generator
+5. **IDE Integration**: Generate editor support
 
-## Dependencies
+## Tools/Libraries
 
-- ANTLR, Xtext, Racket
-- Language workbenches
-
-## Process Integration
-
-- DSL Design Implementation
-- Compiler Optimization Design workflows
+- ANTLR
+- Xtext
+- Racket
+- MPS

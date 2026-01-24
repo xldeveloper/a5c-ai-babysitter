@@ -1,6 +1,6 @@
 ---
 name: consensus-protocol-library
-description: Reference implementations and specifications of consensus protocols for distributed systems
+description: Reference implementations and specifications of consensus protocols
 allowed-tools:
   - Bash
   - Read
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides reference implementations and formal specifications of distributed consensus protocols.
+Provides expert guidance on consensus protocol design, analysis, and implementation for distributed systems.
 
 ## Capabilities
 
@@ -28,21 +28,18 @@ Provides reference implementations and formal specifications of distributed cons
 - Safety/liveness property templates
 - Message complexity analysis
 - Protocol variant catalog
-- Implementation guidance
+- Failure mode analysis
 
 ## Usage Guidelines
 
-1. **Requirements Analysis**: Identify consensus needs
-2. **Protocol Selection**: Compare protocol options
-3. **Specification Review**: Examine formal specs
-4. **Implementation**: Follow reference designs
-5. **Verification**: Prove protocol properties
+1. **Protocol Selection**: Choose appropriate consensus protocol
+2. **Specification Review**: Understand protocol specification
+3. **Property Verification**: Verify safety and liveness
+4. **Comparison**: Compare protocols for use case
+5. **Implementation**: Guide implementation decisions
 
-## Dependencies
+## Tools/Libraries
 
 - TLA+ specifications
 - Reference implementations
-
-## Process Integration
-
-- Distributed Consensus Protocol Design workflows
+- Protocol documentation

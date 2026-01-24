@@ -1,6 +1,6 @@
 ---
 name: meta-analysis-engine
-description: Meta-analysis for effect size pooling
+description: Meta-analysis for effect size pooling, heterogeneity assessment, and publication bias detection
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: statistical-analysis
-  domain: scientific-discovery
-  backlog-id: SK-SD-018
-  tools:
-    - metafor (R via rpy2)
-    - PythonMeta
-    - forestplot
-  processes:
-    - literature-review-synthesis
-    - triangulation
-    - evidence-synthesis
+  phase: 6
 ---
 
-# Meta-Analysis Engine Skill
+# Meta-Analysis Engine
 
 ## Purpose
 
@@ -32,31 +23,22 @@ Provides meta-analysis capabilities for effect size pooling, heterogeneity asses
 
 ## Capabilities
 
-- **Effect Pooling**: Fixed/random effects meta-analysis
-- **Heterogeneity**: Heterogeneity metrics (I-squared, tau-squared)
-- **Funnel Plots**: Funnel plot generation
-- **Trim and Fill**: Trim-and-fill analysis
-- **Subgroup Analysis**: Subgroup analysis
-- **Meta-Regression**: Meta-regression
+- Fixed/random effects meta-analysis
+- Heterogeneity metrics (I-squared, tau-squared)
+- Funnel plot generation
+- Trim-and-fill analysis
+- Subgroup analysis
+- Meta-regression
 
 ## Usage Guidelines
 
-1. **Data Preparation**
-   - Extract effect sizes
-   - Standardize metrics
-   - Code study characteristics
+1. **Effect Size Extraction**: Extract standardized effect sizes
+2. **Heterogeneity Assessment**: Evaluate between-study variance
+3. **Publication Bias**: Test and adjust for bias
+4. **Sensitivity Analysis**: Check robustness of findings
 
-2. **Analysis**
-   - Choose model type
-   - Assess heterogeneity
-   - Check publication bias
+## Tools/Libraries
 
-3. **Reporting**
-   - Generate forest plots
-   - Report heterogeneity
-   - Document sensitivity analyses
-
-4. **Best Practices**
-   - Pre-specify analyses
-   - Explore heterogeneity
-   - Report all results
+- metafor (R via rpy2)
+- PythonMeta
+- forestplot

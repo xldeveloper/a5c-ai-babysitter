@@ -1,6 +1,6 @@
 ---
 name: graph-algorithm-library
-description: Graph algorithms for discrete mathematics
+description: Comprehensive graph algorithms implementation
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: discrete-mathematics
-  domain: mathematics
-  backlog-id: SK-MATH-027
-  tools:
-    - NetworkX
-    - igraph
-    - graph-tool
-  processes:
-    - network-analysis
-    - algorithm-design
+  specialization: mathematics
+  domain: science
+  category: combinatorics
+  phase: 6
 ---
 
-# Graph Algorithm Library Skill
+# Graph Algorithm Library
 
 ## Purpose
 
-Provides comprehensive graph algorithms for discrete mathematics, network analysis, and combinatorial optimization.
+Provides comprehensive graph algorithms for combinatorial analysis and network computations.
 
 ## Capabilities
 
-- **Traversal**: BFS, DFS, topological sort
-- **Shortest Paths**: Dijkstra, Bellman-Ford, Floyd-Warshall
-- **Connectivity**: Components, bridges, articulation points
-- **Flow Algorithms**: Max flow, min cut, matching
-- **Spectral Methods**: Graph Laplacian, spectral clustering
-- **Centrality**: Betweenness, closeness, PageRank
+- Shortest path algorithms (Dijkstra, Bellman-Ford, Floyd-Warshall)
+- Network flow algorithms
+- Matching algorithms
+- Graph coloring
+- Planarity testing
+- Graph isomorphism
 
 ## Usage Guidelines
 
-1. **Algorithm Selection**
-   - Analyze graph properties
-   - Consider time/space complexity
-   - Choose appropriate data structures
+1. **Representation**: Choose appropriate graph representation
+2. **Algorithm Selection**: Match algorithm to problem structure
+3. **Complexity Analysis**: Consider time/space tradeoffs
+4. **Sparse Graphs**: Use specialized algorithms for sparse graphs
 
-2. **Implementation**
-   - Validate graph input
-   - Handle edge cases
-   - Optimize for specific graph types
+## Tools/Libraries
 
-3. **Analysis**
-   - Verify algorithm correctness
-   - Benchmark performance
-   - Visualize results
-
-4. **Best Practices**
-   - Document graph assumptions
-   - Test on edge cases
-   - Consider parallel algorithms for large graphs
+- NetworkX
+- igraph
+- LEMON
+- Boost Graph Library

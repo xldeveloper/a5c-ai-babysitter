@@ -1,6 +1,6 @@
 ---
 name: computational-environment-manager
-description: Mathematical computing environment management
+description: Manage reproducible computational environments
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: research-infrastructure
-  domain: mathematics
-  backlog-id: SK-MATH-038
-  tools:
-    - conda
-    - Docker
-    - Jupyter
-  processes:
-    - reproducible-research
-    - environment-setup
+  specialization: mathematics
+  domain: science
+  category: reproducibility
+  phase: 6
 ---
 
-# Computational Environment Manager Skill
+# Computational Environment Manager
 
 ## Purpose
 
-Provides tools for managing mathematical computing environments ensuring reproducibility and portability.
+Provides management capabilities for reproducible computational environments in mathematical research.
 
 ## Capabilities
 
-- **Environment Creation**: Conda, venv, Docker
-- **Package Management**: Dependency resolution
-- **Jupyter Integration**: Notebook environments
-- **Version Control**: Environment versioning
-- **Reproducibility**: Lock files and containers
-- **HPC Integration**: Cluster environment setup
+- Docker container configuration
+- Conda environment specification
+- Package version pinning
+- Random seed management
+- Platform independence verification
+- Execution trace logging
 
 ## Usage Guidelines
 
-1. **Environment Design**
-   - List required packages
-   - Specify versions
-   - Plan for reproducibility
+1. **Environment Specification**: Define complete environment specs
+2. **Version Pinning**: Pin all package versions
+3. **Seed Management**: Control random seeds for reproducibility
+4. **Documentation**: Document environment setup procedures
 
-2. **Setup Process**
-   - Create environment
-   - Install dependencies
-   - Verify installations
+## Tools/Libraries
 
-3. **Maintenance**
-   - Update packages
-   - Export specifications
-   - Document changes
-
-4. **Best Practices**
-   - Use lock files
-   - Containerize when possible
-   - Document environment setup
+- Docker
+- Conda
+- pip
+- Julia Pkg

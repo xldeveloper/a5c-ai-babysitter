@@ -8,53 +8,35 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: symbolic-computation
-  domain: mathematics
-  backlog-id: SK-MATH-008
-  tools:
-    - Maxima
-    - wxMaxima
-  processes:
-    - symbolic-simplification
-    - symbolic-integration-differentiation
+  phase: 6
 ---
 
-# Maxima CAS Interface Skill
+# Maxima CAS Interface
 
 ## Purpose
 
-Provides interface to Maxima open-source computer algebra system for symbolic mathematical computation.
+Provides interface with Maxima, an open-source computer algebra system for symbolic computation.
 
 ## Capabilities
 
-- **Symbolic Manipulation**: Algebraic manipulation and simplification
-- **Calculus**: Differentiation, integration, limits
-- **Tensor Calculus**: Tensor and differential geometry
-- **Factorization**: Polynomial factorization
-- **Transforms**: Laplace and Fourier transforms
-- **Free/Open Source**: Completely open source
+- Symbolic manipulation and simplification
+- Calculus operations (differentiation, integration)
+- Tensor and differential geometry
+- Polynomial factorization
+- Laplace/Fourier transforms
 
 ## Usage Guidelines
 
-1. **Setup**
-   - Install Maxima
-   - Configure wxMaxima for GUI
-   - Set up batch processing
+1. **Command Syntax**: Use Maxima command conventions
+2. **Simplification**: Apply ratsimp, radcan, trigsimp as appropriate
+3. **Calculus**: Use diff, integrate, limit functions
+4. **Output Formatting**: Control display with display options
 
-2. **Computation**
-   - Use appropriate simplification
-   - Apply relevant packages
-   - Verify results
+## Tools/Libraries
 
-3. **Integration**
-   - Interface from Python/Sage
-   - Batch process computations
-   - Export results
-
-4. **Best Practices**
-   - Learn Maxima syntax
-   - Use appropriate packages
-   - Document computations
+- Maxima
+- wxMaxima

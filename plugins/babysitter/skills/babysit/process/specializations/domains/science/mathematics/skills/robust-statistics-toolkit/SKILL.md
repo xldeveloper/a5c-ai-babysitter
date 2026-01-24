@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: statistical-computing
-  domain: mathematics
-  backlog-id: SK-MATH-026
-  tools:
-    - robustbase (R)
-    - statsmodels
-    - scikit-learn
-  processes:
-    - exploratory-data-analysis
-    - regression-analysis
+  phase: 6
 ---
 
-# Robust Statistics Toolkit Skill
+# Robust Statistics Toolkit
 
 ## Purpose
 
-Provides robust statistical methods that are resistant to outliers and violations of distributional assumptions.
+Provides robust statistical methods resistant to outliers and model violations for reliable inference.
 
 ## Capabilities
 
-- **M-Estimators**: Huber and bisquare M-estimators
-- **Robust Regression**: MM-estimation, LTS, LMS regression
-- **Robust Covariance**: MCD and OGK estimators
-- **Robust PCA**: ROBPCA and projection pursuit
-- **Outlier Detection**: Robust Mahalanobis distances
-- **Robust Scale**: MAD and Qn estimators
+- M-estimators (Huber, Tukey)
+- Trimmed and winsorized estimators
+- Robust regression (MM-estimation)
+- Breakdown point analysis
+- Influence function computation
+- Robust covariance estimation
 
 ## Usage Guidelines
 
-1. **Method Selection**
-   - Assess data contamination level
-   - Choose appropriate breakdown point
-   - Consider efficiency tradeoffs
+1. **Outlier Detection**: Identify potential outliers first
+2. **Estimator Selection**: Choose based on expected contamination
+3. **Breakdown Point**: Consider required breakdown point
+4. **Efficiency**: Balance robustness and efficiency
 
-2. **Implementation**
-   - Start with robust exploration
-   - Compare with classical methods
-   - Identify influential observations
+## Tools/Libraries
 
-3. **Diagnostics**
-   - Check robustness weights
-   - Examine flagged outliers
-   - Validate with sensitivity analysis
-
-4. **Best Practices**
-   - Document outlier handling
-   - Report both robust and classical results
-   - Justify method selection
+- robustbase (R)
+- scikit-learn
+- statsmodels

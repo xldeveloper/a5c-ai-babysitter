@@ -1,6 +1,6 @@
 ---
 name: time-series-analyzer
-description: Time series analysis and forecasting
+description: Time series analysis for trend detection, seasonality decomposition, and forecasting
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: statistical-analysis
-  domain: scientific-discovery
-  backlog-id: SK-SD-020
-  tools:
-    - statsmodels
-    - Prophet
-    - pmdarima
-  processes:
-    - statistical-reasoning
-    - deep-time-thinking
-    - proxy-reasoning
+  phase: 6
 ---
 
-# Time Series Analyzer Skill
+# Time Series Analyzer
 
 ## Purpose
 
@@ -32,31 +23,22 @@ Provides time series analysis capabilities for trend detection, seasonality deco
 
 ## Capabilities
 
-- **Stationarity Testing**: ADF, KPSS tests
-- **Decomposition**: STL, seasonal decomposition
-- **ARIMA**: ARIMA/SARIMA modeling
-- **Prophet**: Prophet/exponential smoothing
-- **Change Points**: Change point detection
-- **Uncertainty**: Forecast uncertainty quantification
+- Stationarity testing (ADF, KPSS)
+- Decomposition (STL, seasonal)
+- ARIMA/SARIMA modeling
+- Prophet/exponential smoothing
+- Change point detection
+- Forecast uncertainty quantification
 
 ## Usage Guidelines
 
-1. **Data Preparation**
-   - Check stationarity
-   - Handle missing values
-   - Identify outliers
+1. **Stationarity**: Test and achieve stationarity
+2. **Decomposition**: Separate trend, seasonal, and residual
+3. **Model Selection**: Choose appropriate forecasting model
+4. **Uncertainty**: Quantify forecast uncertainty
 
-2. **Model Building**
-   - Choose appropriate model
-   - Estimate parameters
-   - Validate model fit
+## Tools/Libraries
 
-3. **Forecasting**
-   - Generate forecasts
-   - Quantify uncertainty
-   - Validate predictions
-
-4. **Best Practices**
-   - Test stationarity
-   - Cross-validate models
-   - Report prediction intervals
+- statsmodels
+- Prophet
+- pmdarima

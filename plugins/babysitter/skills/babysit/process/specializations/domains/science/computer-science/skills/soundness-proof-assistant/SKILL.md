@@ -1,6 +1,6 @@
 ---
 name: soundness-proof-assistant
-description: Assist in constructing type soundness proofs with progress and preservation theorems
+description: Assist in constructing type soundness proofs using progress and preservation theorems
 allowed-tools:
   - Bash
   - Read
@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: programming-languages
+  category: programming-language-theory
   phase: 6
 ---
 
@@ -28,22 +28,19 @@ Provides expert guidance on constructing type soundness proofs for programming l
 - Substitution lemma generation
 - Canonical forms lemma derivation
 - Proof case enumeration
-- Export to proof assistants
+- Mechanization guidance
 
 ## Usage Guidelines
 
-1. **Type System Analysis**: Understand typing rules
-2. **Lemma Identification**: Identify needed lemmas
-3. **Template Selection**: Choose proof templates
-4. **Proof Construction**: Build soundness proof
-5. **Formalization**: Export to Coq/Agda
+1. **Lemma Identification**: Identify required supporting lemmas
+2. **Progress Proof**: Prove progress theorem by cases
+3. **Preservation Proof**: Prove preservation theorem
+4. **Substitution Lemmas**: Prove substitution preserves typing
+5. **Mechanization**: Translate to proof assistant
 
-## Dependencies
+## Tools/Libraries
 
-- Coq, Agda
-- Proof automation tools
-
-## Process Integration
-
-- Type System Design
-- Operational Semantics Specification workflows
+- Coq
+- Agda
+- Lean
+- Twelf

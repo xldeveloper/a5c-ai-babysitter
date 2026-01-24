@@ -1,6 +1,6 @@
 ---
 name: related-work-analyzer
-description: Analyze and organize related work for theoretical computer science papers
+description: Analyze and organize related work for theoretical CS papers
 allowed-tools:
   - Bash
   - Read
@@ -8,53 +8,39 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: computer-science
+  domain: science
   category: research-documentation
-  domain: computer-science
-  tools:
-    - Semantic Scholar
-    - DBLP
-    - Citation analysis
-  processes:
-    - theoretical-cs-paper-development
-    - cross-area-cs-integration
+  phase: 6
 ---
 
-# Related Work Analyzer Skill
+# Related Work Analyzer
 
 ## Purpose
 
-Provides related work analysis capabilities for literature review and research positioning in theoretical CS.
+Provides expert guidance on analyzing and organizing related work for theoretical computer science papers.
 
 ## Capabilities
 
-- **Citation Network**: Analyze citation relationships
-- **Technique Categorization**: Categorize research techniques
-- **Result Comparison**: Generate comparison tables
-- **Gap Identification**: Identify research gaps
-- **Timeline Visualization**: Visualize research evolution
+- Citation network analysis
+- Technique categorization
+- Result comparison tables
+- Gap identification
+- Timeline visualization
+- Cross-area connection identification
 
 ## Usage Guidelines
 
-1. **Literature Search**
-   - Query relevant databases
-   - Follow citation chains
-   - Identify key papers
+1. **Literature Search**: Search for related papers
+2. **Categorization**: Organize papers by technique/contribution
+3. **Comparison**: Build comparison tables
+4. **Gap Analysis**: Identify gaps in literature
+5. **Positioning**: Position contribution relative to prior work
 
-2. **Analysis**
-   - Categorize approaches
-   - Compare results and techniques
-   - Identify trends and gaps
+## Tools/Libraries
 
-3. **Organization**
-   - Structure related work section
-   - Position contribution clearly
-   - Cite comprehensively
-
-4. **Best Practices**
-   - Be thorough and fair
-   - Highlight distinctions
-   - Update regularly
-   - Acknowledge concurrent work
+- Semantic Scholar
+- DBLP
+- Google Scholar
+- Citation analysis tools

@@ -1,6 +1,6 @@
 ---
 name: interactive-dashboard-builder
-description: Research dashboard construction
+description: Research dashboard construction for data exploration and result communication
 allowed-tools:
   - Bash
   - Read
@@ -8,24 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: data-visualization
-  domain: scientific-discovery
-  backlog-id: SK-SD-023
-  tools:
-    - Streamlit
-    - Panel
-    - Dash
-    - Voila
-  processes:
-    - exploratory-data-analysis
-    - scale-zooming
-    - tool-as-lens
+  phase: 6
 ---
 
-# Interactive Dashboard Builder Skill
+# Interactive Dashboard Builder
 
 ## Purpose
 
@@ -33,31 +23,23 @@ Provides research dashboard construction capabilities for data exploration, hypo
 
 ## Capabilities
 
-- **Widgets**: Widget-based filtering
-- **Linked Brushing**: Linked brushing across plots
-- **Sensitivity**: Parameter sensitivity exploration
-- **Real-Time**: Real-time data updates
-- **Sharing**: Sharing and embedding
-- **Export**: Export to static reports
+- Widget-based filtering
+- Linked brushing across plots
+- Parameter sensitivity exploration
+- Real-time data updates
+- Sharing and embedding
+- Export to static reports
 
 ## Usage Guidelines
 
-1. **Design Phase**
-   - Plan dashboard layout
-   - Define interactions
-   - Select widgets
+1. **Widget Design**: Create intuitive filtering controls
+2. **Linked Views**: Connect related visualizations
+3. **Sensitivity**: Enable parameter exploration
+4. **Sharing**: Prepare dashboards for collaboration
 
-2. **Development**
-   - Build components
-   - Link visualizations
-   - Add filters
+## Tools/Libraries
 
-3. **Deployment**
-   - Deploy dashboard
-   - Share with collaborators
-   - Export reports
-
-4. **Best Practices**
-   - Keep interface simple
-   - Provide guidance
-   - Test with users
+- Streamlit
+- Panel
+- Dash
+- Voila

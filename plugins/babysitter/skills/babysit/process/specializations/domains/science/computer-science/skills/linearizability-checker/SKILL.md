@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: concurrency
+  category: distributed-systems
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on checking linearizability of concurrent data structures.
+Provides expert guidance on verifying linearizability of concurrent data structures through testing and proof.
 
 ## Capabilities
 
@@ -28,22 +28,19 @@ Provides expert guidance on checking linearizability of concurrent data structur
 - Counterexample generation for violations
 - Concurrent history visualization
 - Linearizability proof templates
-- Progress property checking
+- Testing framework integration
 
 ## Usage Guidelines
 
-1. **History Collection**: Gather execution history
-2. **Linearization Attempt**: Search for valid linearization
-3. **Counterexample Analysis**: Examine violations
-4. **Proof Construction**: Build linearizability proof
-5. **Documentation**: Record verification results
+1. **History Collection**: Record concurrent operation histories
+2. **Linearization**: Check if history is linearizable
+3. **Counterexample Analysis**: Analyze non-linearizable executions
+4. **Proof Construction**: Build linearizability proofs
+5. **Testing**: Systematic testing for violations
 
-## Dependencies
+## Tools/Libraries
 
 - LineUp
 - Wing-Gong algorithm
-
-## Process Integration
-
-- Concurrent Data Structure Design
-- Distributed Consensus Protocol Design workflows
+- Lincheck
+- JCStress

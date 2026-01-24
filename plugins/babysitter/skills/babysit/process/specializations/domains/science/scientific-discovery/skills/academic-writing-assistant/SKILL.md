@@ -1,6 +1,6 @@
 ---
 name: academic-writing-assistant
-description: Scientific writing support
+description: Scientific writing support for structure guidance and discipline-specific conventions
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: scientific-writing
-  domain: scientific-discovery
-  backlog-id: SK-SD-027
-  tools:
-    - LanguageTool
-    - custom NLP models
-    - style guides
-  processes:
-    - literature-review-synthesis
-    - hypothesis-documentation
-    - narrative-reasoning
+  phase: 6
 ---
 
-# Academic Writing Assistant Skill
+# Academic Writing Assistant
 
 ## Purpose
 
@@ -32,31 +23,22 @@ Provides scientific writing support capabilities for structure guidance, clarity
 
 ## Capabilities
 
-- **IMRaD Structure**: IMRaD structure enforcement
-- **Hedging Language**: Hedging language suggestions
-- **Terminology**: Discipline-specific terminology
-- **Voice Balance**: Passive/active voice balance
-- **Transitions**: Transition phrase suggestions
-- **Abstract Optimization**: Abstract optimization
+- IMRaD structure enforcement
+- Hedging language suggestions
+- Discipline-specific terminology
+- Passive/active voice balance
+- Transition phrase suggestions
+- Abstract optimization
 
 ## Usage Guidelines
 
-1. **Structure**
-   - Follow IMRaD format
-   - Use appropriate sections
-   - Maintain logical flow
+1. **Structure**: Follow IMRaD or appropriate format
+2. **Hedging**: Use appropriate hedging language
+3. **Terminology**: Apply discipline conventions
+4. **Clarity**: Prioritize clear communication
 
-2. **Style**
-   - Apply discipline conventions
-   - Balance voice usage
-   - Use hedging appropriately
+## Tools/Libraries
 
-3. **Revision**
-   - Check clarity
-   - Improve transitions
-   - Optimize abstracts
-
-4. **Best Practices**
-   - Follow style guides
-   - Use consistent terminology
-   - Seek feedback
+- LanguageTool
+- Custom NLP models
+- Style guides

@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on creating TLA+ specifications for distributed system verification.
+Provides expert guidance on generating TLA+ specifications for distributed systems design and verification.
 
 ## Capabilities
 
@@ -28,22 +28,19 @@ Provides expert guidance on creating TLA+ specifications for distributed system 
 - State space exploration configuration
 - PlusCal to TLA+ translation
 - Model checking execution
-- Counterexample analysis
+- Refinement mapping
 
 ## Usage Guidelines
 
-1. **Protocol Description**: Describe system informally
-2. **State Definition**: Define state variables
-3. **Action Specification**: Write state transitions
-4. **Property Specification**: Define safety/liveness
-5. **Model Checking**: Configure and run TLC
+1. **System Modeling**: Model system components and state
+2. **Action Specification**: Define system actions/transitions
+3. **Property Specification**: Specify safety and liveness properties
+4. **Model Checking**: Configure and run TLC model checker
+5. **Refinement**: Relate abstract and concrete specifications
 
-## Dependencies
+## Tools/Libraries
 
 - TLA+ Toolbox
 - TLC model checker
-
-## Process Integration
-
-- Distributed Consensus Protocol Design
-- Model Checking Verification workflows
+- TLAPS proof system
+- PlusCal

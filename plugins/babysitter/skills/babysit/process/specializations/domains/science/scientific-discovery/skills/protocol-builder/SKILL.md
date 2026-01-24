@@ -1,6 +1,6 @@
 ---
 name: protocol-builder
-description: Research protocol construction for SPIRIT compliance
+description: Research protocol construction for SPIRIT-compliant protocol generation
 allowed-tools:
   - Bash
   - Read
@@ -8,22 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: experimental-design
-  domain: scientific-discovery
-  backlog-id: SK-SD-015
-  tools:
-    - Document templates
-    - regulatory databases
-  processes:
-    - pre-registration
-    - experimental-design-controls
-    - hypothesis-formulation-testing
+  phase: 6
 ---
 
-# Protocol Builder Skill
+# Protocol Builder
 
 ## Purpose
 
@@ -31,31 +23,21 @@ Provides research protocol construction capabilities for SPIRIT-compliant protoc
 
 ## Capabilities
 
-- **SPIRIT Compliance**: SPIRIT checklist compliance
-- **Section Generation**: Protocol section generation
-- **Consent Forms**: Consent form templating
-- **Ethics Formatting**: Ethics submission formatting
-- **Amendment Tracking**: Protocol amendment tracking
-- **Registration**: Registration preparation (ClinicalTrials.gov, OSF)
+- SPIRIT checklist compliance
+- Protocol section generation
+- Consent form templating
+- Ethics submission formatting
+- Protocol amendment tracking
+- Registration preparation (ClinicalTrials.gov, OSF)
 
 ## Usage Guidelines
 
-1. **Protocol Design**
-   - Follow SPIRIT guidelines
-   - Include all required sections
-   - Define procedures clearly
+1. **SPIRIT Compliance**: Follow SPIRIT guidelines for protocols
+2. **Section Completeness**: Include all required sections
+3. **Consent Forms**: Use appropriate templates
+4. **Registration**: Prepare for pre-registration
 
-2. **Documentation**
-   - Generate consent forms
-   - Prepare ethics submissions
-   - Create data management plans
+## Tools/Libraries
 
-3. **Registration**
-   - Format for registries
-   - Submit pre-registrations
-   - Track amendments
-
-4. **Best Practices**
-   - Use standard templates
-   - Version control documents
-   - Maintain complete records
+- Document templates
+- Regulatory databases

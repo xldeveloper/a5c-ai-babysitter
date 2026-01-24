@@ -1,6 +1,6 @@
 ---
 name: memory-model-analyzer
-description: Analyze programs under various memory models including sequential consistency and TSO
+description: Analyze programs under various memory models for concurrent correctness
 allowed-tools:
   - Bash
   - Read
@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: concurrency
+  category: distributed-systems
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on analyzing concurrent programs under different memory models.
+Provides expert guidance on analyzing concurrent programs under various hardware and language memory models.
 
 ## Capabilities
 
@@ -28,22 +28,19 @@ Provides expert guidance on analyzing concurrent programs under different memory
 - C/C++ memory model compliance
 - Memory barrier insertion guidance
 - Race condition detection
-- Happens-before reasoning
+- Weak memory model reasoning
 
 ## Usage Guidelines
 
-1. **Program Analysis**: Parse concurrent program
-2. **Model Selection**: Choose memory model
-3. **Execution Analysis**: Explore possible executions
-4. **Issue Detection**: Find memory model violations
-5. **Fence Insertion**: Guide barrier placement
+1. **Model Selection**: Identify relevant memory model
+2. **Analysis**: Check program behavior under model
+3. **Barrier Placement**: Determine required fences/barriers
+4. **Race Detection**: Find data races
+5. **Verification**: Verify correct synchronization
 
-## Dependencies
+## Tools/Libraries
 
-- CDSChecker, GenMC
-- Memory model tools
-
-## Process Integration
-
-- Concurrent Data Structure Design
-- Cache Optimization Analysis workflows
+- CDSChecker
+- GenMC
+- CBMC
+- herd7

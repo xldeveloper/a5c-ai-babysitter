@@ -8,53 +8,36 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: numerical-analysis
-  domain: mathematics
-  backlog-id: SK-MATH-015
-  tools:
-    - Chebfun
-    - scipy.interpolate
-  processes:
-    - numerical-stability-analysis
-    - model-validation-framework
+  phase: 6
 ---
 
-# Interpolation and Approximation Skill
+# Interpolation and Approximation
 
 ## Purpose
 
-Provides function interpolation and approximation methods with error bound analysis.
+Provides function interpolation and approximation methods for data fitting and function representation.
 
 ## Capabilities
 
-- **Polynomial Interpolation**: Lagrange, Newton, Chebyshev interpolation
-- **Splines**: Cubic splines, B-splines
-- **Rational Approximation**: Pade approximants
-- **Least Squares**: Least squares fitting
-- **Minimax**: Remez algorithm for best approximation
-- **Error Bounds**: Approximation error analysis
+- Polynomial interpolation (Lagrange, Newton, Chebyshev)
+- Spline interpolation (cubic, B-spline)
+- Rational approximation (Pade)
+- Least squares fitting
+- Minimax approximation (Remez algorithm)
+- Approximation error bounds
 
 ## Usage Guidelines
 
-1. **Method Selection**
-   - Use Chebyshev points for polynomial interpolation
-   - Use splines for smooth interpolation
-   - Use Pade for rational approximation
+1. **Method Selection**: Choose based on smoothness and accuracy needs
+2. **Node Placement**: Use Chebyshev nodes to minimize Runge phenomenon
+3. **Spline Order**: Select spline degree based on continuity requirements
+4. **Error Analysis**: Bound approximation errors rigorously
 
-2. **Implementation**
-   - Avoid Runge phenomenon
-   - Choose appropriate degree
-   - Assess approximation quality
+## Tools/Libraries
 
-3. **Error Analysis**
-   - Estimate interpolation error
-   - Compare approximations
-   - Validate against test functions
-
-4. **Best Practices**
-   - Use stable bases
-   - Monitor condition numbers
-   - Document approximation quality
+- Chebfun
+- scipy.interpolate

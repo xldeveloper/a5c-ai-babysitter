@@ -1,6 +1,6 @@
 ---
 name: arxiv-search-interface
-description: arXiv paper search and retrieval
+description: Search and analyze mathematical literature on arXiv
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
+  - WebFetch
+  - WebSearch
 metadata:
-  version: "1.0"
-  category: literature-research
-  domain: mathematics
-  backlog-id: SK-MATH-035
-  tools:
-    - arXiv API
-    - arxiv Python package
-    - feedparser
-  processes:
-    - literature-review
-    - research-discovery
+  specialization: mathematics
+  domain: science
+  category: research
+  phase: 6
 ---
 
-# arXiv Search Interface Skill
+# arXiv Search Interface
 
 ## Purpose
 
-Provides interface to arXiv for searching, retrieving, and analyzing mathematical research papers.
+Provides search and analysis capabilities for mathematical literature on arXiv.
 
 ## Capabilities
 
-- **Advanced Search**: Author, title, abstract queries
-- **Category Filtering**: Math subject classification
-- **Citation Tracking**: Reference discovery
-- **PDF Retrieval**: Download and extraction
-- **Metadata Extraction**: Authors, dates, categories
-- **Alert Setup**: New paper notifications
+- arXiv API queries
+- Mathematical subject classification filtering
+- Citation network analysis
+- Abstract summarization
+- Related paper recommendations
+- Version tracking
 
 ## Usage Guidelines
 
-1. **Search Strategy**
-   - Define search criteria
-   - Select math categories
-   - Set date ranges
+1. **Query Formulation**: Use appropriate math.XX categories
+2. **Filtering**: Apply date and author filters
+3. **Citation Analysis**: Build citation networks
+4. **Version Tracking**: Check for updated versions
 
-2. **Result Processing**
-   - Filter relevant papers
-   - Extract metadata
-   - Download PDFs
+## Tools/Libraries
 
-3. **Organization**
-   - Categorize papers
-   - Track citations
-   - Maintain bibliography
-
-4. **Best Practices**
-   - Use precise queries
-   - Check multiple categories
-   - Monitor related work
+- arXiv API
+- Semantic Scholar

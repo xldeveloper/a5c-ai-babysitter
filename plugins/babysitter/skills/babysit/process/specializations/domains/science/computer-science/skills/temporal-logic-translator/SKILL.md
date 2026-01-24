@@ -1,6 +1,6 @@
 ---
 name: temporal-logic-translator
-description: Translate between temporal logic formalisms including LTL, CTL, and natural language
+description: Translate between temporal logic formalisms and generate property specifications
 allowed-tools:
   - Bash
   - Read
@@ -8,53 +8,39 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: computer-science
+  domain: science
   category: formal-verification
-  domain: computer-science
-  tools:
-    - Spot
-    - GOAL
-    - Temporal logic tools
-  processes:
-    - model-checking-verification
-    - formal-specification-development
+  phase: 6
 ---
 
-# Temporal Logic Translator Skill
+# Temporal Logic Translator
 
 ## Purpose
 
-Provides temporal logic translation capabilities for converting between different specification formalisms.
+Provides expert guidance on temporal logic specification and translation between formalisms.
 
 ## Capabilities
 
-- **LTL to Automata**: Translate LTL to Buchi automata
-- **CTL Comparison**: Compare CTL and CTL* formulas
-- **Natural Language**: Translate natural language to temporal logic
-- **Property Patterns**: Apply specification pattern templates
-- **Equivalence Checking**: Check formula equivalence
+- LTL to Buchi automata
+- CTL to CTL* comparison
+- Natural language to temporal logic
+- Property pattern templates
+- Formula equivalence checking
+- Negation normal form conversion
 
 ## Usage Guidelines
 
-1. **Formula Specification**
-   - Choose appropriate temporal logic
-   - Express properties precisely
-   - Verify syntax correctness
+1. **Property Identification**: Identify desired system properties
+2. **Formalization**: Express in appropriate temporal logic
+3. **Translation**: Convert between formalisms if needed
+4. **Pattern Matching**: Use property pattern templates
+5. **Verification**: Check formula equivalence
 
-2. **Translation**
-   - Translate to target formalism
-   - Verify translation correctness
-   - Optimize resulting formulas
+## Tools/Libraries
 
-3. **Pattern Application**
-   - Use property pattern library
-   - Instantiate patterns for specific needs
-   - Combine patterns compositionally
-
-4. **Best Practices**
-   - Understand logic expressiveness
-   - Verify translations carefully
-   - Document property intuitions
-   - Use patterns when applicable
+- Spot
+- GOAL
+- LTL2BA
+- NuSMV

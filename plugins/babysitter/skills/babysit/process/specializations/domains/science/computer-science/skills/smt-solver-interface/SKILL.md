@@ -1,6 +1,6 @@
 ---
 name: smt-solver-interface
-description: Interface with SMT solvers for verification, synthesis, and constraint solving
+description: Interface with SMT solvers for verification and synthesis
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,39 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: computer-science
+  domain: science
   category: formal-verification
-  domain: computer-science
-  tools:
-    - Z3
-    - CVC5
-    - Boolector
-  processes:
-    - model-checking-verification
-    - abstract-interpretation-analysis
-    - program-synthesis-specification
+  phase: 6
 ---
 
-# SMT Solver Interface Skill
+# SMT Solver Interface
 
 ## Purpose
 
-Provides SMT solver interface capabilities for automated verification, synthesis, and constraint solving.
+Provides expert guidance on using SMT solvers for automated reasoning, verification, and program synthesis.
 
 ## Capabilities
 
-- **Z3 Interface**: Generate and solve Z3 queries
-- **CVC5 Interface**: Interface with CVC5 solver
-- **Theory Selection**: Guide appropriate theory selection
-- **Model Extraction**: Extract satisfying models
-- **Unsat Core Analysis**: Analyze unsatisfiable cores
+- Z3 query generation
+- CVC5 interface
+- Theory selection guidance
+- Model extraction
+- Unsat core analysis
+- Incremental solving
 
 ## Usage Guidelines
 
-1. **Problem Encoding**
-   - Choose appropriate SMT theories
-   - Encode constraints precisely
-   - Configure solver options
+1. **Encoding**: Encode problem in SMT-LIB format
+2. **Theory Selection**: Choose appropriate theories
+3. **Solving**: Run SMT solver
+4. **Model Extraction**: Extract satisfying assignments
+5. **Debugging**: Analyze unsat cores for debugging
 
-2. **Solving**
-   - Submit query to solver
-   - Handle sat/unsat/unknown results
-   - Extract models or cores
+## Tools/Libraries
 
-3. **Result Interpretation**
-   - Interpret satisfying models
-   - Analyze unsat cores
-   - Refine encoding if needed
-
-4. **Best Practices**
-   - Use appropriate theories
-   - Simplify constraints when possible
-   - Handle timeouts gracefully
-   - Document solver configurations
+- Z3
+- CVC5
+- Boolector
+- Yices

@@ -1,6 +1,6 @@
 ---
 name: hypothesis-generator
-description: Automated hypothesis generation using abductive reasoning
+description: Automated hypothesis generation using abductive reasoning and knowledge graph traversal
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: hypothesis-reasoning
-  domain: scientific-discovery
-  backlog-id: SK-SD-006
-  tools:
-    - Knowledge graphs
-    - LLM chains
-    - symbolic reasoners
-  processes:
-    - hypothesis-formulation-testing
-    - abductive-reasoning
-    - multiple-working-hypotheses
+  phase: 6
 ---
 
-# Hypothesis Generator Skill
+# Hypothesis Generator
 
 ## Purpose
 
@@ -32,31 +23,22 @@ Provides automated hypothesis generation capabilities using abductive reasoning,
 
 ## Capabilities
 
-- **Pattern Generation**: Pattern-based hypothesis generation
-- **Analogy Detection**: Cross-domain analogy detection
-- **Contradiction Finding**: Contradiction identification
-- **Ranking**: Hypothesis ranking by novelty/parsimony
-- **Null Hypothesis**: Null hypothesis formulation
-- **Falsifiability**: Falsifiability assessment
+- Pattern-based hypothesis generation
+- Cross-domain analogy detection
+- Contradiction identification
+- Hypothesis ranking by novelty/parsimony
+- Null hypothesis formulation
+- Falsifiability assessment
 
 ## Usage Guidelines
 
-1. **Generation Process**
-   - Gather relevant observations
-   - Apply reasoning patterns
-   - Generate candidate hypotheses
+1. **Pattern Recognition**: Identify patterns that suggest hypotheses
+2. **Analogy**: Transfer insights from related domains
+3. **Falsifiability**: Ensure hypotheses are testable
+4. **Ranking**: Prioritize hypotheses by potential impact
 
-2. **Evaluation**
-   - Assess falsifiability
-   - Check novelty
-   - Evaluate parsimony
+## Tools/Libraries
 
-3. **Refinement**
-   - Identify contradictions
-   - Refine based on evidence
-   - Prioritize hypotheses
-
-4. **Best Practices**
-   - Generate multiple hypotheses
-   - Document reasoning
-   - Test assumptions
+- Knowledge graphs
+- LLM chains
+- Symbolic reasoners

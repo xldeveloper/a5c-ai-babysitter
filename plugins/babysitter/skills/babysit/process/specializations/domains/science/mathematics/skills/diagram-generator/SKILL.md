@@ -1,6 +1,6 @@
 ---
 name: diagram-generator
-description: Mathematical diagram generation tools
+description: Mathematical diagram and visualization generation
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: research-documentation
-  domain: mathematics
-  backlog-id: SK-MATH-033
-  tools:
-    - TikZ
-    - PGFPlots
-    - Asymptote
-  processes:
-    - paper-writing
-    - visualization
+  specialization: mathematics
+  domain: science
+  category: documentation
+  phase: 6
 ---
 
-# Diagram Generator Skill
+# Diagram Generator
 
 ## Purpose
 
-Provides tools for generating publication-quality mathematical diagrams, graphs, and visualizations.
+Provides mathematical diagram and visualization generation for clear communication of mathematical concepts.
 
 ## Capabilities
 
-- **Commutative Diagrams**: Category theory diagrams
-- **Graph Visualization**: Graphs and networks
-- **Function Plots**: 2D and 3D function plotting
-- **Geometric Figures**: Euclidean constructions
-- **Tikz-cd**: Commutative diagram macros
-- **3D Graphics**: Surface and parametric plots
+- Commutative diagrams (tikz-cd)
+- Function plots (pgfplots)
+- Graph drawings (tikz)
+- 3D surface plots
+- Phase portraits
+- Geometric constructions
 
 ## Usage Guidelines
 
-1. **Diagram Selection**
-   - Identify diagram type
-   - Choose appropriate tool
-   - Plan layout structure
+1. **Diagram Type**: Choose appropriate visualization type
+2. **Style Consistency**: Maintain consistent styling
+3. **Labels**: Clear and informative labeling
+4. **Export Format**: Generate vector graphics when possible
 
-2. **Creation Process**
-   - Define coordinates/nodes
-   - Add edges/arrows
-   - Apply styling
+## Tools/Libraries
 
-3. **Quality Control**
-   - Check label placement
-   - Verify proportions
-   - Test at target size
-
-4. **Best Practices**
-   - Use consistent styling
-   - Provide figure captions
-   - Export in vector format
+- TikZ
+- PGFPlots
+- Asymptote
+- matplotlib

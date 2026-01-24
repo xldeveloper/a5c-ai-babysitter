@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: randomized-algorithms
+  category: complexity-theory
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on analyzing randomized algorithms using probability theory.
+Provides expert guidance on analyzing randomized algorithms using probability theory and concentration inequalities.
 
 ## Capabilities
 
@@ -28,22 +28,18 @@ Provides expert guidance on analyzing randomized algorithms using probability th
 - Markov and Chebyshev inequality analysis
 - Moment generating function analysis
 - Concentration inequality selection
-- Tail bound derivation
+- Las Vegas and Monte Carlo analysis
 
 ## Usage Guidelines
 
-1. **Algorithm Definition**: Specify randomized algorithm
-2. **Random Variable Identification**: Identify key quantities
-3. **Bound Selection**: Choose appropriate inequality
-4. **Analysis**: Derive probability bounds
-5. **Documentation**: Generate formal analysis
+1. **Random Variable Identification**: Define relevant random variables
+2. **Expectation Computation**: Calculate expected values
+3. **Concentration Selection**: Choose appropriate bounds
+4. **Bound Application**: Apply concentration inequalities
+5. **Result Interpretation**: Interpret probabilistic guarantees
 
-## Dependencies
+## Tools/Libraries
 
 - Symbolic probability
-- Statistical computation
-
-## Process Integration
-
-- Randomized Algorithm Analysis
-- Approximation Algorithm Design workflows
+- Statistical libraries
+- SymPy

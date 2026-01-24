@@ -11,7 +11,7 @@ allowed-tools:
 metadata:
   specialization: computer-science
   domain: science
-  category: programming-languages
+  category: programming-language-theory
   phase: 6
 ---
 
@@ -19,7 +19,7 @@ metadata:
 
 ## Purpose
 
-Provides expert guidance on defining operational semantics for programming languages and DSLs.
+Provides expert guidance on defining operational semantics for programming language specification and testing.
 
 ## Capabilities
 
@@ -28,22 +28,19 @@ Provides expert guidance on defining operational semantics for programming langu
 - Evaluation context definition
 - Substitution and binding handling
 - Semantics execution/testing
-- Structural operational semantics
+- Equivalence proofs
 
 ## Usage Guidelines
 
-1. **Syntax Definition**: Specify abstract syntax
-2. **Semantics Style**: Choose small-step or big-step
-3. **Rule Definition**: Write semantic rules
-4. **Testing**: Execute semantics
-5. **Documentation**: Generate specification
+1. **Semantics Style**: Choose small-step or big-step
+2. **Rule Definition**: Define reduction/evaluation rules
+3. **Contexts**: Define evaluation contexts if needed
+4. **Testing**: Execute semantics on test programs
+5. **Validation**: Verify expected behavior
 
-## Dependencies
+## Tools/Libraries
 
 - PLT Redex
 - K Framework
-
-## Process Integration
-
-- Operational Semantics Specification
-- Type System Design workflows
+- Ott
+- Maude

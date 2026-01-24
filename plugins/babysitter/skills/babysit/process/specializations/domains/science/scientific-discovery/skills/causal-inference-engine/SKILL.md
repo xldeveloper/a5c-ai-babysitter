@@ -1,6 +1,6 @@
 ---
 name: causal-inference-engine
-description: Causal reasoning with DAG construction and do-calculus
+description: Causal reasoning implementing DAG construction, do-calculus, and intervention effect estimation
 allowed-tools:
   - Bash
   - Read
@@ -8,24 +8,14 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: hypothesis-reasoning
-  domain: scientific-discovery
-  backlog-id: SK-SD-007
-  tools:
-    - DoWhy
-    - CausalNex
-    - pgmpy
-    - EconML
-  processes:
-    - causal-inference
-    - causal-discovery
-    - counterfactual-reasoning
+  phase: 6
 ---
 
-# Causal Inference Engine Skill
+# Causal Inference Engine
 
 ## Purpose
 
@@ -33,31 +23,23 @@ Provides causal reasoning capabilities implementing DAG construction, do-calculu
 
 ## Capabilities
 
-- **DAG Construction**: Causal DAG construction and validation
-- **Criterion Checking**: Backdoor/frontdoor criterion checking
-- **Effect Estimation**: Average treatment effect estimation
-- **IV Analysis**: Instrumental variable analysis
-- **Mediation**: Mediation analysis
-- **Sensitivity**: Sensitivity analysis for unmeasured confounding
+- Causal DAG construction and validation
+- Backdoor/frontdoor criterion checking
+- Average treatment effect estimation
+- Instrumental variable analysis
+- Mediation analysis
+- Sensitivity analysis for unmeasured confounding
 
 ## Usage Guidelines
 
-1. **Model Building**
-   - Identify variables
-   - Specify causal structure
-   - Validate assumptions
+1. **DAG Construction**: Build causal graphs from domain knowledge
+2. **Identification**: Check if effects are identifiable
+3. **Estimation**: Apply appropriate estimation methods
+4. **Sensitivity**: Assess robustness to unmeasured confounding
 
-2. **Effect Estimation**
-   - Choose identification strategy
-   - Apply appropriate estimator
-   - Quantify uncertainty
+## Tools/Libraries
 
-3. **Sensitivity Analysis**
-   - Test robustness
-   - Assess unmeasured confounding
-   - Document limitations
-
-4. **Best Practices**
-   - Justify causal assumptions
-   - Use multiple methods
-   - Report sensitivity analyses
+- DoWhy
+- CausalNex
+- pgmpy
+- EconML

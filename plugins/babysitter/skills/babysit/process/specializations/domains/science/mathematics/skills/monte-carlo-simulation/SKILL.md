@@ -1,6 +1,6 @@
 ---
 name: monte-carlo-simulation
-description: Monte Carlo methods for sampling and estimation
+description: Monte Carlo methods for uncertainty quantification
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: computational-mathematics
-  domain: mathematics
-  backlog-id: SK-MATH-029
-  tools:
-    - NumPy
-    - SciPy
-    - PyMC
-  processes:
-    - uncertainty-quantification
-    - bayesian-inference-workflow
+  specialization: mathematics
+  domain: science
+  category: uncertainty-quantification
+  phase: 6
 ---
 
-# Monte Carlo Simulation Skill
+# Monte Carlo Simulation
 
 ## Purpose
 
-Provides Monte Carlo methods for probabilistic sampling, numerical integration, and stochastic estimation.
+Provides Monte Carlo methods for uncertainty quantification, integration, and probabilistic analysis.
 
 ## Capabilities
 
-- **Random Sampling**: Uniform, stratified, importance sampling
-- **MCMC Methods**: Metropolis-Hastings, Gibbs sampling
-- **Variance Reduction**: Control variates, antithetic variables
-- **Rare Event Simulation**: Importance sampling, splitting
-- **Convergence Analysis**: Error estimation, confidence intervals
-- **Quasi-Monte Carlo**: Low-discrepancy sequences
+- Standard Monte Carlo sampling
+- Importance sampling
+- Stratified sampling
+- Quasi-Monte Carlo (Sobol, Halton sequences)
+- Markov chain Monte Carlo
+- Convergence analysis
 
 ## Usage Guidelines
 
-1. **Method Selection**
-   - Analyze problem dimensionality
-   - Assess variance requirements
-   - Choose appropriate sampler
+1. **Sampling Strategy**: Choose appropriate sampling method
+2. **Sample Size**: Determine sufficient sample sizes
+3. **Variance Reduction**: Apply variance reduction techniques
+4. **Convergence**: Monitor convergence diagnostics
 
-2. **Implementation**
-   - Validate random number quality
-   - Implement burn-in for MCMC
-   - Monitor convergence
+## Tools/Libraries
 
-3. **Error Analysis**
-   - Estimate Monte Carlo error
-   - Compute confidence intervals
-   - Check for bias
-
-4. **Best Practices**
-   - Use reproducible seeds
-   - Document assumptions
-   - Report uncertainty estimates
+- NumPy
+- scipy.stats
+- SALib

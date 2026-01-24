@@ -1,6 +1,6 @@
 ---
 name: osf-workflow-integrator
-description: Open Science Framework integration
+description: Open Science Framework integration for pre-registration and data/code sharing
 allowed-tools:
   - Bash
   - Read
@@ -8,22 +8,15 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
+  - WebFetch
 metadata:
-  version: "1.0"
-  category: reproducibility-documentation
-  domain: scientific-discovery
-  backlog-id: SK-SD-026
-  tools:
-    - osf-client
-    - OSF API
-  processes:
-    - pre-registration
-    - reproducible-research-pipeline
-    - literature-review-synthesis
+  specialization: scientific-discovery
+  domain: science
+  category: reproducibility
+  phase: 6
 ---
 
-# OSF Workflow Integrator Skill
+# OSF Workflow Integrator
 
 ## Purpose
 
@@ -31,31 +24,21 @@ Provides Open Science Framework integration capabilities for pre-registration, d
 
 ## Capabilities
 
-- **Pre-Registration**: Pre-registration submission
-- **Project Structure**: Project structure creation
-- **File Sync**: File synchronization
-- **DOI**: DOI generation
-- **Access Control**: Access control management
-- **Collaboration**: Collaboration coordination
+- Pre-registration submission
+- Project structure creation
+- File synchronization
+- DOI generation
+- Access control management
+- Collaboration coordination
 
 ## Usage Guidelines
 
-1. **Project Setup**
-   - Create project structure
-   - Set access controls
-   - Link storage providers
+1. **Pre-registration**: Submit pre-registration before data collection
+2. **Project Structure**: Organize projects consistently
+3. **DOI Assignment**: Generate citable DOIs for outputs
+4. **Access Control**: Manage collaborator permissions
 
-2. **Pre-Registration**
-   - Select template
-   - Complete registration
-   - Submit for review
+## Tools/Libraries
 
-3. **Sharing**
-   - Upload files
-   - Generate DOIs
-   - Manage collaborators
-
-4. **Best Practices**
-   - Register before data collection
-   - Use version control
-   - Document changes
+- osf-client
+- OSF API

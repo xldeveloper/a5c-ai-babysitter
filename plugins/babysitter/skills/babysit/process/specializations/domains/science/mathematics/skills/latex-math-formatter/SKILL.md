@@ -1,6 +1,6 @@
 ---
 name: latex-math-formatter
-description: LaTeX formatting for mathematical expressions
+description: High-quality LaTeX mathematical typesetting
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: research-documentation
-  domain: mathematics
-  backlog-id: SK-MATH-032
-  tools:
-    - LaTeX
-    - KaTeX
-    - MathJax
-  processes:
-    - paper-writing
-    - proof-documentation
+  specialization: mathematics
+  domain: science
+  category: documentation
+  phase: 6
 ---
 
-# LaTeX Math Formatter Skill
+# LaTeX Math Formatter
 
 ## Purpose
 
-Provides LaTeX formatting tools for mathematical expressions, equations, and proofs with publication-quality output.
+Provides high-quality LaTeX mathematical typesetting capabilities for publication-ready documents.
 
 ## Capabilities
 
-- **Equation Formatting**: Display and inline equations
-- **Matrix Typesetting**: Matrices, determinants, arrays
-- **Theorem Environments**: Theorems, proofs, lemmas
-- **Symbol Library**: Comprehensive math symbols
-- **Alignment**: Multi-line equation alignment
-- **Cross-References**: Equation numbering and references
+- Equation formatting and alignment
+- Theorem environment generation
+- Proof environment structuring
+- AMS-LaTeX package utilization
+- Cross-referencing management
+- Bibliography generation (BibTeX)
 
 ## Usage Guidelines
 
-1. **Expression Formatting**
-   - Choose appropriate environment
-   - Use semantic commands
-   - Maintain consistent style
+1. **Environment Selection**: Use appropriate theorem/proof environments
+2. **Equation Alignment**: Apply align environments for multi-line equations
+3. **Numbering**: Consistent theorem and equation numbering
+4. **Bibliography**: Proper BibTeX citation formatting
 
-2. **Document Structure**
-   - Define theorem environments
-   - Set up numbering schemes
-   - Configure packages
+## Tools/Libraries
 
-3. **Quality Assurance**
-   - Check rendering accuracy
-   - Verify symbol usage
-   - Test cross-references
-
-4. **Best Practices**
-   - Use amsmath package
-   - Define custom commands
-   - Follow journal guidelines
+- LaTeX
+- AMS packages
+- Overleaf API

@@ -1,6 +1,6 @@
 ---
 name: connected-papers-mapper
-description: Citation graph exploration for related work discovery
+description: Citation graph exploration for discovering related work through visual graph traversal
 allowed-tools:
   - Bash
   - Read
@@ -8,55 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
+  - WebFetch
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: literature-knowledge
-  domain: scientific-discovery
-  backlog-id: SK-SD-003
-  tools:
-    - Connected Papers API
-    - NetworkX
-    - pyvis
-  processes:
-    - literature-review-synthesis
-    - exploratory-cycle
-    - gap-identification
+  phase: 6
 ---
 
-# Connected Papers Mapper Skill
+# Connected Papers Mapper
 
 ## Purpose
 
-Provides citation graph exploration capabilities for discovering related work through visual graph traversal and temporal evolution analysis.
+Provides citation graph exploration capabilities for discovering related work through visual graph traversal and temporal analysis.
 
 ## Capabilities
 
-- **Graph Generation**: Citation graph generation
-- **Seminal Papers**: Seminal paper identification
-- **Research Fronts**: Research front detection
-- **Temporal Analysis**: Temporal citation analysis
-- **Field Bridges**: Field bridge identification
-- **Export**: Export to reference managers
+- Citation graph generation
+- Seminal paper identification
+- Research front detection
+- Temporal citation analysis
+- Field bridge identification
+- Export to reference managers
 
 ## Usage Guidelines
 
-1. **Graph Exploration**
-   - Start with key papers
-   - Explore citation clusters
-   - Identify research fronts
+1. **Seed Papers**: Start with key papers in the field
+2. **Graph Exploration**: Navigate citation relationships
+3. **Temporal Analysis**: Track field evolution over time
+4. **Bridge Detection**: Find cross-disciplinary connections
 
-2. **Temporal Analysis**
-   - Track field evolution
-   - Find seminal works
-   - Identify emerging topics
+## Tools/Libraries
 
-3. **Gap Discovery**
-   - Find under-connected areas
-   - Identify bridge opportunities
-   - Discover novel connections
-
-4. **Best Practices**
-   - Validate key papers
-   - Explore multiple seeds
-   - Document exploration paths
+- Connected Papers API
+- NetworkX
+- pyvis

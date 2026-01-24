@@ -1,6 +1,6 @@
 ---
 name: sage-math-interface
-description: SageMath for comprehensive mathematical computation with unified interface
+description: SageMath for comprehensive mathematical computation
 allowed-tools:
   - Bash
   - Read
@@ -8,56 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: symbolic-computation
-  domain: mathematics
-  backlog-id: SK-MATH-009
-  tools:
-    - SageMath
-    - GAP
-    - Singular
-    - PARI/GP
-  processes:
-    - symbolic-simplification
-    - conjecture-exploration
-    - algorithm-complexity-analysis
+  phase: 6
 ---
 
-# SageMath Interface Skill
+# SageMath Interface
 
 ## Purpose
 
-Provides interface to SageMath for comprehensive mathematical computation with unified access to multiple computer algebra systems.
+Provides interface with SageMath for comprehensive mathematical computation spanning algebra, number theory, geometry, and more.
 
 ## Capabilities
 
-- **Unified Interface**: Access multiple CAS systems through one interface
-- **Number Theory**: Comprehensive number-theoretic computations
-- **Algebraic Geometry**: Algebraic geometry calculations
-- **Combinatorics**: Combinatorics and graph theory
-- **Cryptography**: Cryptographic functions
-- **Notebooks**: Jupyter notebook integration
+- Unified interface to multiple CAS systems
+- Number theory computations
+- Algebraic geometry calculations
+- Combinatorics and graph theory
+- Cryptographic functions
+- Notebook interface generation
 
 ## Usage Guidelines
 
-1. **System Access**
-   - Use SageMath as unified frontend
-   - Access GAP for group theory
-   - Use Singular for polynomials
+1. **Python Syntax**: Use Python-based SageMath conventions
+2. **Backend Selection**: Choose appropriate computational backend
+3. **Number Theory**: Use built-in number theoretic functions
+4. **Algebraic Structures**: Work with rings, fields, groups
 
-2. **Computation**
-   - Leverage appropriate subsystem
-   - Use Sage types appropriately
-   - Combine systems as needed
+## Tools/Libraries
 
-3. **Notebook Workflow**
-   - Use Jupyter for interactive work
-   - Document computations inline
-   - Share reproducible notebooks
-
-4. **Best Practices**
-   - Learn system-specific features
-   - Use appropriate data types
-   - Document computational approach
+- SageMath
+- GAP
+- Singular
+- PARI/GP

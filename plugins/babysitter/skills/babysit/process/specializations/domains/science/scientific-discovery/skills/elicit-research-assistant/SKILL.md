@@ -1,6 +1,6 @@
 ---
 name: elicit-research-assistant
-description: AI-assisted literature review for question-answering
+description: AI-assisted literature review for question-answering over papers and evidence synthesis
 allowed-tools:
   - Bash
   - Read
@@ -8,23 +8,15 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
+  - WebFetch
 metadata:
-  version: "1.0"
+  specialization: scientific-discovery
+  domain: science
   category: literature-knowledge
-  domain: scientific-discovery
-  backlog-id: SK-SD-004
-  tools:
-    - Elicit API
-    - LangChain
-    - vector databases
-  processes:
-    - literature-review-synthesis
-    - analysis-competing-hypotheses
-    - multiple-working-hypotheses
+  phase: 6
 ---
 
-# Elicit Research Assistant Skill
+# Elicit Research Assistant
 
 ## Purpose
 
@@ -32,31 +24,22 @@ Provides AI-assisted literature review capabilities for question-answering over 
 
 ## Capabilities
 
-- **Question Answering**: Answer questions over research papers
-- **Claim Extraction**: Extract and verify claims
-- **Evidence Assessment**: Assess evidence strength
-- **Methodology Comparison**: Compare methodologies
-- **Finding Synthesis**: Synthesize findings across papers
-- **Gap Identification**: Identify research gaps
+- Question-answering over research papers
+- Claim extraction and verification
+- Evidence strength assessment
+- Methodology comparison
+- Finding synthesis across papers
+- Research gap identification
 
 ## Usage Guidelines
 
-1. **Query Formulation**
-   - Frame specific questions
-   - Define scope clearly
-   - Prioritize questions
+1. **Question Formulation**: Ask specific, answerable questions
+2. **Claim Extraction**: Identify key claims and their support
+3. **Evidence Assessment**: Evaluate strength of evidence
+4. **Synthesis**: Aggregate findings across multiple papers
 
-2. **Evidence Analysis**
-   - Assess claim strength
-   - Compare findings
-   - Track contradictions
+## Tools/Libraries
 
-3. **Synthesis**
-   - Integrate findings
-   - Identify patterns
-   - Document gaps
-
-4. **Best Practices**
-   - Verify AI outputs
-   - Cross-check claims
-   - Document reasoning
+- Elicit API
+- LangChain
+- Vector databases

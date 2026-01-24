@@ -1,6 +1,6 @@
 ---
 name: benchmark-suite-manager
-description: Mathematical benchmark problem management
+description: Manage and execute mathematical benchmark suites
 allowed-tools:
   - Bash
   - Read
@@ -8,54 +8,37 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: research-infrastructure
-  domain: mathematics
-  backlog-id: SK-MATH-039
-  tools:
-    - pytest-benchmark
-    - ASV
-    - Custom frameworks
-  processes:
-    - algorithm-comparison
-    - performance-analysis
+  specialization: mathematics
+  domain: science
+  category: reproducibility
+  phase: 6
 ---
 
-# Benchmark Suite Manager Skill
+# Benchmark Suite Manager
 
 ## Purpose
 
-Provides tools for managing mathematical benchmark problems and performance evaluation of algorithms.
+Provides management and execution capabilities for mathematical benchmark suites for algorithm validation.
 
 ## Capabilities
 
-- **Problem Libraries**: Standard test problems
-- **Performance Metrics**: Timing, accuracy, scalability
-- **Comparison Framework**: Algorithm comparison
-- **Regression Testing**: Performance regression detection
-- **Visualization**: Benchmark result plots
-- **Reporting**: Standardized benchmark reports
+- Standard benchmark access (Matrix Market, NIST, etc.)
+- Custom benchmark generation
+- Performance profiling
+- Accuracy validation
+- Comparison against reference solutions
+- Statistical analysis of results
 
 ## Usage Guidelines
 
-1. **Suite Setup**
-   - Select benchmark problems
-   - Define metrics
-   - Configure test harness
+1. **Benchmark Selection**: Choose appropriate standard benchmarks
+2. **Custom Generation**: Create problem-specific benchmarks
+3. **Validation**: Compare against known solutions
+4. **Statistical Analysis**: Properly analyze performance data
 
-2. **Execution**
-   - Run benchmarks
-   - Collect metrics
-   - Handle variations
+## Tools/Libraries
 
-3. **Analysis**
-   - Compare results
-   - Detect regressions
-   - Generate reports
-
-4. **Best Practices**
-   - Use standardized problems
-   - Report hardware specs
-   - Document methodology
+- Matrix Market
+- NIST Digital Library
+- SuiteSparse Matrix Collection

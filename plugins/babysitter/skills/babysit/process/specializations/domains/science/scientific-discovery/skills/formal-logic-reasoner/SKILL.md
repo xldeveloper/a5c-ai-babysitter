@@ -1,64 +1,59 @@
 ---
 name: formal-logic-reasoner
-description: Formal deductive reasoning for logic and proofs
+description: Skill for formal logical reasoning and argument validation
 allowed-tools:
   - Bash
   - Read
   - Write
-  - Edit
-  - Glob
-  - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: hypothesis-reasoning
-  domain: scientific-discovery
-  backlog-id: SK-SD-009
-  tools:
-    - Z3
-    - Prover9
-    - Lean
-    - Coq bindings
-  processes:
-    - deductive-reasoning
-    - mathematical-proof-reasoning
-    - constraint-satisfiability
-    - type-theoretic-reasoning
+  specialization: scientific-discovery
+  domain: science
+  category: Hypothesis Development
+  skill-id: SK-SCIDISC-009
 ---
 
 # Formal Logic Reasoner Skill
 
 ## Purpose
 
-Provides formal deductive reasoning capabilities for propositional and first-order logic, proof verification, and consistency checking.
+Apply formal logic for argument validation, logical consistency checking, and deductive reasoning in scientific contexts.
 
 ## Capabilities
 
-- **SAT Solving**: Propositional logic satisfiability
-- **Theorem Proving**: First-order theorem proving
-- **Proof Verification**: Proof step verification
-- **Consistency**: Consistency checking
-- **Counterexamples**: Counterexample generation
-- **NL Translation**: Natural language to logic translation
+- Formalize arguments
+- Check logical validity
+- Identify fallacies
+- Perform deductive reasoning
+- Validate proof structures
+- Generate logical conclusions
 
 ## Usage Guidelines
 
-1. **Formalization**
-   - Translate to formal language
-   - Define predicates clearly
-   - Specify axioms
+1. Parse argument structure
+2. Formalize propositions
+3. Apply inference rules
+4. Check validity
+5. Identify issues
+6. Report conclusions
 
-2. **Verification**
-   - Check proof steps
-   - Verify consistency
-   - Generate counterexamples
+## Process Integration
 
-3. **Application**
-   - Apply to research claims
-   - Verify logical structure
-   - Document formal proofs
+Works within scientific discovery workflows for:
+- Argument validation
+- Theory consistency checking
+- Logical analysis
+- Proof verification
 
-4. **Best Practices**
-   - Start with simpler logic
-   - Validate translations
-   - Document assumptions
+## Configuration
+
+- Logic system selection
+- Formalization rules
+- Validation criteria
+- Output formatting
+
+## Output Artifacts
+
+- Formalized arguments
+- Validity assessments
+- Fallacy reports
+- Logical analyses

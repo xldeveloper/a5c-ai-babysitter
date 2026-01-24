@@ -8,55 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: numerical-analysis
-  domain: mathematics
-  backlog-id: SK-MATH-012
-  tools:
-    - FEniCS
-    - deal.II
-    - PETSc
-    - Firedrake
-  processes:
-    - pde-solver-selection
-    - numerical-stability-analysis
+  phase: 6
 ---
 
-# PDE Solver Library Skill
+# PDE Solver Library
 
 ## Purpose
 
-Provides numerical methods for solving partial differential equations using finite difference, finite element, and spectral methods.
+Provides numerical methods and solvers for partial differential equations in mathematical modeling and simulation.
 
 ## Capabilities
 
-- **Finite Difference**: Explicit, implicit, Crank-Nicolson schemes
-- **Finite Element**: FEM with various element types
-- **Finite Volume**: Conservation-form discretizations
-- **Spectral Methods**: Fourier and Chebyshev spectral methods
-- **Mesh Operations**: Mesh generation and adaptation
-- **Stability Analysis**: Stability and convergence analysis
+- Finite difference schemes (explicit, implicit, Crank-Nicolson)
+- Finite element methods (FEM)
+- Finite volume methods
+- Spectral methods
+- Mesh generation and adaptation
+- Stability and convergence analysis
 
 ## Usage Guidelines
 
-1. **Method Selection**
-   - Match method to PDE type (elliptic, parabolic, hyperbolic)
-   - Consider domain geometry
-   - Assess accuracy requirements
+1. **Method Selection**: Choose method based on PDE type and geometry
+2. **Mesh Quality**: Ensure appropriate mesh resolution
+3. **Stability Analysis**: Verify CFL conditions and stability
+4. **Convergence**: Monitor solution convergence with refinement
 
-2. **Discretization**
-   - Choose appropriate mesh resolution
-   - Select element type for FEM
-   - Implement boundary conditions correctly
+## Tools/Libraries
 
-3. **Solution Process**
-   - Select appropriate solver
-   - Monitor convergence
-   - Validate against known solutions
-
-4. **Best Practices**
-   - Perform convergence studies
-   - Check conservation properties
-   - Document numerical parameters
+- FEniCS
+- deal.II
+- PETSc
+- Firedrake

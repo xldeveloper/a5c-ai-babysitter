@@ -8,54 +8,38 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
+  specialization: mathematics
+  domain: science
   category: optimization
-  domain: mathematics
-  backlog-id: SK-MATH-018
-  tools:
-    - Gurobi
-    - CPLEX
-    - SCIP
-    - CBC
-  processes:
-    - optimization-problem-formulation
+  phase: 6
 ---
 
-# Mixed-Integer Optimization Skill
+# Mixed-Integer Optimization
 
 ## Purpose
 
-Provides mixed-integer linear and nonlinear programming capabilities for discrete and combinatorial optimization.
+Provides capabilities for formulating and solving mixed-integer linear and nonlinear programming problems.
 
 ## Capabilities
 
-- **Branch and Bound**: Branch and bound/cut algorithms
-- **MIP Formulation**: MIP formulation techniques
-- **Indicator Constraints**: Handle indicator constraints
-- **Big-M Reformulations**: Apply Big-M techniques
-- **Lazy Constraints**: Implement lazy constraint callbacks
-- **Solution Pools**: Generate multiple solutions
+- Branch and bound/cut algorithms
+- MIP formulation techniques
+- Indicator constraints
+- Big-M reformulations
+- Lazy constraints
+- Solution pool generation
 
 ## Usage Guidelines
 
-1. **Formulation**
-   - Choose tight formulations
-   - Avoid unnecessary big-M
-   - Use indicator constraints when available
+1. **Formulation**: Use tight formulations with valid inequalities
+2. **Big-M Selection**: Choose appropriate Big-M values
+3. **Branching**: Configure branching priorities
+4. **Solution Pool**: Generate diverse feasible solutions
 
-2. **Solver Tuning**
-   - Configure branching priorities
-   - Set appropriate MIP gaps
-   - Use cuts selectively
+## Tools/Libraries
 
-3. **Advanced Features**
-   - Implement custom callbacks
-   - Use warm starting
-   - Generate solution pools
-
-4. **Best Practices**
-   - Compare formulation strength
-   - Presolve before solving
-   - Document solution quality
+- Gurobi
+- CPLEX
+- SCIP
+- CBC
