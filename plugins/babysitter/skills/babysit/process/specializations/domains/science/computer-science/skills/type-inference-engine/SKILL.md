@@ -8,53 +8,42 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: programming-language-theory
-  domain: computer-science
-  tools:
-    - Language workbenches
-    - Constraint solvers
-    - Unification algorithms
-  processes:
-    - type-system-design
-    - dsl-design-implementation
+  specialization: computer-science
+  domain: science
+  category: programming-languages
+  phase: 6
 ---
 
-# Type Inference Engine Skill
+# Type Inference Engine
 
 ## Purpose
 
-Provides type inference algorithm implementation capabilities for programming language design, including Hindley-Milner type inference.
+Provides expert guidance on implementing type inference algorithms for statically-typed languages.
 
 ## Capabilities
 
-- **Algorithm W**: Implement classic Algorithm W for type inference
-- **Constraint Generation**: Generate type constraints from terms
-- **Unification**: Perform unification with occurs check
-- **Let-Polymorphism**: Support Hindley-Milner let-polymorphism
-- **Principal Types**: Compute most general (principal) types
+- Algorithm W implementation
+- Constraint generation and solving
+- Unification with occurs check
+- Let-polymorphism (Hindley-Milner)
+- Principal type computation
+- Type error diagnosis
 
 ## Usage Guidelines
 
-1. **Algorithm Selection**
-   - Choose Algorithm W for efficiency
-   - Use constraint-based for extensions
-   - Consider bidirectional for dependent types
+1. **Language Definition**: Specify type system
+2. **Constraint Generation**: Build type constraints
+3. **Unification**: Solve constraints
+4. **Type Assignment**: Compute principal types
+5. **Error Reporting**: Diagnose type errors
 
-2. **Constraint Generation**
-   - Traverse abstract syntax tree
-   - Generate equality constraints
-   - Handle type annotations
+## Dependencies
 
-3. **Unification**
-   - Implement efficient union-find
-   - Check occurs to prevent infinite types
-   - Return most general unifier
+- Language workbenches
+- Constraint solvers
 
-4. **Best Practices**
-   - Generate informative error messages
-   - Support type annotations for documentation
-   - Test on challenging examples
-   - Document algorithm variants
+## Process Integration
+
+- Type System Design
+- DSL Design Implementation workflows

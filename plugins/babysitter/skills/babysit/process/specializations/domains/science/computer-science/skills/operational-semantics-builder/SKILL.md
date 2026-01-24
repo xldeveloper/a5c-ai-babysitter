@@ -8,53 +8,42 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
-  - Task
 metadata:
-  version: "1.0"
-  category: programming-language-theory
-  domain: computer-science
-  tools:
-    - PLT Redex
-    - K Framework
-    - Semantics tools
-  processes:
-    - operational-semantics-specification
-    - type-system-design
+  specialization: computer-science
+  domain: science
+  category: programming-languages
+  phase: 6
 ---
 
-# Operational Semantics Builder Skill
+# Operational Semantics Builder
 
 ## Purpose
 
-Provides operational semantics specification capabilities for defining precise language behavior through small-step and big-step semantics.
+Provides expert guidance on defining operational semantics for programming languages and DSLs.
 
 ## Capabilities
 
-- **Small-Step Semantics**: Generate structural operational semantics rules
-- **Big-Step Semantics**: Generate natural semantics rules
-- **Evaluation Contexts**: Define evaluation context grammars
-- **Binding Handling**: Handle variable binding and substitution
-- **Semantics Testing**: Execute and test semantics definitions
+- Small-step semantics rule generation
+- Big-step semantics rule generation
+- Evaluation context definition
+- Substitution and binding handling
+- Semantics execution/testing
+- Structural operational semantics
 
 ## Usage Guidelines
 
-1. **Semantics Design**
-   - Choose small-step vs. big-step
-   - Define value forms
-   - Specify reduction relation
+1. **Syntax Definition**: Specify abstract syntax
+2. **Semantics Style**: Choose small-step or big-step
+3. **Rule Definition**: Write semantic rules
+4. **Testing**: Execute semantics
+5. **Documentation**: Generate specification
 
-2. **Rule Generation**
-   - Generate rules for each construct
-   - Handle variable binding carefully
-   - Define congruence rules
+## Dependencies
 
-3. **Testing**
-   - Execute semantics on examples
-   - Verify expected results
-   - Check determinism when expected
+- PLT Redex
+- K Framework
 
-4. **Best Practices**
-   - Keep rules compositional
-   - Document evaluation order
-   - Test edge cases
-   - Export to executable format
+## Process Integration
+
+- Operational Semantics Specification
+- Type System Design workflows
