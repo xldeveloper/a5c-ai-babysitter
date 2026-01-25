@@ -17,7 +17,7 @@ Get up and running with Babysitter in minutes.
 
 | Step | Description | Time |
 |------|-------------|------|
-| [Installation](./getting-started/installation.md) | Install the SDK and CLI | 5 min |
+| [Installation](./getting-started/installation.md) | Install the Babysitter plugin | 5 min |
 | [Quickstart](./getting-started/quickstart.md) | Configure your environment | 5 min |
 | [First Run](./getting-started/first-run.md) | Execute your first babysitter workflow | 10 min |
 

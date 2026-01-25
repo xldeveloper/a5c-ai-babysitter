@@ -91,17 +91,17 @@ Then restart Claude Code and skip to [Verification](#verification).
 
 If you prefer to understand each step, follow along below.
 
-#### Step 1: Install the SDK Packages
+#### Step 1: Install the CLI Packages
 
-Install the three Babysitter npm packages globally:
+Install the Babysitter CLI packages globally:
 
 ```bash
 npm install -g @a5c-ai/babysitter@latest @a5c-ai/babysitter-sdk@latest @a5c-ai/babysitter-breakpoints@latest
 ```
 
 **What this installs:**
-- `@a5c-ai/babysitter` - Core babysitter package
-- `@a5c-ai/babysitter-sdk` - The orchestration runtime and CLI
+- `@a5c-ai/babysitter` - Core babysitter CLI
+- `@a5c-ai/babysitter-sdk` - Orchestration runtime and commands
 - `@a5c-ai/babysitter-breakpoints` - Human approval UI service
 
 **Expected output:**

@@ -65,7 +65,7 @@ Choose from built-in methodologies (TDD, Spec-Kit, GSD) or create your own. Cons
 | Install Babysitter | [Installation Guide](./installation.md) |
 | Run my first workflow (5 min) | [Quickstart](./quickstart.md) |
 | Understand what happened | [First Run Deep Dive](./first-run.md) |
-| See all commands | [CLI Reference](../07-reference/cli-reference.md) |
+| See all commands | [CLI Reference](.../reference/cli-reference.md) |
 | Learn about methodologies | [Methodologies Guide](../05-methodologies/) |
 
 ---
@@ -125,9 +125,9 @@ If any command fails, install the missing software before continuing.
 
 Getting Babysitter running involves three steps:
 
-1. **Install the SDK and packages** (npm global install)
-2. **Install the Claude Code plugin** (via Claude's plugin system)
-3. **Start the breakpoints service** (for human approval features)
+1. **Install the Babysitter plugin** (via Claude Code's plugin system)
+2. **Install the CLI packages** (npm global install for orchestration commands)
+3. **Start the breakpoints service** (optional, for human approval features)
 
 **Estimated time:** 5-10 minutes
 
@@ -149,7 +149,7 @@ Ready? Head to the [Installation Guide](./installation.md) for step-by-step inst
 5. [ ] Try different quality targets (80%, 90%, 95%)
 6. [ ] Experience session resumption (close and resume a run)
 7. [ ] Use breakpoints for approval workflows
-8. [ ] Explore the [TDD methodology](../05-methodologies/tdd-quality-convergence.md)
+8. [ ] Explore the [TDD methodology](.../features/quality-convergence.md)
 
 ### Week 2+: Level Up
 

@@ -593,15 +593,15 @@ Now that you understand what happened in your first run, you're ready to explore
 
 ### This Week
 
-- [ ] Read [TDD Methodology Deep Dive](../05-methodologies/tdd-quality-convergence.md)
-- [ ] Try the [GSD Methodology](../05-methodologies/gsd-get-shit-done.md) for faster prototyping
-- [ ] Set up [Telegram Notifications](../04-workflows/breakpoints.md#telegram-setup) for mobile approvals
+- [ ] Read [TDD Methodology Deep Dive](.../features/quality-convergence.md)
+- [ ] Try the [GSD Methodology](.../features/process-library.md) for faster prototyping
+- [ ] Set up [Telegram Notifications](.../features/breakpoints.md#telegram-setup) for mobile approvals
 
 ### Coming Up
 
 - [ ] Learn about [Parallel Execution](../06-advanced/parallel-execution.md)
 - [ ] Create [Custom Processes](../06-advanced/custom-processes.md)
-- [ ] Integrate with [CI/CD Pipelines](../04-workflows/ci-cd-integration.md)
+- [ ] Integrate with [CI/CD Pipelines](.../features/ci-cd-integration.md)
 
 ---
 
