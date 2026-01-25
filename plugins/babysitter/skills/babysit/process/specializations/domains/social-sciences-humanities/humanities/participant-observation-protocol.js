@@ -3,6 +3,8 @@
  * @description Conduct systematic participant observation with structured field note taking, daily reflection, and iterative analysis during extended community immersion
  * @inputs { researchFocus: string, observationSite: string, duration: string, observationMode: string }
  * @outputs { success: boolean, fieldNotes: array, analyticalMemos: array, emergentThemes: array, artifacts: array }
+ * @recommendedSkills SK-HUM-002 (ethnographic-coding-thematics), SK-HUM-008 (oral-history-interview-technique)
+ * @recommendedAgents AG-HUM-002 (ethnographic-methods-advisor), AG-HUM-006 (oral-historian)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

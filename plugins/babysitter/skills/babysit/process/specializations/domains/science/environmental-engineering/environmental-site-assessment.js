@@ -285,8 +285,9 @@ export async function process(inputs, ctx) {
 export const recordsReviewTask = defineTask('records-review', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Historical Records Review',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Environmental Site Assessment Specialist',
       task: 'Conduct Phase I historical records review',
@@ -328,8 +329,9 @@ export const recordsReviewTask = defineTask('records-review', (args, taskCtx) =>
 export const siteReconnaissanceTask = defineTask('site-reconnaissance', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Site Reconnaissance',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'ESA Field Investigator',
       task: 'Conduct site reconnaissance visit',
@@ -372,8 +374,9 @@ export const siteReconnaissanceTask = defineTask('site-reconnaissance', (args, t
 export const interviewsTask = defineTask('interviews', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Interviews',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'ESA Interview Specialist',
       task: 'Conduct interviews with knowledgeable parties',
@@ -415,8 +418,9 @@ export const interviewsTask = defineTask('interviews', (args, taskCtx) => ({
 export const recEvaluationTask = defineTask('rec-evaluation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'REC Evaluation',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'ESA Risk Evaluator',
       task: 'Evaluate recognized environmental conditions',
@@ -460,8 +464,9 @@ export const recEvaluationTask = defineTask('rec-evaluation', (args, taskCtx) =>
 export const samplingPlanTask = defineTask('sampling-plan', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Sampling Plan Development',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Phase II Sampling Specialist',
       task: 'Develop Phase II sampling and analysis plan',
@@ -504,8 +509,9 @@ export const samplingPlanTask = defineTask('sampling-plan', (args, taskCtx) => (
 export const fieldInvestigationTask = defineTask('field-investigation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Field Investigation',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Phase II Field Investigator',
       task: 'Conduct Phase II field investigation',
@@ -548,8 +554,9 @@ export const fieldInvestigationTask = defineTask('field-investigation', (args, t
 export const labAnalysisTask = defineTask('lab-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Laboratory Analysis',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Environmental Laboratory Coordinator',
       task: 'Coordinate laboratory analysis and data validation',
@@ -591,8 +598,9 @@ export const labAnalysisTask = defineTask('lab-analysis', (args, taskCtx) => ({
 export const dataEvaluationTask = defineTask('data-evaluation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Data Evaluation',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Environmental Data Analyst',
       task: 'Evaluate investigation data against screening criteria',
@@ -635,8 +643,9 @@ export const dataEvaluationTask = defineTask('data-evaluation', (args, taskCtx) 
 export const delineationTask = defineTask('delineation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Contamination Delineation',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Site Delineation Specialist',
       task: 'Delineate extent of contamination',
@@ -680,8 +689,9 @@ export const delineationTask = defineTask('delineation', (args, taskCtx) => ({
 export const assessmentReportTask = defineTask('assessment-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Assessment Report',
+  skill: { name: 'site-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'ESA Report Writer',
       task: 'Prepare comprehensive ESA report',

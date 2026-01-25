@@ -3,6 +3,8 @@
  * @description Create meaningful visualizations of humanistic data including timelines, maps, graphs, and interactive displays for scholarly communication
  * @inputs { dataSet: object, visualizationGoals: array, audience: string, publicationFormat: string }
  * @outputs { success: boolean, visualizations: array, designSystem: object, interactiveComponents: array, artifacts: array }
+ * @recommendedSkills SK-HUM-011 (gis-mapping-humanities), SK-HUM-014 (metadata-standards-implementation), SK-HUM-009 (topic-modeling-text-mining)
+ * @recommendedAgents AG-HUM-005 (digital-humanities-technologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

@@ -205,8 +205,9 @@ export async function process(inputs, ctx) {
 export const siteSuitabilityTask = defineTask('site-suitability', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Site Suitability Analysis',
+  skill: { name: 'landfill-design' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Landfill Siting Specialist',
       task: 'Evaluate site suitability for landfill development',
@@ -248,8 +249,9 @@ export const siteSuitabilityTask = defineTask('site-suitability', (args, taskCtx
 export const linerDesignTask = defineTask('liner-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Liner System Design',
+  skill: { name: 'landfill-design' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Landfill Liner Engineer',
       task: 'Design landfill liner system',
@@ -293,8 +295,9 @@ export const linerDesignTask = defineTask('liner-design', (args, taskCtx) => ({
 export const leachateManagementTask = defineTask('leachate-management', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Leachate Collection and Management',
+  skill: { name: 'landfill-design' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Leachate Management Engineer',
       task: 'Design leachate collection and treatment system',
@@ -338,8 +341,9 @@ export const leachateManagementTask = defineTask('leachate-management', (args, t
 export const gasManagementTask = defineTask('gas-management', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Landfill Gas Management',
+  skill: { name: 'landfill-design' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Landfill Gas Engineer',
       task: 'Design landfill gas collection and control system',
@@ -384,8 +388,9 @@ export const gasManagementTask = defineTask('gas-management', (args, taskCtx) =>
 export const landfillStormwaterTask = defineTask('landfill-stormwater', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Stormwater Management',
+  skill: { name: 'landfill-design' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Landfill Stormwater Engineer',
       task: 'Design landfill stormwater management system',
@@ -428,8 +433,9 @@ export const landfillStormwaterTask = defineTask('landfill-stormwater', (args, t
 export const closurePlanTask = defineTask('closure-plan', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Closure and Post-Closure Planning',
+  skill: { name: 'landfill-design' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Landfill Closure Specialist',
       task: 'Develop closure and post-closure plan',
@@ -474,8 +480,9 @@ export const closurePlanTask = defineTask('closure-plan', (args, taskCtx) => ({
 export const landfillPermitTask = defineTask('landfill-permit', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Permit Application Preparation',
+  skill: { name: 'landfill-design' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Landfill Permitting Specialist',
       task: 'Prepare landfill permit application',

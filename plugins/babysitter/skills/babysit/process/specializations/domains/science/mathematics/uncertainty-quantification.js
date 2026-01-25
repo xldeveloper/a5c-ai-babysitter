@@ -147,7 +147,8 @@ export const uncertaintyIdentificationTask = defineTask('uncertainty-identificat
   kind: 'agent',
   title: `Phase 1: Identify Uncertain Parameters`,
   agent: {
-    name: 'general-purpose',
+    name: 'uq-specialist',
+    skills: ['monte-carlo-simulation', 'r-statistical-computing', 'sympy-computer-algebra'],
     prompt: {
       role: 'Uncertainty Quantification Expert',
       task: 'Identify and characterize all sources of uncertainty',
@@ -234,7 +235,8 @@ export const uncertaintyPropagationTask = defineTask('uncertainty-propagation', 
   kind: 'agent',
   title: `Phase 2: Propagate Uncertainty Through Model`,
   agent: {
-    name: 'general-purpose',
+    name: 'uq-specialist',
+    skills: ['monte-carlo-simulation', 'r-statistical-computing', 'stan-bayesian-modeling'],
     prompt: {
       role: 'Computational Uncertainty Propagation Expert',
       task: 'Propagate input uncertainties through the model to outputs',
@@ -318,7 +320,8 @@ export const sensitivityAnalysisTask = defineTask('sensitivity-analysis', (args,
   kind: 'agent',
   title: `Phase 3: Perform Sensitivity Analysis`,
   agent: {
-    name: 'general-purpose',
+    name: 'uq-specialist',
+    skills: ['monte-carlo-simulation', 'r-statistical-computing', 'sympy-computer-algebra'],
     prompt: {
       role: 'Global Sensitivity Analysis Expert',
       task: 'Perform sensitivity analysis to identify dominant uncertainty sources',
@@ -408,7 +411,8 @@ export const confidenceBoundsGenerationTask = defineTask('confidence-bounds', (a
   kind: 'agent',
   title: `Phase 4: Generate Confidence Bounds`,
   agent: {
-    name: 'general-purpose',
+    name: 'uq-specialist',
+    skills: ['r-statistical-computing', 'monte-carlo-simulation', 'stan-bayesian-modeling'],
     prompt: {
       role: 'Statistical Confidence Interval Expert',
       task: 'Generate confidence bounds for model outputs',
@@ -485,7 +489,8 @@ export const uncertaintyDocumentationTask = defineTask('uncertainty-documentatio
   kind: 'agent',
   title: `Phase 5: Document Uncertainty Sources`,
   agent: {
-    name: 'general-purpose',
+    name: 'uq-specialist',
+    skills: ['latex-math-formatter', 'r-statistical-computing', 'monte-carlo-simulation'],
     prompt: {
       role: 'UQ Documentation Specialist',
       task: 'Create comprehensive documentation of uncertainty analysis',

@@ -200,7 +200,8 @@ export const semanticsStyleSelectionTask = defineTask('semantics-style-selection
   kind: 'agent',
   title: 'Select semantics style',
   agent: {
-    name: 'semantics-style-selector',
+    name: 'semantics-formalist',
+    skills: ['lambda-calculus-reducer', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'programming language semanticist',
       task: 'Choose and justify the operational semantics style for the language',
@@ -250,7 +251,8 @@ export const abstractSyntaxDefinitionTask = defineTask('abstract-syntax-definiti
   kind: 'agent',
   title: 'Define abstract syntax',
   agent: {
-    name: 'syntax-definer',
+    name: 'semantics-formalist',
+    skills: ['grammar-parser-generator', 'lambda-calculus-reducer', 'latex-proof-formatter'],
     prompt: {
       role: 'abstract syntax specialist',
       task: 'Define the abstract syntax of the programming language',
@@ -302,7 +304,8 @@ export const runtimeEntitiesTask = defineTask('runtime-entities', (args, taskCtx
   kind: 'agent',
   title: 'Define values and runtime entities',
   agent: {
-    name: 'runtime-definer',
+    name: 'semantics-formalist',
+    skills: ['lambda-calculus-reducer', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'runtime semantics specialist',
       task: 'Define values, environments, stores, and other runtime entities',
@@ -361,7 +364,8 @@ export const evaluationRulesTask = defineTask('evaluation-rules', (args, taskCtx
   kind: 'agent',
   title: 'Specify evaluation rules',
   agent: {
-    name: 'evaluation-rules-designer',
+    name: 'semantics-formalist',
+    skills: ['lambda-calculus-reducer', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'evaluation semantics specialist',
       task: 'Define evaluation rules in inference rule notation',
@@ -414,7 +418,8 @@ export const bindingSubstitutionTask = defineTask('binding-substitution', (args,
   kind: 'agent',
   title: 'Handle binding and substitution',
   agent: {
-    name: 'binding-specialist',
+    name: 'semantics-formalist',
+    skills: ['lambda-calculus-reducer', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'binding and substitution specialist',
       task: 'Define binding constructs and substitution mechanism',
@@ -475,7 +480,8 @@ export const evaluationContextsTask = defineTask('evaluation-contexts', (args, t
   kind: 'agent',
   title: 'Define evaluation contexts',
   agent: {
-    name: 'context-definer',
+    name: 'semantics-formalist',
+    skills: ['lambda-calculus-reducer', 'grammar-parser-generator', 'latex-proof-formatter'],
     prompt: {
       role: 'reduction semantics specialist',
       task: 'Define evaluation contexts for reduction semantics if applicable',
@@ -529,7 +535,8 @@ export const semanticPropertyProofsTask = defineTask('semantic-property-proofs',
   kind: 'agent',
   title: 'Prove semantic properties',
   agent: {
-    name: 'property-prover',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'lambda-calculus-reducer', 'latex-proof-formatter'],
     prompt: {
       role: 'semantic property specialist',
       task: 'Prove key semantic properties like determinism and confluence',
@@ -585,7 +592,8 @@ export const semanticsSpecificationTask = defineTask('semantics-specification', 
   kind: 'agent',
   title: 'Generate semantics specification document',
   agent: {
-    name: 'specification-writer',
+    name: 'semantics-formalist',
+    skills: ['latex-proof-formatter', 'lambda-calculus-reducer'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive operational semantics specification document',

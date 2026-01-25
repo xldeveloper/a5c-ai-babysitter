@@ -189,7 +189,8 @@ export const problemFormalizationTask = defineTask('problem-formalization', (arg
   kind: 'agent',
   title: 'Formalize decision problem',
   agent: {
-    name: 'problem-formalizer',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'reduction-builder', 'latex-proof-formatter'],
     prompt: {
       role: 'complexity theorist',
       task: 'Formalize the computational problem as a decision problem with precise specification',
@@ -232,7 +233,8 @@ export const membershipAnalysisTask = defineTask('membership-analysis', (args, t
   kind: 'agent',
   title: 'Analyze complexity class membership',
   agent: {
-    name: 'membership-analyst',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'reduction-builder', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'complexity class specialist',
       task: 'Determine which complexity classes the problem belongs to',
@@ -284,7 +286,8 @@ export const reductionConstructionTask = defineTask('reduction-construction', (a
   kind: 'agent',
   title: 'Construct polynomial-time reduction',
   agent: {
-    name: 'reduction-constructor',
+    name: 'complexity-theorist',
+    skills: ['reduction-builder', 'complexity-class-oracle', 'latex-proof-formatter'],
     prompt: {
       role: 'reduction specialist',
       task: 'Construct polynomial-time reduction to establish hardness',
@@ -338,7 +341,8 @@ export const reductionVerificationTask = defineTask('reduction-verification', (a
   kind: 'agent',
   title: 'Verify reduction correctness',
   agent: {
-    name: 'reduction-verifier',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'reduction-builder', 'latex-proof-formatter'],
     prompt: {
       role: 'proof verification specialist',
       task: 'Verify correctness of the polynomial-time reduction',
@@ -383,7 +387,8 @@ export const landscapePlacementTask = defineTask('landscape-placement', (args, t
   kind: 'agent',
   title: 'Place problem in complexity landscape',
   agent: {
-    name: 'landscape-analyst',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'reduction-builder', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'complexity landscape specialist',
       task: 'Place the problem in the broader complexity landscape and identify relationships',
@@ -436,7 +441,8 @@ export const implicationsDocumentationTask = defineTask('implications-documentat
   kind: 'agent',
   title: 'Document implications and related problems',
   agent: {
-    name: 'implications-analyst',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'approximation-ratio-calculator', 'latex-proof-formatter'],
     prompt: {
       role: 'complexity implications specialist',
       task: 'Document implications of the classification and identify related problems',
@@ -498,7 +504,8 @@ export const classificationReportTask = defineTask('classification-report', (arg
   kind: 'agent',
   title: 'Generate classification report',
   agent: {
-    name: 'report-generator',
+    name: 'complexity-theorist',
+    skills: ['latex-proof-formatter', 'complexity-class-oracle'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive problem classification report',

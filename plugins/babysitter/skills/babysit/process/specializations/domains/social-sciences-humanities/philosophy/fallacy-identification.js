@@ -3,6 +3,8 @@
  * @description Systematically identify formal and informal logical fallacies in arguments, classify by type, and explain why the reasoning fails
  * @inputs { argumentText: string, comprehensiveAnalysis: boolean, outputDir: string }
  * @outputs { success: boolean, fallaciesIdentified: array, classification: object, explanations: array, artifacts: array }
+ * @recommendedSkills SK-PHIL-011 (fallacy-detection-analysis), SK-PHIL-002 (argument-mapping-reconstruction), SK-PHIL-001 (formal-logic-analysis)
+ * @recommendedAgents AG-PHIL-001 (logic-analyst-agent), AG-PHIL-007 (critical-thinking-educator-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

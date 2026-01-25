@@ -207,7 +207,8 @@ export const concreteSemanticsTask = defineTask('concrete-semantics', (args, tas
   kind: 'agent',
   title: 'Define concrete semantics',
   agent: {
-    name: 'semantics-definer',
+    name: 'semantics-formalist',
+    skills: ['lambda-calculus-reducer', 'latex-proof-formatter', 'dataflow-analysis-engine'],
     prompt: {
       role: 'programming language semanticist',
       task: 'Define the concrete (collecting) semantics of the target language',
@@ -249,7 +250,8 @@ export const abstractDomainDesignTask = defineTask('abstract-domain-design', (ar
   kind: 'agent',
   title: 'Design abstract domain',
   agent: {
-    name: 'domain-designer',
+    name: 'semantics-formalist',
+    skills: ['dataflow-analysis-engine', 'latex-proof-formatter', 'type-inference-engine'],
     prompt: {
       role: 'abstract domain designer',
       task: 'Design abstract domain for the analysis goals',
@@ -295,7 +297,8 @@ export const galoisConnectionTask = defineTask('galois-connection', (args, taskC
   kind: 'agent',
   title: 'Establish Galois connection',
   agent: {
-    name: 'galois-specialist',
+    name: 'semantics-formalist',
+    skills: ['latex-proof-formatter', 'theorem-prover-interface', 'dataflow-analysis-engine'],
     prompt: {
       role: 'Galois connection specialist',
       task: 'Establish Galois connection between concrete and abstract domains',
@@ -344,7 +347,8 @@ export const abstractTransferFunctionsTask = defineTask('abstract-transfer-funct
   kind: 'agent',
   title: 'Define abstract transfer functions',
   agent: {
-    name: 'transfer-function-designer',
+    name: 'semantics-formalist',
+    skills: ['dataflow-analysis-engine', 'lambda-calculus-reducer', 'latex-proof-formatter'],
     prompt: {
       role: 'abstract transfer function designer',
       task: 'Define abstract transfer functions for each language construct',
@@ -397,7 +401,8 @@ export const soundnessProofTask = defineTask('soundness-proof', (args, taskCtx) 
   kind: 'agent',
   title: 'Prove soundness of abstraction',
   agent: {
-    name: 'soundness-prover',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'dataflow-analysis-engine'],
     prompt: {
       role: 'soundness proof specialist',
       task: 'Prove soundness of the abstract interpretation',
@@ -449,7 +454,8 @@ export const fixpointComputationTask = defineTask('fixpoint-computation', (args,
   kind: 'agent',
   title: 'Implement fixpoint computation',
   agent: {
-    name: 'fixpoint-designer',
+    name: 'semantics-formalist',
+    skills: ['dataflow-analysis-engine', 'asymptotic-notation-calculator', 'latex-proof-formatter'],
     prompt: {
       role: 'fixpoint computation specialist',
       task: 'Design fixpoint computation algorithm with widening and narrowing',
@@ -505,7 +511,8 @@ export const analysisImplementationTask = defineTask('analysis-implementation', 
   kind: 'agent',
   title: 'Implement analysis',
   agent: {
-    name: 'analysis-implementer',
+    name: 'compiler-engineer',
+    skills: ['dataflow-analysis-engine', 'type-inference-engine', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'static analysis implementation specialist',
       task: 'Design implementation of the abstract interpretation analysis',
@@ -549,7 +556,8 @@ export const frameworkDocumentationTask = defineTask('framework-documentation', 
   kind: 'agent',
   title: 'Generate framework documentation',
   agent: {
-    name: 'documentation-writer',
+    name: 'semantics-formalist',
+    skills: ['latex-proof-formatter', 'dataflow-analysis-engine'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive abstract interpretation framework documentation',

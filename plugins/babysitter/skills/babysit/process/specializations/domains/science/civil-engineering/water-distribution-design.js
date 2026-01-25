@@ -193,6 +193,7 @@ export async function process(inputs, ctx) {
 export const demandAnalysisTask = defineTask('demand-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform water demand analysis',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
     name: 'water-engineer',
     prompt: {
@@ -237,6 +238,7 @@ export const demandAnalysisTask = defineTask('demand-analysis', (args, taskCtx) 
 export const networkLayoutTask = defineTask('network-layout', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop network layout',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
     name: 'water-engineer',
     prompt: {
@@ -280,6 +282,7 @@ export const networkLayoutTask = defineTask('network-layout', (args, taskCtx) =>
 export const pipeSizingTask = defineTask('pipe-sizing', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Size distribution pipes',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
     name: 'water-engineer',
     prompt: {
@@ -323,8 +326,9 @@ export const pipeSizingTask = defineTask('pipe-sizing', (args, taskCtx) => ({
 export const hydraulicModelTask = defineTask('hydraulic-model', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform hydraulic modeling',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
-    name: 'water-engineer',
+    name: 'hydraulic-engineer',
     prompt: {
       role: 'hydraulic modeler',
       task: 'Perform water distribution hydraulic analysis',
@@ -366,6 +370,7 @@ export const hydraulicModelTask = defineTask('hydraulic-model', (args, taskCtx) 
 export const storageDesignTask = defineTask('storage-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design storage facilities',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
     name: 'water-engineer',
     prompt: {
@@ -410,8 +415,9 @@ export const storageDesignTask = defineTask('storage-design', (args, taskCtx) =>
 export const pumpStationDesignTask = defineTask('pump-station-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design pump stations',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
-    name: 'mechanical-engineer',
+    name: 'water-engineer',
     prompt: {
       role: 'pump station engineer',
       task: 'Design water pump stations',
@@ -454,6 +460,7 @@ export const pumpStationDesignTask = defineTask('pump-station-design', (args, ta
 export const fireFlowAnalysisTask = defineTask('fire-flow-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform fire flow analysis',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
     name: 'water-engineer',
     prompt: {
@@ -497,8 +504,9 @@ export const fireFlowAnalysisTask = defineTask('fire-flow-analysis', (args, task
 export const distributionPlansTask = defineTask('distribution-plans', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate distribution system plans',
+  skill: { name: 'civil3d-surface-analyzer' },
   agent: {
-    name: 'civil-drafter',
+    name: 'highway-design-engineer',
     prompt: {
       role: 'civil CAD technician',
       task: 'Generate water distribution system plans',
@@ -546,8 +554,9 @@ export const distributionPlansTask = defineTask('distribution-plans', (args, tas
 export const waterReportTask = defineTask('water-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate water system report',
+  skill: { name: 'engineering-report-generator' },
   agent: {
-    name: 'technical-writer',
+    name: 'technical-report-writer',
     prompt: {
       role: 'water engineer',
       task: 'Generate comprehensive water system design report',

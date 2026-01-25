@@ -3,6 +3,8 @@
  * @description Apply critical frameworks (formalist, structuralist, post-structuralist, postcolonial, feminist) to texts with engagement of existing scholarly criticism
  * @inputs { text: object, theoreticalFramework: string, existingCriticism: array, analyticalGoals: array }
  * @outputs { success: boolean, theoreticalAnalysis: object, criticalDialogue: object, interpretation: object, artifacts: array }
+ * @recommendedSkills SK-HUM-013 (critical-theory-application), SK-HUM-005 (literary-close-reading), SK-HUM-010 (citation-scholarly-apparatus)
+ * @recommendedAgents AG-HUM-004 (literary-critic-theorist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

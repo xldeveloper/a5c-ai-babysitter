@@ -205,7 +205,8 @@ export const systemModelDefinitionTask = defineTask('system-model-definition', (
   kind: 'agent',
   title: 'Define system model in checker input language',
   agent: {
-    name: 'model-definer',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'latex-proof-formatter', 'theorem-prover-interface'],
     prompt: {
       role: 'model checking specialist',
       task: 'Define the system model in the model checker input language',
@@ -250,7 +251,8 @@ export const propertySpecificationTask = defineTask('property-specification', (a
   kind: 'agent',
   title: 'Specify properties in temporal logic',
   agent: {
-    name: 'property-specifier',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'temporal logic specification specialist',
       task: 'Specify properties in temporal logic (LTL, CTL)',
@@ -301,7 +303,8 @@ export const stateSpaceAnalysisTask = defineTask('state-space-analysis', (args, 
   kind: 'agent',
   title: 'Analyze state space for explosion handling',
   agent: {
-    name: 'state-space-analyst',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'asymptotic-notation-calculator', 'latex-proof-formatter'],
     prompt: {
       role: 'state space analysis specialist',
       task: 'Analyze state space size and identify explosion risks',
@@ -344,7 +347,8 @@ export const reductionTechniquesTask = defineTask('reduction-techniques', (args,
   kind: 'agent',
   title: 'Apply abstraction and symmetry reduction',
   agent: {
-    name: 'reduction-specialist',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'state space reduction specialist',
       task: 'Apply techniques to handle state space explosion',
@@ -401,7 +405,8 @@ export const verificationPlanTask = defineTask('verification-plan', (args, taskC
   kind: 'agent',
   title: 'Plan verification execution',
   agent: {
-    name: 'verification-planner',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'verification planning specialist',
       task: 'Plan the model checking verification execution',
@@ -451,7 +456,8 @@ export const counterexampleAnalysisTask = defineTask('counterexample-analysis', 
   kind: 'agent',
   title: 'Plan counterexample analysis',
   agent: {
-    name: 'counterexample-analyst',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'counterexample analysis specialist',
       task: 'Plan analysis approach for counterexamples from model checking',
@@ -493,7 +499,8 @@ export const modelRefinementStrategyTask = defineTask('model-refinement-strategy
   kind: 'agent',
   title: 'Design model refinement strategy',
   agent: {
-    name: 'refinement-strategist',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'model refinement specialist',
       task: 'Design strategy for refining model based on spurious counterexamples',
@@ -534,7 +541,8 @@ export const verificationDocumentationTask = defineTask('verification-documentat
   kind: 'agent',
   title: 'Generate verification results documentation',
   agent: {
-    name: 'documentation-writer',
+    name: 'distributed-systems-architect',
+    skills: ['latex-proof-formatter', 'tla-plus-model-checker'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive model checking verification documentation',

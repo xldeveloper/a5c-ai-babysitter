@@ -3,6 +3,8 @@
  * @description Pre-register hypotheses, analysis plans, and study designs on Open Science Framework or discipline-specific registries to enhance transparency and reproducibility
  * @inputs { studyDesign: object, hypotheses: array, analysisPlan: object, outputDir: string }
  * @outputs { success: boolean, preregistration: object, registrationDocument: string, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-011 (academic-writing-publication), SK-SS-014 (research-ethics-irb)
+ * @recommendedAgents AG-SS-001 (quantitative-research-methodologist), AG-SS-010 (research-ethics-coordinator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

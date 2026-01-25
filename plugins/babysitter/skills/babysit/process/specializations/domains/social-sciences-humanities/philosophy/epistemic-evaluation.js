@@ -3,6 +3,8 @@
  * @description Assess knowledge claims, belief justification, and epistemic warrant using foundationalist, coherentist, reliabilist, or virtue epistemological frameworks
  * @inputs { knowledgeClaim: string, epistemicFramework: string, assessJustification: boolean, outputDir: string }
  * @outputs { success: boolean, epistemicAssessment: object, justificationAnalysis: object, warrantEvaluation: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-007 (evidence-justification-assessment), SK-PHIL-005 (conceptual-analysis), SK-PHIL-002 (argument-mapping-reconstruction)
+ * @recommendedAgents AG-PHIL-004 (metaphysics-epistemology-agent), AG-PHIL-001 (logic-analyst-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

@@ -311,8 +311,9 @@ export const dispersionModelingTask = defineTask('dispersion-modeling', (args, t
 export const fireModelingTask = defineTask('fire-modeling', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Model fire effects',
+  skill: { name: 'consequence-modeler' },
   agent: {
-    name: 'fire-engineer',
+    name: 'risk-analyst',
     prompt: {
       role: 'fire consequence engineer',
       task: 'Model fire effects for flammable releases',
@@ -363,8 +364,9 @@ export const fireModelingTask = defineTask('fire-modeling', (args, taskCtx) => (
 export const explosionModelingTask = defineTask('explosion-modeling', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Model explosion effects',
+  skill: { name: 'consequence-modeler' },
   agent: {
-    name: 'explosion-engineer',
+    name: 'risk-analyst',
     prompt: {
       role: 'explosion consequence engineer',
       task: 'Model explosion effects',
@@ -415,8 +417,9 @@ export const explosionModelingTask = defineTask('explosion-modeling', (args, tas
 export const impactZoneDeterminationTask = defineTask('impact-zone-determination', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Determine impact zones',
+  skill: { name: 'consequence-modeler' },
   agent: {
-    name: 'impact-analyst',
+    name: 'risk-analyst',
     prompt: {
       role: 'impact zone analyst',
       task: 'Determine impact zones for each consequence type',
@@ -464,8 +467,9 @@ export const impactZoneDeterminationTask = defineTask('impact-zone-determination
 export const emergencyZoneDefinitionTask = defineTask('emergency-zone-definition', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop emergency response zones',
+  skill: { name: 'consequence-modeler' },
   agent: {
-    name: 'emergency-planner',
+    name: 'risk-analyst',
     prompt: {
       role: 'emergency response planner',
       task: 'Define emergency response planning zones',

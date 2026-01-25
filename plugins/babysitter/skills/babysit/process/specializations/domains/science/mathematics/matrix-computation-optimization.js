@@ -154,7 +154,8 @@ export const structureAnalysisTask = defineTask('structure-analysis', (args, tas
   kind: 'agent',
   title: `Phase 1: Analyze Matrix Structure and Properties`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['numerical-linear-algebra-toolkit', 'sympy-computer-algebra', 'benchmark-suite-manager'],
     prompt: {
       role: 'Numerical Linear Algebra Expert',
       task: 'Analyze matrix structure and identify exploitable properties',
@@ -240,7 +241,8 @@ export const decompositionSelectionTask = defineTask('decomposition-selection', 
   kind: 'agent',
   title: `Phase 2: Select Optimal Decomposition Method`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['numerical-linear-algebra-toolkit', 'floating-point-analysis', 'benchmark-suite-manager'],
     prompt: {
       role: 'Matrix Decomposition Expert',
       task: 'Select optimal matrix decomposition for the computation goal',
@@ -309,7 +311,8 @@ export const algorithmRecommendationTask = defineTask('algorithm-recommendation'
   kind: 'agent',
   title: `Phase 3: Recommend Sparse vs Dense Algorithms`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['numerical-linear-algebra-toolkit', 'benchmark-suite-manager', 'floating-point-analysis'],
     prompt: {
       role: 'Sparse Matrix Algorithm Specialist',
       task: 'Recommend optimal algorithms exploiting matrix structure',
@@ -397,7 +400,8 @@ export const librarySelectionTask = defineTask('library-selection', (args, taskC
   kind: 'agent',
   title: `Phase 4: Interface with HPC Libraries`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['benchmark-suite-manager', 'numerical-linear-algebra-toolkit', 'floating-point-analysis'],
     prompt: {
       role: 'High-Performance Computing Library Expert',
       task: 'Recommend HPC libraries for matrix computations',
@@ -486,7 +490,8 @@ export const benchmarkAnalysisTask = defineTask('benchmark-analysis', (args, tas
   kind: 'agent',
   title: `Phase 5: Benchmark Performance`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['benchmark-suite-manager', 'numerical-linear-algebra-toolkit', 'floating-point-analysis'],
     prompt: {
       role: 'Performance Benchmarking Specialist',
       task: 'Analyze expected performance and provide benchmarking guidance',

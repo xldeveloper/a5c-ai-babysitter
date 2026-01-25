@@ -166,7 +166,8 @@ export const instabilityIdentificationTask = defineTask('instability-identificat
   kind: 'agent',
   title: `Phase 1: Identify Potential Numerical Instabilities`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['floating-point-analysis', 'numerical-linear-algebra-toolkit', 'sympy-computer-algebra'],
     prompt: {
       role: 'Numerical Analyst specializing in algorithm stability',
       task: 'Identify potential numerical instabilities in the given algorithm',
@@ -238,7 +239,8 @@ export const conditionAnalysisTask = defineTask('condition-analysis', (args, tas
   kind: 'agent',
   title: `Phase 2: Compute Condition Numbers`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['numerical-linear-algebra-toolkit', 'floating-point-analysis', 'sympy-computer-algebra'],
     prompt: {
       role: 'Numerical Linear Algebra Expert',
       task: 'Analyze condition numbers and sensitivity of the algorithm',
@@ -319,7 +321,8 @@ export const errorAccumulationTask = defineTask('error-accumulation', (args, tas
   kind: 'agent',
   title: `Phase 3: Analyze Floating-Point Error Accumulation`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['floating-point-analysis', 'numerical-linear-algebra-toolkit', 'benchmark-suite-manager'],
     prompt: {
       role: 'Floating-Point Arithmetic Expert',
       task: 'Analyze floating-point error accumulation in the algorithm',
@@ -415,7 +418,8 @@ export const boundaryTestingTask = defineTask('boundary-testing', (args, taskCtx
   kind: 'agent',
   title: `Phase 4: Test Boundary Cases`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['benchmark-suite-manager', 'floating-point-analysis', 'numerical-linear-algebra-toolkit'],
     prompt: {
       role: 'Numerical Testing Specialist',
       task: 'Test algorithm behavior at boundary and extreme cases',
@@ -504,7 +508,8 @@ export const stabilityRecommendationsTask = defineTask('stability-recommendation
   kind: 'agent',
   title: `Phase 5: Recommend Stable Reformulations`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['numerical-linear-algebra-toolkit', 'floating-point-analysis', 'benchmark-suite-manager'],
     prompt: {
       role: 'Numerical Algorithm Design Expert',
       task: 'Recommend stable reformulations and alternative algorithms',

@@ -3,6 +3,8 @@
  * @description Compare multiple texts, translations, or interpretations to develop nuanced understanding and identify interpretive traditions and controversies
  * @inputs { texts: array, comparisonType: string, focusAreas: array, outputDir: string }
  * @outputs { success: boolean, comparativeFindings: object, interpretiveTraditions: array, controversies: array, artifacts: array }
+ * @recommendedSkills SK-PHIL-004 (hermeneutical-interpretation), SK-PHIL-009 (comparative-religion-analysis), SK-PHIL-005 (conceptual-analysis)
+ * @recommendedAgents AG-PHIL-003 (hermeneutics-specialist-agent), AG-PHIL-008 (comparative-religion-scholar-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

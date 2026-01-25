@@ -158,8 +158,9 @@ export async function process(inputs, ctx) {
 export const boundaryDefinitionTask = defineTask('boundary-definition', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Define system boundaries and functional unit',
+  skill: { name: 'lca-analyzer' },
   agent: {
-    name: 'lca-specialist',
+    name: 'sustainability-analyst',
     prompt: {
       role: 'life cycle assessment specialist',
       task: 'Define system boundaries and functional unit for assessment',
@@ -207,8 +208,9 @@ export const boundaryDefinitionTask = defineTask('boundary-definition', (args, t
 export const greenChemistryMetricsTask = defineTask('green-chemistry-metrics', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Calculate green chemistry metrics',
+  skill: { name: 'green-chemistry-metrics' },
   agent: {
-    name: 'green-chemist',
+    name: 'sustainability-analyst',
     prompt: {
       role: 'green chemistry specialist',
       task: 'Calculate green chemistry and sustainability metrics',
@@ -257,8 +259,9 @@ export const greenChemistryMetricsTask = defineTask('green-chemistry-metrics', (
 export const lifeCycleAssessmentTask = defineTask('life-cycle-assessment', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform life cycle assessment',
+  skill: { name: 'lca-analyzer' },
   agent: {
-    name: 'lca-analyst',
+    name: 'sustainability-analyst',
     prompt: {
       role: 'life cycle assessment analyst',
       task: 'Perform comprehensive life cycle assessment',
@@ -307,8 +310,9 @@ export const lifeCycleAssessmentTask = defineTask('life-cycle-assessment', (args
 export const environmentalHotspotsTask = defineTask('environmental-hotspots', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Identify environmental hotspots',
+  skill: { name: 'lca-analyzer' },
   agent: {
-    name: 'hotspot-analyst',
+    name: 'sustainability-analyst',
     prompt: {
       role: 'environmental hotspot analyst',
       task: 'Identify environmental hotspots for improvement',
@@ -358,8 +362,9 @@ export const environmentalHotspotsTask = defineTask('environmental-hotspots', (a
 export const improvementOptionsTask = defineTask('improvement-options', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop improvement options',
+  skill: { name: 'waste-minimization-analyzer' },
   agent: {
-    name: 'improvement-engineer',
+    name: 'sustainability-analyst',
     prompt: {
       role: 'sustainability improvement engineer',
       task: 'Develop options to improve sustainability',
@@ -409,8 +414,9 @@ export const improvementOptionsTask = defineTask('improvement-options', (args, t
 export const improvementQuantificationTask = defineTask('improvement-quantification', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Quantify sustainability improvements',
+  skill: { name: 'green-chemistry-metrics' },
   agent: {
-    name: 'quantification-analyst',
+    name: 'sustainability-analyst',
     prompt: {
       role: 'improvement quantification analyst',
       task: 'Quantify potential sustainability improvements',
@@ -460,8 +466,9 @@ export const improvementQuantificationTask = defineTask('improvement-quantificat
 export const implementationRoadmapTask = defineTask('implementation-roadmap', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Create implementation roadmap',
+  skill: { name: 'lca-analyzer' },
   agent: {
-    name: 'roadmap-planner',
+    name: 'sustainability-analyst',
     prompt: {
       role: 'sustainability roadmap planner',
       task: 'Create implementation roadmap for improvements',

@@ -168,8 +168,9 @@ export async function process(inputs, ctx) {
 export const submittalLoggingTask = defineTask('submittal-logging', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Log and track submittal',
+  skill: { name: 'inspection-tracking-system' },
   agent: {
-    name: 'document-controller',
+    name: 'quality-control-specialist',
     prompt: {
       role: 'document controller',
       task: 'Log submittal and verify completeness',
@@ -212,8 +213,9 @@ export const submittalLoggingTask = defineTask('submittal-logging', (args, taskC
 export const specComplianceTask = defineTask('spec-compliance', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Review specification compliance',
+  skill: { name: 'csi-specification-writer' },
   agent: {
-    name: 'spec-reviewer',
+    name: 'specifications-writer',
     prompt: {
       role: 'specifications engineer',
       task: 'Review submittal for specification compliance',
@@ -255,8 +257,9 @@ export const specComplianceTask = defineTask('spec-compliance', (args, taskCtx) 
 export const designIntentTask = defineTask('design-intent', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Review design intent',
+  skill: { name: 'fea-structural-engine' },
   agent: {
-    name: 'design-engineer',
+    name: 'structural-design-engineer',
     prompt: {
       role: 'design engineer',
       task: 'Review submittal for design intent compliance',
@@ -297,8 +300,9 @@ export const designIntentTask = defineTask('design-intent', (args, taskCtx) => (
 export const coordinationReviewTask = defineTask('coordination-review', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Review dimensional coordination',
+  skill: { name: 'bim-model-analyzer' },
   agent: {
-    name: 'coordinator',
+    name: 'bim-coordinator',
     prompt: {
       role: 'project coordinator',
       task: 'Review submittal for dimensional coordination',
@@ -339,8 +343,9 @@ export const coordinationReviewTask = defineTask('coordination-review', (args, t
 export const materialReviewTask = defineTask('material-review', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Review materials and products',
+  skill: { name: 'csi-specification-writer' },
   agent: {
-    name: 'materials-engineer',
+    name: 'specifications-writer',
     prompt: {
       role: 'materials engineer',
       task: 'Review material submittals',
@@ -381,8 +386,9 @@ export const materialReviewTask = defineTask('material-review', (args, taskCtx) 
 export const commentCompilationTask = defineTask('comment-compilation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Compile review comments',
+  skill: { name: 'inspection-tracking-system' },
   agent: {
-    name: 'reviewer',
+    name: 'quality-control-specialist',
     prompt: {
       role: 'submittal reviewer',
       task: 'Compile and organize review comments',
@@ -423,8 +429,9 @@ export const commentCompilationTask = defineTask('comment-compilation', (args, t
 export const approvalDeterminationTask = defineTask('approval-determination', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Determine approval status',
+  skill: { name: 'inspection-tracking-system' },
   agent: {
-    name: 'approver',
+    name: 'quality-control-specialist',
     prompt: {
       role: 'senior engineer',
       task: 'Determine submittal approval status',
@@ -466,8 +473,9 @@ export const approvalDeterminationTask = defineTask('approval-determination', (a
 export const responsePackageTask = defineTask('response-package', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate review response package',
+  skill: { name: 'engineering-report-generator' },
   agent: {
-    name: 'document-controller',
+    name: 'technical-report-writer',
     prompt: {
       role: 'document controller',
       task: 'Generate submittal response package',

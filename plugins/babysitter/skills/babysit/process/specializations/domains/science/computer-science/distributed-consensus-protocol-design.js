@@ -212,7 +212,8 @@ export const systemModelDefinitionTask = defineTask('system-model-definition', (
   kind: 'agent',
   title: 'Define system model',
   agent: {
-    name: 'system-modeler',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'distributed systems specialist',
       task: 'Define the system model including synchrony, failure, and communication assumptions',
@@ -258,7 +259,8 @@ export const propertySpecificationTask = defineTask('property-specification', (a
   kind: 'agent',
   title: 'Specify safety and liveness properties',
   agent: {
-    name: 'property-specifier',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'formal specification specialist',
       task: 'Specify safety and liveness properties for the consensus protocol',
@@ -320,7 +322,8 @@ export const messageFlowDesignTask = defineTask('message-flow-design', (args, ta
   kind: 'agent',
   title: 'Design protocol message flow',
   agent: {
-    name: 'protocol-designer',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'asymptotic-notation-calculator', 'latex-proof-formatter'],
     prompt: {
       role: 'consensus protocol designer',
       task: 'Design the message flow and state transitions for the consensus protocol',
@@ -385,7 +388,8 @@ export const safetyProofsTask = defineTask('safety-proofs', (args, taskCtx) => (
   kind: 'agent',
   title: 'Prove safety properties',
   agent: {
-    name: 'safety-prover',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'tla-plus-model-checker', 'latex-proof-formatter'],
     prompt: {
       role: 'distributed systems verification specialist',
       task: 'Prove that the protocol satisfies safety properties (Agreement, Validity)',
@@ -437,7 +441,8 @@ export const livenessAnalysisTask = defineTask('liveness-analysis', (args, taskC
   kind: 'agent',
   title: 'Analyze liveness under failure scenarios',
   agent: {
-    name: 'liveness-analyst',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'liveness analysis specialist',
       task: 'Analyze liveness (termination) under various failure scenarios',
@@ -490,7 +495,8 @@ export const performanceOptimizationTask = defineTask('performance-optimization'
   kind: 'agent',
   title: 'Optimize for common case performance',
   agent: {
-    name: 'performance-optimizer',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'latex-proof-formatter'],
     prompt: {
       role: 'distributed systems performance specialist',
       task: 'Optimize protocol for common case (no failures) performance',
@@ -544,7 +550,8 @@ export const formalSpecificationTask = defineTask('formal-specification', (args,
   kind: 'agent',
   title: 'Create formal specification (TLA+ or similar)',
   agent: {
-    name: 'formal-spec-writer',
+    name: 'distributed-systems-architect',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'formal specification specialist',
       task: 'Create formal specification in TLA+ or similar language',
@@ -589,7 +596,8 @@ export const protocolSpecificationTask = defineTask('protocol-specification', (a
   kind: 'agent',
   title: 'Generate protocol specification document',
   agent: {
-    name: 'specification-writer',
+    name: 'distributed-systems-architect',
+    skills: ['latex-proof-formatter', 'tla-plus-model-checker'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive consensus protocol specification document',

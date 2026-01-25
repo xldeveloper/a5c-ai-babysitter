@@ -3,6 +3,8 @@
  * @description Create and validate measurement instruments through item generation, expert review, pilot testing, exploratory and confirmatory factor analysis, and reliability assessment
  * @inputs { construct: string, conceptualDefinition: object, targetPopulation: object, outputDir: string }
  * @outputs { success: boolean, validatedScale: object, psychometricProperties: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-009 (psychometric-assessment), SK-SS-001 (quantitative-methods)
+ * @recommendedAgents AG-SS-007 (measurement-psychometrics-expert), AG-SS-001 (quantitative-research-methodologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

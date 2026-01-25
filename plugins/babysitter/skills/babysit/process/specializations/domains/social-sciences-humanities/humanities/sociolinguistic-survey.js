@@ -3,6 +3,8 @@
  * @description Design and conduct sociolinguistic research examining language variation, attitudes, and use in social context with appropriate sampling strategies
  * @inputs { researchQuestion: string, population: object, variablesOfInterest: array, methodology: string }
  * @outputs { success: boolean, surveyDesign: object, samplingPlan: object, dataAnalysis: object, artifacts: array }
+ * @recommendedSkills SK-HUM-002 (ethnographic-coding-thematics), SK-HUM-006 (research-ethics-irb-navigation), SK-HUM-009 (topic-modeling-text-mining)
+ * @recommendedAgents AG-HUM-003 (documentary-linguist), AG-HUM-002 (ethnographic-methods-advisor)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

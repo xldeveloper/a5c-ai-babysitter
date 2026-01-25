@@ -3,6 +3,8 @@
  * @description Prepare philosophical arguments for oral presentation, including abstract submission, paper preparation, and response to questions and objections
  * @inputs { paperTopic: string, thesis: string, conferenceType: string, timeLimit: number, outputDir: string }
  * @outputs { success: boolean, presentationMaterials: object, abstract: string, talkOutline: object, qaPreparation: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-010 (philosophical-writing-argumentation), SK-PHIL-014 (socratic-dialogue-facilitation), SK-PHIL-002 (argument-mapping-reconstruction)
+ * @recommendedAgents AG-PHIL-006 (academic-philosophy-writer-agent), AG-PHIL-007 (critical-thinking-educator-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

@@ -217,8 +217,9 @@ export async function process(inputs, ctx) {
 export const siteCharacterizationTask = defineTask('site-characterization', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Site Characterization',
+  skill: { name: 'stormwater-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'stormwater-specialist',
     prompt: {
       role: 'Stormwater Site Analyst',
       task: 'Characterize site for stormwater management planning',
@@ -261,8 +262,9 @@ export const siteCharacterizationTask = defineTask('site-characterization', (arg
 export const stormwaterRegulatoryTask = defineTask('stormwater-regulatory', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Regulatory Analysis',
+  skill: { name: 'regulatory-compliance' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'Stormwater Regulatory Specialist',
       task: 'Analyze stormwater regulatory requirements',
@@ -306,8 +308,9 @@ export const stormwaterRegulatoryTask = defineTask('stormwater-regulatory', (arg
 export const hydrologicAnalysisTask = defineTask('hydrologic-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Hydrologic Analysis',
+  skill: { name: 'stormwater-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'stormwater-specialist',
     prompt: {
       role: 'Hydrologic Engineer',
       task: 'Perform hydrologic analysis for stormwater planning',
@@ -351,8 +354,9 @@ export const hydrologicAnalysisTask = defineTask('hydrologic-analysis', (args, t
 export const bmpSelectionTask = defineTask('bmp-selection', (args, taskCtx) => ({
   kind: 'agent',
   title: 'BMP Selection and Sizing',
+  skill: { name: 'stormwater-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'stormwater-specialist',
     prompt: {
       role: 'Stormwater BMP Designer',
       task: 'Select and size stormwater BMPs',
@@ -396,8 +400,9 @@ export const bmpSelectionTask = defineTask('bmp-selection', (args, taskCtx) => (
 export const hydraulicDesignTask = defineTask('hydraulic-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Hydraulic Design',
+  skill: { name: 'stormwater-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'stormwater-specialist',
     prompt: {
       role: 'Hydraulic Design Engineer',
       task: 'Perform hydraulic design for stormwater system',
@@ -440,8 +445,9 @@ export const hydraulicDesignTask = defineTask('hydraulic-design', (args, taskCtx
 export const greenInfrastructureTask = defineTask('green-infrastructure', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Green Infrastructure Design',
+  skill: { name: 'stormwater-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'stormwater-specialist',
     prompt: {
       role: 'Green Infrastructure Specialist',
       task: 'Design green infrastructure features',
@@ -486,8 +492,9 @@ export const greenInfrastructureTask = defineTask('green-infrastructure', (args,
 export const waterQualityAnalysisTask = defineTask('water-quality-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Water Quality Analysis',
+  skill: { name: 'stormwater-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'stormwater-specialist',
     prompt: {
       role: 'Stormwater Quality Analyst',
       task: 'Analyze stormwater quality treatment',
@@ -530,8 +537,9 @@ export const waterQualityAnalysisTask = defineTask('water-quality-analysis', (ar
 export const managementPlanDocTask = defineTask('management-plan-doc', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Management Plan Documentation',
+  skill: { name: 'stormwater-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'stormwater-specialist',
     prompt: {
       role: 'Stormwater Plan Developer',
       task: 'Compile stormwater management plan documentation',

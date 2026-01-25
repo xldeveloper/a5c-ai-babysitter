@@ -3,6 +3,8 @@
  * @description Apply propositional and predicate logic to formalize arguments, identify logical structure, and evaluate validity using symbolic notation
  * @inputs { argumentText: string, logicType: string, outputDir: string }
  * @outputs { success: boolean, formalizedArgument: object, validityAssessment: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-001 (formal-logic-analysis), SK-PHIL-002 (argument-mapping-reconstruction)
+ * @recommendedAgents AG-PHIL-001 (logic-analyst-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

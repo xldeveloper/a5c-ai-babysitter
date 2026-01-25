@@ -3,6 +3,8 @@
  * @description Prepare research manuscripts for peer-reviewed publication following APA, ASA, or discipline-specific style guidelines with proper reporting standards
  * @inputs { researchProject: object, targetJournal: object, styleGuide: string, outputDir: string }
  * @outputs { success: boolean, manuscript: object, supplementaryMaterials: array, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-011 (academic-writing-publication), SK-SS-014 (research-ethics-irb)
+ * @recommendedAgents AG-SS-001 (quantitative-research-methodologist), AG-SS-002 (qualitative-research-specialist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

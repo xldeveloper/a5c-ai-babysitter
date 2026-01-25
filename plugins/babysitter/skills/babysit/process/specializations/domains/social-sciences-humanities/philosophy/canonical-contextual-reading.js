@@ -3,6 +3,8 @@
  * @description Interpret texts within their canonical, historical, and cultural contexts, attending to genre, authorial intent, and reception history
  * @inputs { textPassage: string, canonicalWork: string, interpretiveGoal: string, outputDir: string }
  * @outputs { success: boolean, contextualInterpretation: object, canonicalPlacement: object, receptionAnalysis: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-004 (hermeneutical-interpretation), SK-PHIL-008 (theological-synthesis), SK-PHIL-013 (scholarly-literature-synthesis)
+ * @recommendedAgents AG-PHIL-003 (hermeneutics-specialist-agent), AG-PHIL-005 (philosophical-theologian-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

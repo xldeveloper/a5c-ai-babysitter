@@ -201,8 +201,9 @@ export async function process(inputs, ctx) {
 export const ghgBaselineTask = defineTask('ghg-baseline', (args, taskCtx) => ({
   kind: 'agent',
   title: 'GHG Baseline Assessment',
+  skill: { name: 'ghg-reduction' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Inventory Specialist',
       task: 'Develop GHG baseline inventory',
@@ -245,8 +246,9 @@ export const ghgBaselineTask = defineTask('ghg-baseline', (args, taskCtx) => ({
 export const reductionOpportunityTask = defineTask('reduction-opportunity', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Reduction Opportunity Analysis',
+  skill: { name: 'ghg-reduction' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Reduction Analyst',
       task: 'Identify and analyze GHG reduction opportunities',
@@ -289,8 +291,9 @@ export const reductionOpportunityTask = defineTask('reduction-opportunity', (arg
 export const strategyDevelopmentTask = defineTask('strategy-development', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Reduction Strategy Development',
+  skill: { name: 'ghg-reduction' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Strategy Developer',
       task: 'Develop comprehensive GHG reduction strategy',
@@ -334,8 +337,9 @@ export const strategyDevelopmentTask = defineTask('strategy-development', (args,
 export const implementationRoadmapTask = defineTask('implementation-roadmap', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Implementation Roadmap',
+  skill: { name: 'ghg-reduction' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Implementation Planner',
       task: 'Develop detailed implementation roadmap',
@@ -379,8 +383,9 @@ export const implementationRoadmapTask = defineTask('implementation-roadmap', (a
 export const ghgMonitoringTask = defineTask('ghg-monitoring', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Monitoring and Verification Plan',
+  skill: { name: 'ghg-reduction' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG MRV Specialist',
       task: 'Develop monitoring, reporting, and verification plan',
@@ -423,8 +428,9 @@ export const ghgMonitoringTask = defineTask('ghg-monitoring', (args, taskCtx) =>
 export const ghgReportingTask = defineTask('ghg-reporting', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Reporting Framework',
+  skill: { name: 'ghg-reduction' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Reporting Specialist',
       task: 'Develop GHG reporting framework',
@@ -467,8 +473,9 @@ export const ghgReportingTask = defineTask('ghg-reporting', (args, taskCtx) => (
 export const ghgStrategyDocsTask = defineTask('ghg-strategy-docs', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Strategy Documentation',
+  skill: { name: 'ghg-reduction' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Strategy Documentation Specialist',
       task: 'Compile GHG reduction strategy documentation',

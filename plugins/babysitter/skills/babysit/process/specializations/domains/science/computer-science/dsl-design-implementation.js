@@ -214,7 +214,8 @@ export const domainAnalysisTask = defineTask('domain-analysis', (args, taskCtx) 
   kind: 'agent',
   title: 'Analyze domain requirements and idioms',
   agent: {
-    name: 'domain-analyst',
+    name: 'semantics-formalist',
+    skills: ['grammar-parser-generator', 'lambda-calculus-reducer', 'latex-proof-formatter'],
     prompt: {
       role: 'domain analysis specialist',
       task: 'Analyze the target domain to identify requirements, idioms, and patterns for the DSL',
@@ -269,7 +270,8 @@ export const syntaxDesignTask = defineTask('syntax-design', (args, taskCtx) => (
   kind: 'agent',
   title: 'Design DSL syntax for domain expressiveness',
   agent: {
-    name: 'syntax-designer',
+    name: 'semantics-formalist',
+    skills: ['grammar-parser-generator', 'lambda-calculus-reducer', 'latex-proof-formatter'],
     prompt: {
       role: 'language syntax designer',
       task: 'Design expressive and intuitive syntax for the DSL',
@@ -322,7 +324,8 @@ export const semanticsDefinitionTask = defineTask('semantics-definition', (args,
   kind: 'agent',
   title: 'Define DSL semantics',
   agent: {
-    name: 'semantics-designer',
+    name: 'semantics-formalist',
+    skills: ['lambda-calculus-reducer', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'language semantics specialist',
       task: 'Define precise semantics for the DSL (embedded or standalone)',
@@ -375,7 +378,8 @@ export const parserTypeCheckerTask = defineTask('parser-type-checker', (args, ta
   kind: 'agent',
   title: 'Implement parser and type checker',
   agent: {
-    name: 'frontend-implementer',
+    name: 'compiler-engineer',
+    skills: ['grammar-parser-generator', 'type-inference-engine', 'dataflow-analysis-engine'],
     prompt: {
       role: 'language implementation specialist',
       task: 'Design parser and type checker implementation for the DSL',
@@ -421,7 +425,8 @@ export const backendImplementationTask = defineTask('backend-implementation', (a
   kind: 'agent',
   title: 'Create compilation/interpretation backend',
   agent: {
-    name: 'backend-implementer',
+    name: 'compiler-engineer',
+    skills: ['dataflow-analysis-engine', 'grammar-parser-generator', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'language backend specialist',
       task: 'Design and implement compilation or interpretation backend',
@@ -466,7 +471,8 @@ export const standardLibraryTask = defineTask('standard-library', (args, taskCtx
   kind: 'agent',
   title: 'Develop domain-specific standard library',
   agent: {
-    name: 'library-developer',
+    name: 'semantics-formalist',
+    skills: ['lambda-calculus-reducer', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'library design specialist',
       task: 'Develop standard library with domain-specific functionality',
@@ -529,7 +535,8 @@ export const dslDocumentationTask = defineTask('dsl-documentation', (args, taskC
   kind: 'agent',
   title: 'Create user documentation and examples',
   agent: {
-    name: 'documentation-writer',
+    name: 'semantics-formalist',
+    skills: ['latex-proof-formatter', 'grammar-parser-generator'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Create comprehensive user documentation and examples',
@@ -583,7 +590,8 @@ export const dslSpecificationTask = defineTask('dsl-specification', (args, taskC
   kind: 'agent',
   title: 'Generate complete DSL specification',
   agent: {
-    name: 'specification-writer',
+    name: 'semantics-formalist',
+    skills: ['latex-proof-formatter', 'grammar-parser-generator', 'lambda-calculus-reducer'],
     prompt: {
       role: 'language specification specialist',
       task: 'Generate comprehensive DSL specification document',

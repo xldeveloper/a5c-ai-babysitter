@@ -3,6 +3,8 @@
  * @description Implement multi-mode survey data collection using online, phone, mail, or in-person methods with quality control, response rate monitoring, and data validation
  * @inputs { surveyInstrument: object, samplingPlan: object, mode: string, constraints: object, outputDir: string }
  * @outputs { success: boolean, administrationPlan: object, qualityControlProtocol: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-003 (survey-design-administration), SK-SS-014 (research-ethics-irb)
+ * @recommendedAgents AG-SS-003 (survey-research-director), AG-SS-010 (research-ethics-coordinator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

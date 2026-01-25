@@ -3,6 +3,8 @@
  * @description Conduct systematic evaluation of philosophical manuscripts, providing constructive criticism on arguments, clarity, originality, and scholarly contribution
  * @inputs { manuscriptContent: string, manuscriptType: string, reviewDepth: string, outputDir: string }
  * @outputs { success: boolean, peerReview: object, assessmentCategories: object, recommendations: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-010 (philosophical-writing-argumentation), SK-PHIL-013 (scholarly-literature-synthesis), SK-PHIL-011 (fallacy-detection-analysis)
+ * @recommendedAgents AG-PHIL-006 (academic-philosophy-writer-agent), AG-PHIL-001 (logic-analyst-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

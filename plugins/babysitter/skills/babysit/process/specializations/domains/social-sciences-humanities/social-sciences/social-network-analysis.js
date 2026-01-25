@@ -3,6 +3,8 @@
  * @description Map and analyze social network structures including centrality measures, community detection, tie strength analysis, and network visualization using Gephi or UCINET
  * @inputs { networkData: object, researchQuestions: array, networkType: string, outputDir: string }
  * @outputs { success: boolean, networkMetrics: object, communityStructure: object, visualizations: array, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-007 (network-analysis), SK-SS-001 (quantitative-methods)
+ * @recommendedAgents AG-SS-009 (computational-social-scientist), AG-SS-001 (quantitative-research-methodologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

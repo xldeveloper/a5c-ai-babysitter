@@ -199,7 +199,8 @@ export const turingMachineModelingTask = defineTask('turing-machine-modeling', (
   kind: 'agent',
   title: 'Model problem in Turing machine framework',
   agent: {
-    name: 'tm-modeler',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'reduction-builder', 'latex-proof-formatter'],
     prompt: {
       role: 'computability theory specialist',
       task: 'Model the computational problem in the Turing machine framework',
@@ -242,7 +243,8 @@ export const decidabilityCheckTask = defineTask('decidability-check', (args, tas
   kind: 'agent',
   title: 'Analyze decidability',
   agent: {
-    name: 'decidability-analyst',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'reduction-builder', 'theorem-prover-interface'],
     prompt: {
       role: 'decidability specialist',
       task: 'Determine if the problem is decidable and classify accordingly',
@@ -293,7 +295,8 @@ export const ricesTheoremAnalysisTask = defineTask('rices-theorem-analysis', (ar
   kind: 'agent',
   title: 'Apply Rice\'s theorem for language properties',
   agent: {
-    name: 'rices-theorem-analyst',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'complexity-class-oracle', 'latex-proof-formatter'],
     prompt: {
       role: 'Rice\'s theorem specialist',
       task: 'Apply Rice\'s theorem to determine undecidability of language properties',
@@ -338,7 +341,8 @@ export const undecidabilityProofTask = defineTask('undecidability-proof', (args,
   kind: 'agent',
   title: 'Construct undecidability proof via reduction',
   agent: {
-    name: 'undecidability-prover',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'reduction-builder', 'latex-proof-formatter'],
     prompt: {
       role: 'undecidability proof specialist',
       task: 'Construct formal undecidability proof via reduction from halting problem or other undecidable problem',
@@ -381,7 +385,8 @@ export const semiDecidabilityAnalysisTask = defineTask('semi-decidability-analys
   kind: 'agent',
   title: 'Analyze semi-decidability (RE membership)',
   agent: {
-    name: 'semi-decidability-analyst',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'reduction-builder', 'theorem-prover-interface'],
     prompt: {
       role: 'recursively enumerable language specialist',
       task: 'Determine if problem is semi-decidable (RE) or co-semi-decidable (co-RE)',
@@ -424,7 +429,8 @@ export const arithmeticHierarchyPlacementTask = defineTask('arithmetic-hierarchy
   kind: 'agent',
   title: 'Place problem in arithmetic hierarchy',
   agent: {
-    name: 'hierarchy-analyst',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'arithmetic hierarchy specialist',
       task: 'Place the problem in the arithmetic hierarchy if applicable',
@@ -468,7 +474,8 @@ export const decidabilityBoundariesTask = defineTask('decidability-boundaries', 
   kind: 'agent',
   title: 'Document decidability boundaries',
   agent: {
-    name: 'boundaries-analyst',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'reduction-builder', 'latex-proof-formatter'],
     prompt: {
       role: 'decidability boundaries specialist',
       task: 'Document the boundaries between decidable and undecidable variants of the problem',
@@ -530,7 +537,8 @@ export const computabilityLandscapeTask = defineTask('computability-landscape', 
   kind: 'agent',
   title: 'Generate computability landscape report',
   agent: {
-    name: 'landscape-reporter',
+    name: 'complexity-theorist',
+    skills: ['latex-proof-formatter', 'complexity-class-oracle'],
     prompt: {
       role: 'computability documentation specialist',
       task: 'Generate comprehensive computability landscape report',

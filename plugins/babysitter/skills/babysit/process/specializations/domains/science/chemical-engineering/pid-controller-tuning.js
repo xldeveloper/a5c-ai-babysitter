@@ -134,8 +134,9 @@ export async function process(inputs, ctx) {
 export const processDynamicsTask = defineTask('process-dynamics', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Identify process dynamics',
+  skill: { name: 'hysys-dynamic-simulator' },
   agent: {
-    name: 'dynamics-engineer',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'process dynamics engineer',
       task: 'Identify process dynamics for each control loop',
@@ -185,8 +186,9 @@ export const processDynamicsTask = defineTask('process-dynamics', (args, taskCtx
 export const tuningMethodSelectionTask = defineTask('tuning-method-selection', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Select tuning method',
+  skill: { name: 'pid-tuning-optimizer' },
   agent: {
-    name: 'tuning-specialist',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'PID tuning specialist',
       task: 'Select appropriate tuning method for each loop',
@@ -227,8 +229,9 @@ export const tuningMethodSelectionTask = defineTask('tuning-method-selection', (
 export const initialTuningTask = defineTask('initial-tuning', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Calculate initial tuning parameters',
+  skill: { name: 'pid-tuning-optimizer' },
   agent: {
-    name: 'tuning-calculator',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'PID tuning calculator',
       task: 'Calculate initial PID tuning parameters',
@@ -280,8 +283,9 @@ export const initialTuningTask = defineTask('initial-tuning', (args, taskCtx) =>
 export const tuningImplementationTask = defineTask('tuning-implementation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Implement and test tuning parameters',
+  skill: { name: 'hysys-dynamic-simulator' },
   agent: {
-    name: 'implementation-engineer',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'control implementation engineer',
       task: 'Implement tuning and test performance',
@@ -332,8 +336,9 @@ export const tuningImplementationTask = defineTask('tuning-implementation', (arg
 export const robustnessTuningTask = defineTask('robustness-tuning', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Fine-tune for robustness',
+  skill: { name: 'pid-tuning-optimizer' },
   agent: {
-    name: 'robustness-engineer',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'control robustness engineer',
       task: 'Fine-tune parameters for robustness',
@@ -386,8 +391,9 @@ export const robustnessTuningTask = defineTask('robustness-tuning', (args, taskC
 export const tuningDocumentationTask = defineTask('tuning-documentation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Document final parameters and performance',
+  skill: { name: 'pid-tuning-optimizer' },
   agent: {
-    name: 'documentation-engineer',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'tuning documentation engineer',
       task: 'Document tuning results and create tuning record',

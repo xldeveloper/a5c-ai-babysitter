@@ -174,7 +174,8 @@ export const structureReviewTask = defineTask('structure-review', (args, taskCtx
   kind: 'agent',
   title: `Phase 1: Review Proof Structure and Logic`,
   agent: {
-    name: 'general-purpose',
+    name: 'proof-strategist',
+    skills: ['proof-structure-analyzer', 'lean-proof-assistant', 'coq-proof-assistant'],
     prompt: {
       role: 'Mathematical Proof Reviewer with expertise in proof writing pedagogy',
       task: 'Review the proof structure, logical flow, and identify areas for improvement',
@@ -274,7 +275,8 @@ export const assumptionAnalysisTask = defineTask('assumption-analysis', (args, t
   kind: 'agent',
   title: `Phase 2: Identify Implicit Assumptions`,
   agent: {
-    name: 'general-purpose',
+    name: 'proof-strategist',
+    skills: ['proof-structure-analyzer', 'lean-proof-assistant'],
     prompt: {
       role: 'Mathematical Logic Expert specializing in assumption identification',
       task: 'Identify all implicit and explicit assumptions in the proof',
@@ -349,7 +351,8 @@ export const notationSuggestionsTask = defineTask('notation-suggestions', (args,
   kind: 'agent',
   title: `Phase 3: Suggest Notation Improvements`,
   agent: {
-    name: 'general-purpose',
+    name: 'mathematics-writer',
+    skills: ['latex-math-formatter', 'math-notation-validator', 'diagram-generator'],
     prompt: {
       role: 'Mathematical Notation Expert with expertise in mathematical communication',
       task: 'Suggest notation improvements for clarity and standard compliance',
@@ -428,7 +431,8 @@ export const latexFormattingTask = defineTask('latex-formatting', (args, taskCtx
   kind: 'agent',
   title: `Phase 4: Format in LaTeX`,
   agent: {
-    name: 'general-purpose',
+    name: 'mathematics-writer',
+    skills: ['latex-math-formatter', 'diagram-generator', 'math-notation-validator'],
     prompt: {
       role: 'LaTeX Expert specializing in mathematical typesetting',
       task: 'Format the proof in proper LaTeX with theorem environments',
@@ -498,7 +502,8 @@ export const proofTemplatesTask = defineTask('proof-templates', (args, taskCtx) 
   kind: 'agent',
   title: `Phase 5: Generate Proof Outline and Templates`,
   agent: {
-    name: 'general-purpose',
+    name: 'theorem-prover-expert',
+    skills: ['proof-structure-analyzer', 'lean-proof-assistant', 'coq-proof-assistant'],
     prompt: {
       role: 'Proof Pedagogy Expert',
       task: 'Generate proof outline templates and structure guides',
@@ -566,7 +571,8 @@ export const refinedProofGenerationTask = defineTask('refined-proof-generation',
   kind: 'agent',
   title: `Phase 6: Generate Refined Proof`,
   agent: {
-    name: 'general-purpose',
+    name: 'proof-strategist',
+    skills: ['latex-math-formatter', 'proof-structure-analyzer', 'lean-proof-assistant'],
     prompt: {
       role: 'Mathematical Proof Writer',
       task: 'Generate the final refined proof incorporating all improvements',

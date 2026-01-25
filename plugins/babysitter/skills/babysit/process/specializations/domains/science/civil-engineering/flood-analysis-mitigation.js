@@ -172,8 +172,9 @@ export async function process(inputs, ctx) {
 export const frequencyAnalysisTask = defineTask('frequency-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform flood frequency analysis',
+  skill: { name: 'hydrologic-modeling-engine' },
   agent: {
-    name: 'hydrologist',
+    name: 'hydrology-analyst',
     prompt: {
       role: 'hydrologist',
       task: 'Perform flood frequency analysis',
@@ -218,6 +219,7 @@ export const frequencyAnalysisTask = defineTask('frequency-analysis', (args, tas
 export const hydraulicModelingTask = defineTask('hydraulic-modeling', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform hydraulic modeling',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
     name: 'hydraulic-engineer',
     prompt: {
@@ -262,6 +264,7 @@ export const hydraulicModelingTask = defineTask('hydraulic-modeling', (args, tas
 export const floodplainMappingTask = defineTask('floodplain-mapping', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop floodplain maps',
+  skill: { name: 'gis-spatial-analyzer' },
   agent: {
     name: 'gis-analyst',
     prompt: {
@@ -305,8 +308,9 @@ export const floodplainMappingTask = defineTask('floodplain-mapping', (args, tas
 export const damageAssessmentTask = defineTask('damage-assessment', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Assess flood damages',
+  skill: { name: 'cost-database-interface' },
   agent: {
-    name: 'flood-economist',
+    name: 'cost-estimator',
     prompt: {
       role: 'flood damage economist',
       task: 'Assess flood damages and risks',
@@ -348,8 +352,9 @@ export const damageAssessmentTask = defineTask('damage-assessment', (args, taskC
 export const mitigationAlternativesTask = defineTask('mitigation-alternatives', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Analyze mitigation alternatives',
+  skill: { name: 'cost-database-interface' },
   agent: {
-    name: 'flood-planner',
+    name: 'cost-estimator',
     prompt: {
       role: 'flood mitigation planner',
       task: 'Evaluate flood mitigation alternatives',
@@ -397,8 +402,9 @@ export const mitigationAlternativesTask = defineTask('mitigation-alternatives', 
 export const mitigationDesignTask = defineTask('mitigation-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design flood mitigation',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
-    name: 'flood-engineer',
+    name: 'hydraulic-engineer',
     prompt: {
       role: 'flood control engineer',
       task: 'Design flood mitigation measures',
@@ -441,6 +447,7 @@ export const mitigationDesignTask = defineTask('mitigation-design', (args, taskC
 export const revisedAnalysisTask = defineTask('revised-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Analyze with-project conditions',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
     name: 'hydraulic-engineer',
     prompt: {
@@ -484,8 +491,9 @@ export const revisedAnalysisTask = defineTask('revised-analysis', (args, taskCtx
 export const floodReportTask = defineTask('flood-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate flood study report',
+  skill: { name: 'engineering-report-generator' },
   agent: {
-    name: 'technical-writer',
+    name: 'technical-report-writer',
     prompt: {
       role: 'flood study engineer',
       task: 'Generate comprehensive flood study report',

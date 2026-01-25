@@ -3,6 +3,8 @@
  * @description Develop GIS-based historical and cultural analysis integrating geographic data with humanities research questions
  * @inputs { researchQuestion: string, spatialData: object, temporalScope: object, analysisTypes: array }
  * @outputs { success: boolean, spatialAnalysis: object, maps: array, patterns: object, artifacts: array }
+ * @recommendedSkills SK-HUM-011 (gis-mapping-humanities), SK-HUM-014 (metadata-standards-implementation)
+ * @recommendedAgents AG-HUM-005 (digital-humanities-technologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

@@ -3,6 +3,8 @@
  * @description Analyze texts across linguistic and cultural boundaries examining influence, translation, adaptation, and transnational literary movements
  * @inputs { primaryText: object, comparativeTexts: array, comparativeFramework: string, culturalContexts: object }
  * @outputs { success: boolean, comparativeAnalysis: object, influenceMapping: object, transnationalConnections: array, artifacts: array }
+ * @recommendedSkills SK-HUM-005 (literary-close-reading), SK-HUM-013 (critical-theory-application), SK-HUM-010 (citation-scholarly-apparatus)
+ * @recommendedAgents AG-HUM-004 (literary-critic-theorist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

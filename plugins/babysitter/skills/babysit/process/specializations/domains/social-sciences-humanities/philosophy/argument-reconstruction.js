@@ -3,6 +3,8 @@
  * @description Extract arguments from texts, identify premises and conclusions, map argument structure using Toulmin model or standard form, and assess logical validity and soundness
  * @inputs { sourceText: string, analysisModel: string, assessSoundness: boolean, outputDir: string }
  * @outputs { success: boolean, reconstructedArgument: object, structuralAnalysis: object, evaluation: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-002 (argument-mapping-reconstruction), SK-PHIL-001 (formal-logic-analysis), SK-PHIL-011 (fallacy-detection-analysis)
+ * @recommendedAgents AG-PHIL-001 (logic-analyst-agent), AG-PHIL-006 (academic-philosophy-writer-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

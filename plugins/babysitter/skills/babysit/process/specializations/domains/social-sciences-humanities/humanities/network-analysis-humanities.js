@@ -3,6 +3,8 @@
  * @description Apply network analysis methods to historical correspondence, literary influence, social relationships, and cultural connections
  * @inputs { networkData: object, relationshipTypes: array, temporalScope: object, analysisGoals: array }
  * @outputs { success: boolean, networkAnalysis: object, visualizations: array, patterns: object, artifacts: array }
+ * @recommendedSkills SK-HUM-009 (topic-modeling-text-mining), SK-HUM-011 (gis-mapping-humanities)
+ * @recommendedAgents AG-HUM-005 (digital-humanities-technologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

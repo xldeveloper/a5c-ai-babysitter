@@ -232,8 +232,9 @@ export async function process(inputs, ctx) {
 export const feasibilityAssessmentTask = defineTask('feasibility-assessment', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Feasibility Assessment',
+  skill: { name: 'water-reuse-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'water-treatment-specialist',
     prompt: {
       role: 'Water Reuse Specialist',
       task: 'Assess feasibility of water reuse project',
@@ -276,8 +277,9 @@ export const feasibilityAssessmentTask = defineTask('feasibility-assessment', (a
 export const reuseRegulatoryTask = defineTask('reuse-regulatory', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Regulatory Requirements Analysis',
+  skill: { name: 'regulatory-compliance' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'Water Reuse Regulatory Specialist',
       task: 'Analyze regulatory requirements for water reuse',
@@ -320,8 +322,9 @@ export const reuseRegulatoryTask = defineTask('reuse-regulatory', (args, taskCtx
 export const reuseRiskAssessmentTask = defineTask('reuse-risk-assessment', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Public Health Risk Assessment',
+  skill: { name: 'health-risk-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'risk-assessment-specialist',
     prompt: {
       role: 'Water Reuse Risk Analyst',
       task: 'Conduct public health risk assessment for water reuse',
@@ -365,8 +368,9 @@ export const reuseRiskAssessmentTask = defineTask('reuse-risk-assessment', (args
 export const reuseTreatmentDesignTask = defineTask('reuse-treatment-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Treatment System Design',
+  skill: { name: 'membrane-system-design' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'water-treatment-specialist',
     prompt: {
       role: 'Water Reuse Treatment Engineer',
       task: 'Design treatment system for water reuse',
@@ -410,8 +414,9 @@ export const reuseTreatmentDesignTask = defineTask('reuse-treatment-design', (ar
 export const distributionSystemTask = defineTask('distribution-system', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Distribution System Design',
+  skill: { name: 'water-reuse-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'water-treatment-specialist',
     prompt: {
       role: 'Recycled Water Distribution Engineer',
       task: 'Design recycled water distribution system',
@@ -455,8 +460,9 @@ export const distributionSystemTask = defineTask('distribution-system', (args, t
 export const reuseMonitoringTask = defineTask('reuse-monitoring', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Monitoring Program Development',
+  skill: { name: 'water-reuse-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'water-treatment-specialist',
     prompt: {
       role: 'Water Reuse Monitoring Specialist',
       task: 'Develop monitoring program for water reuse system',
@@ -500,8 +506,9 @@ export const reuseMonitoringTask = defineTask('reuse-monitoring', (args, taskCtx
 export const publicOutreachTask = defineTask('public-outreach', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Public Outreach and Education',
+  skill: { name: 'water-reuse-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'water-treatment-specialist',
     prompt: {
       role: 'Water Reuse Communications Specialist',
       task: 'Develop public outreach program for water reuse',
@@ -544,8 +551,9 @@ export const publicOutreachTask = defineTask('public-outreach', (args, taskCtx) 
 export const implementationDocsTask = defineTask('implementation-docs', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Implementation Documentation',
+  skill: { name: 'water-reuse-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'water-treatment-specialist',
     prompt: {
       role: 'Water Reuse Project Manager',
       task: 'Compile implementation documentation',

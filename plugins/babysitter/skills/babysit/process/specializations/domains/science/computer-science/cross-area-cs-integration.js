@@ -107,7 +107,8 @@ export const areaLandscapeAnalyzer = defineTask('area-landscape-analyzer', (args
   kind: 'agent',
   title: 'Analyze CS area landscapes',
   agent: {
-    name: 'area-analyst',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'latex-proof-formatter', 'theorem-prover-interface'],
     prompt: {
       role: 'Computer science multi-area research analyst',
       task: 'Analyze landscapes of multiple CS areas for integration potential',
@@ -150,7 +151,8 @@ export const integrationPointIdentifier = defineTask('integration-point-identifi
   kind: 'agent',
   title: 'Identify integration points',
   agent: {
-    name: 'integration-analyst',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'Cross-area integration point expert',
       task: 'Identify promising integration points between CS areas',
@@ -193,7 +195,8 @@ export const theoreticalBridgeConstructor = defineTask('theoretical-bridge-const
   kind: 'agent',
   title: 'Construct theoretical bridges',
   agent: {
-    name: 'bridge-constructor',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'type-inference-engine'],
     prompt: {
       role: 'Theoretical bridge construction expert',
       task: 'Construct theoretical bridges between CS areas',
@@ -236,7 +239,8 @@ export const frameworkSynthesizer = defineTask('framework-synthesizer', (args, t
   kind: 'agent',
   title: 'Synthesize integrated framework',
   agent: {
-    name: 'framework-synthesizer',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'Integrated framework synthesis expert',
       task: 'Synthesize unified framework from cross-area integration',
@@ -279,7 +283,8 @@ export const theoreticalContributionDeveloper = defineTask('theoretical-contribu
   kind: 'agent',
   title: 'Develop theoretical contributions',
   agent: {
-    name: 'theoretical-contributor',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Cross-area theoretical contribution expert',
       task: 'Develop theoretical contributions from integrated framework',
@@ -322,7 +327,8 @@ export const practicalContributionDeveloper = defineTask('practical-contribution
   kind: 'agent',
   title: 'Develop practical contributions',
   agent: {
-    name: 'practical-contributor',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Cross-area practical contribution expert',
       task: 'Develop practical contributions from integrated framework',
@@ -365,7 +371,8 @@ export const crossValidator = defineTask('cross-validator', (args, taskCtx) => (
   kind: 'agent',
   title: 'Cross-validate contributions',
   agent: {
-    name: 'cross-validator',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Cross-area validation expert',
       task: 'Cross-validate theoretical and practical contributions',
@@ -408,7 +415,8 @@ export const roadmapDeveloper = defineTask('roadmap-developer', (args, taskCtx) 
   kind: 'agent',
   title: 'Develop research roadmap',
   agent: {
-    name: 'roadmap-developer',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'latex-proof-formatter'],
     prompt: {
       role: 'Research roadmap development expert',
       task: 'Develop research roadmap for cross-area integration',

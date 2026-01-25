@@ -3,6 +3,8 @@
  * @description Perform detailed textual analysis identifying patterns in language, imagery, structure, and intertextual references with systematic annotation methodology
  * @inputs { text: object, analyticalFocus: array, theoreticalLens: string }
  * @outputs { success: boolean, closeReadingAnalysis: object, annotations: array, patterns: object, artifacts: array }
+ * @recommendedSkills SK-HUM-005 (literary-close-reading), SK-HUM-010 (citation-scholarly-apparatus)
+ * @recommendedAgents AG-HUM-004 (literary-critic-theorist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

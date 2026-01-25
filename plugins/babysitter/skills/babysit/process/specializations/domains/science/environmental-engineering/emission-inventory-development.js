@@ -195,8 +195,9 @@ export async function process(inputs, ctx) {
 export const sourceIdentificationTask = defineTask('source-identification', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Emission Source Identification',
+  skill: { name: 'emission-inventory' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Air Emissions Inventory Specialist',
       task: 'Identify and categorize all emission sources',
@@ -239,8 +240,9 @@ export const sourceIdentificationTask = defineTask('source-identification', (arg
 export const emissionFactorSelectionTask = defineTask('emission-factor-selection', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Emission Factor Selection',
+  skill: { name: 'emission-inventory' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Emission Factor Specialist',
       task: 'Select appropriate emission factors for each source',
@@ -282,8 +284,9 @@ export const emissionFactorSelectionTask = defineTask('emission-factor-selection
 export const activityDataTask = defineTask('activity-data', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Activity Data Compilation',
+  skill: { name: 'emission-inventory' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Emission Inventory Data Analyst',
       task: 'Compile activity data for emission calculations',
@@ -326,8 +329,9 @@ export const activityDataTask = defineTask('activity-data', (args, taskCtx) => (
 export const emissionCalculationsTask = defineTask('emission-calculations', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Emission Calculations',
+  skill: { name: 'emission-inventory' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Emission Calculation Engineer',
       task: 'Calculate emissions for all sources and pollutants',
@@ -371,8 +375,9 @@ export const emissionCalculationsTask = defineTask('emission-calculations', (arg
 export const inventoryQAQCTask = defineTask('inventory-qaqc', (args, taskCtx) => ({
   kind: 'agent',
   title: 'QA/QC Review',
+  skill: { name: 'emission-inventory' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Quality Assurance Specialist',
       task: 'Perform QA/QC review of emission inventory',
@@ -414,8 +419,9 @@ export const inventoryQAQCTask = defineTask('inventory-qaqc', (args, taskCtx) =>
 export const inventoryComplianceTask = defineTask('inventory-compliance', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Regulatory Compliance Assessment',
+  skill: { name: 'regulatory-compliance' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'Air Quality Compliance Specialist',
       task: 'Assess regulatory compliance based on inventory',
@@ -458,8 +464,9 @@ export const inventoryComplianceTask = defineTask('inventory-compliance', (args,
 export const inventoryDocumentationTask = defineTask('inventory-documentation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Inventory Documentation',
+  skill: { name: 'emission-inventory' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Environmental Documentation Specialist',
       task: 'Compile emission inventory documentation',

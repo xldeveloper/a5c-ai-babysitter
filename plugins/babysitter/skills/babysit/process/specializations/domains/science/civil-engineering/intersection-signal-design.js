@@ -199,6 +199,7 @@ export async function process(inputs, ctx) {
 export const warrantAnalysisTask = defineTask('warrant-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform signal warrant analysis',
+  skill: { name: 'signal-timing-optimizer' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -242,6 +243,7 @@ export const warrantAnalysisTask = defineTask('warrant-analysis', (args, taskCtx
 export const phasingDesignTask = defineTask('phasing-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design signal phasing',
+  skill: { name: 'signal-timing-optimizer' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -286,6 +288,7 @@ export const phasingDesignTask = defineTask('phasing-design', (args, taskCtx) =>
 export const timingDesignTask = defineTask('timing-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design signal timing',
+  skill: { name: 'signal-timing-optimizer' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -330,6 +333,7 @@ export const timingDesignTask = defineTask('timing-design', (args, taskCtx) => (
 export const detectionDesignTask = defineTask('detection-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design detection system',
+  skill: { name: 'traffic-simulation-engine' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -373,6 +377,7 @@ export const detectionDesignTask = defineTask('detection-design', (args, taskCtx
 export const controllerDesignTask = defineTask('controller-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Specify controller and cabinet',
+  skill: { name: 'signal-timing-optimizer' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -416,6 +421,7 @@ export const controllerDesignTask = defineTask('controller-design', (args, taskC
 export const signalHeadLayoutTask = defineTask('signal-head-layout', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design signal head layout',
+  skill: { name: 'traffic-simulation-engine' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -459,8 +465,9 @@ export const signalHeadLayoutTask = defineTask('signal-head-layout', (args, task
 export const electricalDesignTask = defineTask('electrical-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design electrical system',
+  skill: { name: 'power-distribution-analyzer' },
   agent: {
-    name: 'electrical-engineer',
+    name: 'power-systems-engineer',
     prompt: {
       role: 'electrical engineer',
       task: 'Design signal electrical system',
@@ -502,8 +509,9 @@ export const electricalDesignTask = defineTask('electrical-design', (args, taskC
 export const signalPlansTask = defineTask('signal-plans', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate signal plans',
+  skill: { name: 'civil3d-surface-analyzer' },
   agent: {
-    name: 'traffic-drafter',
+    name: 'highway-design-engineer',
     prompt: {
       role: 'traffic signal CAD technician',
       task: 'Generate traffic signal plans',
@@ -552,8 +560,9 @@ export const signalPlansTask = defineTask('signal-plans', (args, taskCtx) => ({
 export const signalReportTask = defineTask('signal-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate signal design report',
+  skill: { name: 'engineering-report-generator' },
   agent: {
-    name: 'technical-writer',
+    name: 'technical-report-writer',
     prompt: {
       role: 'traffic engineer',
       task: 'Generate comprehensive signal design report',

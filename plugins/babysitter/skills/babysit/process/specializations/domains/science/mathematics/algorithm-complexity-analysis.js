@@ -150,7 +150,8 @@ export const timeComplexityTask = defineTask('time-complexity', (args, taskCtx) 
   kind: 'agent',
   title: `Phase 1: Derive Big-O Time Complexity`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['sympy-computer-algebra', 'graph-algorithm-library', 'combinatorial-enumeration'],
     prompt: {
       role: 'Algorithm Analysis Expert specializing in complexity theory',
       task: 'Derive the time complexity of the given algorithm',
@@ -220,7 +221,8 @@ export const spaceComplexityTask = defineTask('space-complexity', (args, taskCtx
   kind: 'agent',
   title: `Phase 2: Analyze Space Requirements`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['sympy-computer-algebra', 'graph-algorithm-library'],
     prompt: {
       role: 'Algorithm Space Analysis Expert',
       task: 'Analyze the space complexity of the given algorithm',
@@ -292,7 +294,8 @@ export const averageCaseTask = defineTask('average-case', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 3: Compute Average-Case Complexity`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['sympy-computer-algebra', 'combinatorial-enumeration'],
     prompt: {
       role: 'Probabilistic Algorithm Analysis Expert',
       task: 'Compute the average-case complexity of the algorithm',
@@ -357,7 +360,8 @@ export const algorithmComparisonTask = defineTask('algorithm-comparison', (args,
   kind: 'agent',
   title: `Phase 4: Compare with Alternative Algorithms`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['sympy-computer-algebra', 'graph-algorithm-library', 'combinatorial-enumeration'],
     prompt: {
       role: 'Algorithm Design Expert',
       task: 'Compare the algorithm with alternative approaches',
@@ -441,7 +445,8 @@ export const optimizationAnalysisTask = defineTask('optimization-analysis', (arg
   kind: 'agent',
   title: `Phase 5: Identify Optimization Opportunities`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['sympy-computer-algebra', 'graph-algorithm-library'],
     prompt: {
       role: 'Algorithm Optimization Specialist',
       task: 'Identify optimization opportunities for the algorithm',

@@ -205,8 +205,9 @@ export async function process(inputs, ctx) {
 export const hazardIdentificationTask = defineTask('hazard-identification', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Hazard Identification',
+  skill: { name: 'health-risk-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'risk-assessment-specialist',
     prompt: {
       role: 'Risk Assessment Toxicologist',
       task: 'Identify hazards and select contaminants of concern',
@@ -249,8 +250,9 @@ export const hazardIdentificationTask = defineTask('hazard-identification', (arg
 export const exposureAssessmentTask = defineTask('exposure-assessment', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Exposure Assessment',
+  skill: { name: 'health-risk-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'risk-assessment-specialist',
     prompt: {
       role: 'Exposure Assessment Specialist',
       task: 'Assess exposure pathways and calculate exposure doses',
@@ -293,8 +295,9 @@ export const exposureAssessmentTask = defineTask('exposure-assessment', (args, t
 export const toxicityAssessmentTask = defineTask('toxicity-assessment', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Toxicity Assessment',
+  skill: { name: 'health-risk-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'risk-assessment-specialist',
     prompt: {
       role: 'Toxicologist',
       task: 'Compile toxicity values for risk characterization',
@@ -337,8 +340,9 @@ export const toxicityAssessmentTask = defineTask('toxicity-assessment', (args, t
 export const riskCharacterizationTask = defineTask('risk-characterization', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Risk Characterization',
+  skill: { name: 'health-risk-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'risk-assessment-specialist',
     prompt: {
       role: 'Risk Characterization Specialist',
       task: 'Characterize cancer and non-cancer risks',
@@ -383,8 +387,9 @@ export const riskCharacterizationTask = defineTask('risk-characterization', (arg
 export const uncertaintyAnalysisTask = defineTask('uncertainty-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Uncertainty Analysis',
+  skill: { name: 'health-risk-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'risk-assessment-specialist',
     prompt: {
       role: 'Risk Assessment Analyst',
       task: 'Analyze uncertainties in risk assessment',
@@ -428,8 +433,9 @@ export const uncertaintyAnalysisTask = defineTask('uncertainty-analysis', (args,
 export const remedialGoalsTask = defineTask('remedial-goals', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Risk-Based Remedial Goals',
+  skill: { name: 'health-risk-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'risk-assessment-specialist',
     prompt: {
       role: 'Remedial Goal Calculator',
       task: 'Calculate risk-based remedial goals',
@@ -472,8 +478,9 @@ export const remedialGoalsTask = defineTask('remedial-goals', (args, taskCtx) =>
 export const riskReportTask = defineTask('risk-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Risk Assessment Report',
+  skill: { name: 'health-risk-assessment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'risk-assessment-specialist',
     prompt: {
       role: 'Risk Assessment Report Writer',
       task: 'Prepare comprehensive risk assessment report',

@@ -3,6 +3,8 @@
  * @description Conduct systematic literature reviews including search strategy development, quality assessment, evidence synthesis, and identification of research gaps
  * @inputs { researchTopic: string, researchQuestions: array, databases: array, outputDir: string }
  * @outputs { success: boolean, reviewFindings: object, evidenceSynthesis: object, researchGaps: array, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-008 (systematic-review), SK-SS-011 (academic-writing-publication)
+ * @recommendedAgents AG-SS-006 (policy-research-analyst), AG-SS-008 (mixed-methods-research-coordinator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

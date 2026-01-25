@@ -146,7 +146,8 @@ export const conjectureFormalizationTask = defineTask('conjecture-formalization'
   kind: 'agent',
   title: `Phase 1: Formalize Conjecture Statement`,
   agent: {
-    name: 'general-purpose',
+    name: 'conjecture-analyst',
+    skills: ['sympy-computer-algebra', 'counterexample-generator', 'sage-math-interface'],
     prompt: {
       role: 'Mathematical Logician specializing in conjecture formalization',
       task: 'Formalize the conjecture statement into a precise mathematical form',
@@ -212,7 +213,8 @@ export const testCaseGenerationTask = defineTask('test-case-generation', (args, 
   kind: 'agent',
   title: `Phase 2: Generate Test Cases`,
   agent: {
-    name: 'general-purpose',
+    name: 'conjecture-analyst',
+    skills: ['counterexample-generator', 'sympy-computer-algebra', 'combinatorial-enumeration'],
     prompt: {
       role: 'Computational Mathematician specializing in experimental mathematics',
       task: 'Generate comprehensive test cases for conjecture exploration',
@@ -279,7 +281,8 @@ export const computationalVerificationTask = defineTask('computational-verificat
   kind: 'agent',
   title: `Phase 3: Execute Computational Verification`,
   agent: {
-    name: 'general-purpose',
+    name: 'conjecture-analyst',
+    skills: ['sage-math-interface', 'sympy-computer-algebra', 'graph-algorithm-library'],
     prompt: {
       role: 'Computational Verification Expert',
       task: 'Execute computational verification of test cases',
@@ -346,7 +349,8 @@ export const counterexampleSearchTask = defineTask('counterexample-focused-searc
   kind: 'agent',
   title: `Phase 4: Focused Counterexample Search`,
   agent: {
-    name: 'general-purpose',
+    name: 'conjecture-analyst',
+    skills: ['counterexample-generator', 'sympy-computer-algebra', 'sage-math-interface'],
     prompt: {
       role: 'Counterexample Specialist in Mathematical Research',
       task: 'Conduct focused search for counterexamples to the conjecture',
@@ -405,7 +409,8 @@ export const patternAnalysisTask = defineTask('pattern-analysis', (args, taskCtx
   kind: 'agent',
   title: `Phase 5: Pattern Analysis and Documentation`,
   agent: {
-    name: 'general-purpose',
+    name: 'proof-strategist',
+    skills: ['combinatorial-enumeration', 'sympy-computer-algebra', 'graph-algorithm-library'],
     prompt: {
       role: 'Mathematical Pattern Analyst',
       task: 'Analyze exploration results to identify patterns and document findings',

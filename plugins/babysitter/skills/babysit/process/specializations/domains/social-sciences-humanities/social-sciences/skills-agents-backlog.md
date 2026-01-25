@@ -46,68 +46,68 @@ This document defines the skills and agents required to support the Social Scien
 
 ### Research Design Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Experimental Design | SK-SS-001, SK-SS-014 | AG-SS-001, AG-SS-010 |
-| Survey Research Design | SK-SS-003, SK-SS-009, SK-SS-014 | AG-SS-003, AG-SS-007, AG-SS-010 |
-| Quasi-Experimental Design | SK-SS-001, SK-SS-004 | AG-SS-001, AG-SS-005 |
-| Mixed Methods Research Design | SK-SS-010, SK-SS-001, SK-SS-002 | AG-SS-008, AG-SS-001, AG-SS-002 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Experimental Design | SK-SS-001, SK-SS-014 | AG-SS-001, AG-SS-010 | [x] |
+| Survey Research Design | SK-SS-003, SK-SS-009, SK-SS-014 | AG-SS-003, AG-SS-007, AG-SS-010 | [x] |
+| Quasi-Experimental Design | SK-SS-001, SK-SS-004 | AG-SS-001, AG-SS-005 | [x] |
+| Mixed Methods Research Design | SK-SS-010, SK-SS-001, SK-SS-002 | AG-SS-008, AG-SS-001, AG-SS-002 | [x] |
 
 ### Data Collection Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| In-Depth Interview Protocol | SK-SS-013, SK-SS-002, SK-SS-014 | AG-SS-002, AG-SS-010 |
-| Ethnographic Fieldwork | SK-SS-005, SK-SS-002, SK-SS-014 | AG-SS-002, AG-SS-010 |
-| Survey Administration | SK-SS-003, SK-SS-014 | AG-SS-003, AG-SS-010 |
-| Focus Group Facilitation | SK-SS-013, SK-SS-002, SK-SS-014 | AG-SS-002, AG-SS-010 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| In-Depth Interview Protocol | SK-SS-013, SK-SS-002, SK-SS-014 | AG-SS-002, AG-SS-010 | [x] |
+| Ethnographic Fieldwork | SK-SS-005, SK-SS-002, SK-SS-014 | AG-SS-002, AG-SS-010 | [x] |
+| Survey Administration | SK-SS-003, SK-SS-014 | AG-SS-003, AG-SS-010 | [x] |
+| Focus Group Facilitation | SK-SS-013, SK-SS-002, SK-SS-014 | AG-SS-002, AG-SS-010 | [x] |
 
 ### Data Analysis Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Statistical Analysis Pipeline | SK-SS-001 | AG-SS-001 |
-| Qualitative Coding and Analysis | SK-SS-002 | AG-SS-002 |
-| Structural Equation Modeling | SK-SS-001, SK-SS-009 | AG-SS-001, AG-SS-007 |
-| Multilevel/Hierarchical Modeling | SK-SS-001 | AG-SS-001 |
-| Social Network Analysis | SK-SS-007, SK-SS-001 | AG-SS-009, AG-SS-001 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Statistical Analysis Pipeline | SK-SS-001 | AG-SS-001 | [x] |
+| Qualitative Coding and Analysis | SK-SS-002 | AG-SS-002 | [x] |
+| Structural Equation Modeling | SK-SS-001, SK-SS-009 | AG-SS-001, AG-SS-007 | [x] |
+| Multilevel/Hierarchical Modeling | SK-SS-001 | AG-SS-001 | [x] |
+| Social Network Analysis | SK-SS-007, SK-SS-001 | AG-SS-009, AG-SS-001 | [x] |
 
 ### Causal Inference Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Propensity Score Analysis | SK-SS-004, SK-SS-001 | AG-SS-005, AG-SS-001 |
-| Natural Experiment Analysis | SK-SS-004, SK-SS-001 | AG-SS-005, AG-SS-001 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Propensity Score Analysis | SK-SS-004, SK-SS-001 | AG-SS-005, AG-SS-001 | [x] |
+| Natural Experiment Analysis | SK-SS-004, SK-SS-001 | AG-SS-005, AG-SS-001 | [x] |
 
 ### Theory Development Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Grounded Theory Development | SK-SS-002 | AG-SS-002 |
-| Literature Review and Synthesis | SK-SS-008, SK-SS-011 | AG-SS-006, AG-SS-008 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Grounded Theory Development | SK-SS-002 | AG-SS-002 | [x] |
+| Literature Review and Synthesis | SK-SS-008, SK-SS-011 | AG-SS-006, AG-SS-008 | [x] |
 
 ### Policy Analysis Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Policy Impact Assessment | SK-SS-006, SK-SS-008, SK-SS-012 | AG-SS-004, AG-SS-006 |
-| Program Evaluation | SK-SS-006, SK-SS-010 | AG-SS-004, AG-SS-008 |
-| Cost-Benefit Analysis | SK-SS-006, SK-SS-001 | AG-SS-004, AG-SS-001 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Policy Impact Assessment | SK-SS-006, SK-SS-008, SK-SS-012 | AG-SS-004, AG-SS-006 | [x] |
+| Program Evaluation | SK-SS-006, SK-SS-010 | AG-SS-004, AG-SS-008 | [x] |
+| Cost-Benefit Analysis | SK-SS-006, SK-SS-001 | AG-SS-004, AG-SS-001 | [x] |
 
 ### Measurement and Scale Development Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Scale Development and Validation | SK-SS-009, SK-SS-001 | AG-SS-007, AG-SS-001 |
-| Cross-Cultural Measurement Adaptation | SK-SS-009, SK-SS-003 | AG-SS-007, AG-SS-003 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Scale Development and Validation | SK-SS-009, SK-SS-001 | AG-SS-007, AG-SS-001 | [x] |
+| Cross-Cultural Measurement Adaptation | SK-SS-009, SK-SS-003 | AG-SS-007, AG-SS-003 | [x] |
 
 ### Publication and Dissemination Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Academic Manuscript Preparation | SK-SS-011, SK-SS-014 | AG-SS-001, AG-SS-002 |
-| Policy Brief Development | SK-SS-012 | AG-SS-006 |
-| Research Pre-Registration | SK-SS-011, SK-SS-014 | AG-SS-001, AG-SS-010 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Academic Manuscript Preparation | SK-SS-011, SK-SS-014 | AG-SS-001, AG-SS-002 | [x] |
+| Policy Brief Development | SK-SS-012 | AG-SS-006 | [x] |
+| Research Pre-Registration | SK-SS-011, SK-SS-014 | AG-SS-001, AG-SS-010 | [x] |
 
 ---
 

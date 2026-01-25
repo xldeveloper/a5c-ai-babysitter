@@ -3,6 +3,8 @@
  * @description Compare and evaluate competing ethical theories on specific moral questions, identifying strengths, weaknesses, and practical implications of each approach
  * @inputs { moralQuestion: string, theories: array, includeMetaethics: boolean, outputDir: string }
  * @outputs { success: boolean, theoryAnalyses: array, comparison: object, practicalImplications: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-003 (ethical-framework-application), SK-PHIL-005 (conceptual-analysis), SK-PHIL-013 (scholarly-literature-synthesis)
+ * @recommendedAgents AG-PHIL-002 (ethics-consultant-agent), AG-PHIL-004 (metaphysics-epistemology-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

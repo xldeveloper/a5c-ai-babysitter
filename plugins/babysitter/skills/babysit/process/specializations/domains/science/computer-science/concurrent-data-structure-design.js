@@ -204,7 +204,8 @@ export const sequentialSpecificationTask = defineTask('sequential-specification'
   kind: 'agent',
   title: 'Define sequential specification',
   agent: {
-    name: 'spec-definer',
+    name: 'concurrency-expert',
+    skills: ['linearizability-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'data structure specification specialist',
       task: 'Define the sequential specification of the data structure',
@@ -258,7 +259,8 @@ export const synchronizationStrategyTask = defineTask('synchronization-strategy'
   kind: 'agent',
   title: 'Select synchronization strategy',
   agent: {
-    name: 'sync-strategist',
+    name: 'concurrency-expert',
+    skills: ['linearizability-checker', 'memory-hierarchy-modeler', 'latex-proof-formatter'],
     prompt: {
       role: 'concurrent programming specialist',
       task: 'Select appropriate synchronization strategy (lock-free, wait-free, etc.)',
@@ -301,7 +303,8 @@ export const atomicOperationsDesignTask = defineTask('atomic-operations-design',
   kind: 'agent',
   title: 'Design atomic operations and memory ordering',
   agent: {
-    name: 'atomic-designer',
+    name: 'concurrency-expert',
+    skills: ['linearizability-checker', 'memory-hierarchy-modeler', 'latex-proof-formatter'],
     prompt: {
       role: 'low-level concurrency specialist',
       task: 'Design atomic operations and specify memory ordering requirements',
@@ -354,7 +357,8 @@ export const concurrentImplementationTask = defineTask('concurrent-implementatio
   kind: 'agent',
   title: 'Design concurrent data structure implementation',
   agent: {
-    name: 'concurrent-implementer',
+    name: 'concurrency-expert',
+    skills: ['linearizability-checker', 'asymptotic-notation-calculator', 'latex-proof-formatter'],
     prompt: {
       role: 'concurrent data structure designer',
       task: 'Design the concurrent implementation of the data structure',
@@ -407,7 +411,8 @@ export const linearizabilityProofTask = defineTask('linearizability-proof', (arg
   kind: 'agent',
   title: 'Prove linearizability',
   agent: {
-    name: 'linearizability-prover',
+    name: 'theorem-proving-expert',
+    skills: ['linearizability-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'linearizability proof specialist',
       task: 'Prove that the concurrent implementation is linearizable',
@@ -459,7 +464,8 @@ export const progressGuaranteeAnalysisTask = defineTask('progress-guarantee-anal
   kind: 'agent',
   title: 'Analyze progress guarantees',
   agent: {
-    name: 'progress-analyst',
+    name: 'concurrency-expert',
+    skills: ['linearizability-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'progress guarantee specialist',
       task: 'Analyze and prove progress guarantees of the concurrent data structure',
@@ -502,7 +508,8 @@ export const performanceBenchmarksTask = defineTask('performance-benchmarks', (a
   kind: 'agent',
   title: 'Design performance benchmarks under contention',
   agent: {
-    name: 'benchmark-designer',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'concurrent performance specialist',
       task: 'Design benchmarks to measure performance under various contention levels',
@@ -564,7 +571,8 @@ export const concurrentDSSpecificationTask = defineTask('concurrent-ds-specifica
   kind: 'agent',
   title: 'Generate concurrent data structure specification',
   agent: {
-    name: 'specification-writer',
+    name: 'concurrency-expert',
+    skills: ['latex-proof-formatter', 'linearizability-checker'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive concurrent data structure specification document',

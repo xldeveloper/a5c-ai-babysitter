@@ -1109,32 +1109,32 @@ All 24 processes defined in the processes-backlog.md for this specialization req
 
 ## Process-to-Skill/Agent Mapping
 
-| Process ID | Process Name | Primary Skills | Primary Agents |
-|-----------|--------------|----------------|----------------|
-| WW-001 | Water Treatment Plant Design | SK-001, SK-002 | AG-001 |
-| WW-002 | Wastewater Process Optimization | SK-002 | AG-001 |
-| WW-003 | Membrane Treatment System Design | SK-003 | AG-001 |
-| WW-004 | Stormwater Management Planning | SK-004, SK-028 | AG-002, AG-011 |
-| WW-005 | Water Reuse System Implementation | SK-001, SK-003, SK-005 | AG-001 |
-| AQ-001 | Air Permit Application Development | SK-006, SK-007, SK-008 | AG-003 |
-| AQ-002 | Air Pollution Control System Design | SK-007 | AG-003 |
-| AQ-003 | Emission Inventory Development | SK-008, SK-006 | AG-003 |
-| AQ-004 | Continuous Emission Monitoring Implementation | SK-009 | AG-003 |
-| AQ-005 | Greenhouse Gas Reduction Strategy | SK-010, SK-022 | AG-004 |
-| REM-001 | Environmental Site Assessment | SK-011, SK-014 | AG-005, AG-007 |
-| REM-002 | Human Health Risk Assessment | SK-012, SK-025 | AG-006 |
-| REM-003 | Remediation Technology Selection | SK-013, SK-012 | AG-005, AG-006 |
-| REM-004 | Groundwater Remediation Design | SK-014, SK-013 | AG-005, AG-007 |
-| REM-005 | Brownfield Redevelopment Planning | SK-011, SK-015 | AG-005, AG-015 |
-| SW-001 | Landfill Design and Permitting | SK-016 | AG-008 |
-| SW-002 | Waste Characterization and Classification | SK-017 | AG-009 |
-| SW-003 | Waste-to-Energy Facility Planning | SK-018, SK-007 | AG-008 |
-| SW-004 | Hazardous Waste Management Program | SK-017, SK-019 | AG-009, AG-014 |
-| SUS-001 | Life Cycle Assessment Methodology | SK-020 | AG-010 |
-| SUS-002 | Corporate Sustainability Program Development | SK-021, SK-022 | AG-004 |
-| SUS-003 | Carbon Footprint Assessment | SK-022, SK-020 | AG-004, AG-010 |
-| SUS-004 | Climate Vulnerability Assessment | SK-023 | AG-011 |
-| SUS-005 | Environmental Management System Implementation | SK-024, SK-026 | AG-014, AG-012 |
+| Process ID | Process Name | Primary Skills | Primary Agents | Integrated |
+|-----------|--------------|----------------|----------------|------------|
+| WW-001 | Water Treatment Plant Design | SK-001, SK-002 | AG-001 | :white_check_mark: |
+| WW-002 | Wastewater Process Optimization | SK-002 | AG-001 | :white_check_mark: |
+| WW-003 | Membrane Treatment System Design | SK-003 | AG-001 | :white_check_mark: |
+| WW-004 | Stormwater Management Planning | SK-004, SK-028 | AG-002, AG-011 | :white_check_mark: |
+| WW-005 | Water Reuse System Implementation | SK-001, SK-003, SK-005 | AG-001 | :white_check_mark: |
+| AQ-001 | Air Permit Application Development | SK-006, SK-007, SK-008 | AG-003 | :white_check_mark: |
+| AQ-002 | Air Pollution Control System Design | SK-007 | AG-003 | :white_check_mark: |
+| AQ-003 | Emission Inventory Development | SK-008, SK-006 | AG-003 | :white_check_mark: |
+| AQ-004 | Continuous Emission Monitoring Implementation | SK-009 | AG-003 | :white_check_mark: |
+| AQ-005 | Greenhouse Gas Reduction Strategy | SK-010, SK-022 | AG-004 | :white_check_mark: |
+| REM-001 | Environmental Site Assessment | SK-011, SK-014 | AG-005, AG-007 | :white_check_mark: |
+| REM-002 | Human Health Risk Assessment | SK-012, SK-025 | AG-006 | :white_check_mark: |
+| REM-003 | Remediation Technology Selection | SK-013, SK-012 | AG-005, AG-006 | :white_check_mark: |
+| REM-004 | Groundwater Remediation Design | SK-014, SK-013 | AG-005, AG-007 | :white_check_mark: |
+| REM-005 | Brownfield Redevelopment Planning | SK-011, SK-015 | AG-005, AG-015 | :white_check_mark: |
+| SW-001 | Landfill Design and Permitting | SK-016 | AG-008 | :white_check_mark: |
+| SW-002 | Waste Characterization and Classification | SK-017 | AG-009 | :white_check_mark: |
+| SW-003 | Waste-to-Energy Facility Planning | SK-018, SK-007 | AG-008 | :white_check_mark: |
+| SW-004 | Hazardous Waste Management Program | SK-017, SK-019 | AG-009, AG-014 | :white_check_mark: |
+| SUS-001 | Life Cycle Assessment Methodology | SK-020 | AG-010 | :white_check_mark: |
+| SUS-002 | Corporate Sustainability Program Development | SK-021, SK-022 | AG-004 | :white_check_mark: |
+| SUS-003 | Carbon Footprint Assessment | SK-022, SK-020 | AG-004, AG-010 | :white_check_mark: |
+| SUS-004 | Climate Vulnerability Assessment | SK-023 | AG-011 | :white_check_mark: |
+| SUS-005 | Environmental Management System Implementation | SK-024, SK-026 | AG-014, AG-012 | :white_check_mark: |
 
 ---
 
@@ -1242,6 +1242,7 @@ These skills and agents are strong candidates for extraction to a shared library
 ---
 
 **Created**: 2026-01-24
-**Version**: 1.0.0
-**Status**: Phase 4 - Skills and Agents Identified
-**Next Step**: Phase 5 - Implement specialized skills and agents
+**Updated**: 2026-01-25
+**Version**: 1.1.0
+**Status**: Phase 7 Complete - Skills and Agents Integrated into Process Files
+**Next Step**: Phase 8 - Implement specialized skills and agents (actual skill/agent code)

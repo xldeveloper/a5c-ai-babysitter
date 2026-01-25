@@ -212,7 +212,8 @@ export const transformationDefinitionTask = defineTask('transformation-definitio
   kind: 'agent',
   title: 'Define optimization transformation',
   agent: {
-    name: 'transformation-designer',
+    name: 'compiler-engineer',
+    skills: ['dataflow-analysis-engine', 'grammar-parser-generator', 'latex-proof-formatter'],
     prompt: {
       role: 'compiler optimization specialist',
       task: 'Define the optimization transformation formally',
@@ -266,7 +267,8 @@ export const correctnessCriteriaTask = defineTask('correctness-criteria', (args,
   kind: 'agent',
   title: 'Specify correctness criteria',
   agent: {
-    name: 'correctness-specifier',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'dataflow-analysis-engine'],
     prompt: {
       role: 'compiler verification specialist',
       task: 'Specify correctness criteria for the optimization (semantic preservation)',
@@ -309,7 +311,8 @@ export const dataFlowAnalysisTask = defineTask('data-flow-analysis', (args, task
   kind: 'agent',
   title: 'Design data-flow analysis',
   agent: {
-    name: 'dataflow-designer',
+    name: 'compiler-engineer',
+    skills: ['dataflow-analysis-engine', 'asymptotic-notation-calculator', 'latex-proof-formatter'],
     prompt: {
       role: 'data-flow analysis specialist',
       task: 'Design data-flow analysis required for the optimization',
@@ -370,7 +373,8 @@ export const ssaTransformationTask = defineTask('ssa-transformation', (args, tas
   kind: 'agent',
   title: 'Implement SSA-based transformation',
   agent: {
-    name: 'ssa-implementer',
+    name: 'compiler-engineer',
+    skills: ['dataflow-analysis-engine', 'grammar-parser-generator', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'SSA optimization specialist',
       task: 'Design SSA-based implementation of the optimization',
@@ -415,7 +419,8 @@ export const correctnessProofTask = defineTask('correctness-proof', (args, taskC
   kind: 'agent',
   title: 'Prove optimization correctness',
   agent: {
-    name: 'correctness-prover',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'dataflow-analysis-engine'],
     prompt: {
       role: 'compiler verification specialist',
       task: 'Prove that the optimization preserves program semantics',
@@ -459,7 +464,8 @@ export const performanceMeasurementTask = defineTask('performance-measurement', 
   kind: 'agent',
   title: 'Measure performance impact',
   agent: {
-    name: 'performance-analyst',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'compiler performance specialist',
       task: 'Design performance evaluation methodology for the optimization',
@@ -512,7 +518,8 @@ export const pipelineIntegrationTask = defineTask('pipeline-integration', (args,
   kind: 'agent',
   title: 'Plan compiler pipeline integration',
   agent: {
-    name: 'pipeline-integrator',
+    name: 'compiler-engineer',
+    skills: ['dataflow-analysis-engine', 'grammar-parser-generator', 'latex-proof-formatter'],
     prompt: {
       role: 'compiler infrastructure specialist',
       task: 'Plan integration of optimization into compiler pipeline',
@@ -579,7 +586,8 @@ export const optimizationSpecificationTask = defineTask('optimization-specificat
   kind: 'agent',
   title: 'Generate optimization specification document',
   agent: {
-    name: 'specification-writer',
+    name: 'compiler-engineer',
+    skills: ['latex-proof-formatter', 'dataflow-analysis-engine'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive compiler optimization specification document',

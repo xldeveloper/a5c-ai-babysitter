@@ -216,8 +216,9 @@ export async function process(inputs, ctx) {
 export const materialityAssessmentTask = defineTask('materiality-assessment', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Materiality Assessment',
+  skill: { name: 'sustainability-program' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'sustainability-specialist',
     prompt: {
       role: 'Sustainability Materiality Analyst',
       task: 'Conduct sustainability materiality assessment',
@@ -261,8 +262,9 @@ export const materialityAssessmentTask = defineTask('materiality-assessment', (a
 export const sustainabilityBaselineTask = defineTask('sustainability-baseline', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Sustainability Baseline Assessment',
+  skill: { name: 'sustainability-program' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'sustainability-specialist',
     prompt: {
       role: 'Sustainability Data Analyst',
       task: 'Assess current sustainability performance baseline',
@@ -307,8 +309,9 @@ export const sustainabilityBaselineTask = defineTask('sustainability-baseline', 
 export const sustainabilityGoalsTask = defineTask('sustainability-goals', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Sustainability Goal Setting',
+  skill: { name: 'sustainability-program' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'sustainability-specialist',
     prompt: {
       role: 'Sustainability Goal Planner',
       task: 'Develop SMART sustainability goals',
@@ -352,8 +355,9 @@ export const sustainabilityGoalsTask = defineTask('sustainability-goals', (args,
 export const sustainabilityStrategyTask = defineTask('sustainability-strategy', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Strategy Development',
+  skill: { name: 'sustainability-program' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'sustainability-specialist',
     prompt: {
       role: 'Sustainability Strategy Developer',
       task: 'Develop comprehensive sustainability strategy',
@@ -399,8 +403,9 @@ export const sustainabilityStrategyTask = defineTask('sustainability-strategy', 
 export const sustainabilityImplementationTask = defineTask('sustainability-implementation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Implementation Planning',
+  skill: { name: 'sustainability-program' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'sustainability-specialist',
     prompt: {
       role: 'Sustainability Implementation Manager',
       task: 'Develop implementation plan for sustainability program',
@@ -445,8 +450,9 @@ export const sustainabilityImplementationTask = defineTask('sustainability-imple
 export const sustainabilityGovernanceTask = defineTask('sustainability-governance', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Governance Framework',
+  skill: { name: 'sustainability-program' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'sustainability-specialist',
     prompt: {
       role: 'Sustainability Governance Specialist',
       task: 'Develop sustainability governance framework',
@@ -491,8 +497,9 @@ export const sustainabilityGovernanceTask = defineTask('sustainability-governanc
 export const sustainabilityReportingTask = defineTask('sustainability-reporting', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Reporting Framework',
+  skill: { name: 'sustainability-program' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'sustainability-specialist',
     prompt: {
       role: 'Sustainability Reporting Specialist',
       task: 'Develop sustainability reporting framework',
@@ -537,8 +544,9 @@ export const sustainabilityReportingTask = defineTask('sustainability-reporting'
 export const sustainabilityProgramDocsTask = defineTask('sustainability-program-docs', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Program Documentation',
+  skill: { name: 'sustainability-program' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'sustainability-specialist',
     prompt: {
       role: 'Sustainability Program Manager',
       task: 'Compile sustainability program documentation',

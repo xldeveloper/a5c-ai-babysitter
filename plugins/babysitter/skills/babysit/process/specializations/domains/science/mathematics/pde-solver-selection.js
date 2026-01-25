@@ -146,7 +146,8 @@ export const pdeClassificationTask = defineTask('pde-classification', (args, tas
   kind: 'agent',
   title: `Phase 1: Classify PDE Type and Characteristics`,
   agent: {
-    name: 'general-purpose',
+    name: 'pde-expert',
+    skills: ['pde-solver-library', 'sympy-computer-algebra', 'numerical-linear-algebra-toolkit'],
     prompt: {
       role: 'PDE Expert specializing in mathematical physics and numerical methods',
       task: 'Classify the given PDE and determine its mathematical characteristics',
@@ -218,7 +219,8 @@ export const boundaryAnalysisTask = defineTask('boundary-analysis', (args, taskC
   kind: 'agent',
   title: `Phase 2: Assess Boundary Condition Types`,
   agent: {
-    name: 'general-purpose',
+    name: 'pde-expert',
+    skills: ['pde-solver-library', 'sympy-computer-algebra', 'numerical-linear-algebra-toolkit'],
     prompt: {
       role: 'Boundary Value Problem Expert',
       task: 'Analyze boundary conditions and their implications for numerical methods',
@@ -291,7 +293,8 @@ export const discretizationRecommendationTask = defineTask('discretization-recom
   kind: 'agent',
   title: `Phase 3: Recommend Discretization Methods`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['pde-solver-library', 'numerical-linear-algebra-toolkit', 'benchmark-suite-manager'],
     prompt: {
       role: 'Numerical Methods Expert for PDEs',
       task: 'Recommend appropriate discretization methods for the PDE',
@@ -380,7 +383,8 @@ export const solverSelectionTask = defineTask('solver-selection', (args, taskCtx
   kind: 'agent',
   title: `Phase 4: Suggest Appropriate Solvers`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['numerical-linear-algebra-toolkit', 'pde-solver-library', 'benchmark-suite-manager'],
     prompt: {
       role: 'Linear/Nonlinear Solver Expert',
       task: 'Recommend appropriate solvers for the discretized system',
@@ -473,7 +477,8 @@ export const computationalEstimateTask = defineTask('computational-estimate', (a
   kind: 'agent',
   title: `Phase 5: Estimate Computational Requirements`,
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
+    skills: ['benchmark-suite-manager', 'numerical-linear-algebra-toolkit', 'pde-solver-library'],
     prompt: {
       role: 'Scientific Computing Resource Analyst',
       task: 'Estimate computational requirements for the recommended approach',

@@ -3,6 +3,8 @@
  * @description Adapt and validate instruments for cross-cultural use including translation, back-translation, cognitive interviewing, and measurement invariance testing
  * @inputs { originalInstrument: object, sourceLanguage: string, targetLanguages: array, targetCultures: array, outputDir: string }
  * @outputs { success: boolean, adaptedInstruments: object, invarianceResults: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-009 (psychometric-assessment), SK-SS-003 (survey-design-administration)
+ * @recommendedAgents AG-SS-007 (measurement-psychometrics-expert), AG-SS-003 (survey-research-director)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

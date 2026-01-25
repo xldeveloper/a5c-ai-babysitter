@@ -3,6 +3,8 @@
  * @description Develop coherent articulations of religious doctrine, integrating scriptural, traditional, and rational sources within a theological framework
  * @inputs { theologicalTopic: string, tradition: string, sources: array, outputDir: string }
  * @outputs { success: boolean, theologicalFormulation: object, sourceIntegration: object, systematicPosition: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-008 (theological-synthesis), SK-PHIL-004 (hermeneutical-interpretation), SK-PHIL-010 (philosophical-writing-argumentation)
+ * @recommendedAgents AG-PHIL-005 (philosophical-theologian-agent), AG-PHIL-003 (hermeneutics-specialist-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

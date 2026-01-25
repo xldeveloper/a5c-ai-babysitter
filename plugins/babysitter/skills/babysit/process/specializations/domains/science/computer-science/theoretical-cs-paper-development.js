@@ -106,7 +106,8 @@ export const researchLandscapeAnalyzer = defineTask('research-landscape-analyzer
   kind: 'agent',
   title: 'Analyze theoretical CS research landscape',
   agent: {
-    name: 'theoretical-cs-researcher',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'latex-proof-formatter', 'theorem-prover-interface'],
     prompt: {
       role: 'Theoretical computer science research analyst',
       task: 'Analyze research landscape for theoretical CS contribution positioning',
@@ -148,7 +149,8 @@ export const contributionFormalizer = defineTask('contribution-formalizer', (arg
   kind: 'agent',
   title: 'Formalize theoretical contributions',
   agent: {
-    name: 'theoretical-formalizer',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Theoretical computer science formalization expert',
       task: 'Formalize research contributions with precise mathematical statements',
@@ -190,7 +192,8 @@ export const theoremDeveloper = defineTask('theorem-developer', (args, taskCtx) 
   kind: 'agent',
   title: 'Develop theorems and proof strategies',
   agent: {
-    name: 'theorem-strategist',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'recurrence-solver'],
     prompt: {
       role: 'Theorem development and proof strategy expert',
       task: 'Develop rigorous theorems with clear proof strategies',
@@ -231,7 +234,8 @@ export const proofConstructor = defineTask('proof-constructor', (args, taskCtx) 
   kind: 'agent',
   title: 'Construct rigorous mathematical proofs',
   agent: {
-    name: 'proof-constructor',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Mathematical proof construction expert',
       task: 'Construct complete, rigorous proofs for all theorems',
@@ -271,7 +275,8 @@ export const relatedWorkSynthesizer = defineTask('related-work-synthesizer', (ar
   kind: 'agent',
   title: 'Synthesize related work analysis',
   agent: {
-    name: 'related-work-analyst',
+    name: 'algorithm-analyst',
+    skills: ['latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Academic related work synthesis expert',
       task: 'Synthesize comprehensive related work analysis positioning the contribution',
@@ -313,7 +318,8 @@ export const paperDrafter = defineTask('paper-drafter', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Draft theoretical CS paper',
   agent: {
-    name: 'paper-drafter',
+    name: 'algorithm-analyst',
+    skills: ['latex-proof-formatter', 'asymptotic-notation-calculator', 'theorem-prover-interface'],
     prompt: {
       role: 'Theoretical computer science paper writing expert',
       task: 'Draft complete theoretical CS paper for target venue',
@@ -357,7 +363,8 @@ export const technicalVerifier = defineTask('technical-verifier', (args, taskCtx
   kind: 'agent',
   title: 'Verify technical correctness',
   agent: {
-    name: 'technical-verifier',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Technical verification expert for theoretical CS papers',
       task: 'Verify technical correctness of all claims and proofs',
@@ -398,7 +405,8 @@ export const presentationPreparer = defineTask('presentation-preparer', (args, t
   kind: 'agent',
   title: 'Prepare presentation materials',
   agent: {
-    name: 'presentation-preparer',
+    name: 'algorithm-analyst',
+    skills: ['latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Academic presentation preparation expert',
       task: 'Prepare presentation materials for theoretical CS paper',

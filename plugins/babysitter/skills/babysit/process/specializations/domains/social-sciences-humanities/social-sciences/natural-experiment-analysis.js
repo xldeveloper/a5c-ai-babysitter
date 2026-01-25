@@ -3,6 +3,8 @@
  * @description Identify and analyze natural experiments using instrumental variables, regression discontinuity, or difference-in-differences designs for causal identification
  * @inputs { researchQuestion: string, dataPath: string, naturalExperimentContext: object, outputDir: string }
  * @outputs { success: boolean, causalEstimate: object, identificationStrategy: object, robustnessResults: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-004 (causal-inference-methods), SK-SS-001 (quantitative-methods)
+ * @recommendedAgents AG-SS-005 (causal-inference-analyst), AG-SS-001 (quantitative-research-methodologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

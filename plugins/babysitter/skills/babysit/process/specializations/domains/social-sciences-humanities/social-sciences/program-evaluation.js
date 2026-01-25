@@ -3,6 +3,8 @@
  * @description Design and conduct formative, summative, and developmental evaluations of social programs including logic models, outcome measurement, and implementation fidelity assessment
  * @inputs { program: object, evaluationType: string, stakeholders: array, outputDir: string }
  * @outputs { success: boolean, evaluationFindings: object, recommendations: array, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-006 (program-evaluation), SK-SS-010 (mixed-methods-integration)
+ * @recommendedAgents AG-SS-004 (program-evaluation-specialist), AG-SS-008 (mixed-methods-research-coordinator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

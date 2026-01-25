@@ -3,6 +3,8 @@
  * @description Design and implement assessments of reasoning skills, identifying cognitive biases, evaluating argument quality, and measuring logical competence
  * @inputs { assessmentContext: string, targetSkills: array, assessmentType: string, outputDir: string }
  * @outputs { success: boolean, assessmentDesign: object, evaluationCriteria: object, sampleQuestions: array, artifacts: array }
+ * @recommendedSkills SK-PHIL-011 (fallacy-detection-analysis), SK-PHIL-014 (socratic-dialogue-facilitation), SK-PHIL-002 (argument-mapping-reconstruction)
+ * @recommendedAgents AG-PHIL-007 (critical-thinking-educator-agent), AG-PHIL-001 (logic-analyst-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

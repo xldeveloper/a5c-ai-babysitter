@@ -3,6 +3,8 @@
  * @description Apply computational text analysis methods including topic modeling, sentiment analysis, and pattern recognition across large textual corpora
  * @inputs { corpus: object, analysisTypes: array, researchQuestions: array }
  * @outputs { success: boolean, textMiningResults: object, topicModel: object, patterns: array, artifacts: array }
+ * @recommendedSkills SK-HUM-009 (topic-modeling-text-mining), SK-HUM-004 (tei-text-encoding)
+ * @recommendedAgents AG-HUM-005 (digital-humanities-technologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

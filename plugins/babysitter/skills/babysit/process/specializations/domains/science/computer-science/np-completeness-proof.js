@@ -228,7 +228,8 @@ export const npMembershipVerificationTask = defineTask('np-membership-verificati
   kind: 'agent',
   title: 'Verify problem is in NP',
   agent: {
-    name: 'np-verifier',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'asymptotic-notation-calculator', 'theorem-prover-interface'],
     prompt: {
       role: 'complexity theorist',
       task: 'Verify that the problem is in NP by constructing a polynomial-time verifier',
@@ -272,7 +273,8 @@ export const sourceSelectionTask = defineTask('source-selection', (args, taskCtx
   kind: 'agent',
   title: 'Select source problem for reduction',
   agent: {
-    name: 'source-selector',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'reduction-builder'],
     prompt: {
       role: 'NP-completeness reduction specialist',
       task: 'Select the most appropriate NP-complete source problem for reduction',
@@ -323,7 +325,8 @@ export const transformationDesignTask = defineTask('transformation-design', (arg
   kind: 'agent',
   title: 'Design polynomial-time transformation',
   agent: {
-    name: 'transformation-designer',
+    name: 'complexity-theorist',
+    skills: ['reduction-builder', 'asymptotic-notation-calculator', 'latex-proof-formatter'],
     prompt: {
       role: 'reduction design specialist',
       task: 'Design the polynomial-time transformation from source to target problem',
@@ -385,7 +388,8 @@ export const gadgetConstructionTask = defineTask('gadget-construction', (args, t
   kind: 'agent',
   title: 'Construct reduction gadgets',
   agent: {
-    name: 'gadget-constructor',
+    name: 'complexity-theorist',
+    skills: ['reduction-builder', 'latex-proof-formatter'],
     prompt: {
       role: 'gadget design specialist',
       task: 'Design and construct gadgets for the NP-completeness reduction',
@@ -437,7 +441,8 @@ export const forwardProofTask = defineTask('forward-proof', (args, taskCtx) => (
   kind: 'agent',
   title: 'Prove yes-instance to yes-instance mapping',
   agent: {
-    name: 'forward-prover',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'reduction-builder', 'latex-proof-formatter'],
     prompt: {
       role: 'proof specialist',
       task: 'Prove that yes-instances of source problem map to yes-instances of target problem',
@@ -480,7 +485,8 @@ export const backwardProofTask = defineTask('backward-proof', (args, taskCtx) =>
   kind: 'agent',
   title: 'Prove no-instance to no-instance mapping',
   agent: {
-    name: 'backward-prover',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'reduction-builder', 'latex-proof-formatter'],
     prompt: {
       role: 'proof specialist',
       task: 'Prove that if target instance is a yes-instance, then source was a yes-instance (contrapositive of no to no)',
@@ -523,7 +529,8 @@ export const efficiencyProofTask = defineTask('efficiency-proof', (args, taskCtx
   kind: 'agent',
   title: 'Prove polynomial construction time',
   agent: {
-    name: 'efficiency-prover',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'recurrence-solver', 'latex-proof-formatter'],
     prompt: {
       role: 'complexity analysis specialist',
       task: 'Prove that the transformation can be computed in polynomial time',
@@ -577,7 +584,8 @@ export const gadgetLibraryTask = defineTask('gadget-library', (args, taskCtx) =>
   kind: 'agent',
   title: 'Document gadgets for future reductions',
   agent: {
-    name: 'gadget-librarian',
+    name: 'complexity-theorist',
+    skills: ['reduction-builder', 'latex-proof-formatter'],
     prompt: {
       role: 'gadget documentation specialist',
       task: 'Create reusable gadget library documentation for future NP-completeness proofs',
@@ -632,7 +640,8 @@ export const completeProofTask = defineTask('complete-proof', (args, taskCtx) =>
   kind: 'agent',
   title: 'Assemble complete NP-completeness proof',
   agent: {
-    name: 'proof-assembler',
+    name: 'complexity-theorist',
+    skills: ['latex-proof-formatter', 'complexity-class-oracle', 'reduction-builder'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Assemble complete NP-completeness proof document',

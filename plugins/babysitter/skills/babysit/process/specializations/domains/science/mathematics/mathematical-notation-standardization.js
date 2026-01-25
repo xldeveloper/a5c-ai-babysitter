@@ -132,8 +132,9 @@ export async function process(inputs, ctx) {
 export const conventionDefinitionTask = defineTask('convention-definition', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 1: Define Notation Conventions`,
+  skill: { name: 'latex-math-formatter' },
   agent: {
-    name: 'general-purpose',
+    name: 'mathematics-writer',
     prompt: {
       role: 'Mathematical Notation Standards Expert',
       task: 'Define notation conventions for the mathematical domain',
@@ -191,8 +192,9 @@ export const conventionDefinitionTask = defineTask('convention-definition', (arg
 export const consistencyCheckTask = defineTask('consistency-check', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 2: Check Notation Consistency`,
+  skill: { name: 'latex-math-formatter' },
   agent: {
-    name: 'general-purpose',
+    name: 'mathematics-writer',
     prompt: {
       role: 'Notation Consistency Auditor',
       task: 'Check notation consistency across documents',
@@ -259,8 +261,9 @@ export const consistencyCheckTask = defineTask('consistency-check', (args, taskC
 export const glossaryGenerationTask = defineTask('glossary-generation', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 3: Generate Notation Glossary`,
+  skill: { name: 'latex-math-formatter' },
   agent: {
-    name: 'general-purpose',
+    name: 'mathematics-writer',
     prompt: {
       role: 'Mathematical Glossary Expert',
       task: 'Generate comprehensive notation glossary',
@@ -320,8 +323,9 @@ export const glossaryGenerationTask = defineTask('glossary-generation', (args, t
 export const standardizationSuggestionsTask = defineTask('standardization-suggestions', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 4: Suggest Standardized Alternatives`,
+  skill: { name: 'latex-math-formatter' },
   agent: {
-    name: 'general-purpose',
+    name: 'mathematics-writer',
     prompt: {
       role: 'Notation Standardization Advisor',
       task: 'Suggest standardized alternatives for notation issues',
@@ -389,8 +393,9 @@ export const standardizationSuggestionsTask = defineTask('standardization-sugges
 export const notationDocumentationTask = defineTask('notation-documentation', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 5: Document Notation Choices`,
+  skill: { name: 'latex-math-formatter' },
   agent: {
-    name: 'general-purpose',
+    name: 'mathematics-writer',
     prompt: {
       role: 'Mathematical Documentation Expert',
       task: 'Create comprehensive notation documentation',

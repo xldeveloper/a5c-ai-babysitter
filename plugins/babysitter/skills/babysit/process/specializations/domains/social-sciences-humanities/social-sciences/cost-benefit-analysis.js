@@ -3,6 +3,8 @@
  * @description Perform economic evaluation of policies and programs including monetization of outcomes, discounting, sensitivity analysis, and distributional impact assessment
  * @inputs { intervention: object, timeHorizon: number, discountRate: number, outputDir: string }
  * @outputs { success: boolean, cbaResults: object, sensitivityResults: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-006 (program-evaluation), SK-SS-001 (quantitative-methods)
+ * @recommendedAgents AG-SS-004 (program-evaluation-specialist), AG-SS-001 (quantitative-research-methodologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

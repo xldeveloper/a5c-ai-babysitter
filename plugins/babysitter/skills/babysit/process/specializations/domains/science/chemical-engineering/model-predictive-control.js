@@ -135,8 +135,9 @@ export async function process(inputs, ctx) {
 export const mpcCandidateIdentificationTask = defineTask('mpc-candidate-identification', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Identify MPC candidates and benefits',
+  skill: { name: 'mpc-designer' },
   agent: {
-    name: 'mpc-analyst',
+    name: 'advanced-control-engineer',
     prompt: {
       role: 'advanced process control analyst',
       task: 'Identify MPC candidates and estimate benefits',
@@ -183,8 +184,9 @@ export const mpcCandidateIdentificationTask = defineTask('mpc-candidate-identifi
 export const dynamicModelDevelopmentTask = defineTask('dynamic-model-development', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop process dynamic models',
+  skill: { name: 'hysys-dynamic-simulator' },
   agent: {
-    name: 'model-engineer',
+    name: 'advanced-control-engineer',
     prompt: {
       role: 'MPC model development engineer',
       task: 'Develop dynamic models for MPC',
@@ -232,8 +234,9 @@ export const dynamicModelDevelopmentTask = defineTask('dynamic-model-development
 export const mpcConfigurationTask = defineTask('mpc-configuration', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Configure MPC controller',
+  skill: { name: 'mpc-designer' },
   agent: {
-    name: 'mpc-configurator',
+    name: 'advanced-control-engineer',
     prompt: {
       role: 'MPC configuration engineer',
       task: 'Configure MPC controller parameters',
@@ -282,8 +285,9 @@ export const mpcConfigurationTask = defineTask('mpc-configuration', (args, taskC
 export const horizonTuningTask = defineTask('horizon-tuning', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Tune prediction and control horizons',
+  skill: { name: 'mpc-designer' },
   agent: {
-    name: 'horizon-tuner',
+    name: 'advanced-control-engineer',
     prompt: {
       role: 'MPC tuning engineer',
       task: 'Tune MPC horizons and move suppression',
@@ -326,8 +330,9 @@ export const horizonTuningTask = defineTask('horizon-tuning', (args, taskCtx) =>
 export const mpcCommissioningTask = defineTask('mpc-commissioning', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Commission and validate MPC performance',
+  skill: { name: 'hysys-dynamic-simulator' },
   agent: {
-    name: 'commissioning-engineer',
+    name: 'advanced-control-engineer',
     prompt: {
       role: 'MPC commissioning engineer',
       task: 'Commission MPC and validate performance',
@@ -374,8 +379,9 @@ export const mpcCommissioningTask = defineTask('mpc-commissioning', (args, taskC
 export const operatorTrainingTask = defineTask('operator-training', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop operator training materials',
+  skill: { name: 'mpc-designer' },
   agent: {
-    name: 'training-developer',
+    name: 'advanced-control-engineer',
     prompt: {
       role: 'MPC training developer',
       task: 'Develop operator training materials for MPC',

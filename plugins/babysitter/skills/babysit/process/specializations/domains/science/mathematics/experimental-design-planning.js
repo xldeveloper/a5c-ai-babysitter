@@ -173,7 +173,8 @@ export const hypothesisDefinitionTask = defineTask('hypothesis-definition', (arg
   kind: 'agent',
   title: `Phase 1: Define Research Hypothesis`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'monte-carlo-simulation'],
     prompt: {
       role: 'Research Methodologist specializing in hypothesis formulation',
       task: 'Formulate clear, testable research hypotheses from the research question',
@@ -232,7 +233,8 @@ export const sampleSizeCalculationTask = defineTask('sample-size-calculation', (
   kind: 'agent',
   title: `Phase 2: Calculate Required Sample Size`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'monte-carlo-simulation', 'stata-statistical-analysis'],
     prompt: {
       role: 'Biostatistician specializing in sample size calculations',
       task: 'Calculate the required sample size for the study',
@@ -314,7 +316,8 @@ export const randomizationDesignTask = defineTask('randomization-design', (args,
   kind: 'agent',
   title: `Phase 3: Design Randomization Protocol`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'monte-carlo-simulation', 'stata-statistical-analysis'],
     prompt: {
       role: 'Clinical Trial Methodologist specializing in randomization',
       task: 'Design the randomization protocol for the experiment',
@@ -400,7 +403,8 @@ export const powerAnalysisTask = defineTask('power-analysis', (args, taskCtx) =>
   kind: 'agent',
   title: `Phase 4: Conduct Power Analysis`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'monte-carlo-simulation', 'stata-statistical-analysis'],
     prompt: {
       role: 'Statistical Power Analysis Expert',
       task: 'Conduct comprehensive power analysis for the experimental design',
@@ -491,7 +495,8 @@ export const designDocumentationTask = defineTask('design-documentation', (args,
   kind: 'agent',
   title: `Phase 5: Document Design Decisions`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'latex-math-formatter', 'stata-statistical-analysis'],
     prompt: {
       role: 'Research Protocol Documentation Specialist',
       task: 'Create comprehensive documentation of the experimental design',

@@ -3,6 +3,8 @@
  * @description Create and curate digital collections following metadata standards (Dublin Core, TEI), IIIF protocols, and long-term preservation practices
  * @inputs { collectionScope: object, materialTypes: array, metadataStandard: string, preservationRequirements: object }
  * @outputs { success: boolean, archiveStructure: object, metadataSchema: object, preservationPlan: object, artifacts: array }
+ * @recommendedSkills SK-HUM-004 (tei-text-encoding), SK-HUM-014 (metadata-standards-implementation), SK-HUM-007 (archival-finding-aid-interpretation)
+ * @recommendedAgents AG-HUM-005 (digital-humanities-technologist), AG-HUM-010 (cultural-heritage-specialist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

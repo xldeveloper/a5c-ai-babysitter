@@ -197,8 +197,9 @@ export async function process(inputs, ctx) {
 export const wasteIdentificationTask = defineTask('waste-identification', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Waste Stream Identification',
+  skill: { name: 'waste-characterization' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Waste Characterization Specialist',
       task: 'Identify and document waste streams',
@@ -240,8 +241,9 @@ export const wasteIdentificationTask = defineTask('waste-identification', (args,
 export const wasteSamplingPlanTask = defineTask('waste-sampling-plan', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Sampling and Analysis Plan',
+  skill: { name: 'waste-characterization' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Waste Sampling Specialist',
       task: 'Develop waste sampling and analysis plan',
@@ -284,8 +286,9 @@ export const wasteSamplingPlanTask = defineTask('waste-sampling-plan', (args, ta
 export const sampleCollectionTask = defineTask('sample-collection', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Sample Collection',
+  skill: { name: 'waste-characterization' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Waste Sampling Technician',
       task: 'Coordinate and document sample collection',
@@ -327,8 +330,9 @@ export const sampleCollectionTask = defineTask('sample-collection', (args, taskC
 export const wasteLabAnalysisTask = defineTask('waste-lab-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Laboratory Analysis',
+  skill: { name: 'waste-characterization' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Laboratory Data Analyst',
       task: 'Coordinate analysis and review results',
@@ -370,8 +374,9 @@ export const wasteLabAnalysisTask = defineTask('waste-lab-analysis', (args, task
 export const wasteClassificationTask = defineTask('waste-classification', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Waste Classification Determination',
+  skill: { name: 'waste-characterization' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'RCRA Waste Classification Specialist',
       task: 'Determine waste classification under RCRA',
@@ -415,8 +420,9 @@ export const wasteClassificationTask = defineTask('waste-classification', (args,
 export const managementRequirementsTask = defineTask('management-requirements', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Management Requirements Determination',
+  skill: { name: 'waste-characterization' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Hazardous Waste Compliance Specialist',
       task: 'Determine waste management requirements',
@@ -461,8 +467,9 @@ export const managementRequirementsTask = defineTask('management-requirements', 
 export const characterizationDocsTask = defineTask('characterization-docs', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Characterization Documentation',
+  skill: { name: 'waste-characterization' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Waste Documentation Specialist',
       task: 'Compile waste characterization documentation',

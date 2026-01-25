@@ -3,6 +3,8 @@
  * @description Apply modal logic frameworks to analyze necessity, possibility, and contingency claims in metaphysical and theological arguments
  * @inputs { argumentText: string, modalSystem: string, domainContext: string, outputDir: string }
  * @outputs { success: boolean, modalAnalysis: object, possibleWorldsSemantics: object, validityResult: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-001 (formal-logic-analysis), SK-PHIL-005 (conceptual-analysis)
+ * @recommendedAgents AG-PHIL-001 (logic-analyst-agent), AG-PHIL-004 (metaphysics-epistemology-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

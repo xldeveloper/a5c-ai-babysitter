@@ -3,6 +3,8 @@
  * @description Authenticate, date, and critically evaluate historical documents including assessment of provenance, bias, reliability, and contextualization within broader evidence
  * @inputs { sourceDocument: object, historicalContext: object, researchQuestion: string }
  * @outputs { success: boolean, sourceAnalysis: object, authentication: object, criticalEvaluation: object, artifacts: array }
+ * @recommendedSkills SK-HUM-001 (primary-source-evaluation), SK-HUM-007 (archival-finding-aid-interpretation), SK-HUM-010 (citation-scholarly-apparatus)
+ * @recommendedAgents AG-HUM-001 (archival-research-specialist), AG-HUM-007 (historical-narrator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

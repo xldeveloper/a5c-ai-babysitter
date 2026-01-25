@@ -245,8 +245,9 @@ export async function process(inputs, ctx) {
 export const emsGapAnalysisTask = defineTask('ems-gap-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'ISO 14001 Gap Analysis',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'EMS Auditor',
       task: 'Conduct ISO 14001 gap analysis',
@@ -291,8 +292,9 @@ export const emsGapAnalysisTask = defineTask('ems-gap-analysis', (args, taskCtx)
 export const contextScopeTask = defineTask('context-scope', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Context of Organization and Scope',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'EMS Implementation Specialist',
       task: 'Define organizational context and EMS scope',
@@ -337,8 +339,9 @@ export const contextScopeTask = defineTask('context-scope', (args, taskCtx) => (
 export const environmentalPolicyTask = defineTask('environmental-policy', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Environmental Policy Development',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'EMS Policy Developer',
       task: 'Develop environmental policy per ISO 14001',
@@ -381,8 +384,9 @@ export const environmentalPolicyTask = defineTask('environmental-policy', (args,
 export const aspectsImpactsTask = defineTask('aspects-impacts', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Environmental Aspects and Impacts',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'Environmental Aspects Analyst',
       task: 'Identify and evaluate environmental aspects',
@@ -426,8 +430,9 @@ export const aspectsImpactsTask = defineTask('aspects-impacts', (args, taskCtx) 
 export const objectivesPlanningTask = defineTask('objectives-planning', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Objectives and Environmental Planning',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'Environmental Planning Specialist',
       task: 'Develop environmental objectives and planning',
@@ -471,8 +476,9 @@ export const objectivesPlanningTask = defineTask('objectives-planning', (args, t
 export const supportOperationsTask = defineTask('support-operations', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Support and Operational Controls',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'EMS Operations Specialist',
       task: 'Develop support requirements and operational controls',
@@ -517,8 +523,9 @@ export const supportOperationsTask = defineTask('support-operations', (args, tas
 export const performanceEvaluationTask = defineTask('performance-evaluation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Performance Evaluation System',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'EMS Performance Analyst',
       task: 'Develop performance evaluation system',
@@ -563,8 +570,9 @@ export const performanceEvaluationTask = defineTask('performance-evaluation', (a
 export const managementReviewTask = defineTask('management-review', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Management Review Process',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'EMS Management Review Coordinator',
       task: 'Develop management review process',
@@ -609,8 +617,9 @@ export const managementReviewTask = defineTask('management-review', (args, taskC
 export const internalAuditTask = defineTask('internal-audit', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Internal Audit Program',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'EMS Internal Auditor',
       task: 'Develop internal audit program',
@@ -656,8 +665,9 @@ export const internalAuditTask = defineTask('internal-audit', (args, taskCtx) =>
 export const emsDocumentationTask = defineTask('ems-documentation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'EMS Documentation Package',
+  skill: { name: 'ems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'EMS Documentation Specialist',
       task: 'Compile complete EMS documentation package',

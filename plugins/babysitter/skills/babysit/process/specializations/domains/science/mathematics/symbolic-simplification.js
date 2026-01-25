@@ -137,7 +137,8 @@ export const expressionParsingTask = defineTask('expression-parsing', (args, tas
   kind: 'agent',
   title: `Phase 1: Parse Mathematical Expression`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['sympy-computer-algebra', 'sage-math-interface', 'latex-math-formatter'],
     prompt: {
       role: 'Symbolic Mathematics Expert',
       task: 'Parse and analyze the mathematical expression',
@@ -204,7 +205,8 @@ export const simplificationApplicationTask = defineTask('simplification-applicat
   kind: 'agent',
   title: `Phase 2: Apply Simplification Rules`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['sympy-computer-algebra', 'sage-math-interface', 'latex-math-formatter'],
     prompt: {
       role: 'Computer Algebra Simplification Expert',
       task: 'Apply simplification rules to the expression',
@@ -270,7 +272,8 @@ export const patternRecognitionTask = defineTask('pattern-recognition', (args, t
   kind: 'agent',
   title: `Phase 3: Identify Patterns and Structures`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['sage-math-interface', 'sympy-computer-algebra', 'special-functions-library'],
     prompt: {
       role: 'Mathematical Pattern Recognition Expert',
       task: 'Identify mathematical patterns and special structures',
@@ -336,7 +339,8 @@ export const equivalentFormsGenerationTask = defineTask('equivalent-forms', (arg
   kind: 'agent',
   title: `Phase 4: Generate Equivalent Forms`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['sympy-computer-algebra', 'sage-math-interface', 'latex-math-formatter'],
     prompt: {
       role: 'Expression Transformation Expert',
       task: 'Generate useful equivalent forms of the expression',
@@ -407,7 +411,8 @@ export const simplificationVerificationTask = defineTask('simplification-verific
   kind: 'agent',
   title: `Phase 5: Verify Simplification Correctness`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['sympy-computer-algebra', 'benchmark-suite-manager', 'floating-point-analysis'],
     prompt: {
       role: 'Mathematical Verification Expert',
       task: 'Verify that simplification preserves mathematical equivalence',

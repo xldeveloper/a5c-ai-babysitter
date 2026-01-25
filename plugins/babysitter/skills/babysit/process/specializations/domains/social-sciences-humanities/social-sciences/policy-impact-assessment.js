@@ -3,6 +3,8 @@
  * @description Evaluate policy effects using program evaluation methods, cost-benefit analysis, stakeholder analysis, and evidence synthesis for evidence-based recommendations
  * @inputs { policy: object, evaluationContext: object, stakeholders: array, outputDir: string }
  * @outputs { success: boolean, impactFindings: object, recommendations: array, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-006 (program-evaluation), SK-SS-008 (systematic-review), SK-SS-012 (policy-communication)
+ * @recommendedAgents AG-SS-004 (program-evaluation-specialist), AG-SS-006 (policy-research-analyst)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

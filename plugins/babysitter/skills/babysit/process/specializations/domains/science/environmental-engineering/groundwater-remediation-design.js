@@ -203,8 +203,9 @@ export async function process(inputs, ctx) {
 export const hydrogeologicAnalysisTask = defineTask('hydrogeologic-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Hydrogeologic Analysis',
+  skill: { name: 'groundwater-modeling' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'hydrogeology-specialist',
     prompt: {
       role: 'Hydrogeologist',
       task: 'Analyze site hydrogeology for remediation design',
@@ -246,8 +247,9 @@ export const hydrogeologicAnalysisTask = defineTask('hydrogeologic-analysis', (a
 export const fateTransportTask = defineTask('fate-transport', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Fate and Transport Modeling',
+  skill: { name: 'groundwater-modeling' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'hydrogeology-specialist',
     prompt: {
       role: 'Contaminant Transport Modeler',
       task: 'Model contaminant fate and transport',
@@ -290,8 +292,9 @@ export const fateTransportTask = defineTask('fate-transport', (args, taskCtx) =>
 export const gwRemediationDesignTask = defineTask('gw-remediation-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Remediation System Design',
+  skill: { name: 'groundwater-modeling' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'hydrogeology-specialist',
     prompt: {
       role: 'Groundwater Remediation Engineer',
       task: 'Design groundwater remediation system',
@@ -336,8 +339,9 @@ export const gwRemediationDesignTask = defineTask('gw-remediation-design', (args
 export const monitoringNetworkTask = defineTask('monitoring-network', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Monitoring Network Design',
+  skill: { name: 'groundwater-modeling' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'hydrogeology-specialist',
     prompt: {
       role: 'Groundwater Monitoring Specialist',
       task: 'Design monitoring well network',
@@ -380,8 +384,9 @@ export const monitoringNetworkTask = defineTask('monitoring-network', (args, tas
 export const performanceMonitoringTask = defineTask('performance-monitoring', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Performance Monitoring Plan',
+  skill: { name: 'groundwater-modeling' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'hydrogeology-specialist',
     prompt: {
       role: 'Remediation Performance Specialist',
       task: 'Develop performance monitoring plan',
@@ -424,8 +429,9 @@ export const performanceMonitoringTask = defineTask('performance-monitoring', (a
 export const gwCostScheduleTask = defineTask('gw-cost-schedule', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Cost and Schedule Estimation',
+  skill: { name: 'groundwater-modeling' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'hydrogeology-specialist',
     prompt: {
       role: 'Remediation Cost Estimator',
       task: 'Estimate remediation costs and schedule',
@@ -469,8 +475,9 @@ export const gwCostScheduleTask = defineTask('gw-cost-schedule', (args, taskCtx)
 export const gwDesignDocsTask = defineTask('gw-design-docs', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design Documentation',
+  skill: { name: 'groundwater-modeling' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'hydrogeology-specialist',
     prompt: {
       role: 'Groundwater Remediation Document Specialist',
       task: 'Compile design documentation package',

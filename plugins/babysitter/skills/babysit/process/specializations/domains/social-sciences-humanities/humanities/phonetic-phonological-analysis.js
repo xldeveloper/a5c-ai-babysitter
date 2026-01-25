@@ -3,6 +3,8 @@
  * @description Analyze sound systems using IPA transcription, acoustic analysis, and phonological rule formulation for language description
  * @inputs { languageData: object, recordingCorpus: array, analysisGoals: array }
  * @outputs { success: boolean, phoneticAnalysis: object, phonologicalSystem: object, rules: array, artifacts: array }
+ * @recommendedSkills SK-HUM-003 (ipa-transcription-phonological-analysis), SK-HUM-012 (morphosyntactic-analysis)
+ * @recommendedAgents AG-HUM-003 (documentary-linguist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

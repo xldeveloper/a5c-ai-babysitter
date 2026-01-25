@@ -205,8 +205,9 @@ export async function process(inputs, ctx) {
 export const wteWasteCharTask = defineTask('wte-waste-char', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Waste Feedstock Characterization',
+  skill: { name: 'waste-to-energy' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'WTE Waste Analyst',
       task: 'Characterize waste feedstock for WTE facility',
@@ -250,8 +251,9 @@ export const wteWasteCharTask = defineTask('wte-waste-char', (args, taskCtx) => 
 export const wteTechEvalTask = defineTask('wte-tech-eval', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Technology Evaluation',
+  skill: { name: 'waste-to-energy' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'WTE Technology Specialist',
       task: 'Evaluate and select WTE technology',
@@ -294,8 +296,9 @@ export const wteTechEvalTask = defineTask('wte-tech-eval', (args, taskCtx) => ({
 export const energyRecoveryTask = defineTask('energy-recovery', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Energy Recovery Design',
+  skill: { name: 'waste-to-energy' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'WTE Energy Engineer',
       task: 'Design energy recovery system',
@@ -341,8 +344,9 @@ export const energyRecoveryTask = defineTask('energy-recovery', (args, taskCtx) 
 export const wteEnvironmentalTask = defineTask('wte-environmental', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Environmental Controls Design',
+  skill: { name: 'waste-to-energy' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'WTE Environmental Engineer',
       task: 'Design environmental control systems',
@@ -386,8 +390,9 @@ export const wteEnvironmentalTask = defineTask('wte-environmental', (args, taskC
 export const residueManagementTask = defineTask('residue-management', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Residue Management Planning',
+  skill: { name: 'waste-to-energy' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'WTE Residue Specialist',
       task: 'Plan residue management strategy',
@@ -432,8 +437,9 @@ export const residueManagementTask = defineTask('residue-management', (args, tas
 export const wteEconomicTask = defineTask('wte-economic', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Economic Analysis',
+  skill: { name: 'waste-to-energy' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'WTE Financial Analyst',
       task: 'Conduct economic analysis of WTE facility',
@@ -478,8 +484,9 @@ export const wteEconomicTask = defineTask('wte-economic', (args, taskCtx) => ({
 export const wtePlanningReportTask = defineTask('wte-planning-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Facility Planning Report',
+  skill: { name: 'waste-to-energy' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'WTE Project Planner',
       task: 'Compile facility planning report',

@@ -3,6 +3,8 @@
  * @description Conduct systematic qualitative data analysis using grounded theory, thematic analysis, or content analysis approaches with software tools like NVivo or Atlas.ti
  * @inputs { dataPath: string, researchQuestions: array, analyticalApproach: string, outputDir: string }
  * @outputs { success: boolean, codingScheme: object, themes: array, analysisReport: string, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-002 (qualitative-analysis)
+ * @recommendedAgents AG-SS-002 (qualitative-research-specialist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

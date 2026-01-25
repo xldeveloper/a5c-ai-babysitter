@@ -3,6 +3,8 @@
  * @description Perform quantitative data analysis including descriptive statistics, hypothesis testing, regression modeling, and robustness checks using SPSS, Stata, R, or Python
  * @inputs { dataPath: string, researchQuestions: array, hypotheses: array, analysisType: string, outputDir: string }
  * @outputs { success: boolean, analysisResults: object, robustnessChecks: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-001 (quantitative-methods)
+ * @recommendedAgents AG-SS-001 (quantitative-research-methodologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

@@ -3,6 +3,8 @@
  * @description Conduct semi-structured and in-depth interviews including guide development, rapport building, probing techniques, and ethical considerations for qualitative data collection
  * @inputs { researchQuestions: array, targetParticipants: object, interviewContext: object, outputDir: string }
  * @outputs { success: boolean, interviewGuide: object, protocolDocument: string, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-013 (interview-facilitation), SK-SS-002 (qualitative-analysis), SK-SS-014 (research-ethics-irb)
+ * @recommendedAgents AG-SS-002 (qualitative-research-specialist), AG-SS-010 (research-ethics-coordinator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

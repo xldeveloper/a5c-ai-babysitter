@@ -221,8 +221,9 @@ export async function process(inputs, ctx) {
 export const boundaryDefinitionTask = defineTask('boundary-definition', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Boundary Definition',
+  skill: { name: 'carbon-footprint' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Inventory Specialist',
       task: 'Define organizational and operational boundaries',
@@ -266,8 +267,9 @@ export const boundaryDefinitionTask = defineTask('boundary-definition', (args, t
 export const cfActivityDataTask = defineTask('cf-activity-data', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Activity Data Collection',
+  skill: { name: 'carbon-footprint' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Data Analyst',
       task: 'Collect activity data for emissions calculation',
@@ -312,8 +314,9 @@ export const cfActivityDataTask = defineTask('cf-activity-data', (args, taskCtx)
 export const scope1CalculationTask = defineTask('scope1-calculation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Scope 1 Emissions Calculation',
+  skill: { name: 'carbon-footprint' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Calculator',
       task: 'Calculate Scope 1 direct emissions',
@@ -358,8 +361,9 @@ export const scope1CalculationTask = defineTask('scope1-calculation', (args, tas
 export const scope2CalculationTask = defineTask('scope2-calculation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Scope 2 Emissions Calculation',
+  skill: { name: 'carbon-footprint' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Calculator',
       task: 'Calculate Scope 2 indirect emissions',
@@ -404,8 +408,9 @@ export const scope2CalculationTask = defineTask('scope2-calculation', (args, tas
 export const scope3CalculationTask = defineTask('scope3-calculation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Scope 3 Emissions Calculation',
+  skill: { name: 'carbon-footprint' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'Scope 3 Specialist',
       task: 'Calculate Scope 3 value chain emissions',
@@ -453,8 +458,9 @@ export const scope3CalculationTask = defineTask('scope3-calculation', (args, tas
 export const cfDataQualityTask = defineTask('cf-data-quality', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Data Quality Assessment',
+  skill: { name: 'carbon-footprint' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Data Quality Analyst',
       task: 'Assess data quality of GHG inventory',
@@ -499,8 +505,9 @@ export const cfDataQualityTask = defineTask('cf-data-quality', (args, taskCtx) =
 export const cfReductionTask = defineTask('cf-reduction', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Reduction Opportunities Analysis',
+  skill: { name: 'carbon-footprint' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'Carbon Reduction Analyst',
       task: 'Identify carbon reduction opportunities',
@@ -545,8 +552,9 @@ export const cfReductionTask = defineTask('cf-reduction', (args, taskCtx) => ({
 export const cfReportTask = defineTask('cf-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Carbon Footprint Report',
+  skill: { name: 'carbon-footprint' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'ghg-sustainability-specialist',
     prompt: {
       role: 'GHG Report Writer',
       task: 'Generate carbon footprint report',

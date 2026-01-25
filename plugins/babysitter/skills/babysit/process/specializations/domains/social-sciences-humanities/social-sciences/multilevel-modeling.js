@@ -3,6 +3,8 @@
  * @description Analyze nested data structures using hierarchical linear models for individuals within groups, repeated measures, or cross-classified designs
  * @inputs { dataPath: string, nestedStructure: object, researchQuestions: array, outputDir: string }
  * @outputs { success: boolean, modelResults: object, varianceComponents: object, modelComparison: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-001 (quantitative-methods)
+ * @recommendedAgents AG-SS-001 (quantitative-research-methodologist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

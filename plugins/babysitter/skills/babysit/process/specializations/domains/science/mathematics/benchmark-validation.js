@@ -143,8 +143,9 @@ export async function process(inputs, ctx) {
 export const benchmarkIdentificationTask = defineTask('benchmark-identification', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 1: Identify Appropriate Benchmarks`,
+  skill: { name: 'benchmark-suite-manager' },
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
     prompt: {
       role: 'Mathematical Benchmarking Expert',
       task: 'Identify appropriate benchmark problems for validation',
@@ -203,8 +204,9 @@ export const benchmarkIdentificationTask = defineTask('benchmark-identification'
 export const benchmarkExecutionTask = defineTask('benchmark-execution', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 2: Run Benchmark Tests`,
+  skill: { name: 'benchmark-suite-manager' },
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
     prompt: {
       role: 'Benchmark Execution Specialist',
       task: 'Execute benchmarks and collect results',
@@ -266,8 +268,9 @@ export const benchmarkExecutionTask = defineTask('benchmark-execution', (args, t
 export const analyticalComparisonTask = defineTask('analytical-comparison', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 3: Compare to Analytical Solutions`,
+  skill: { name: 'sympy-computer-algebra' },
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
     prompt: {
       role: 'Analytical Solution Comparison Expert',
       task: 'Compare numerical results against analytical solutions',
@@ -338,8 +341,9 @@ export const analyticalComparisonTask = defineTask('analytical-comparison', (arg
 export const metricsDocumentationTask = defineTask('metrics-documentation', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 4: Document Accuracy and Performance`,
+  skill: { name: 'benchmark-suite-manager' },
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
     prompt: {
       role: 'Numerical Software Metrics Expert',
       task: 'Document comprehensive accuracy and performance metrics',
@@ -403,8 +407,9 @@ export const metricsDocumentationTask = defineTask('metrics-documentation', (arg
 export const validationReportTask = defineTask('validation-report', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 5: Generate Validation Reports`,
+  skill: { name: 'benchmark-suite-manager' },
   agent: {
-    name: 'general-purpose',
+    name: 'numerical-analyst',
     prompt: {
       role: 'Software Validation Report Specialist',
       task: 'Generate comprehensive validation report',

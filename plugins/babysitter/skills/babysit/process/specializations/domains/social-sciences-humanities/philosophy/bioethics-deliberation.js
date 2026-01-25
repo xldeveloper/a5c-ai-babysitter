@@ -3,6 +3,8 @@
  * @description Conduct structured ethical deliberation for healthcare decisions, research protocols, and clinical cases using bioethical principles and case-based reasoning
  * @inputs { caseDescription: string, deliberationType: string, committeeSize: number, outputDir: string }
  * @outputs { success: boolean, deliberationProcess: object, ethicalAssessment: object, recommendations: array, artifacts: array }
+ * @recommendedSkills SK-PHIL-012 (bioethics-deliberation), SK-PHIL-003 (ethical-framework-application), SK-PHIL-014 (socratic-dialogue-facilitation)
+ * @recommendedAgents AG-PHIL-002 (ethics-consultant-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

@@ -49,58 +49,58 @@ This document defines the skills and agents required to support the processes in
 
 ### Ethnographic Research Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Ethnographic Fieldwork Planning | SK-HUM-006, SK-HUM-002 | AG-HUM-002, AG-HUM-008 |
-| Participant Observation Protocol | SK-HUM-002, SK-HUM-008 | AG-HUM-002, AG-HUM-006 |
-| Ethnographic Interview Methodology | SK-HUM-008, SK-HUM-002, SK-HUM-006 | AG-HUM-002, AG-HUM-006, AG-HUM-008 |
-| Visual Ethnography Documentation | SK-HUM-002, SK-HUM-014 | AG-HUM-002, AG-HUM-010 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Ethnographic Fieldwork Planning | SK-HUM-006, SK-HUM-002 | AG-HUM-002, AG-HUM-008 | [x] |
+| Participant Observation Protocol | SK-HUM-002, SK-HUM-008 | AG-HUM-002, AG-HUM-006 | [x] |
+| Ethnographic Interview Methodology | SK-HUM-008, SK-HUM-002, SK-HUM-006 | AG-HUM-002, AG-HUM-006, AG-HUM-008 | [x] |
+| Visual Ethnography Documentation | SK-HUM-002, SK-HUM-014 | AG-HUM-002, AG-HUM-010 | [x] |
 
 ### Historical Research Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Archival Research Methodology | SK-HUM-007, SK-HUM-001, SK-HUM-014 | AG-HUM-001, AG-HUM-007 |
-| Primary Source Analysis | SK-HUM-001, SK-HUM-007, SK-HUM-010 | AG-HUM-001, AG-HUM-007 |
-| Oral History Collection Protocol | SK-HUM-008, SK-HUM-006, SK-HUM-002 | AG-HUM-006, AG-HUM-008 |
-| Historical Narrative Construction | SK-HUM-001, SK-HUM-010, SK-HUM-005 | AG-HUM-007, AG-HUM-001 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Archival Research Methodology | SK-HUM-007, SK-HUM-001, SK-HUM-014 | AG-HUM-001, AG-HUM-007 | [x] |
+| Primary Source Analysis | SK-HUM-001, SK-HUM-007, SK-HUM-010 | AG-HUM-001, AG-HUM-007 | [x] |
+| Oral History Collection Protocol | SK-HUM-008, SK-HUM-006, SK-HUM-002 | AG-HUM-006, AG-HUM-008 | [x] |
+| Historical Narrative Construction | SK-HUM-001, SK-HUM-010, SK-HUM-005 | AG-HUM-007, AG-HUM-001 | [x] |
 
 ### Literary Analysis Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Close Reading Analysis | SK-HUM-005, SK-HUM-010 | AG-HUM-004 |
-| Literary Theoretical Application | SK-HUM-013, SK-HUM-005, SK-HUM-010 | AG-HUM-004 |
-| Textual Criticism and Editing | SK-HUM-004, SK-HUM-010, SK-HUM-005 | AG-HUM-004, AG-HUM-005 |
-| Comparative Literature Analysis | SK-HUM-005, SK-HUM-013, SK-HUM-010 | AG-HUM-004 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Close Reading Analysis | SK-HUM-005, SK-HUM-010 | AG-HUM-004 | [x] |
+| Literary Theoretical Application | SK-HUM-013, SK-HUM-005, SK-HUM-010 | AG-HUM-004 | [x] |
+| Textual Criticism and Editing | SK-HUM-004, SK-HUM-010, SK-HUM-005 | AG-HUM-004, AG-HUM-005 | [x] |
+| Comparative Literature Analysis | SK-HUM-005, SK-HUM-013, SK-HUM-010 | AG-HUM-004 | [x] |
 
 ### Linguistic Analysis Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Language Documentation Project | SK-HUM-003, SK-HUM-012, SK-HUM-006 | AG-HUM-003, AG-HUM-008 |
-| Phonetic and Phonological Analysis | SK-HUM-003, SK-HUM-012 | AG-HUM-003 |
-| Sociolinguistic Survey Methodology | SK-HUM-002, SK-HUM-006, SK-HUM-009 | AG-HUM-003, AG-HUM-002 |
-| Corpus Linguistics Analysis | SK-HUM-009, SK-HUM-003, SK-HUM-012 | AG-HUM-003, AG-HUM-005 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Language Documentation Project | SK-HUM-003, SK-HUM-012, SK-HUM-006 | AG-HUM-003, AG-HUM-008 | [x] |
+| Phonetic and Phonological Analysis | SK-HUM-003, SK-HUM-012 | AG-HUM-003 | [x] |
+| Sociolinguistic Survey Methodology | SK-HUM-002, SK-HUM-006, SK-HUM-009 | AG-HUM-003, AG-HUM-002 | [x] |
+| Corpus Linguistics Analysis | SK-HUM-009, SK-HUM-003, SK-HUM-012 | AG-HUM-003, AG-HUM-005 | [x] |
 
 ### Digital Humanities Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Text Mining and Distant Reading | SK-HUM-009, SK-HUM-004 | AG-HUM-005 |
-| Digital Archive Development | SK-HUM-004, SK-HUM-014, SK-HUM-007 | AG-HUM-005, AG-HUM-010 |
-| Spatial Humanities Mapping | SK-HUM-011, SK-HUM-014 | AG-HUM-005 |
-| Network Analysis for Humanities | SK-HUM-009, SK-HUM-011 | AG-HUM-005 |
-| Data Visualization for Cultural Research | SK-HUM-011, SK-HUM-014, SK-HUM-009 | AG-HUM-005 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Text Mining and Distant Reading | SK-HUM-009, SK-HUM-004 | AG-HUM-005 | [x] |
+| Digital Archive Development | SK-HUM-004, SK-HUM-014, SK-HUM-007 | AG-HUM-005, AG-HUM-010 | [x] |
+| Spatial Humanities Mapping | SK-HUM-011, SK-HUM-014 | AG-HUM-005 | [x] |
+| Network Analysis for Humanities | SK-HUM-009, SK-HUM-011 | AG-HUM-005 | [x] |
+| Data Visualization for Cultural Research | SK-HUM-011, SK-HUM-014, SK-HUM-009 | AG-HUM-005 | [x] |
 
 ### Publication and Peer Review Processes
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| Scholarly Article Development | SK-HUM-010, SK-HUM-015 | AG-HUM-009, AG-HUM-007 |
-| Peer Review Evaluation Protocol | SK-HUM-010, SK-HUM-005, SK-HUM-001 | AG-HUM-009, AG-HUM-004 |
-| Research Ethics Review | SK-HUM-006, SK-HUM-015 | AG-HUM-008, AG-HUM-009 |
-| Grant Proposal Development | SK-HUM-015, SK-HUM-010 | AG-HUM-009 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| Scholarly Article Development | SK-HUM-010, SK-HUM-015 | AG-HUM-009, AG-HUM-007 | [x] |
+| Peer Review Evaluation Protocol | SK-HUM-010, SK-HUM-005, SK-HUM-001 | AG-HUM-009, AG-HUM-004 | [x] |
+| Research Ethics Review | SK-HUM-006, SK-HUM-015 | AG-HUM-008, AG-HUM-009 | [x] |
+| Grant Proposal Development | SK-HUM-015, SK-HUM-010 | AG-HUM-009 | [x] |
 
 ---
 

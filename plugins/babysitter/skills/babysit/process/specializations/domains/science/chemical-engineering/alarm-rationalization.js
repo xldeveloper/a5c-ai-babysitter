@@ -149,8 +149,9 @@ export async function process(inputs, ctx) {
 export const alarmInventoryTask = defineTask('alarm-inventory', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Inventory existing alarms',
+  skill: { name: 'alarm-rationalizer' },
   agent: {
-    name: 'alarm-analyst',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'alarm systems analyst',
       task: 'Create comprehensive inventory of existing alarms',
@@ -198,8 +199,9 @@ export const alarmInventoryTask = defineTask('alarm-inventory', (args, taskCtx) 
 export const alarmPerformanceTask = defineTask('alarm-performance', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Analyze current alarm performance',
+  skill: { name: 'alarm-rationalizer' },
   agent: {
-    name: 'performance-analyst',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'alarm performance analyst',
       task: 'Analyze alarm system performance metrics',
@@ -241,8 +243,9 @@ export const alarmPerformanceTask = defineTask('alarm-performance', (args, taskC
 export const alarmClassificationTask = defineTask('alarm-classification', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Classify alarms by priority and consequence',
+  skill: { name: 'alarm-rationalizer' },
   agent: {
-    name: 'classification-engineer',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'alarm classification engineer',
       task: 'Classify alarms by priority based on consequence',
@@ -288,8 +291,9 @@ export const alarmClassificationTask = defineTask('alarm-classification', (args,
 export const nuisanceAlarmIdentificationTask = defineTask('nuisance-alarm-identification', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Identify and address nuisance alarms',
+  skill: { name: 'alarm-rationalizer' },
   agent: {
-    name: 'nuisance-analyst',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'nuisance alarm analyst',
       task: 'Identify nuisance alarms for elimination',
@@ -337,8 +341,9 @@ export const nuisanceAlarmIdentificationTask = defineTask('nuisance-alarm-identi
 export const setpointOptimizationTask = defineTask('setpoint-optimization', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Optimize alarm setpoints and deadbands',
+  skill: { name: 'control-strategy-designer' },
   agent: {
-    name: 'setpoint-optimizer',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'alarm setpoint optimizer',
       task: 'Optimize alarm setpoints and deadbands',
@@ -384,8 +389,9 @@ export const setpointOptimizationTask = defineTask('setpoint-optimization', (arg
 export const alarmResponseProceduresTask = defineTask('alarm-response-procedures', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design alarm response procedures',
+  skill: { name: 'alarm-rationalizer' },
   agent: {
-    name: 'procedure-developer',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'alarm response procedure developer',
       task: 'Develop alarm response procedures',
@@ -435,8 +441,9 @@ export const alarmResponseProceduresTask = defineTask('alarm-response-procedures
 export const alarmManagementImplementationTask = defineTask('alarm-management-implementation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Implement alarm management system',
+  skill: { name: 'control-strategy-designer' },
   agent: {
-    name: 'implementation-engineer',
+    name: 'control-systems-engineer',
     prompt: {
       role: 'alarm management implementation engineer',
       task: 'Implement alarm management system and ongoing plan',

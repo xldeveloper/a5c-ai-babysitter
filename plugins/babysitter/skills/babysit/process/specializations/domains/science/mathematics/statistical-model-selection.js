@@ -157,7 +157,8 @@ export const dataAssessmentTask = defineTask('data-assessment', (args, taskCtx) 
   kind: 'agent',
   title: `Phase 1: Assess Data Distribution and Structure`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'monte-carlo-simulation'],
     prompt: {
       role: 'Statistical Data Analyst specializing in exploratory data analysis',
       task: 'Assess data characteristics to guide model selection',
@@ -236,7 +237,8 @@ export const assumptionCheckingTask = defineTask('assumption-checking', (args, t
   kind: 'agent',
   title: `Phase 2: Check Model Assumptions`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'monte-carlo-simulation'],
     prompt: {
       role: 'Statistical Modeling Expert',
       task: 'Check assumptions for candidate statistical models',
@@ -312,7 +314,8 @@ export const modelComparisonTask = defineTask('model-comparison', (args, taskCtx
   kind: 'agent',
   title: `Phase 3: Compare Candidate Models`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'stan-bayesian-modeling'],
     prompt: {
       role: 'Model Selection Specialist',
       task: 'Compare candidate models using statistical criteria',
@@ -398,7 +401,8 @@ export const modelDiagnosticsTask = defineTask('model-diagnostics', (args, taskC
   kind: 'agent',
   title: `Phase 4: Validate Model Diagnostics`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'monte-carlo-simulation'],
     prompt: {
       role: 'Statistical Model Diagnostics Expert',
       task: 'Perform comprehensive diagnostics on top candidate models',
@@ -483,7 +487,8 @@ export const selectionDocumentationTask = defineTask('selection-documentation', 
   kind: 'agent',
   title: `Phase 5: Document Selection Rationale`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'latex-math-formatter', 'stata-statistical-analysis'],
     prompt: {
       role: 'Statistical Reporting Specialist',
       task: 'Document the model selection process and rationale',

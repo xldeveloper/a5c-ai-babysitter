@@ -207,8 +207,9 @@ export async function process(inputs, ctx) {
 export const brownfieldAssessmentTask = defineTask('brownfield-assessment', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Site Assessment and Characterization',
+  skill: { name: 'brownfield-redevelopment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Brownfield Assessment Specialist',
       task: 'Assess brownfield site conditions',
@@ -252,8 +253,9 @@ export const brownfieldAssessmentTask = defineTask('brownfield-assessment', (arg
 export const reuseAnalysisTask = defineTask('reuse-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Reuse Analysis',
+  skill: { name: 'brownfield-redevelopment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Brownfield Reuse Planner',
       task: 'Analyze site reuse options',
@@ -297,8 +299,9 @@ export const reuseAnalysisTask = defineTask('reuse-analysis', (args, taskCtx) =>
 export const regulatoryPathwayTask = defineTask('regulatory-pathway', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Regulatory Pathway Analysis',
+  skill: { name: 'brownfield-redevelopment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Brownfield Regulatory Specialist',
       task: 'Identify optimal regulatory pathway',
@@ -342,8 +345,9 @@ export const regulatoryPathwayTask = defineTask('regulatory-pathway', (args, tas
 export const brownfieldRemediationTask = defineTask('brownfield-remediation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Remediation Strategy Development',
+  skill: { name: 'brownfield-redevelopment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Brownfield Remediation Engineer',
       task: 'Develop remediation strategy for redevelopment',
@@ -388,8 +392,9 @@ export const brownfieldRemediationTask = defineTask('brownfield-remediation', (a
 export const financingAnalysisTask = defineTask('financing-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Financing Options Analysis',
+  skill: { name: 'brownfield-redevelopment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Brownfield Finance Specialist',
       task: 'Identify financing options for brownfield redevelopment',
@@ -432,8 +437,9 @@ export const financingAnalysisTask = defineTask('financing-analysis', (args, tas
 export const stakeholderEngagementTask = defineTask('stakeholder-engagement', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Stakeholder Engagement Planning',
+  skill: { name: 'brownfield-redevelopment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Community Engagement Specialist',
       task: 'Develop stakeholder engagement plan',
@@ -477,8 +483,9 @@ export const stakeholderEngagementTask = defineTask('stakeholder-engagement', (a
 export const redevelopmentPlanTask = defineTask('redevelopment-plan', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Redevelopment Plan Integration',
+  skill: { name: 'brownfield-redevelopment' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'remediation-specialist',
     prompt: {
       role: 'Brownfield Redevelopment Planner',
       task: 'Integrate all elements into redevelopment plan',

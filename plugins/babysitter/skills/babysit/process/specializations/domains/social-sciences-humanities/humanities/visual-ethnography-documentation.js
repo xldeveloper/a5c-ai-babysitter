@@ -3,6 +3,8 @@
  * @description Create photographic, video, and audio documentation of cultural practices, rituals, and daily life with appropriate community permissions and metadata standards
  * @inputs { documentationFocus: string, mediaTypes: array, communityContext: object, ethicsApproval: object }
  * @outputs { success: boolean, mediaCollection: object, metadataRecords: array, ethicsDocumentation: object, artifacts: array }
+ * @recommendedSkills SK-HUM-002 (ethnographic-coding-thematics), SK-HUM-014 (metadata-standards-implementation)
+ * @recommendedAgents AG-HUM-002 (ethnographic-methods-advisor), AG-HUM-010 (cultural-heritage-specialist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

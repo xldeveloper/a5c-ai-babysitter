@@ -3,6 +3,8 @@
  * @description Navigate archival systems, identify relevant collections, transcribe and digitize primary sources, and organize materials with proper scholarly apparatus
  * @inputs { researchQuestion: string, archiveTargets: array, timePeriod: string, documentTypes: array }
  * @outputs { success: boolean, archivalFindings: object, transcriptions: array, bibliography: array, artifacts: array }
+ * @recommendedSkills SK-HUM-007 (archival-finding-aid-interpretation), SK-HUM-001 (primary-source-evaluation), SK-HUM-014 (metadata-standards-implementation)
+ * @recommendedAgents AG-HUM-001 (archival-research-specialist), AG-HUM-007 (historical-narrator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

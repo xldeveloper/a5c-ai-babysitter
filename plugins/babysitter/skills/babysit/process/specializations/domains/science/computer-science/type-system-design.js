@@ -207,7 +207,8 @@ export const typeSyntaxDefinitionTask = defineTask('type-syntax-definition', (ar
   kind: 'agent',
   title: 'Define type syntax and structure',
   agent: {
-    name: 'type-syntax-designer',
+    name: 'type-theorist',
+    skills: ['type-inference-engine', 'lambda-calculus-reducer', 'latex-proof-formatter'],
     prompt: {
       role: 'programming language type theorist',
       task: 'Define the syntax of types for the type system',
@@ -260,7 +261,8 @@ export const typeSemanticsDefinitionTask = defineTask('type-semantics-definition
   kind: 'agent',
   title: 'Define type semantics',
   agent: {
-    name: 'type-semantics-designer',
+    name: 'semantics-formalist',
+    skills: ['lambda-calculus-reducer', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'denotational semantics specialist',
       task: 'Define the semantics of types (what values inhabit each type)',
@@ -313,7 +315,8 @@ export const typingRulesTask = defineTask('typing-rules', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Establish typing rules (inference rules)',
   agent: {
-    name: 'typing-rules-designer',
+    name: 'type-theorist',
+    skills: ['type-inference-engine', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'type system designer',
       task: 'Define typing rules in inference rule notation',
@@ -365,7 +368,8 @@ export const soundnessProofTask = defineTask('soundness-proof', (args, taskCtx) 
   kind: 'agent',
   title: 'Prove type soundness (progress and preservation)',
   agent: {
-    name: 'soundness-prover',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'type theory proof specialist',
       task: 'Prove type soundness via progress and preservation theorems',
@@ -431,7 +435,8 @@ export const typeInferenceDesignTask = defineTask('type-inference-design', (args
   kind: 'agent',
   title: 'Design type inference algorithm',
   agent: {
-    name: 'type-inference-designer',
+    name: 'type-theorist',
+    skills: ['type-inference-engine', 'lambda-calculus-reducer', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'type inference specialist',
       task: 'Design type inference algorithm for the type system',
@@ -481,7 +486,8 @@ export const typeCheckingDecidabilityTask = defineTask('type-checking-decidabili
   kind: 'agent',
   title: 'Analyze decidability of type checking',
   agent: {
-    name: 'decidability-analyst',
+    name: 'complexity-theorist',
+    skills: ['complexity-class-oracle', 'type-inference-engine', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'type system decidability specialist',
       task: 'Analyze decidability and complexity of type checking',
@@ -524,7 +530,8 @@ export const advancedFeaturesTask = defineTask('advanced-features', (args, taskC
   kind: 'agent',
   title: 'Handle polymorphism, subtyping, or dependent types',
   agent: {
-    name: 'advanced-features-designer',
+    name: 'type-theorist',
+    skills: ['type-inference-engine', 'lambda-calculus-reducer', 'theorem-prover-interface'],
     prompt: {
       role: 'advanced type system specialist',
       task: 'Design and integrate advanced type system features as needed',
@@ -586,7 +593,8 @@ export const typeSystemSpecificationTask = defineTask('type-system-specification
   kind: 'agent',
   title: 'Generate type system specification document',
   agent: {
-    name: 'specification-writer',
+    name: 'type-theorist',
+    skills: ['latex-proof-formatter', 'type-inference-engine'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive type system specification document',

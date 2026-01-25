@@ -191,8 +191,9 @@ export async function process(inputs, ctx) {
 export const hydrologicAnalysisTask = defineTask('hydrologic-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform hydrologic analysis',
+  skill: { name: 'hydrologic-modeling-engine' },
   agent: {
-    name: 'water-resources-engineer',
+    name: 'hydrology-analyst',
     prompt: {
       role: 'water resources engineer',
       task: 'Perform hydrologic analysis for stormwater design',
@@ -236,8 +237,9 @@ export const hydrologicAnalysisTask = defineTask('hydrologic-analysis', (args, t
 export const prePostComparisonTask = defineTask('pre-post-comparison', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Compare pre and post development conditions',
+  skill: { name: 'hydrologic-modeling-engine' },
   agent: {
-    name: 'water-resources-engineer',
+    name: 'hydrology-analyst',
     prompt: {
       role: 'water resources engineer',
       task: 'Compare pre and post development hydrology',
@@ -280,8 +282,9 @@ export const prePostComparisonTask = defineTask('pre-post-comparison', (args, ta
 export const waterQualityTask = defineTask('water-quality', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Analyze water quality requirements',
+  skill: { name: 'hydrologic-modeling-engine' },
   agent: {
-    name: 'water-resources-engineer',
+    name: 'stormwater-management-specialist',
     prompt: {
       role: 'water resources engineer',
       task: 'Determine water quality treatment requirements',
@@ -323,8 +326,9 @@ export const waterQualityTask = defineTask('water-quality', (args, taskCtx) => (
 export const lidDesignTask = defineTask('lid-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design LID and green infrastructure',
+  skill: { name: 'detention-pond-designer' },
   agent: {
-    name: 'water-resources-engineer',
+    name: 'stormwater-management-specialist',
     prompt: {
       role: 'water resources/landscape engineer',
       task: 'Design low impact development features',
@@ -366,8 +370,9 @@ export const lidDesignTask = defineTask('lid-design', (args, taskCtx) => ({
 export const detentionDesignTask = defineTask('detention-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design detention/retention facilities',
+  skill: { name: 'detention-pond-designer' },
   agent: {
-    name: 'water-resources-engineer',
+    name: 'stormwater-management-specialist',
     prompt: {
       role: 'water resources engineer',
       task: 'Design stormwater detention facilities',
@@ -410,8 +415,9 @@ export const detentionDesignTask = defineTask('detention-design', (args, taskCtx
 export const conveyanceDesignTask = defineTask('conveyance-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design conveyance systems',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
-    name: 'civil-engineer',
+    name: 'hydraulic-engineer',
     prompt: {
       role: 'civil engineer',
       task: 'Design storm drain conveyance system',
@@ -454,8 +460,9 @@ export const conveyanceDesignTask = defineTask('conveyance-design', (args, taskC
 export const escDesignTask = defineTask('esc-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design erosion and sediment control',
+  skill: { name: 'environmental-impact-analyzer' },
   agent: {
-    name: 'civil-engineer',
+    name: 'environmental-compliance-specialist',
     prompt: {
       role: 'civil/environmental engineer',
       task: 'Design erosion and sediment control plan',
@@ -498,8 +505,9 @@ export const escDesignTask = defineTask('esc-design', (args, taskCtx) => ({
 export const drainagePlansTask = defineTask('drainage-plans', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate drainage plans',
+  skill: { name: 'civil3d-surface-analyzer' },
   agent: {
-    name: 'civil-drafter',
+    name: 'highway-design-engineer',
     prompt: {
       role: 'civil CAD technician',
       task: 'Generate drainage and grading plans',
@@ -547,8 +555,9 @@ export const drainagePlansTask = defineTask('drainage-plans', (args, taskCtx) =>
 export const stormwaterReportTask = defineTask('stormwater-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate stormwater management report',
+  skill: { name: 'engineering-report-generator' },
   agent: {
-    name: 'technical-writer',
+    name: 'technical-report-writer',
     prompt: {
       role: 'water resources engineer',
       task: 'Generate comprehensive stormwater management report',

@@ -3,6 +3,8 @@
  * @description Build and test structural equation models including measurement models, path analysis, confirmatory factor analysis, and model fit evaluation
  * @inputs { dataPath: string, theoreticalModel: object, constructs: array, outputDir: string }
  * @outputs { success: boolean, measurementModel: object, structuralModel: object, modelFit: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-001 (quantitative-methods), SK-SS-009 (psychometric-assessment)
+ * @recommendedAgents AG-SS-001 (quantitative-research-methodologist), AG-SS-007 (measurement-psychometrics-expert)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

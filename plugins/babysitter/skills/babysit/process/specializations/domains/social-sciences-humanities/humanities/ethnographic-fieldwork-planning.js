@@ -3,6 +3,8 @@
  * @description Design and prepare for immersive fieldwork including site selection, ethical approval, community engagement protocols, and research methodology framework development
  * @inputs { researchQuestion: string, fieldSite: string, duration: string, communityContext: object }
  * @outputs { success: boolean, fieldworkPlan: object, ethicsProtocol: object, artifacts: array }
+ * @recommendedSkills SK-HUM-006 (research-ethics-irb-navigation), SK-HUM-002 (ethnographic-coding-thematics)
+ * @recommendedAgents AG-HUM-002 (ethnographic-methods-advisor), AG-HUM-008 (research-ethics-consultant)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

@@ -171,8 +171,9 @@ export async function process(inputs, ctx) {
 export const wasteCharacterizationTask = defineTask('waste-characterization', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Characterize waste streams',
+  skill: { name: 'waste-minimization-analyzer' },
   agent: {
-    name: 'waste-analyst',
+    name: 'waste-minimization-specialist',
     prompt: {
       role: 'waste characterization analyst',
       task: 'Characterize all waste streams from the process',
@@ -219,8 +220,9 @@ export const wasteCharacterizationTask = defineTask('waste-characterization', (a
 export const wasteHierarchyAnalysisTask = defineTask('waste-hierarchy-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Apply waste minimization hierarchy',
+  skill: { name: 'waste-minimization-analyzer' },
   agent: {
-    name: 'hierarchy-analyst',
+    name: 'waste-minimization-specialist',
     prompt: {
       role: 'waste hierarchy analyst',
       task: 'Apply pollution prevention hierarchy to waste streams',
@@ -264,8 +266,9 @@ export const wasteHierarchyAnalysisTask = defineTask('waste-hierarchy-analysis',
 export const sourceReductionTask = defineTask('source-reduction', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Identify source reduction opportunities',
+  skill: { name: 'green-chemistry-metrics' },
   agent: {
-    name: 'source-reduction-engineer',
+    name: 'waste-minimization-specialist',
     prompt: {
       role: 'source reduction engineer',
       task: 'Identify opportunities to reduce waste at source',
@@ -315,8 +318,9 @@ export const sourceReductionTask = defineTask('source-reduction', (args, taskCtx
 export const recyclingRecoveryTask = defineTask('recycling-recovery', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Evaluate recycling and recovery options',
+  skill: { name: 'waste-minimization-analyzer' },
   agent: {
-    name: 'recycling-engineer',
+    name: 'waste-minimization-specialist',
     prompt: {
       role: 'recycling and recovery engineer',
       task: 'Evaluate recycling and material recovery options',
@@ -367,8 +371,9 @@ export const recyclingRecoveryTask = defineTask('recycling-recovery', (args, tas
 export const treatmentAssessmentTask = defineTask('treatment-assessment', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Assess treatment requirements',
+  skill: { name: 'waste-minimization-analyzer' },
   agent: {
-    name: 'treatment-engineer',
+    name: 'waste-minimization-specialist',
     prompt: {
       role: 'waste treatment engineer',
       task: 'Assess treatment requirements for remaining waste',
@@ -418,8 +423,9 @@ export const treatmentAssessmentTask = defineTask('treatment-assessment', (args,
 export const economicAnalysisTask = defineTask('economic-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform economic analysis',
+  skill: { name: 'process-economics-estimator' },
   agent: {
-    name: 'economic-analyst',
+    name: 'waste-minimization-specialist',
     prompt: {
       role: 'waste economics analyst',
       task: 'Perform economic analysis of waste minimization options',
@@ -467,8 +473,9 @@ export const economicAnalysisTask = defineTask('economic-analysis', (args, taskC
 export const complianceReviewTask = defineTask('compliance-review', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Review regulatory compliance',
+  skill: { name: 'waste-minimization-analyzer' },
   agent: {
-    name: 'compliance-engineer',
+    name: 'waste-minimization-specialist',
     prompt: {
       role: 'environmental compliance engineer',
       task: 'Review regulatory compliance of waste management plan',
@@ -514,8 +521,9 @@ export const complianceReviewTask = defineTask('compliance-review', (args, taskC
 export const implementationPlanTask = defineTask('implementation-plan', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop implementation plan',
+  skill: { name: 'waste-minimization-analyzer' },
   agent: {
-    name: 'implementation-planner',
+    name: 'waste-minimization-specialist',
     prompt: {
       role: 'waste minimization implementation planner',
       task: 'Develop implementation plan for waste minimization',

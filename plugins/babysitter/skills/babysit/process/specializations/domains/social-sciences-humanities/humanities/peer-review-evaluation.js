@@ -3,6 +3,8 @@
  * @description Conduct constructive peer review of humanities scholarship evaluating methodology, evidence, argumentation, and contribution to the field
  * @inputs { manuscript: object, reviewCriteria: array, journalGuidelines: object, reviewType: string }
  * @outputs { success: boolean, peerReview: object, recommendations: array, detailedFeedback: object, artifacts: array }
+ * @recommendedSkills SK-HUM-010 (citation-scholarly-apparatus), SK-HUM-005 (literary-close-reading), SK-HUM-001 (primary-source-evaluation)
+ * @recommendedAgents AG-HUM-009 (grants-publications-advisor), AG-HUM-004 (literary-critic-theorist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

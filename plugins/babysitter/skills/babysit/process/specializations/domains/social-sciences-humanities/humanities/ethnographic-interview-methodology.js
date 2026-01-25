@@ -3,6 +3,8 @@
  * @description Design and conduct semi-structured interviews, life history collection, and key informant interviews with proper consent protocols and cultural sensitivity
  * @inputs { researchTopic: string, interviewType: string, participantProfile: object, culturalContext: object }
  * @outputs { success: boolean, interviewData: array, transcripts: array, analysis: object, artifacts: array }
+ * @recommendedSkills SK-HUM-008 (oral-history-interview-technique), SK-HUM-002 (ethnographic-coding-thematics), SK-HUM-006 (research-ethics-irb-navigation)
+ * @recommendedAgents AG-HUM-002 (ethnographic-methods-advisor), AG-HUM-006 (oral-historian), AG-HUM-008 (research-ethics-consultant)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

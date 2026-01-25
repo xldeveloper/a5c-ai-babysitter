@@ -108,7 +108,8 @@ export const experimentDesigner = defineTask('experiment-designer', (args, taskC
   kind: 'agent',
   title: 'Design experimental methodology',
   agent: {
-    name: 'experiment-designer',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'memory-hierarchy-modeler'],
     prompt: {
       role: 'Algorithm engineering experimental design expert',
       task: 'Design rigorous experimental methodology for algorithm evaluation',
@@ -151,7 +152,8 @@ export const implementationVerifier = defineTask('implementation-verifier', (arg
   kind: 'agent',
   title: 'Verify algorithm implementations',
   agent: {
-    name: 'implementation-verifier',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'dataflow-analysis-engine'],
     prompt: {
       role: 'Algorithm implementation verification expert',
       task: 'Verify correctness and quality of algorithm implementations',
@@ -192,7 +194,8 @@ export const benchmarkPreparer = defineTask('benchmark-preparer', (args, taskCtx
   kind: 'agent',
   title: 'Prepare benchmark suite',
   agent: {
-    name: 'benchmark-preparer',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Benchmark preparation and validation expert',
       task: 'Prepare and validate benchmark suite for algorithm evaluation',
@@ -234,7 +237,8 @@ export const experimentExecutor = defineTask('experiment-executor', (args, taskC
   kind: 'agent',
   title: 'Execute benchmark experiments',
   agent: {
-    name: 'experiment-executor',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler'],
     prompt: {
       role: 'Experimental execution and monitoring expert',
       task: 'Execute benchmark experiments with careful measurement',
@@ -275,7 +279,8 @@ export const statisticalAnalyzer = defineTask('statistical-analyzer', (args, tas
   kind: 'agent',
   title: 'Perform statistical analysis',
   agent: {
-    name: 'statistical-analyzer',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'recurrence-solver', 'latex-proof-formatter'],
     prompt: {
       role: 'Statistical analysis expert for algorithm experiments',
       task: 'Perform rigorous statistical analysis of experimental results',
@@ -317,7 +322,8 @@ export const performanceComparator = defineTask('performance-comparator', (args,
   kind: 'agent',
   title: 'Compare algorithm performance',
   agent: {
-    name: 'performance-comparator',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'recurrence-solver', 'cache-simulator'],
     prompt: {
       role: 'Algorithm performance comparison expert',
       task: 'Conduct comprehensive performance comparison between algorithms',
@@ -360,7 +366,8 @@ export const visualizationGenerator = defineTask('visualization-generator', (arg
   kind: 'agent',
   title: 'Generate result visualizations',
   agent: {
-    name: 'visualization-generator',
+    name: 'algorithm-analyst',
+    skills: ['latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Scientific visualization expert',
       task: 'Generate publication-quality visualizations of experimental results',
@@ -400,7 +407,8 @@ export const reproducibilityPackager = defineTask('reproducibility-packager', (a
   kind: 'agent',
   title: 'Package for reproducibility',
   agent: {
-    name: 'reproducibility-packager',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler'],
     prompt: {
       role: 'Research reproducibility expert',
       task: 'Package experimental artifacts for full reproducibility',

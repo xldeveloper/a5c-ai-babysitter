@@ -192,7 +192,8 @@ export const systemFormalizationTask = defineTask('system-formalization', (args,
   kind: 'agent',
   title: 'Formalize system in proof assistant',
   agent: {
-    name: 'formalization-specialist',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'type-inference-engine'],
     prompt: {
       role: 'theorem prover formalization specialist',
       task: 'Formalize the system in the chosen proof assistant (Coq, Isabelle, Lean)',
@@ -235,7 +236,8 @@ export const specificationDefinitionTask = defineTask('specification-definition'
   kind: 'agent',
   title: 'Define specifications and invariants',
   agent: {
-    name: 'specification-definer',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'lambda-calculus-reducer'],
     prompt: {
       role: 'formal specification specialist',
       task: 'Define specifications and invariants to be verified',
@@ -287,7 +289,8 @@ export const proofStrategyTask = defineTask('proof-strategy', (args, taskCtx) =>
   kind: 'agent',
   title: 'Develop proof strategy',
   agent: {
-    name: 'proof-strategist',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'dataflow-analysis-engine'],
     prompt: {
       role: 'proof development strategist',
       task: 'Develop strategy for proving the specifications',
@@ -345,7 +348,8 @@ export const proofConstructionTask = defineTask('proof-construction', (args, tas
   kind: 'agent',
   title: 'Construct machine-checked proofs',
   agent: {
-    name: 'proof-constructor',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'type-inference-engine'],
     prompt: {
       role: 'machine-checked proof specialist',
       task: 'Construct machine-checked proofs in the proof assistant',
@@ -399,7 +403,8 @@ export const implementationExtractionTask = defineTask('implementation-extractio
   kind: 'agent',
   title: 'Extract verified implementation',
   agent: {
-    name: 'extraction-specialist',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'type-inference-engine', 'lambda-calculus-reducer'],
     prompt: {
       role: 'verified implementation extraction specialist',
       task: 'Extract verified implementation from proofs if applicable',
@@ -442,7 +447,8 @@ export const proofMaintenanceTask = defineTask('proof-maintenance', (args, taskC
   kind: 'agent',
   title: 'Plan proof artifact maintenance',
   agent: {
-    name: 'maintenance-planner',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'proof maintenance specialist',
       task: 'Plan maintenance strategy for proof artifacts',
@@ -491,7 +497,8 @@ export const verificationDocumentationTask = defineTask('verification-documentat
   kind: 'agent',
   title: 'Generate verification documentation',
   agent: {
-    name: 'documentation-writer',
+    name: 'theorem-proving-expert',
+    skills: ['latex-proof-formatter', 'theorem-prover-interface'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive theorem prover verification documentation',

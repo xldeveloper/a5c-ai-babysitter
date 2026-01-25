@@ -3,6 +3,8 @@
  * @description Create integrated research designs combining quantitative and qualitative approaches using convergent, explanatory sequential, or exploratory sequential strategies
  * @inputs { researchQuestions: array, phenomenon: string, constraints: object, outputDir: string }
  * @outputs { success: boolean, mixedMethodsDesign: object, integrationPlan: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-010 (mixed-methods-integration), SK-SS-001 (quantitative-methods), SK-SS-002 (qualitative-analysis)
+ * @recommendedAgents AG-SS-008 (mixed-methods-research-coordinator), AG-SS-001 (quantitative-research-methodologist), AG-SS-002 (qualitative-research-specialist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

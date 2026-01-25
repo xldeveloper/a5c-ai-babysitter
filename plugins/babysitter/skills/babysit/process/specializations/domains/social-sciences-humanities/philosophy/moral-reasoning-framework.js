@@ -3,6 +3,8 @@
  * @description Apply systematic moral reasoning using principlism, casuistry, or other ethical decision-making frameworks to evaluate actions and policies
  * @inputs { moralQuestion: string, framework: string, contextDetails: object, outputDir: string }
  * @outputs { success: boolean, reasoningProcess: object, moralJudgment: object, justification: string, artifacts: array }
+ * @recommendedSkills SK-PHIL-003 (ethical-framework-application), SK-PHIL-012 (bioethics-deliberation), SK-PHIL-007 (evidence-justification-assessment)
+ * @recommendedAgents AG-PHIL-002 (ethics-consultant-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

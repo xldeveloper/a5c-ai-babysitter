@@ -3,6 +3,8 @@
  * @description Execute participant observation and ethnographic research including site access, field notes, immersion strategies, and thick description documentation
  * @inputs { researchFocus: string, fieldSite: object, researchQuestions: array, constraints: object, outputDir: string }
  * @outputs { success: boolean, fieldworkPlan: object, dataCollectionProtocol: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-005 (ethnographic-research), SK-SS-002 (qualitative-analysis), SK-SS-014 (research-ethics-irb)
+ * @recommendedAgents AG-SS-002 (qualitative-research-specialist), AG-SS-010 (research-ethics-coordinator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

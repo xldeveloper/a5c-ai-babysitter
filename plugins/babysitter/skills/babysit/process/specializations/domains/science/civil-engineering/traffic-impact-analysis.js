@@ -367,6 +367,7 @@ export const tripDistributionTask = defineTask('trip-distribution', (args, taskC
 export const backgroundTrafficTask = defineTask('background-traffic', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Project future background traffic',
+  skill: { name: 'traffic-simulation-engine' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -409,6 +410,7 @@ export const backgroundTrafficTask = defineTask('background-traffic', (args, tas
 export const losAnalysisTask = defineTask('los-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform level of service analysis',
+  skill: { name: 'traffic-simulation-engine' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -452,6 +454,7 @@ export const losAnalysisTask = defineTask('los-analysis', (args, taskCtx) => ({
 export const mitigationTask = defineTask('mitigation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop mitigation recommendations',
+  skill: { name: 'signal-timing-optimizer' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -503,6 +506,7 @@ export const mitigationTask = defineTask('mitigation', (args, taskCtx) => ({
 export const siteAccessTask = defineTask('site-access', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Analyze site access',
+  skill: { name: 'traffic-simulation-engine' },
   agent: {
     name: 'traffic-engineer',
     prompt: {
@@ -546,8 +550,9 @@ export const siteAccessTask = defineTask('site-access', (args, taskCtx) => ({
 export const trafficReportTask = defineTask('traffic-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate traffic impact study report',
+  skill: { name: 'engineering-report-generator' },
   agent: {
-    name: 'technical-writer',
+    name: 'technical-report-writer',
     prompt: {
       role: 'traffic engineer',
       task: 'Generate comprehensive traffic impact study report',

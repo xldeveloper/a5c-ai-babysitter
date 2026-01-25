@@ -3,6 +3,8 @@
  * @description Moderate focus group discussions including participant recruitment, guide development, group dynamics management, and systematic documentation of group interactions
  * @inputs { researchQuestions: array, targetParticipants: object, groupComposition: object, outputDir: string }
  * @outputs { success: boolean, facilitationGuide: object, recruitmentPlan: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-013 (interview-facilitation), SK-SS-002 (qualitative-analysis), SK-SS-014 (research-ethics-irb)
+ * @recommendedAgents AG-SS-002 (qualitative-research-specialist), AG-SS-010 (research-ethics-coordinator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

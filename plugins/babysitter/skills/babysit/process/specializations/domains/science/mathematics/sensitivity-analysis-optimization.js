@@ -139,8 +139,10 @@ export async function process(inputs, ctx) {
 export const dualAnalysisTask = defineTask('dual-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 1: Compute Dual Variables`,
+  skill: { name: 'convex-optimization-solver' },
   agent: {
-    name: 'general-purpose',
+    name: 'optimization-expert',
+    skills: ['cvxpy-optimization-modeling', 'sympy-computer-algebra', 'numerical-linear-algebra-toolkit'],
     prompt: {
       role: 'Optimization Duality Expert',
       task: 'Compute and interpret dual variables for the optimization solution',
@@ -224,8 +226,10 @@ export const dualAnalysisTask = defineTask('dual-analysis', (args, taskCtx) => (
 export const bindingAnalysisTask = defineTask('binding-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 2: Analyze Binding Constraints`,
+  skill: { name: 'convex-optimization-solver' },
   agent: {
-    name: 'general-purpose',
+    name: 'optimization-expert',
+    skills: ['cvxpy-optimization-modeling', 'numerical-linear-algebra-toolkit', 'sympy-computer-algebra'],
     prompt: {
       role: 'Constraint Analysis Expert',
       task: 'Analyze binding constraints and their implications',
@@ -303,8 +307,10 @@ export const bindingAnalysisTask = defineTask('binding-analysis', (args, taskCtx
 export const parametricAnalysisTask = defineTask('parametric-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 3: Perform Parametric Analysis`,
+  skill: { name: 'sensitivity-analysis-toolkit' },
   agent: {
-    name: 'general-purpose',
+    name: 'optimization-expert',
+    skills: ['cvxpy-optimization-modeling', 'sympy-computer-algebra', 'monte-carlo-simulation'],
     prompt: {
       role: 'Parametric Optimization Expert',
       task: 'Perform parametric analysis on problem parameters',
@@ -384,8 +390,10 @@ export const parametricAnalysisTask = defineTask('parametric-analysis', (args, t
 export const criticalParametersTask = defineTask('critical-parameters', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 4: Identify Critical Parameters`,
+  skill: { name: 'sensitivity-analysis-toolkit' },
   agent: {
-    name: 'general-purpose',
+    name: 'optimization-expert',
+    skills: ['monte-carlo-simulation', 'cvxpy-optimization-modeling', 'sympy-computer-algebra'],
     prompt: {
       role: 'Optimization Robustness Analyst',
       task: 'Identify parameters most critical to solution quality',
@@ -462,8 +470,10 @@ export const criticalParametersTask = defineTask('critical-parameters', (args, t
 export const sensitivityReportTask = defineTask('sensitivity-report', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 5: Generate Sensitivity Reports`,
+  skill: { name: 'latex-math-formatter' },
   agent: {
-    name: 'general-purpose',
+    name: 'optimization-expert',
+    skills: ['latex-math-formatter', 'cvxpy-optimization-modeling', 'monte-carlo-simulation'],
     prompt: {
       role: 'Sensitivity Analysis Reporting Specialist',
       task: 'Generate comprehensive sensitivity analysis report',

@@ -3,6 +3,8 @@
  * @description Develop comprehensive survey instruments including questionnaire design, sampling strategies, mode selection, and response optimization using tailored design methods
  * @inputs { researchObjectives: array, targetPopulation: object, constraints: object, outputDir: string }
  * @outputs { success: boolean, surveyInstrument: object, samplingPlan: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-003 (survey-design-administration), SK-SS-009 (psychometric-assessment), SK-SS-014 (research-ethics-irb)
+ * @recommendedAgents AG-SS-003 (survey-research-director), AG-SS-007 (measurement-psychometrics-expert), AG-SS-010 (research-ethics-coordinator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

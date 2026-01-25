@@ -211,7 +211,8 @@ export const specificationLanguageTask = defineTask('specification-language', (a
   kind: 'agent',
   title: 'Define specification language',
   agent: {
-    name: 'spec-language-designer',
+    name: 'semantics-formalist',
+    skills: ['grammar-parser-generator', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'specification language designer',
       task: 'Define the specification language for expressing synthesis tasks',
@@ -252,7 +253,8 @@ export const searchSpaceDesignTask = defineTask('search-space-design', (args, ta
   kind: 'agent',
   title: 'Design search space representation',
   agent: {
-    name: 'search-space-designer',
+    name: 'algorithm-analyst',
+    skills: ['grammar-parser-generator', 'asymptotic-notation-calculator', 'type-inference-engine'],
     prompt: {
       role: 'search space design specialist',
       task: 'Design the search space representation for program synthesis',
@@ -295,7 +297,8 @@ export const synthesisAlgorithmTask = defineTask('synthesis-algorithm', (args, t
   kind: 'agent',
   title: 'Implement synthesis algorithm',
   agent: {
-    name: 'synthesis-algorithm-designer',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'type-inference-engine', 'theorem-prover-interface'],
     prompt: {
       role: 'program synthesis algorithm specialist',
       task: 'Design and implement the synthesis algorithm',
@@ -340,7 +343,8 @@ export const programVerificationTask = defineTask('program-verification', (args,
   kind: 'agent',
   title: 'Verify synthesized programs',
   agent: {
-    name: 'verification-designer',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'program verification specialist',
       task: 'Design verification approach for synthesized programs',
@@ -383,7 +387,8 @@ export const synthesisOptimizationTask = defineTask('synthesis-optimization', (a
   kind: 'agent',
   title: 'Optimize for synthesis speed and quality',
   agent: {
-    name: 'optimization-specialist',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'dataflow-analysis-engine'],
     prompt: {
       role: 'synthesis optimization specialist',
       task: 'Optimize synthesis for speed and output quality',
@@ -427,7 +432,8 @@ export const ambiguityHandlingTask = defineTask('ambiguity-handling', (args, tas
   kind: 'agent',
   title: 'Handle ambiguous specifications',
   agent: {
-    name: 'ambiguity-handler',
+    name: 'semantics-formalist',
+    skills: ['type-inference-engine', 'grammar-parser-generator', 'latex-proof-formatter'],
     prompt: {
       role: 'specification ambiguity specialist',
       task: 'Design approach for handling ambiguous specifications',
@@ -476,7 +482,8 @@ export const performanceBenchmarksTask = defineTask('performance-benchmarks', (a
   kind: 'agent',
   title: 'Design performance benchmarks',
   agent: {
-    name: 'benchmark-designer',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'latex-proof-formatter'],
     prompt: {
       role: 'synthesis benchmarking specialist',
       task: 'Design performance benchmarks for the synthesis system',
@@ -528,7 +535,8 @@ export const synthesisDocumentationTask = defineTask('synthesis-documentation', 
   kind: 'agent',
   title: 'Generate synthesis system documentation',
   agent: {
-    name: 'documentation-writer',
+    name: 'semantics-formalist',
+    skills: ['latex-proof-formatter', 'grammar-parser-generator'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive program synthesis system documentation',

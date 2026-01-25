@@ -197,6 +197,7 @@ export async function process(inputs, ctx) {
 export const trafficAnalysisTask = defineTask('traffic-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform pavement traffic analysis',
+  skill: { name: 'pavement-design-calculator' },
   agent: {
     name: 'pavement-engineer',
     prompt: {
@@ -241,8 +242,9 @@ export const trafficAnalysisTask = defineTask('traffic-analysis', (args, taskCtx
 export const subgradeCharacterizationTask = defineTask('subgrade-characterization', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Characterize subgrade',
+  skill: { name: 'soil-classification-tool' },
   agent: {
-    name: 'geotechnical-engineer',
+    name: 'geotechnical-investigation-specialist',
     prompt: {
       role: 'geotechnical/pavement engineer',
       task: 'Characterize subgrade for pavement design',
@@ -284,6 +286,7 @@ export const subgradeCharacterizationTask = defineTask('subgrade-characterizatio
 export const materialSelectionTask = defineTask('material-selection', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Select pavement materials',
+  skill: { name: 'pavement-design-calculator' },
   agent: {
     name: 'pavement-engineer',
     prompt: {
@@ -332,6 +335,7 @@ export const materialSelectionTask = defineTask('material-selection', (args, tas
 export const thicknessDesignTask = defineTask('thickness-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design pavement thickness',
+  skill: { name: 'pavement-design-calculator' },
   agent: {
     name: 'pavement-engineer',
     prompt: {
@@ -376,6 +380,7 @@ export const thicknessDesignTask = defineTask('thickness-design', (args, taskCtx
 export const pavementDrainageTask = defineTask('pavement-drainage', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design pavement drainage',
+  skill: { name: 'hydraulic-analysis-engine' },
   agent: {
     name: 'pavement-engineer',
     prompt: {
@@ -418,6 +423,7 @@ export const pavementDrainageTask = defineTask('pavement-drainage', (args, taskC
 export const jointDesignTask = defineTask('joint-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design pavement joints',
+  skill: { name: 'pavement-design-calculator' },
   agent: {
     name: 'pavement-engineer',
     prompt: {
@@ -461,8 +467,9 @@ export const jointDesignTask = defineTask('joint-design', (args, taskCtx) => ({
 export const typicalSectionsTask = defineTask('typical-sections', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop typical pavement sections',
+  skill: { name: 'civil3d-surface-analyzer' },
   agent: {
-    name: 'highway-drafter',
+    name: 'highway-design-engineer',
     prompt: {
       role: 'highway CAD technician',
       task: 'Develop typical pavement sections',
@@ -509,6 +516,7 @@ export const typicalSectionsTask = defineTask('typical-sections', (args, taskCtx
 export const materialSpecsTask = defineTask('material-specifications', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop material specifications',
+  skill: { name: 'csi-specification-writer' },
   agent: {
     name: 'specifications-writer',
     prompt: {
@@ -552,8 +560,9 @@ export const materialSpecsTask = defineTask('material-specifications', (args, ta
 export const pavementReportTask = defineTask('pavement-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate pavement design report',
+  skill: { name: 'engineering-report-generator' },
   agent: {
-    name: 'technical-writer',
+    name: 'technical-report-writer',
     prompt: {
       role: 'pavement engineer',
       task: 'Generate comprehensive pavement design report',

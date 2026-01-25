@@ -3,6 +3,8 @@
  * @description Design randomized controlled trials and laboratory experiments with proper controls, randomization strategies, and power analysis for behavioral and social research
  * @inputs { researchQuestion: string, hypotheses: array, targetPopulation: object, constraints: object, outputDir: string }
  * @outputs { success: boolean, experimentDesign: object, powerAnalysis: object, randomizationPlan: object, artifacts: array }
+ * @recommendedSkills SK-SS-001 (quantitative-methods), SK-SS-014 (research-ethics-irb)
+ * @recommendedAgents AG-SS-001 (quantitative-research-methodologist), AG-SS-010 (research-ethics-coordinator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

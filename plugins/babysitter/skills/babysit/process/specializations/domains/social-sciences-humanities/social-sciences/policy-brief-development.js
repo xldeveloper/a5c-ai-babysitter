@@ -3,6 +3,8 @@
  * @description Translate research findings into accessible policy briefs for decision-makers including key findings, implications, and actionable recommendations
  * @inputs { researchFindings: object, targetAudience: object, policyContext: object, outputDir: string }
  * @outputs { success: boolean, policyBrief: object, visualizations: array, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-012 (policy-communication)
+ * @recommendedAgents AG-SS-006 (policy-research-analyst)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

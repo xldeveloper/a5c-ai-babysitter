@@ -3,6 +3,8 @@
  * @description Conduct systematic interpretation of philosophical and theological texts using historical-critical, literary, and hermeneutical methods
  * @inputs { textSource: string, textPassage: string, interpretiveMethod: string, outputDir: string }
  * @outputs { success: boolean, interpretation: object, hermeneuticalAnalysis: object, contextualFindings: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-004 (hermeneutical-interpretation), SK-PHIL-005 (conceptual-analysis), SK-PHIL-013 (scholarly-literature-synthesis)
+ * @recommendedAgents AG-PHIL-003 (hermeneutics-specialist-agent), AG-PHIL-005 (philosophical-theologian-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

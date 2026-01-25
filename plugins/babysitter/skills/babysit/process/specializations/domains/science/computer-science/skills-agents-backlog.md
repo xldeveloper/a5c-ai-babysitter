@@ -784,53 +784,53 @@ These skills and agents could be shared with other specializations:
 ## Process-to-Skills/Agents Mapping
 
 ### Algorithm Design and Analysis
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| algorithm-complexity-analysis | SK-CS-001, SK-CS-002, SK-CS-005 | AG-CS-002 |
-| algorithm-correctness-proof | SK-CS-003, SK-CS-004, SK-CS-024 | AG-CS-002, AG-CS-009 |
-| algorithm-design-paradigm-selection | SK-CS-001, SK-CS-009, SK-CS-010 | AG-CS-002, AG-CS-003, AG-CS-004 |
-| approximation-algorithm-design | SK-CS-009, SK-CS-010, SK-CS-006 | AG-CS-003 |
-| randomized-algorithm-analysis | SK-CS-002, SK-CS-010 | AG-CS-004 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| algorithm-complexity-analysis | SK-CS-001, SK-CS-002, SK-CS-005 | AG-CS-002 | [x] Integrated |
+| algorithm-correctness-proof | SK-CS-003, SK-CS-004, SK-CS-024 | AG-CS-002, AG-CS-009 | [x] Integrated |
+| algorithm-design-paradigm-selection | SK-CS-001, SK-CS-009, SK-CS-010 | AG-CS-002, AG-CS-003, AG-CS-004 | [x] Integrated |
+| approximation-algorithm-design | SK-CS-009, SK-CS-010, SK-CS-006 | AG-CS-003 | [x] Integrated |
+| randomized-algorithm-analysis | SK-CS-002, SK-CS-010 | AG-CS-004 | [x] Integrated |
 
 ### Complexity Theory and Computability
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| computational-problem-classification | SK-CS-006, SK-CS-007 | AG-CS-001, AG-CS-018 |
-| np-completeness-proof | SK-CS-006, SK-CS-007 | AG-CS-001 |
-| decidability-analysis | SK-CS-004, SK-CS-007, SK-CS-008 | AG-CS-001, AG-CS-018 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| computational-problem-classification | SK-CS-006, SK-CS-007 | AG-CS-001, AG-CS-018 | [x] Integrated |
+| np-completeness-proof | SK-CS-006, SK-CS-007 | AG-CS-001 | [x] Integrated |
+| decidability-analysis | SK-CS-004, SK-CS-007, SK-CS-008 | AG-CS-001, AG-CS-018 | [x] Integrated |
 
 ### Programming Language Theory
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| type-system-design | SK-CS-011, SK-CS-012, SK-CS-013 | AG-CS-005, AG-CS-007 |
-| operational-semantics-specification | SK-CS-011, SK-CS-014 | AG-CS-005, AG-CS-007 |
-| compiler-optimization-design | SK-CS-016, SK-CS-017, SK-CS-018 | AG-CS-006, AG-CS-010 |
-| dsl-design-implementation | SK-CS-011, SK-CS-012, SK-CS-015 | AG-CS-005, AG-CS-006 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| type-system-design | SK-CS-011, SK-CS-012, SK-CS-013 | AG-CS-005, AG-CS-007 | [x] Integrated |
+| operational-semantics-specification | SK-CS-011, SK-CS-014 | AG-CS-005, AG-CS-007 | [x] Integrated |
+| compiler-optimization-design | SK-CS-016, SK-CS-017, SK-CS-018 | AG-CS-006, AG-CS-010 | [x] Integrated |
+| dsl-design-implementation | SK-CS-011, SK-CS-012, SK-CS-015 | AG-CS-005, AG-CS-006 | [x] Integrated |
 
 ### Systems Research and Design
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| distributed-consensus-protocol-design | SK-CS-019, SK-CS-020, SK-CS-021 | AG-CS-012, AG-CS-019 |
-| cache-optimization-analysis | SK-CS-022, SK-CS-029 | AG-CS-014 |
-| concurrent-data-structure-design | SK-CS-005, SK-CS-021, SK-CS-022 | AG-CS-013 |
-| system-performance-modeling | SK-CS-029 | AG-CS-014, AG-CS-016 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| distributed-consensus-protocol-design | SK-CS-019, SK-CS-020, SK-CS-021 | AG-CS-012, AG-CS-019 | [x] Integrated |
+| cache-optimization-analysis | SK-CS-022, SK-CS-029 | AG-CS-014 | [x] Integrated |
+| concurrent-data-structure-design | SK-CS-005, SK-CS-021, SK-CS-022 | AG-CS-013 | [x] Integrated |
+| system-performance-modeling | SK-CS-029 | AG-CS-014, AG-CS-016 | [x] Integrated |
 
 ### Formal Methods and Verification
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| model-checking-verification | SK-CS-019, SK-CS-023, SK-CS-027 | AG-CS-008 |
-| theorem-prover-verification | SK-CS-024, SK-CS-028 | AG-CS-009 |
-| abstract-interpretation-analysis | SK-CS-003, SK-CS-016, SK-CS-026, SK-CS-032 | AG-CS-010 |
-| program-synthesis-specification | SK-CS-025, SK-CS-031, SK-CS-032 | AG-CS-011 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| model-checking-verification | SK-CS-019, SK-CS-023, SK-CS-027 | AG-CS-008 | [x] Integrated |
+| theorem-prover-verification | SK-CS-024, SK-CS-028 | AG-CS-009 | [x] Integrated |
+| abstract-interpretation-analysis | SK-CS-003, SK-CS-016, SK-CS-026, SK-CS-032 | AG-CS-010 | [x] Integrated |
+| program-synthesis-specification | SK-CS-025, SK-CS-031, SK-CS-032 | AG-CS-011 | [x] Integrated |
 
 ### Research Methodology
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| theoretical-cs-paper-development | SK-CS-028, SK-CS-030 | AG-CS-015 |
-| algorithm-engineering-evaluation | SK-CS-029 | AG-CS-016 |
-| complexity-lower-bound-proof | SK-CS-001, SK-CS-006, SK-CS-007 | AG-CS-001 |
-| formal-specification-development | SK-CS-019, SK-CS-023, SK-CS-027 | AG-CS-019, AG-CS-012 |
-| cross-area-cs-integration | SK-CS-030 | AG-CS-017 |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| theoretical-cs-paper-development | SK-CS-028, SK-CS-030 | AG-CS-015 | [x] Integrated |
+| algorithm-engineering-evaluation | SK-CS-029 | AG-CS-016 | [x] Integrated |
+| complexity-lower-bound-proof | SK-CS-001, SK-CS-006, SK-CS-007 | AG-CS-001 | [x] Integrated |
+| formal-specification-development | SK-CS-019, SK-CS-023, SK-CS-027 | AG-CS-019, AG-CS-012 | [x] Integrated |
+| cross-area-cs-integration | SK-CS-030 | AG-CS-017 | [x] Integrated |
 
 ---
 

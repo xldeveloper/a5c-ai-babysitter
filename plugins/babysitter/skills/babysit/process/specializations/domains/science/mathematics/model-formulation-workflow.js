@@ -147,8 +147,10 @@ export async function process(inputs, ctx) {
 export const systemDocumentationTask = defineTask('system-documentation', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 1: Document System Variables and Parameters`,
+  skill: { name: 'sympy-computer-algebra' },
   agent: {
-    name: 'general-purpose',
+    name: 'applied-mathematician',
+    skills: ['sympy-computer-algebra', 'latex-math-formatter', 'scientific-literature-search'],
     prompt: {
       role: 'Mathematical Modeling Expert',
       task: 'Document all variables and parameters for the system being modeled',
@@ -230,8 +232,10 @@ export const systemDocumentationTask = defineTask('system-documentation', (args,
 export const assumptionDocumentationTask = defineTask('assumption-documentation', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 2: State and Justify Assumptions`,
+  skill: { name: 'sympy-computer-algebra' },
   agent: {
-    name: 'general-purpose',
+    name: 'applied-mathematician',
+    skills: ['sympy-computer-algebra', 'latex-math-formatter', 'scientific-literature-search'],
     prompt: {
       role: 'Scientific Modeling Specialist',
       task: 'State and justify all modeling assumptions',
@@ -311,8 +315,10 @@ export const assumptionDocumentationTask = defineTask('assumption-documentation'
 export const dimensionalAnalysisTask = defineTask('dimensional-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 3: Apply Dimensional Analysis`,
+  skill: { name: 'sympy-computer-algebra' },
   agent: {
-    name: 'general-purpose',
+    name: 'applied-mathematician',
+    skills: ['sympy-computer-algebra', 'numerical-linear-algebra-toolkit', 'latex-math-formatter'],
     prompt: {
       role: 'Dimensional Analysis Expert',
       task: 'Apply dimensional analysis to identify dimensionless groups and scales',
@@ -387,8 +393,10 @@ export const dimensionalAnalysisTask = defineTask('dimensional-analysis', (args,
 export const equationDerivationTask = defineTask('equation-derivation', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 4: Derive Governing Equations`,
+  skill: { name: 'ode-solver-library' },
   agent: {
-    name: 'general-purpose',
+    name: 'applied-mathematician',
+    skills: ['sympy-computer-algebra', 'pde-solver-library', 'latex-math-formatter'],
     prompt: {
       role: 'Mathematical Physics Expert',
       task: 'Derive governing equations for the mathematical model',
@@ -476,8 +484,10 @@ export const equationDerivationTask = defineTask('equation-derivation', (args, t
 export const limitValidationTask = defineTask('limit-validation', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 5: Validate Against Known Limits`,
+  skill: { name: 'sympy-computer-algebra' },
   agent: {
-    name: 'general-purpose',
+    name: 'applied-mathematician',
+    skills: ['sympy-computer-algebra', 'benchmark-suite-manager', 'scientific-literature-search'],
     prompt: {
       role: 'Model Validation Expert',
       task: 'Validate the mathematical model against known limiting cases',

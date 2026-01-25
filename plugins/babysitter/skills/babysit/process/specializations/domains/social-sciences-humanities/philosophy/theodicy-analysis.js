@@ -3,6 +3,8 @@
  * @description Analyze the problem of evil and evaluate theodicies, examining logical and evidential arguments and religious responses
  * @inputs { theodicyContext: string, theodicyType: string, religiousTradition: string, outputDir: string }
  * @outputs { success: boolean, problemAnalysis: object, theodicyEvaluations: array, dialecticalAssessment: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-008 (theological-synthesis), SK-PHIL-001 (formal-logic-analysis), SK-PHIL-005 (conceptual-analysis)
+ * @recommendedAgents AG-PHIL-005 (philosophical-theologian-agent), AG-PHIL-001 (logic-analyst-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

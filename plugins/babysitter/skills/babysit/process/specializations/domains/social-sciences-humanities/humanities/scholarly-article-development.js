@@ -3,6 +3,8 @@
  * @description Draft, revise, and prepare humanities scholarship for peer-reviewed publication including proper citation, argumentation, and formatting
  * @inputs { researchTopic: string, researchFindings: object, targetJournal: object, citationStyle: string }
  * @outputs { success: boolean, manuscript: object, revisions: array, submissionPackage: object, artifacts: array }
+ * @recommendedSkills SK-HUM-010 (citation-scholarly-apparatus), SK-HUM-015 (grant-narrative-writing)
+ * @recommendedAgents AG-HUM-009 (grants-publications-advisor), AG-HUM-007 (historical-narrator)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

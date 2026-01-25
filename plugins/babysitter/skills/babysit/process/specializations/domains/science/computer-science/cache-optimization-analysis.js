@@ -199,7 +199,8 @@ export const accessPatternAnalysisTask = defineTask('access-pattern-analysis', (
   kind: 'agent',
   title: 'Analyze memory access patterns',
   agent: {
-    name: 'access-pattern-analyst',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'memory access pattern specialist',
       task: 'Analyze memory access patterns of the algorithm and data structures',
@@ -252,7 +253,8 @@ export const cacheBehaviorModelingTask = defineTask('cache-behavior-modeling', (
   kind: 'agent',
   title: 'Model cache behavior',
   agent: {
-    name: 'cache-modeler',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'cache behavior specialist',
       task: 'Model cache behavior using external memory model',
@@ -309,7 +311,8 @@ export const dataLayoutOptimizationTask = defineTask('data-layout-optimization',
   kind: 'agent',
   title: 'Optimize data layout for spatial locality',
   agent: {
-    name: 'data-layout-optimizer',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler', 'latex-proof-formatter'],
     prompt: {
       role: 'data layout optimization specialist',
       task: 'Optimize data structure layout for improved spatial locality',
@@ -363,7 +366,8 @@ export const cacheObliviousDesignTask = defineTask('cache-oblivious-design', (ar
   kind: 'agent',
   title: 'Design cache-oblivious algorithms',
   agent: {
-    name: 'cache-oblivious-designer',
+    name: 'algorithm-analyst',
+    skills: ['cache-simulator', 'asymptotic-notation-calculator', 'recurrence-solver'],
     prompt: {
       role: 'cache-oblivious algorithm specialist',
       task: 'Design cache-oblivious algorithm variant if applicable',
@@ -408,7 +412,8 @@ export const theoreticalCacheAnalysisTask = defineTask('theoretical-cache-analys
   kind: 'agent',
   title: 'Compute theoretical cache complexity',
   agent: {
-    name: 'cache-complexity-analyst',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'latex-proof-formatter'],
     prompt: {
       role: 'cache complexity analyst',
       task: 'Compute theoretical cache complexity in external memory model',
@@ -453,7 +458,8 @@ export const benchmarkDesignTask = defineTask('benchmark-design', (args, taskCtx
   kind: 'agent',
   title: 'Design cache performance benchmarks',
   agent: {
-    name: 'benchmark-designer',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'performance benchmarking specialist',
       task: 'Design benchmarks to measure cache performance',
@@ -506,7 +512,8 @@ export const comparisonAnalysisTask = defineTask('comparison-analysis', (args, t
   kind: 'agent',
   title: 'Compare theoretical and empirical performance',
   agent: {
-    name: 'comparison-analyst',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'asymptotic-notation-calculator', 'memory-hierarchy-modeler'],
     prompt: {
       role: 'performance analysis specialist',
       task: 'Compare theoretical cache analysis with expected empirical results',
@@ -549,7 +556,8 @@ export const cacheOptimizationReportTask = defineTask('cache-optimization-report
   kind: 'agent',
   title: 'Generate cache optimization report',
   agent: {
-    name: 'report-generator',
+    name: 'systems-engineer',
+    skills: ['latex-proof-formatter', 'cache-simulator'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive cache optimization report',

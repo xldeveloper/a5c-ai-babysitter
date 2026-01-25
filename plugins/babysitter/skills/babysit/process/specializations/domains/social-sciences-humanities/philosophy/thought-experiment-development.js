@@ -3,6 +3,8 @@
  * @description Construct and analyze philosophical thought experiments to test intuitions, reveal conceptual commitments, and evaluate theories
  * @inputs { philosophicalQuestion: string, targetTheory: string, experimentType: string, outputDir: string }
  * @outputs { success: boolean, thoughtExperiment: object, intuitionAnalysis: object, theoreticalImplications: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-006 (thought-experiment-design), SK-PHIL-005 (conceptual-analysis), SK-PHIL-010 (philosophical-writing-argumentation)
+ * @recommendedAgents AG-PHIL-004 (metaphysics-epistemology-agent), AG-PHIL-006 (academic-philosophy-writer-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

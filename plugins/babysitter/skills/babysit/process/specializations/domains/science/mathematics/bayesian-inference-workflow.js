@@ -162,7 +162,8 @@ export const priorSpecificationTask = defineTask('prior-specification', (args, t
   kind: 'agent',
   title: `Phase 1: Specify Prior Distributions`,
   agent: {
-    name: 'general-purpose',
+    name: 'bayesian-statistician',
+    skills: ['stan-bayesian-modeling', 'pymc-probabilistic-programming', 'mcmc-diagnostics'],
     prompt: {
       role: 'Bayesian Statistician specializing in prior elicitation',
       task: 'Specify appropriate prior distributions for model parameters',
@@ -247,7 +248,8 @@ export const likelihoodImplementationTask = defineTask('likelihood-implementatio
   kind: 'agent',
   title: `Phase 2: Implement Likelihood Function`,
   agent: {
-    name: 'general-purpose',
+    name: 'bayesian-statistician',
+    skills: ['pymc-probabilistic-programming', 'stan-bayesian-modeling', 'r-statistical-computing'],
     prompt: {
       role: 'Probabilistic Programming Expert',
       task: 'Implement the likelihood function for the Bayesian model',
@@ -305,7 +307,8 @@ export const mcmcSamplingTask = defineTask('mcmc-sampling', (args, taskCtx) => (
   kind: 'agent',
   title: `Phase 3: Run MCMC Sampling`,
   agent: {
-    name: 'general-purpose',
+    name: 'bayesian-statistician',
+    skills: ['stan-bayesian-modeling', 'mcmc-diagnostics', 'pymc-probabilistic-programming'],
     prompt: {
       role: 'MCMC Computation Specialist',
       task: 'Configure and describe MCMC sampling for posterior inference',
@@ -377,7 +380,8 @@ export const convergenceDiagnosticsTask = defineTask('convergence-diagnostics', 
   kind: 'agent',
   title: `Phase 4: Check Convergence Diagnostics`,
   agent: {
-    name: 'general-purpose',
+    name: 'bayesian-statistician',
+    skills: ['mcmc-diagnostics', 'stan-bayesian-modeling', 'r-statistical-computing'],
     prompt: {
       role: 'MCMC Diagnostics Expert',
       task: 'Assess convergence of MCMC chains',
@@ -459,7 +463,8 @@ export const posteriorSummariesTask = defineTask('posterior-summaries', (args, t
   kind: 'agent',
   title: `Phase 5: Generate Posterior Summaries`,
   agent: {
-    name: 'general-purpose',
+    name: 'bayesian-statistician',
+    skills: ['mcmc-diagnostics', 'stan-bayesian-modeling', 'latex-math-formatter'],
     prompt: {
       role: 'Bayesian Results Interpretation Specialist',
       task: 'Generate comprehensive posterior summaries and model checks',

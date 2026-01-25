@@ -321,7 +321,8 @@ export const errorProbabilityAnalysisTask = defineTask('error-probability-analys
   kind: 'agent',
   title: 'Bound error probability',
   agent: {
-    name: 'error-probability-analyst',
+    name: 'randomized-algorithms-expert',
+    skills: ['probabilistic-analysis-toolkit'],
     prompt: {
       role: 'probability theory specialist',
       task: 'Analyze and bound error probability for Monte Carlo algorithms',
@@ -379,7 +380,8 @@ export const probabilisticBoundsTask = defineTask('probabilistic-bounds', (args,
   kind: 'agent',
   title: 'Apply Chernoff bounds and concentration inequalities',
   agent: {
-    name: 'concentration-bounds-analyst',
+    name: 'randomized-algorithms-expert',
+    skills: ['probabilistic-analysis-toolkit', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'probabilistic methods specialist',
       task: 'Apply concentration inequalities to bound algorithm behavior',
@@ -436,7 +438,8 @@ export const confidenceIntervalAnalysisTask = defineTask('confidence-interval-an
   kind: 'agent',
   title: 'Compute complexity bounds with confidence intervals',
   agent: {
-    name: 'confidence-analyst',
+    name: 'randomized-algorithms-expert',
+    skills: ['probabilistic-analysis-toolkit'],
     prompt: {
       role: 'statistical analysis specialist',
       task: 'Derive high-probability complexity bounds with confidence intervals',
@@ -486,7 +489,8 @@ export const rngRequirementsTask = defineTask('rng-requirements', (args, taskCtx
   kind: 'agent',
   title: 'Specify random number generation requirements',
   agent: {
-    name: 'rng-specialist',
+    name: 'randomized-algorithms-expert',
+    skills: ['probabilistic-analysis-toolkit'],
     prompt: {
       role: 'randomness and cryptography specialist',
       task: 'Specify random number generation requirements for the algorithm',
@@ -531,7 +535,8 @@ export const derandomizationAnalysisTask = defineTask('derandomization-analysis'
   kind: 'agent',
   title: 'Design derandomization strategies',
   agent: {
-    name: 'derandomization-specialist',
+    name: 'randomized-algorithms-expert',
+    skills: ['probabilistic-analysis-toolkit', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'derandomization specialist',
       task: 'Analyze derandomization strategies for the randomized algorithm',
@@ -575,7 +580,8 @@ export const algorithmSpecificationTask = defineTask('algorithm-specification', 
   kind: 'agent',
   title: 'Generate complete algorithm specification',
   agent: {
-    name: 'specification-writer',
+    name: 'randomized-algorithms-expert',
+    skills: ['latex-proof-formatter', 'probabilistic-analysis-toolkit'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Create comprehensive randomized algorithm specification document',

@@ -3,6 +3,8 @@
  * @description Navigate IRB/ethics review processes for human subjects research including informed consent, community protocols, and sensitive materials handling
  * @inputs { researchProject: object, participantPopulation: object, dataHandling: object, institutionalRequirements: object }
  * @outputs { success: boolean, ethicsApplication: object, consentMaterials: object, protocolDocuments: array, artifacts: array }
+ * @recommendedSkills SK-HUM-006 (research-ethics-irb-navigation), SK-HUM-015 (grant-narrative-writing)
+ * @recommendedAgents AG-HUM-008 (research-ethics-consultant), AG-HUM-009 (grants-publications-advisor)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

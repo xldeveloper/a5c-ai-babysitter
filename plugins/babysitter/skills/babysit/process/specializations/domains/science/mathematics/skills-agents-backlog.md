@@ -1129,3 +1129,20 @@ These skills and agents could be shared with other specializations:
 - arXiv math: https://arxiv.org/archive/math
 - MathSciNet: https://mathscinet.ams.org/
 - zbMATH Open: https://zbmath.org/
+
+---
+
+## Phase 7: Process Integration Checklist
+
+### Completed Process Files
+- [x] uncertainty-quantification.js - Updated with uq-specialist agent, monte-carlo-simulation, sensitivity-analysis-uq, polynomial-chaos-expansion skills
+- [x] model-formulation-workflow.js - Updated with applied-mathematician agent, sympy-computer-algebra, ode-solver-library skills
+- [x] sensitivity-analysis-optimization.js - Updated with optimization-expert agent, convex-optimization-solver, sensitivity-analysis-toolkit skills
+- [x] convex-analysis-verification.js - Updated with optimization-expert agent, convex-optimization-solver, nonlinear-optimization-solver skills
+- [x] optimization-problem-formulation.js - Updated with optimization-expert agent, convex-optimization-solver, mixed-integer-optimization skills
+
+### Integration Notes
+- All process files now have task-level `skill: { name: '...' }` properties
+- Agent objects include domain-specific agent names (optimization-expert, uq-specialist, applied-mathematician)
+- Agent objects include skills arrays for multi-skill capability
+- Process-to-Skills/Agents mapping table used as reference for integration

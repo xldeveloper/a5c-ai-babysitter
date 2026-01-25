@@ -105,7 +105,8 @@ export const problemCharacterizer = defineTask('problem-characterizer', (args, t
   kind: 'agent',
   title: 'Characterize computational problem',
   agent: {
-    name: 'complexity-theorist',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'recurrence-solver', 'latex-proof-formatter'],
     prompt: {
       role: 'Computational complexity problem characterization expert',
       task: 'Characterize computational problem for lower bound analysis',
@@ -147,7 +148,8 @@ export const techniqueSelector = defineTask('technique-selector', (args, taskCtx
   kind: 'agent',
   title: 'Select lower bound technique',
   agent: {
-    name: 'lower-bound-strategist',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'recurrence-solver', 'theorem-prover-interface'],
     prompt: {
       role: 'Lower bound proof technique expert',
       task: 'Select appropriate lower bound proof technique',
@@ -188,7 +190,8 @@ export const reductionConstructor = defineTask('reduction-constructor', (args, t
   kind: 'agent',
   title: 'Construct complexity reduction',
   agent: {
-    name: 'reduction-constructor',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Complexity reduction construction expert',
       task: 'Construct reduction for lower bound proof',
@@ -230,7 +233,8 @@ export const lemmaDeveloper = defineTask('lemma-developer', (args, taskCtx) => (
   kind: 'agent',
   title: 'Develop technical lemmas',
   agent: {
-    name: 'lemma-developer',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'recurrence-solver'],
     prompt: {
       role: 'Technical lemma development expert',
       task: 'Develop technical lemmas supporting lower bound proof',
@@ -271,7 +275,8 @@ export const proofAssembler = defineTask('proof-assembler', (args, taskCtx) => (
   kind: 'agent',
   title: 'Assemble lower bound proof',
   agent: {
-    name: 'proof-assembler',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Lower bound proof assembly expert',
       task: 'Assemble complete lower bound proof from components',
@@ -312,7 +317,8 @@ export const tightnessAnalyzer = defineTask('tightness-analyzer', (args, taskCtx
   kind: 'agent',
   title: 'Analyze bound tightness',
   agent: {
-    name: 'tightness-analyzer',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'recurrence-solver', 'latex-proof-formatter'],
     prompt: {
       role: 'Lower bound tightness analysis expert',
       task: 'Analyze tightness of lower bound and identify gaps',
@@ -354,7 +360,8 @@ export const lowerBoundVerifier = defineTask('lower-bound-verifier', (args, task
   kind: 'agent',
   title: 'Verify lower bound proof',
   agent: {
-    name: 'proof-verifier',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'Complexity proof verification expert',
       task: 'Verify correctness of lower bound proof',
@@ -395,7 +402,8 @@ export const implicationsAnalyzer = defineTask('implications-analyzer', (args, t
   kind: 'agent',
   title: 'Analyze lower bound implications',
   agent: {
-    name: 'implications-analyst',
+    name: 'algorithm-analyst',
+    skills: ['asymptotic-notation-calculator', 'latex-proof-formatter', 'theorem-prover-interface'],
     prompt: {
       role: 'Complexity implications analysis expert',
       task: 'Analyze theoretical and practical implications of lower bound',

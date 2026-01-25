@@ -159,7 +159,8 @@ export const proofParsingTask = defineTask('proof-parsing', (args, taskCtx) => (
   kind: 'agent',
   title: `Phase 1: Parse Proof Structure - ${args.theoremStatement.substring(0, 50)}...`,
   agent: {
-    name: 'general-purpose',
+    name: 'proof-strategist',
+    skills: ['proof-structure-analyzer', 'lean-proof-assistant', 'coq-proof-assistant'],
     prompt: {
       role: 'Mathematical Logician with expertise in proof theory and formal methods',
       task: 'Parse and structure an informal mathematical proof into a formal logical structure',
@@ -248,7 +249,8 @@ export const formalTranslationTask = defineTask('formal-translation', (args, tas
   kind: 'agent',
   title: `Phase 2: Translate to Formal Syntax - ${args.proofAssistant}`,
   agent: {
-    name: 'general-purpose',
+    name: 'theorem-prover-expert',
+    skills: ['lean-proof-assistant', 'coq-proof-assistant', 'isabelle-hol-interface'],
     prompt: {
       role: 'Formal Methods Expert specializing in proof assistants and type theory',
       task: 'Translate parsed proof structure into formal proof assistant syntax',
@@ -333,7 +335,8 @@ export const stepVerificationTask = defineTask('step-verification', (args, taskC
   kind: 'agent',
   title: `Phase 3: Verify Logical Steps`,
   agent: {
-    name: 'general-purpose',
+    name: 'theorem-prover-expert',
+    skills: ['coq-proof-assistant', 'lean-proof-assistant', 'proof-structure-analyzer'],
     prompt: {
       role: 'Proof Verification Specialist with expertise in formal verification',
       task: 'Verify each logical step of the formal proof for correctness',
@@ -413,7 +416,8 @@ export const counterexampleSearchTask = defineTask('counterexample-search', (arg
   kind: 'agent',
   title: `Phase 4: Search for Counterexamples`,
   agent: {
-    name: 'general-purpose',
+    name: 'conjecture-analyst',
+    skills: ['counterexample-generator', 'sympy-computer-algebra', 'sage-math-interface'],
     prompt: {
       role: 'Mathematical Analyst specializing in counterexample generation and testing',
       task: 'Search for potential counterexamples to the theorem',
@@ -508,7 +512,8 @@ export const gapAnalysisTask = defineTask('gap-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 5: Gap Analysis and Reporting`,
   agent: {
-    name: 'general-purpose',
+    name: 'proof-strategist',
+    skills: ['proof-structure-analyzer', 'lean-proof-assistant', 'latex-math-formatter'],
     prompt: {
       role: 'Mathematical Proof Reviewer with expertise in identifying logical gaps',
       task: 'Analyze verification results and identify gaps in the proof',

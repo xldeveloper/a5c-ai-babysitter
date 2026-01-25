@@ -213,8 +213,9 @@ export async function process(inputs, ctx) {
 export const hwRegulatoryTask = defineTask('hw-regulatory', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Regulatory Assessment',
+  skill: { name: 'hazardous-waste-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'RCRA Compliance Specialist',
       task: 'Assess regulatory requirements for hazardous waste',
@@ -258,8 +259,9 @@ export const hwRegulatoryTask = defineTask('hw-regulatory', (args, taskCtx) => (
 export const hwWasteEvalTask = defineTask('hw-waste-eval', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Waste Stream Evaluation',
+  skill: { name: 'hazardous-waste-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Hazardous Waste Specialist',
       task: 'Evaluate hazardous waste streams',
@@ -303,8 +305,9 @@ export const hwWasteEvalTask = defineTask('hw-waste-eval', (args, taskCtx) => ({
 export const storageHandlingTask = defineTask('storage-handling', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Storage and Handling Requirements',
+  skill: { name: 'hazardous-waste-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Hazardous Waste Storage Specialist',
       task: 'Develop storage and handling requirements',
@@ -350,8 +353,9 @@ export const storageHandlingTask = defineTask('storage-handling', (args, taskCtx
 export const treatmentDisposalTask = defineTask('treatment-disposal', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Treatment and Disposal Planning',
+  skill: { name: 'hazardous-waste-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Hazardous Waste Disposal Planner',
       task: 'Plan treatment and disposal options',
@@ -396,8 +400,9 @@ export const treatmentDisposalTask = defineTask('treatment-disposal', (args, tas
 export const hwTrainingTask = defineTask('hw-training', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Training Program Development',
+  skill: { name: 'hazardous-waste-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Hazardous Waste Training Specialist',
       task: 'Develop hazardous waste training program',
@@ -441,8 +446,9 @@ export const hwTrainingTask = defineTask('hw-training', (args, taskCtx) => ({
 export const recordkeepingTask = defineTask('recordkeeping', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Recordkeeping and Reporting',
+  skill: { name: 'hazardous-waste-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Hazardous Waste Records Specialist',
       task: 'Develop recordkeeping and reporting system',
@@ -486,8 +492,9 @@ export const recordkeepingTask = defineTask('recordkeeping', (args, taskCtx) => 
 export const hwContingencyTask = defineTask('hw-contingency', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Contingency Planning',
+  skill: { name: 'hazardous-waste-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Emergency Response Planner',
       task: 'Develop contingency and emergency response plan',
@@ -534,8 +541,9 @@ export const hwContingencyTask = defineTask('hw-contingency', (args, taskCtx) =>
 export const hwProgramDocsTask = defineTask('hw-program-docs', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Program Documentation',
+  skill: { name: 'hazardous-waste-management' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'waste-management-specialist',
     prompt: {
       role: 'Hazardous Waste Program Manager',
       task: 'Compile hazardous waste management program documentation',

@@ -3,6 +3,8 @@
  * @description Implement quasi-experimental approaches including difference-in-differences, regression discontinuity, and instrumental variables for causal inference in observational settings
  * @inputs { researchQuestion: string, availableData: object, policyOrIntervention: object, constraints: object, outputDir: string }
  * @outputs { success: boolean, designSpecification: object, identificationStrategy: object, validityAssessment: object, artifacts: array }
+ * @recommendedSkills SK-SS-001 (quantitative-methods), SK-SS-004 (causal-inference-methods)
+ * @recommendedAgents AG-SS-001 (quantitative-research-methodologist), AG-SS-005 (causal-inference-analyst)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

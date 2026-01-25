@@ -3,6 +3,8 @@
  * @description Build theory inductively from qualitative data through systematic coding, constant comparison, theoretical sampling, and memo writing until theoretical saturation
  * @inputs { dataPath: string, phenomenon: string, researchQuestions: array, outputDir: string }
  * @outputs { success: boolean, groundedTheory: object, theoreticalModel: object, qualityScore: number, artifacts: array }
+ * @recommendedSkills SK-SS-002 (qualitative-analysis)
+ * @recommendedAgents AG-SS-002 (qualitative-research-specialist)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

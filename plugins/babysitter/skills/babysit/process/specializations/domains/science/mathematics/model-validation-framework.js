@@ -154,7 +154,8 @@ export const metricsDefinitionTask = defineTask('metrics-definition', (args, tas
   kind: 'agent',
   title: `Phase 1: Define Validation Metrics`,
   agent: {
-    name: 'general-purpose',
+    name: 'mathematical-modeler',
+    skills: ['r-statistical-computing', 'benchmark-suite-manager', 'monte-carlo-simulation'],
     prompt: {
       role: 'Model Validation Expert',
       task: 'Define appropriate validation metrics for the model',
@@ -227,7 +228,8 @@ export const predictionComparisonTask = defineTask('prediction-comparison', (arg
   kind: 'agent',
   title: `Phase 2: Compare Model Predictions to Data`,
   agent: {
-    name: 'general-purpose',
+    name: 'mathematical-modeler',
+    skills: ['r-statistical-computing', 'sympy-computer-algebra', 'benchmark-suite-manager'],
     prompt: {
       role: 'Model Calibration Expert',
       task: 'Compare model predictions against observational data',
@@ -303,7 +305,8 @@ export const residualAnalysisTask = defineTask('residual-analysis', (args, taskC
   kind: 'agent',
   title: `Phase 3: Perform Residual Analysis`,
   agent: {
-    name: 'general-purpose',
+    name: 'mathematical-modeler',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'sympy-computer-algebra'],
     prompt: {
       role: 'Statistical Residual Analysis Expert',
       task: 'Perform comprehensive residual analysis',
@@ -399,7 +402,8 @@ export const accuracyAssessmentTask = defineTask('accuracy-assessment', (args, t
   kind: 'agent',
   title: `Phase 4: Assess Predictive Accuracy`,
   agent: {
-    name: 'general-purpose',
+    name: 'mathematical-modeler',
+    skills: ['r-statistical-computing', 'monte-carlo-simulation', 'benchmark-suite-manager'],
     prompt: {
       role: 'Model Accuracy Assessment Expert',
       task: 'Assess overall predictive accuracy and model adequacy',
@@ -470,7 +474,8 @@ export const limitationsDocumentationTask = defineTask('limitations-documentatio
   kind: 'agent',
   title: `Phase 5: Document Model Limitations`,
   agent: {
-    name: 'general-purpose',
+    name: 'mathematical-modeler',
+    skills: ['latex-math-formatter', 'r-statistical-computing', 'scientific-literature-search'],
     prompt: {
       role: 'Model Limitations Analyst',
       task: 'Document model limitations and provide recommendations',

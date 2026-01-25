@@ -202,8 +202,9 @@ export async function process(inputs, ctx) {
 export const emissionCharacterizationTask = defineTask('emission-characterization', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Emission Source Characterization',
+  skill: { name: 'air-pollution-control' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Air Emissions Engineer',
       task: 'Characterize emission source for control system design',
@@ -245,8 +246,9 @@ export const emissionCharacterizationTask = defineTask('emission-characterizatio
 export const controlTechScreeningTask = defineTask('control-tech-screening', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Control Technology Screening',
+  skill: { name: 'air-pollution-control' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Air Pollution Control Specialist',
       task: 'Screen and evaluate control technology options',
@@ -288,8 +290,9 @@ export const controlTechScreeningTask = defineTask('control-tech-screening', (ar
 export const controlSystemDesignTask = defineTask('control-system-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Detailed Control System Design',
+  skill: { name: 'air-pollution-control' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Air Pollution Control Design Engineer',
       task: 'Develop detailed control system design',
@@ -333,8 +336,9 @@ export const controlSystemDesignTask = defineTask('control-system-design', (args
 export const auxiliarySystemsTask = defineTask('auxiliary-systems', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Auxiliary Systems Design',
+  skill: { name: 'air-pollution-control' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Air Control Systems Engineer',
       task: 'Design auxiliary support systems',
@@ -377,8 +381,9 @@ export const auxiliarySystemsTask = defineTask('auxiliary-systems', (args, taskC
 export const performanceTestingPlanTask = defineTask('performance-testing-plan', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Performance Testing Plan',
+  skill: { name: 'air-pollution-control' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Air Testing Specialist',
       task: 'Develop performance testing plan for control system',
@@ -421,8 +426,9 @@ export const performanceTestingPlanTask = defineTask('performance-testing-plan',
 export const controlCostAnalysisTask = defineTask('control-cost-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Cost Analysis',
+  skill: { name: 'air-pollution-control' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Environmental Cost Engineer',
       task: 'Analyze control system costs',
@@ -464,8 +470,9 @@ export const controlCostAnalysisTask = defineTask('control-cost-analysis', (args
 export const controlDesignDocsTask = defineTask('control-design-docs', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Design Documentation',
+  skill: { name: 'air-pollution-control' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'Environmental Engineering Technical Writer',
       task: 'Compile control system design documentation',

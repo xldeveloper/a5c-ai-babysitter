@@ -165,7 +165,8 @@ export const expressionParsingTask = defineTask('expression-parsing', (args, tas
   kind: 'agent',
   title: `Phase 1: Parse ${args.operation === 'integrate' ? 'Integral' : 'Derivative'} Expression`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['sympy-computer-algebra', 'sage-math-interface', 'special-functions-library'],
     prompt: {
       role: 'Symbolic Calculus Expert',
       task: 'Parse and analyze the expression for symbolic computation',
@@ -223,7 +224,8 @@ export const symbolicComputationTask = defineTask('symbolic-computation', (args,
   kind: 'agent',
   title: `Phase 2: Apply Symbolic ${args.operation === 'integrate' ? 'Integration' : 'Differentiation'}`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['sympy-computer-algebra', 'sage-math-interface', 'special-functions-library'],
     prompt: {
       role: 'Computer Algebra System Expert',
       task: `Perform symbolic ${args.operation} on the expression`,
@@ -289,7 +291,8 @@ export const resultVerificationTask = defineTask('result-verification', (args, t
   kind: 'agent',
   title: `Phase 3: Verify Result Correctness`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['sympy-computer-algebra', 'benchmark-suite-manager', 'floating-point-analysis'],
     prompt: {
       role: 'Mathematical Verification Expert',
       task: 'Verify the symbolic computation result is correct',
@@ -357,7 +360,8 @@ export const specialCaseHandlingTask = defineTask('special-case-handling', (args
   kind: 'agent',
   title: `Phase 4: Handle Special Cases`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['special-functions-library', 'sympy-computer-algebra', 'sage-math-interface'],
     prompt: {
       role: 'Special Functions Expert',
       task: 'Handle special cases and edge conditions',
@@ -425,7 +429,8 @@ export const stepByStepSolutionTask = defineTask('step-by-step-solution', (args,
   kind: 'agent',
   title: `Phase 5: Generate Step-by-Step Solution`,
   agent: {
-    name: 'general-purpose',
+    name: 'symbolic-computation-expert',
+    skills: ['latex-math-formatter', 'sympy-computer-algebra', 'sage-math-interface'],
     prompt: {
       role: 'Mathematics Education Expert',
       task: 'Generate a clear step-by-step solution',

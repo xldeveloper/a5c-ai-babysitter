@@ -1041,33 +1041,33 @@ This backlog identifies specialized skills and agents that could enhance the Che
 
 ## Process to Skills/Agents Mapping
 
-| Process | Recommended Skills | Recommended Agents |
-|---------|-------------------|-------------------|
-| CE-001: Process Flow Diagram Development | aspen-plus-simulator, pfd-pid-generator, material-balance-calculator, process-economics-estimator | process-development-engineer |
-| CE-002: Heat Integration Analysis | pinch-analyzer, energy-auditor, process-economics-estimator | heat-integration-specialist, energy-efficiency-engineer |
-| CE-003: Process Simulation Model Development | aspen-plus-simulator, hysys-dynamic-simulator, thermodynamic-model-selector | process-development-engineer |
-| CE-004: Equipment Sizing and Specification | equipment-sizing-calculator, corrosion-materials-selector, process-economics-estimator | equipment-engineer |
-| CE-005: Reactor Design and Selection | reactor-designer, kinetic-modeler, scale-up-analyzer | reaction-engineer |
-| CE-006: Kinetic Model Development | kinetic-modeler, aspen-plus-simulator | reaction-engineer |
-| CE-007: Catalyst Evaluation and Optimization | catalyst-analyzer, kinetic-modeler | catalysis-specialist |
-| CE-008: Scale-Up Analysis | scale-up-analyzer, reactor-designer, aspen-plus-simulator | scale-up-engineer |
-| CE-009: Distillation Column Design | distillation-designer, aspen-plus-simulator, equipment-sizing-calculator | distillation-specialist |
-| CE-010: Membrane Separation System Design | membrane-system-designer, equipment-sizing-calculator | separation-process-engineer |
-| CE-011: Crystallization Process Design | crystallizer-designer, thermodynamic-model-selector | separation-process-engineer |
-| CE-012: Separation Sequence Synthesis | separation-sequence-synthesizer, distillation-designer | distillation-specialist, separation-process-engineer |
-| CE-013: HAZOP Study Facilitation | hazop-facilitator, consequence-modeler, pfd-pid-generator | hazop-leader, risk-analyst |
-| CE-014: Safety Instrumented System Design | sil-calculator, hazop-facilitator, control-strategy-designer | safety-systems-engineer |
-| CE-015: Pressure Relief System Design | relief-system-designer, reactive-hazards-analyzer, consequence-modeler | pressure-relief-engineer |
-| CE-016: Consequence Analysis | consequence-modeler, relief-system-designer | risk-analyst |
-| CE-017: Control Strategy Development | control-strategy-designer, pid-tuner, alarm-rationalization-tool | control-systems-engineer |
-| CE-018: PID Controller Tuning | pid-tuner, hysys-dynamic-simulator | advanced-control-engineer |
-| CE-019: Model Predictive Control Implementation | mpc-configurator, pid-tuner, hysys-dynamic-simulator | advanced-control-engineer |
-| CE-020: Alarm Rationalization | alarm-rationalization-tool, control-strategy-designer | control-systems-engineer |
-| CE-021: Process Sustainability Assessment | lca-analyzer, green-chemistry-metrics, waste-minimization-analyzer | sustainability-analyst |
-| CE-022: Waste Minimization Analysis | waste-minimization-analyzer, green-chemistry-metrics, process-economics-estimator | waste-minimization-specialist |
-| CE-023: Energy Efficiency Optimization | energy-auditor, pinch-analyzer, process-economics-estimator | energy-efficiency-engineer |
-| CE-024: Process Startup Procedure Development | pssr-checklist-generator, hysys-dynamic-simulator, control-strategy-designer | startup-commissioning-engineer |
-| CE-025: Performance Testing and Validation | performance-test-designer, aspen-plus-simulator, material-balance-calculator | performance-test-engineer |
+| Process | Recommended Skills | Recommended Agents | Status |
+|---------|-------------------|-------------------|--------|
+| CE-001: Process Flow Diagram Development | aspen-plus-simulator, pfd-pid-generator, material-balance-calculator, process-economics-estimator | process-development-engineer | [x] |
+| CE-002: Heat Integration Analysis | pinch-analyzer, energy-auditor, process-economics-estimator | heat-integration-specialist, energy-efficiency-engineer | [x] |
+| CE-003: Process Simulation Model Development | aspen-plus-simulator, hysys-dynamic-simulator, thermodynamic-model-selector | process-development-engineer | [x] |
+| CE-004: Equipment Sizing and Specification | equipment-sizing-calculator, corrosion-materials-selector, process-economics-estimator | equipment-engineer | [x] |
+| CE-005: Reactor Design and Selection | reactor-designer, kinetic-modeler, scale-up-analyzer | reaction-engineer | [x] |
+| CE-006: Kinetic Model Development | kinetic-modeler, aspen-plus-simulator | reaction-engineer | [x] |
+| CE-007: Catalyst Evaluation and Optimization | catalyst-analyzer, kinetic-modeler | catalysis-specialist | [x] |
+| CE-008: Scale-Up Analysis | scale-up-analyzer, reactor-designer, aspen-plus-simulator | scale-up-engineer | [x] |
+| CE-009: Distillation Column Design | distillation-designer, aspen-plus-simulator, equipment-sizing-calculator | distillation-specialist | [x] |
+| CE-010: Membrane Separation System Design | membrane-system-designer, equipment-sizing-calculator | separation-process-engineer | [x] |
+| CE-011: Crystallization Process Design | crystallizer-designer, thermodynamic-model-selector | separation-process-engineer | [x] |
+| CE-012: Separation Sequence Synthesis | separation-sequence-synthesizer, distillation-designer | distillation-specialist, separation-process-engineer | [x] |
+| CE-013: HAZOP Study Facilitation | hazop-facilitator, consequence-modeler, pfd-pid-generator | hazop-leader, risk-analyst | [x] |
+| CE-014: Safety Instrumented System Design | sil-calculator, hazop-facilitator, control-strategy-designer | safety-systems-engineer | [x] |
+| CE-015: Pressure Relief System Design | relief-system-designer, reactive-hazards-analyzer, consequence-modeler | pressure-relief-engineer | [x] |
+| CE-016: Consequence Analysis | consequence-modeler, relief-system-designer | risk-analyst | [x] |
+| CE-017: Control Strategy Development | control-strategy-designer, pid-tuner, alarm-rationalization-tool | control-systems-engineer | [x] |
+| CE-018: PID Controller Tuning | pid-tuner, hysys-dynamic-simulator | advanced-control-engineer | [x] |
+| CE-019: Model Predictive Control Implementation | mpc-configurator, pid-tuner, hysys-dynamic-simulator | advanced-control-engineer | [x] |
+| CE-020: Alarm Rationalization | alarm-rationalization-tool, control-strategy-designer | control-systems-engineer | [x] |
+| CE-021: Process Sustainability Assessment | lca-analyzer, green-chemistry-metrics, waste-minimization-analyzer | sustainability-analyst | [x] |
+| CE-022: Waste Minimization Analysis | waste-minimization-analyzer, green-chemistry-metrics, process-economics-estimator | waste-minimization-specialist | [x] |
+| CE-023: Energy Efficiency Optimization | energy-auditor, pinch-analyzer, process-economics-estimator | energy-efficiency-engineer | [x] |
+| CE-024: Process Startup Procedure Development | pssr-checklist-generator, hysys-dynamic-simulator, control-strategy-designer | startup-commissioning-engineer | [x] |
+| CE-025: Performance Testing and Validation | performance-test-designer, aspen-plus-simulator, material-balance-calculator | performance-test-engineer | [x] |
 
 ---
 

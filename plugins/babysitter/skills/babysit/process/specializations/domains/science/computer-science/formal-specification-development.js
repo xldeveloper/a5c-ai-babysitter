@@ -125,7 +125,8 @@ export const requirementsAnalyzer = defineTask('requirements-analyzer', (args, t
   kind: 'agent',
   title: 'Analyze and structure requirements',
   agent: {
-    name: 'requirements-analyst',
+    name: 'semantics-formalist',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'Formal requirements analysis expert',
       task: 'Analyze requirements for formal specification development',
@@ -167,7 +168,8 @@ export const domainModeler = defineTask('domain-modeler', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop formal domain model',
   agent: {
-    name: 'domain-modeler',
+    name: 'semantics-formalist',
+    skills: ['type-inference-engine', 'latex-proof-formatter', 'tla-plus-model-checker'],
     prompt: {
       role: 'Formal domain modeling expert',
       task: 'Develop formal domain model for specification',
@@ -209,7 +211,8 @@ export const stateSpecifier = defineTask('state-specifier', (args, taskCtx) => (
   kind: 'agent',
   title: 'Specify system state space',
   agent: {
-    name: 'state-specifier',
+    name: 'semantics-formalist',
+    skills: ['tla-plus-model-checker', 'type-inference-engine', 'latex-proof-formatter'],
     prompt: {
       role: 'Formal state specification expert',
       task: 'Specify formal state space for the system',
@@ -251,7 +254,8 @@ export const operationSpecifier = defineTask('operation-specifier', (args, taskC
   kind: 'agent',
   title: 'Specify system operations',
   agent: {
-    name: 'operation-specifier',
+    name: 'semantics-formalist',
+    skills: ['tla-plus-model-checker', 'latex-proof-formatter', 'type-inference-engine'],
     prompt: {
       role: 'Formal operation specification expert',
       task: 'Specify formal operations with pre/post conditions',
@@ -293,7 +297,8 @@ export const propertyFormalizer = defineTask('property-formalizer', (args, taskC
   kind: 'agent',
   title: 'Formalize system properties',
   agent: {
-    name: 'property-formalizer',
+    name: 'semantics-formalist',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'Formal property specification expert',
       task: 'Formalize safety and liveness properties',
@@ -335,7 +340,8 @@ export const consistencyChecker = defineTask('consistency-checker', (args, taskC
   kind: 'agent',
   title: 'Check specification consistency',
   agent: {
-    name: 'consistency-checker',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'tla-plus-model-checker', 'latex-proof-formatter'],
     prompt: {
       role: 'Formal specification consistency expert',
       task: 'Check consistency of formal specification',
@@ -377,7 +383,8 @@ export const completenessAnalyzer = defineTask('completeness-analyzer', (args, t
   kind: 'agent',
   title: 'Analyze specification completeness',
   agent: {
-    name: 'completeness-analyst',
+    name: 'semantics-formalist',
+    skills: ['tla-plus-model-checker', 'theorem-prover-interface', 'latex-proof-formatter'],
     prompt: {
       role: 'Specification completeness analysis expert',
       task: 'Analyze completeness of formal specification',
@@ -419,7 +426,8 @@ export const refinementDeveloper = defineTask('refinement-developer', (args, tas
   kind: 'agent',
   title: 'Develop refinement hierarchy',
   agent: {
-    name: 'refinement-developer',
+    name: 'semantics-formalist',
+    skills: ['theorem-prover-interface', 'latex-proof-formatter', 'type-inference-engine'],
     prompt: {
       role: 'Formal refinement development expert',
       task: 'Develop refinement hierarchy from abstract to concrete',
@@ -461,7 +469,8 @@ export const verificationConditionGenerator = defineTask('verification-condition
   kind: 'agent',
   title: 'Generate verification conditions',
   agent: {
-    name: 'vc-generator',
+    name: 'theorem-proving-expert',
+    skills: ['theorem-prover-interface', 'tla-plus-model-checker', 'latex-proof-formatter'],
     prompt: {
       role: 'Verification condition generation expert',
       task: 'Generate verification conditions for the specification',

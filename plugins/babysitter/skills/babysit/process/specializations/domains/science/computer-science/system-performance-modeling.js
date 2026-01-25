@@ -223,7 +223,8 @@ export const systemComponentDefinitionTask = defineTask('system-component-defini
   kind: 'agent',
   title: 'Define system components and interactions',
   agent: {
-    name: 'system-architect',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'memory-hierarchy-modeler'],
     prompt: {
       role: 'system performance architect',
       task: 'Define system components and their interactions for performance modeling',
@@ -286,7 +287,8 @@ export const workloadCharacterizationTask = defineTask('workload-characterizatio
   kind: 'agent',
   title: 'Characterize workload',
   agent: {
-    name: 'workload-analyst',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'latex-proof-formatter'],
     prompt: {
       role: 'workload characterization specialist',
       task: 'Model workload characteristics for performance analysis',
@@ -338,7 +340,8 @@ export const queuingModelConstructionTask = defineTask('queuing-model-constructi
   kind: 'agent',
   title: 'Construct queuing theory model',
   agent: {
-    name: 'queuing-modeler',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'latex-proof-formatter', 'recurrence-solver'],
     prompt: {
       role: 'queuing theory specialist',
       task: 'Construct queuing theory model for performance analysis',
@@ -390,7 +393,8 @@ export const markovModelConstructionTask = defineTask('markov-model-construction
   kind: 'agent',
   title: 'Construct Markov model if applicable',
   agent: {
-    name: 'markov-modeler',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'latex-proof-formatter', 'recurrence-solver'],
     prompt: {
       role: 'Markov modeling specialist',
       task: 'Construct continuous-time Markov chain model for system states',
@@ -434,7 +438,8 @@ export const bottleneckAnalysisTask = defineTask('bottleneck-analysis', (args, t
   kind: 'agent',
   title: 'Identify bottlenecks via analysis',
   agent: {
-    name: 'bottleneck-analyst',
+    name: 'systems-engineer',
+    skills: ['cache-simulator', 'memory-hierarchy-modeler', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'performance bottleneck specialist',
       task: 'Identify system bottlenecks through analytical modeling',
@@ -486,7 +491,8 @@ export const modelValidationPlanTask = defineTask('model-validation-plan', (args
   kind: 'agent',
   title: 'Plan model validation against empirical data',
   agent: {
-    name: 'validation-planner',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'latex-proof-formatter', 'cache-simulator'],
     prompt: {
       role: 'model validation specialist',
       task: 'Design plan to validate performance model against empirical data',
@@ -538,7 +544,8 @@ export const performancePredictionTask = defineTask('performance-prediction', (a
   kind: 'agent',
   title: 'Predict performance under varying conditions',
   agent: {
-    name: 'performance-predictor',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'memory-hierarchy-modeler'],
     prompt: {
       role: 'performance prediction specialist',
       task: 'Use models to predict performance under varying conditions',
@@ -590,7 +597,8 @@ export const capacityPlanningTask = defineTask('capacity-planning', (args, taskC
   kind: 'agent',
   title: 'Generate capacity planning recommendations',
   agent: {
-    name: 'capacity-planner',
+    name: 'systems-engineer',
+    skills: ['asymptotic-notation-calculator', 'cache-simulator', 'latex-proof-formatter'],
     prompt: {
       role: 'capacity planning specialist',
       task: 'Generate capacity planning recommendations based on performance model',
@@ -643,7 +651,8 @@ export const performanceModelDocumentationTask = defineTask('performance-model-d
   kind: 'agent',
   title: 'Generate performance model documentation',
   agent: {
-    name: 'documentation-writer',
+    name: 'systems-engineer',
+    skills: ['latex-proof-formatter', 'asymptotic-notation-calculator'],
     prompt: {
       role: 'technical documentation specialist',
       task: 'Generate comprehensive performance model documentation',

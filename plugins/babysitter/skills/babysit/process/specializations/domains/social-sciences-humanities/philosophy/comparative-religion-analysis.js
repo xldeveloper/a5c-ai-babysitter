@@ -3,6 +3,8 @@
  * @description Conduct systematic comparison of religious traditions, beliefs, practices, and institutions using phenomenological and analytical methods
  * @inputs { religions: array, comparisonFocus: string, methodology: string, outputDir: string }
  * @outputs { success: boolean, comparativeAnalysis: object, similarities: array, differences: array, insights: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-009 (comparative-religion-analysis), SK-PHIL-004 (hermeneutical-interpretation), SK-PHIL-013 (scholarly-literature-synthesis)
+ * @recommendedAgents AG-PHIL-008 (comparative-religion-scholar-agent), AG-PHIL-003 (hermeneutics-specialist-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

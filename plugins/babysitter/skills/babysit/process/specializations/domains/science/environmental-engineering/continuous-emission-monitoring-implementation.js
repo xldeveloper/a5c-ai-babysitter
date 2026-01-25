@@ -197,8 +197,9 @@ export async function process(inputs, ctx) {
 export const cemsRequirementsTask = defineTask('cems-requirements', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Monitoring Requirements Analysis',
+  skill: { name: 'cems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'CEMS Compliance Specialist',
       task: 'Analyze regulatory requirements for continuous monitoring',
@@ -240,8 +241,9 @@ export const cemsRequirementsTask = defineTask('cems-requirements', (args, taskC
 export const cemsDesignTask = defineTask('cems-design', (args, taskCtx) => ({
   kind: 'agent',
   title: 'CEMS System Design',
+  skill: { name: 'cems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'CEMS Design Engineer',
       task: 'Design continuous emission monitoring system',
@@ -285,8 +287,9 @@ export const cemsDesignTask = defineTask('cems-design', (args, taskCtx) => ({
 export const cemsInstallationTask = defineTask('cems-installation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Installation Planning',
+  skill: { name: 'cems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'CEMS Installation Specialist',
       task: 'Develop CEMS installation plan',
@@ -329,8 +332,9 @@ export const cemsInstallationTask = defineTask('cems-installation', (args, taskC
 export const cemsQAQCTask = defineTask('cems-qaqc', (args, taskCtx) => ({
   kind: 'agent',
   title: 'QA/QC Procedures Development',
+  skill: { name: 'cems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'CEMS QA/QC Specialist',
       task: 'Develop QA/QC procedures for CEMS',
@@ -374,8 +378,9 @@ export const cemsQAQCTask = defineTask('cems-qaqc', (args, taskCtx) => ({
 export const cemsDataManagementTask = defineTask('cems-data-management', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Data Management System Design',
+  skill: { name: 'cems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'CEMS Data Management Specialist',
       task: 'Design data acquisition and handling system',
@@ -419,8 +424,9 @@ export const cemsDataManagementTask = defineTask('cems-data-management', (args, 
 export const cemsCertificationTask = defineTask('cems-certification', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Certification Testing Plan',
+  skill: { name: 'cems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'CEMS Certification Specialist',
       task: 'Develop CEMS certification testing plan',
@@ -464,8 +470,9 @@ export const cemsCertificationTask = defineTask('cems-certification', (args, tas
 export const cemsDocumentationTask = defineTask('cems-documentation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Implementation Documentation',
+  skill: { name: 'cems-implementation' },
   agent: {
-    name: 'environmental-engineer',
+    name: 'air-quality-specialist',
     prompt: {
       role: 'CEMS Documentation Specialist',
       task: 'Compile CEMS implementation documentation',

@@ -138,7 +138,8 @@ export const hypothesisFormalizationTask = defineTask('hypothesis-formalization'
   kind: 'agent',
   title: `Phase 1: Formalize Null and Alternative Hypotheses`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'sympy-computer-algebra'],
     prompt: {
       role: 'Statistical Hypothesis Testing Expert',
       task: 'Formalize null and alternative hypotheses for statistical testing',
@@ -197,7 +198,8 @@ export const testSelectionTask = defineTask('test-selection', (args, taskCtx) =>
   kind: 'agent',
   title: `Phase 2: Select Appropriate Test Statistic`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'monte-carlo-simulation'],
     prompt: {
       role: 'Statistical Test Selection Expert',
       task: 'Select and compute appropriate test statistics',
@@ -286,7 +288,8 @@ export const multipleComparisonCorrectionTask = defineTask('multiple-comparison-
   kind: 'agent',
   title: `Phase 3: Apply Multiple Comparison Corrections`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'monte-carlo-simulation'],
     prompt: {
       role: 'Multiple Testing Correction Specialist',
       task: 'Apply appropriate corrections for multiple comparisons',
@@ -358,7 +361,8 @@ export const effectSizeComputationTask = defineTask('effect-size-computation', (
   kind: 'agent',
   title: `Phase 4: Compute Effect Sizes`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'stata-statistical-analysis', 'monte-carlo-simulation'],
     prompt: {
       role: 'Effect Size Computation Expert',
       task: 'Compute effect sizes for all hypothesis tests',
@@ -429,7 +433,8 @@ export const resultsReportingTask = defineTask('results-reporting', (args, taskC
   kind: 'agent',
   title: `Phase 5: Report Results with Uncertainty`,
   agent: {
-    name: 'general-purpose',
+    name: 'statistician',
+    skills: ['r-statistical-computing', 'latex-math-formatter', 'stata-statistical-analysis'],
     prompt: {
       role: 'Statistical Results Reporting Specialist',
       task: 'Generate comprehensive results report with uncertainty quantification',

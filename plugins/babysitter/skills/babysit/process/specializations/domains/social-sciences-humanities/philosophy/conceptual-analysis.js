@@ -3,6 +3,8 @@
  * @description Analyze, define, and clarify philosophical concepts through examination of necessary and sufficient conditions, counterexamples, and conceptual boundaries
  * @inputs { concept: string, analysisDepth: string, testCounterexamples: boolean, outputDir: string }
  * @outputs { success: boolean, conceptAnalysis: object, definitions: object, boundaries: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-005 (conceptual-analysis), SK-PHIL-002 (argument-mapping-reconstruction), SK-PHIL-006 (thought-experiment-design)
+ * @recommendedAgents AG-PHIL-004 (metaphysics-epistemology-agent), AG-PHIL-001 (logic-analyst-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';

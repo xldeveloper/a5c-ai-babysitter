@@ -135,8 +135,9 @@ export async function process(inputs, ctx) {
 export const queryFormulationTask = defineTask('query-formulation', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 1: Formulate Search Queries`,
+  skill: { name: 'arxiv-search-interface' },
   agent: {
-    name: 'general-purpose',
+    name: 'literature-reviewer',
     prompt: {
       role: 'Mathematical Literature Search Expert',
       task: 'Formulate effective search queries for mathematical databases',
@@ -211,8 +212,9 @@ export const queryFormulationTask = defineTask('query-formulation', (args, taskC
 export const databaseSearchTask = defineTask('database-search', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 2: Search Mathematical Databases`,
+  skill: { name: 'arxiv-search-interface' },
   agent: {
-    name: 'general-purpose',
+    name: 'literature-reviewer',
     prompt: {
       role: 'Mathematical Database Search Specialist',
       task: 'Execute searches across mathematical databases',
@@ -273,8 +275,9 @@ export const databaseSearchTask = defineTask('database-search', (args, taskCtx) 
 export const paperCategorizationTask = defineTask('paper-categorization', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 3: Categorize Relevant Papers`,
+  skill: { name: 'arxiv-search-interface' },
   agent: {
-    name: 'general-purpose',
+    name: 'literature-reviewer',
     prompt: {
       role: 'Mathematical Research Categorization Expert',
       task: 'Categorize and prioritize relevant papers',
@@ -354,8 +357,9 @@ export const paperCategorizationTask = defineTask('paper-categorization', (args,
 export const gapIdentificationTask = defineTask('gap-identification', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 4: Identify Gaps and Open Problems`,
+  skill: { name: 'arxiv-search-interface' },
   agent: {
-    name: 'general-purpose',
+    name: 'literature-reviewer',
     prompt: {
       role: 'Mathematical Research Gap Analyst',
       task: 'Identify research gaps and open problems in the literature',
@@ -422,8 +426,9 @@ export const gapIdentificationTask = defineTask('gap-identification', (args, tas
 export const bibliographyGenerationTask = defineTask('bibliography-generation', (args, taskCtx) => ({
   kind: 'agent',
   title: `Phase 5: Generate Annotated Bibliography`,
+  skill: { name: 'bibtex-reference-manager' },
   agent: {
-    name: 'general-purpose',
+    name: 'literature-reviewer',
     prompt: {
       role: 'Mathematical Bibliography Expert',
       task: 'Generate comprehensive annotated bibliography',

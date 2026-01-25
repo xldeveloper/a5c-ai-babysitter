@@ -175,6 +175,7 @@ export async function process(inputs, ctx) {
 export const scopeDefinitionTask = defineTask('scope-definition', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Define project scope',
+  skill: { name: 'cost-database-interface' },
   agent: {
     name: 'cost-estimator',
     prompt: {
@@ -219,8 +220,9 @@ export const scopeDefinitionTask = defineTask('scope-definition', (args, taskCtx
 export const quantityTakeoffTask = defineTask('quantity-takeoff', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform quantity takeoff',
+  skill: { name: 'cost-database-interface' },
   agent: {
-    name: 'quantity-surveyor',
+    name: 'cost-estimator',
     prompt: {
       role: 'quantity surveyor',
       task: 'Perform detailed quantity takeoff',
@@ -263,6 +265,7 @@ export const quantityTakeoffTask = defineTask('quantity-takeoff', (args, taskCtx
 export const unitCostTask = defineTask('unit-cost', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop unit costs',
+  skill: { name: 'cost-database-interface' },
   agent: {
     name: 'cost-estimator',
     prompt: {
@@ -306,6 +309,7 @@ export const unitCostTask = defineTask('unit-cost', (args, taskCtx) => ({
 export const directCostTask = defineTask('direct-cost', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Calculate direct costs',
+  skill: { name: 'cost-database-interface' },
   agent: {
     name: 'cost-estimator',
     prompt: {
@@ -351,6 +355,7 @@ export const directCostTask = defineTask('direct-cost', (args, taskCtx) => ({
 export const indirectCostTask = defineTask('indirect-cost', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Calculate indirect costs',
+  skill: { name: 'cost-database-interface' },
   agent: {
     name: 'cost-estimator',
     prompt: {
@@ -395,6 +400,7 @@ export const indirectCostTask = defineTask('indirect-cost', (args, taskCtx) => (
 export const contingencyAnalysisTask = defineTask('contingency-analysis', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Perform contingency analysis',
+  skill: { name: 'cost-database-interface' },
   agent: {
     name: 'cost-estimator',
     prompt: {
@@ -438,6 +444,7 @@ export const contingencyAnalysisTask = defineTask('contingency-analysis', (args,
 export const bidTabulationTask = defineTask('bid-tabulation', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Develop bid tabulation',
+  skill: { name: 'cost-database-interface' },
   agent: {
     name: 'cost-estimator',
     prompt: {
@@ -480,8 +487,9 @@ export const bidTabulationTask = defineTask('bid-tabulation', (args, taskCtx) =>
 export const costReportTask = defineTask('cost-report', (args, taskCtx) => ({
   kind: 'agent',
   title: 'Generate cost estimate report',
+  skill: { name: 'engineering-report-generator' },
   agent: {
-    name: 'technical-writer',
+    name: 'technical-report-writer',
     prompt: {
       role: 'cost estimator',
       task: 'Generate comprehensive cost estimate report',

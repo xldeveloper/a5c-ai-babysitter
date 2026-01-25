@@ -3,6 +3,8 @@
  * @description Examine and respond to skeptical arguments, evaluating their force and developing strategies for addressing radical and local skepticism
  * @inputs { skepticalChallenge: string, skepticismType: string, respondingStrategy: string, outputDir: string }
  * @outputs { success: boolean, challengeAnalysis: object, responseStrategies: array, dialecticalAssessment: object, artifacts: array }
+ * @recommendedSkills SK-PHIL-007 (evidence-justification-assessment), SK-PHIL-006 (thought-experiment-design), SK-PHIL-001 (formal-logic-analysis)
+ * @recommendedAgents AG-PHIL-004 (metaphysics-epistemology-agent), AG-PHIL-001 (logic-analyst-agent)
  */
 
 import { defineTask } from '@a5c-ai/babysitter-sdk';
