@@ -54,6 +54,51 @@ ITERATION=$(echo "$FRONTMATTER" | grep '^iteration:' | sed 's/iteration: *//')
 MAX_ITERATIONS=$(echo "$FRONTMATTER" | grep '^max_iterations:' | sed 's/max_iterations: *//')
 # Extract run_id (may be empty for newly created runs until populated by the skill)
 RUN_ID=$(echo "$FRONTMATTER" | grep '^run_id:' | sed 's/run_id: *//' | sed 's/^"\(.*\)"$/\1/')
+STARTED_AT=$(echo "$FRONTMATTER" | grep '^started_at:' | sed 's/started_at: *//')
+LAST_ITERATION_AT=$(echo "$FRONTMATTER" | grep '^last_iteration_at:' | sed 's/last_iteration_at: *//')
+ITERATION_TIMES_RAW=$(echo "$FRONTMATTER" | grep '^iteration_times:' | sed 's/iteration_times: *//')
+
+# Helper: convert ISO timestamp to epoch seconds (empty on failure)
+iso_to_epoch() {
+  local iso_ts="$1"
+  if [[ -z "$iso_ts" ]]; then
+    echo ""
+    return 0
+  fi
+  python3 - "$iso_ts" <<'PY'
+import sys
+from datetime import datetime
+
+iso = sys.argv[1]
+try:
+    dt = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+    print(int(dt.timestamp()))
+except Exception:
+    print("")
+PY
+}
+
+# Helper: update or insert a frontmatter key
+update_frontmatter_key() {
+  local key="$1"
+  local value="$2"
+  local file="$3"
+  local tmp="${file}.tmp.$$"
+  awk -v key="$key" -v value="$value" '
+    BEGIN { in_fm=0; found=0 }
+    /^---$/ {
+      if (!in_fm) { in_fm=1; print; next }
+      if (in_fm) {
+        if (!found) { print key ": " value }
+        print
+        in_fm=0
+        next
+      }
+    }
+    in_fm && $0 ~ ("^" key ":") { print key ": " value; found=1; next }
+    { print }
+  ' "$file" > "$tmp" && mv "$tmp" "$file"
+}
 
 # Validate numeric fields before arithmetic operations
 if [[ ! "$ITERATION" =~ ^[0-9]+$ ]]; then
@@ -79,6 +124,56 @@ if [[ ! "$MAX_ITERATIONS" =~ ^[0-9]+$ ]]; then
   echo "   Babysitter run is stopping. Run /babysitter:babysit again to start fresh." >&2
   rm "$BABYSITTER_STATE_FILE"
   exit 0
+fi
+
+# Track iteration timing (last 3 intervals) and abort if average <= 15s
+CURRENT_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+CURRENT_EPOCH=$(date -u +%s)
+REFERENCE_TIME="$LAST_ITERATION_AT"
+REFERENCE_EPOCH=$(iso_to_epoch "$REFERENCE_TIME")
+
+NEW_TIMES=()
+ITERATION_TIMES_CLEAN=$(echo "$ITERATION_TIMES_RAW" | tr -d ' ')
+if [[ -n "$ITERATION_TIMES_CLEAN" ]]; then
+  IFS=',' read -r -a NEW_TIMES <<< "$ITERATION_TIMES_CLEAN"
+fi
+
+if [[ "$ITERATION" -ge 5 ]] && [[ -n "$REFERENCE_EPOCH" ]]; then
+  DURATION=$((CURRENT_EPOCH - REFERENCE_EPOCH))
+  if [[ "$DURATION" -lt 0 ]]; then
+    DURATION=0
+  fi
+  if [[ "$DURATION" -gt 0 ]]; then
+    NEW_TIMES+=("$DURATION")
+    if ((${#NEW_TIMES[@]} > 3)); then
+      NEW_TIMES=("${NEW_TIMES[@]: -3}")
+    fi
+  fi
+fi
+
+NEW_TIMES_CSV=$(IFS=','; echo "${NEW_TIMES[*]}")
+update_frontmatter_key "iteration_times" "$NEW_TIMES_CSV" "$BABYSITTER_STATE_FILE"
+update_frontmatter_key "last_iteration_at" "$CURRENT_TIME" "$BABYSITTER_STATE_FILE"
+
+TIME_COUNT=0
+TIME_SUM=0
+for t in "${NEW_TIMES[@]}"; do
+  if [[ "$t" =~ ^[0-9]+$ ]] && [[ "$t" -gt 0 ]]; then
+    TIME_SUM=$((TIME_SUM + t))
+    TIME_COUNT=$((TIME_COUNT + 1))
+  fi
+done
+
+if [[ "$TIME_COUNT" -eq 3 ]]; then
+  TIME_AVG=$((TIME_SUM / TIME_COUNT))
+  if [[ "$TIME_AVG" -le 15 ]]; then
+    echo "⚠️  Babysitter run: Average iteration time too fast ($TIME_AVG s <= 15 s). Stopping loop." >&2
+    rm "$BABYSITTER_STATE_FILE"
+    echo "⚠️  Babysitter run: Average iteration time too fast ($TIME_AVG s <= 15 s). Stopping loop." >> /tmp/babysitter-stop-hook.log
+    echo "   State file: $BABYSITTER_STATE_FILE" >> /tmp/babysitter-stop-hook.log
+    echo "   Session ID: $SESSION_ID" >> /tmp/babysitter-stop-hook.log
+    exit 0
+  fi
 fi
 
 # Check if max iterations reached
@@ -167,6 +262,14 @@ if [[ -n "${RUN_ID:-}" ]]; then
   RUN_STATE=$(echo "$RUN_STATUS" | jq -r '.state // empty')
   PENDING_KINDS=$(echo "$RUN_STATUS" | jq -r '.pendingByKind | keys | join(", ") // empty' 2>/dev/null || echo "")
   echo "✅ Babysitter run: Run state: $RUN_STATE" >> /tmp/babysitter-stop-hook.log
+  if [[ -z "$RUN_STATE" ]]; then
+    echo "⚠️  Babysitter run: Run state is empty; run may be misconfigured. Stopping loop." >&2
+    rm "$BABYSITTER_STATE_FILE"
+    echo "⚠️  Babysitter run: Run state is empty; run may be misconfigured. Stopping loop." >> /tmp/babysitter-stop-hook.log
+    echo "   State file: $BABYSITTER_STATE_FILE" >> /tmp/babysitter-stop-hook.log
+    echo "   Session ID: $SESSION_ID" >> /tmp/babysitter-stop-hook.log
+    exit 0
+  fi
   if [[ "$RUN_STATE" == "completed" ]]; then
     COMPLETION_SECRET=$(echo "$RUN_STATUS" | jq -r '.completionSecret // empty')
     echo "✅ Babysitter run: Completion secret: $COMPLETION_SECRET" >> /tmp/babysitter-stop-hook.log

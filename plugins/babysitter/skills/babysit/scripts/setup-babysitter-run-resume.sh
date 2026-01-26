@@ -7,7 +7,7 @@ set -euo pipefail
 
 # Parse arguments (check for --help early before requiring session ID)
 RUN_ID=""
-MAX_ITERATIONS=0
+MAX_ITERATIONS=256
 
 # Parse options and positional arguments
 while [[ $# -gt 0 ]]; do
@@ -23,7 +23,7 @@ ARGUMENTS:
   <run-id>     The run ID to resume (e.g., run-20260119-example)
 
 OPTIONS:
-  --max-iterations <n>           Override max iterations (default: keep existing)
+  --max-iterations <n>           Override max iterations (default: 256)
   -h, --help                     Show this help message
 
 DESCRIPTION:
@@ -39,7 +39,7 @@ EXAMPLES:
 
 STOPPING:
   Only by reaching --max-iterations or completion secret detection
-  No manual stop - Babysitter runs infinitely by default!
+  Set --max-iterations 0 for an infinite run (not recommended)
 HELP_EOF
       exit 0
       ;;
@@ -172,6 +172,8 @@ active: true
 iteration: 1
 max_iterations: $MAX_ITERATIONS
 started_at: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+last_iteration_at: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+iteration_times:
 run_id: "$RUN_ID"
 ---
 
@@ -196,7 +198,7 @@ state.json, and task results.
 To monitor: head -10 "$BABYSITTER_STATE_FILE"
 
 ⚠️  WARNING: This loop cannot be stopped manually! It will run infinitely
-    unless you set --max-iterations or the run completes.
+    only if you set --max-iterations 0 (not recommended).
 
 🔄
 EOF

@@ -7,7 +7,7 @@ set -euo pipefail
 
 # Parse arguments (check for --help early before requiring session ID)
 PROMPT_PARTS=()
-MAX_ITERATIONS=0
+MAX_ITERATIONS=256
 RUN_ID=""
 
 # Parse options and positional arguments
@@ -24,7 +24,7 @@ ARGUMENTS:
   PROMPT...    Initial prompt to start the loop (can be multiple words without quotes)
 
 OPTIONS:
-  --max-iterations <n>           Maximum iterations before auto-stop (default: unlimited)
+  --max-iterations <n>           Maximum iterations before auto-stop (default: 256)
   --run-id <id>                  Optional run ID to store in state (if already known)
   --claude-session-id <id>      Session ID to use for the run (default: current session)
   -h, --help                     Show this help message
@@ -48,7 +48,7 @@ EXAMPLES:
 
 STOPPING:
   Only by reaching --max-iterations or completion secret detection
-  No manual stop - Babysitter runs infinitely by default!
+  Set --max-iterations 0 for an infinite run (not recommended)
 
 MONITORING:
   State files are stored in the plugin's state/ directory with session ID.
@@ -168,6 +168,8 @@ iteration: 1
 max_iterations: $MAX_ITERATIONS
 run_id: "$RUN_ID"
 started_at: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+last_iteration_at: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+iteration_times:
 ---
 
 $PROMPT
@@ -189,7 +191,7 @@ do not perform any tasks directly, only use the skill to orchestrate the run.
 To monitor: head -10 "$BABYSITTER_STATE_FILE"
 
 ⚠️  WARNING: This run cannot be stopped manually! It will run infinitely
-    unless you set --max-iterations or the run completes.
+    only if you set --max-iterations 0 (not recommended).
 
 🔄
 EOF
