@@ -4,7 +4,7 @@
 # Prevents session exit when a babysitter run is active
 # Feeds Claude's output back as input to continue the loop
 
-set -euo pipefail
+set -eo pipefail
 
 # Read hook input from stdin (advanced stop hook API)
 HOOK_INPUT=$(cat)
