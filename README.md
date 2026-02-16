@@ -133,6 +133,7 @@ Claude will create an orchestration run, execute tasks step-by-step, handle qual
 ### Getting Started
 - [Quickstart Guide](docs/user-guide/getting-started/quickstart.md)
 - [Beginner Tutorial: REST API](docs/user-guide/tutorials/beginner-rest-api.md)
+- [Best Practices](docs/user-guide/BEST-PRACTICES.md)
 
 ### Features
 - [Process Library](docs/user-guide/features/process-library.md) - 2,000+ pre-built processes
