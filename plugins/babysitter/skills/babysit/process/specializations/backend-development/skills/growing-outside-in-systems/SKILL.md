@@ -22,6 +22,8 @@ STARTER_CHARACTER = 🔴🟢
 
 Build features by driving design from the outside in. Every feature starts with a failing acceptance test. Design emerges through disciplined Red-Green-Refactor cycles. Infrastructure is deferred until the domain API is proven.
 
+Unlike inside-out TDD with mocks, this approach tests behavior at the boundary — not implementation details — making the suite refactor-friendly by design. See [methodology.md](references/methodology.md#why-outside-in-over-regular-tdd).
+
 For canonical terms used throughout, see [references/glossary.md](references/glossary.md).
 
 ---
